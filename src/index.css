@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Manrope', sans-serif;
+
+    /* Brand Colors */
+    --brand-blue: #3a5bff;
+    --brand-sky: #38bdf8;
+    --brand-navy: #1c2536;
+    --brand-pink: #e8368f;
+    --brand-green: #2ec4b6;
+    --brand-amber: #ffb703;
+
+    --background: 240 20% 98%;
+    --foreground: 220 32% 16%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 32% 16%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 32% 16%;
+
+    --primary: 231 100% 61%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 231 100% 61%;
+
+    --radius: 0.75rem;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #f6f7fc;
+    color: var(--brand-navy);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+.bg-mesh {
+  background:
+    radial-gradient(circle at 10% 20%, rgba(230, 235, 255, 0.6) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(240, 230, 255, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(245, 247, 255, 1) 0%, rgba(240, 243, 252, 1) 100%);
+}
