@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import AuthBrandHeader from './AuthBrandHeader.jsx';
-import { Calendar01Icon, ArrowUpRight01Icon } from '@hugeicons/react';
+import AuthBrandHeader from '../components/auth/AuthBrandHeader.jsx';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Calendar01Icon, ArrowUpRight01Icon } from '@hugeicons/core-free-icons';
 import useSettingsStore from '../store/settingsStore.js';
 
 // ─── What's New panel data ─────────────────────────────────────────────────
@@ -44,12 +45,12 @@ function WhatsNewPanel() {
   const companyName = general?.companyName || 'Komora Holdings';
 
   return (
-    <div className="flex min-h-[min(50rem,calc(100dvh-7rem))] flex-col overflow-hidden rounded-2xl border border-slate-300/90 bg-white/90 backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:min-h-[min(54rem,calc(100dvh-7rem))] lg:min-h-[min(58rem,calc(100dvh-8rem))]">
+    <div className="flex min-h-[min(50rem,calc(100dvh-7rem))] flex-col overflow-hidden rounded border border-slate-300/90 bg-white/90 backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:min-h-[min(54rem,calc(100dvh-7rem))] lg:min-h-[min(58rem,calc(100dvh-8rem))]">
       {/* Header */}
       <div className="flex shrink-0 items-start justify-between gap-2 border-b border-slate-100 px-4 py-3 sm:px-5">
         <h2 className="text-base font-semibold text-slate-900">What&apos;s New</h2>
         <span className="shrink-0 rounded p-1 text-slate-400" title="Product updates" aria-hidden>
-          <ArrowUpRight01Icon size={16} />
+          <HugeiconsIcon icon={ArrowUpRight01Icon} size={16} />
         </span>
       </div>
 
@@ -66,7 +67,7 @@ function WhatsNewPanel() {
                   {item.tag}
                 </span>
                 <span className="flex items-center gap-1 text-xs text-slate-500">
-                  <Calendar01Icon size={14} className="text-slate-400" />
+                  <HugeiconsIcon icon={Calendar01Icon} size={14} className="text-slate-400" />
                   {item.when}
                 </span>
               </div>
@@ -90,14 +91,14 @@ function WhatsNewPanel() {
 // ─── Main auth layout ──────────────────────────────────────────────────────
 export function LoginLayout({ children }) {
   return (
-    <div className="min-h-[100dvh] bg-mesh font-sans text-slate-900 antialiased py-6">
+    <div className="min-h-[100dvh] bg-mesh text-slate-900 antialiased py-6">
       <AuthBrandHeader className="p-4" />
 
       <main className="mx-auto max-w-[54rem] px-3 py-4 sm:px-4 sm:py-5 lg:py-6">
         <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-2 lg:gap-6">
           {/* Form column */}
           <div className="flex min-w-0 flex-col gap-2">
-            <div className="rounded-2xl border border-slate-300/90 bg-white/90 backdrop-blur-md px-5 py-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:px-6 sm:py-6">
+            <div className="rounded border border-slate-300/90 bg-white/90 backdrop-blur-md px-5 py-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:px-6 sm:py-6">
               {children}
             </div>
           </div>
@@ -142,9 +143,9 @@ export default function LoginPage({ onLoginSuccess }) {
   return (
     <LoginLayout>
       <div className="space-y-4">
-        <div className="text-center sm:text-left">
-          <h2 className="text-xl font-bold text-slate-900">Sign in to your clinic</h2>
-          <p className="mt-1 text-xs text-slate-500">Enter your credentials below to access your dental workspace</p>
+        <div className="text-center">
+          <h2 className="text-xl font-bold text-slate-900">Welcome back</h2>
+          <p className="mt-1 text-xs text-slate-500">Sign in to your clinic to access your workspace</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
@@ -155,7 +156,7 @@ export default function LoginPage({ onLoginSuccess }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20"
+              className="w-full rounded border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20"
               placeholder="doctor@clinic.co.ke"
             />
           </div>
@@ -170,7 +171,7 @@ export default function LoginPage({ onLoginSuccess }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20"
+              className="w-full rounded border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20"
               placeholder="••••••••"
             />
           </div>
@@ -178,7 +179,7 @@ export default function LoginPage({ onLoginSuccess }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-blue-600 py-3 text-xs font-semibold text-white shadow-sm shadow-blue-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600/30 transition-all"
+            className="w-full rounded bg-blue-600 py-3 text-xs font-semibold text-white shadow-sm shadow-blue-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600/30 transition-all"
           >
             {loading ? 'Authenticating...' : 'Sign In to Dashboard'}
           </button>
