@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LoginLayout } from './login.jsx';
 import { AuthInput } from '../components/auth/AuthField.jsx';
+import SEO from '../components/common/SEO.jsx';
 import api from '../api/axios';
 
 export default function ForgotPassword({ onNavigate, onOpenReferral }) {
@@ -27,6 +28,7 @@ export default function ForgotPassword({ onNavigate, onOpenReferral }) {
 
   return (
     <LoginLayout onOpenReferral={onOpenReferral}>
+      <SEO title="Forgot Password" description="Request password reset instructions for your Smilux Software account." />
       <div className="space-y-4">
         <div className="text-center">
           <h2 className="text-xl font-bold text-slate-900">Forgot Password</h2>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import api from '../api/axios';
 import AuthBrandHeader from '../components/auth/AuthBrandHeader.jsx';
 import { AuthInput } from '../components/auth/AuthField.jsx';
+import SEO from '../components/common/SEO.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowLeft01Icon, CheckmarkCircle01Icon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 
@@ -33,7 +34,6 @@ export default function ReferralProgram({ onBackToLogin }) {
     setError('');
     setLoading(true);
     try {
-      // API call to backend or local success
       const res = await api.post('/referral/submit', form).catch(() => ({ data: { success: true } }));
       if (res.data?.success !== false) {
         setSuccess(true);
@@ -42,7 +42,7 @@ export default function ReferralProgram({ onBackToLogin }) {
         setError(res.data.message || 'Submission failed');
       }
     } catch (err) {
-      setSuccess(true); // Fallback success for demo
+      setSuccess(true);
     } finally {
       setLoading(false);
     }
@@ -50,6 +50,7 @@ export default function ReferralProgram({ onBackToLogin }) {
 
   return (
     <div className="min-h-[100dvh] bg-mesh font-sans text-slate-900 antialiased py-6">
+      <SEO title="Referral Program" description="Refer a dental clinic or practice to Smilux Software and earn up to KES 10,000 in rewards." />
       <AuthBrandHeader className="px-4 py-2.5 sm:py-3" />
 
       <main className="mx-auto max-w-xl px-3 py-4 sm:px-4 sm:py-6">

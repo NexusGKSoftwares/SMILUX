@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LoginLayout } from './login.jsx';
 import { AuthInput, AuthPasswordField } from '../components/auth/AuthField.jsx';
+import SEO from '../components/common/SEO.jsx';
 import api from '../api/axios';
 
 export default function Register({ onNavigate, onLoginSuccess, onOpenReferral }) {
@@ -42,6 +43,7 @@ export default function Register({ onNavigate, onLoginSuccess, onOpenReferral })
 
   return (
     <LoginLayout onOpenReferral={onOpenReferral}>
+      <SEO title="Start 14-Day Free Trial" description="Register your dental practice for a 14-day free trial on Smilux Software." />
       <div className="space-y-4">
         <div className="text-center">
           <h2 className="text-xl font-bold text-slate-900">Start 14-Day Free Trial</h2>

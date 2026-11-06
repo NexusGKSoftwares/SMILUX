@@ -5,6 +5,7 @@ import { GoogleIcon, MicrosoftIcon, PhoneIcon, MailIcon } from '../components/au
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Calendar01Icon, ArrowUpRight01Icon, GiftIcon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 import useSettingsStore from '../store/settingsStore.js';
+import SEO from '../components/common/SEO.jsx';
 
 // ─── What's New panel data for Smilux Dental Practice SaaS ────────────────
 const changelog = [
@@ -215,6 +216,7 @@ export default function LoginPage({ onLoginSuccess, onOpenReferral, onNavigate }
 
   return (
     <LoginLayout onOpenReferral={onOpenReferral}>
+      <SEO title="Sign In to Clinic" description="Access your dental practice workspace on Smilux Software SaaS." />
       <div className="space-y-4">
         <div className="text-center">
           <h2 className="text-xl font-bold text-slate-900">Welcome back to Smilux</h2>
