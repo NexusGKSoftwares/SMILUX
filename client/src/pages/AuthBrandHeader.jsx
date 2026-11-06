@@ -1,12 +1,14 @@
 import React from 'react';
-import { ToothIcon } from '@hugeicons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { DentalToothIcon } from '@hugeicons-pro/core-stroke-rounded';
+
 
 export default function AuthBrandHeader({ className = "p-4" }) {
   return (
     <header className={`mx-auto max-w-[54rem] px-3 sm:px-4 ${className}`}>
       <div className="flex flex-col items-center justify-center text-center space-y-2">
         <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-200">
-          <ToothIcon size={26} color="currentColor" />
+          <DentalToothIcon size={26} color="currentColor" />
         </div>
         <div>
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
