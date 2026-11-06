@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AuthBrandHeader from '../components/auth/AuthBrandHeader.jsx';
 import { AuthInput, AuthPasswordField } from '../components/auth/AuthField.jsx';
-import { GoogleIcon, MicrosoftIcon, PhoneIcon, MailIcon } from '../components/auth/tableIcons.jsx';
+import { GoogleIcon, MicrosoftIcon, PhoneIcon, MailIcon } from '../components/UI/tableIcons.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Calendar01Icon, ArrowUpRight01Icon, GiftIcon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 import useSettingsStore from '../store/settingsStore.js';
@@ -325,8 +325,8 @@ export default function LoginPage({ onLoginSuccess, onOpenReferral, onNavigate }
             Start your 14-day free trial
           </button>
         </div>
-        </div>
-      
+      </div>
+
     </LoginLayout>
   );
 }

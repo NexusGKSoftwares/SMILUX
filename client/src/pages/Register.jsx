@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LoginLayout } from './login.jsx';
 import { AuthInput, AuthPasswordField } from '../components/auth/AuthField.jsx';
+import PhoneInputWithCountry from '../components/UI/PhoneInputWithCountry.jsx';
 import SEO from '../components/common/SEO.jsx';
 import api from '../api/axios';
 
@@ -56,7 +57,7 @@ export default function Register({ onNavigate, onLoginSuccess, onOpenReferral })
           </div>
         )}
 
-        <form className="mt-4 space-y-2" onSubmit={handleSubmit}>
+        <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
           <AuthInput
             id="reg-clinic"
             name="clinicName"
@@ -93,15 +94,12 @@ export default function Register({ onNavigate, onLoginSuccess, onOpenReferral })
             required
           />
 
-          <AuthInput
-            id="reg-phone"
-            name="phone"
+          <PhoneInputWithCountry
             label="Phone Number"
-            type="tel"
-            placeholder="+254 7XX XXX XXX"
             value={formData.phone}
-            onChange={handleChange}
+            onChange={(val) => setFormData((prev) => ({ ...prev, phone: val }))}
             disabled={loading}
+            allowMultiple={false}
             required
           />
 

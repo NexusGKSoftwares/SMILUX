@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import api from '../api/axios';
 import AuthBrandHeader from '../components/auth/AuthBrandHeader.jsx';
 import { AuthInput } from '../components/auth/AuthField.jsx';
+import PhoneInputWithCountry from '../components/UI/PhoneInputWithCountry.jsx';
 import SEO from '../components/common/SEO.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowLeft01Icon, CheckmarkCircle01Icon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
@@ -100,7 +101,7 @@ export default function ReferralProgram({ onBackToLogin }) {
               </button>
             </div>
           ) : (
-            <form className="mt-6 space-y-2" onSubmit={handleSubmit}>
+            <form className="mt-6 space-y-3" onSubmit={handleSubmit}>
               {error && (
                 <div className="mb-3 rounded border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">
                   {error}
@@ -132,15 +133,12 @@ export default function ReferralProgram({ onBackToLogin }) {
                 required
                 placeholder="you@example.com"
               />
-              <AuthInput
-                id="referrer-phone"
-                name="referrerPhone"
+              <PhoneInputWithCountry
                 label="Your phone (optional)"
-                type="tel"
                 value={form.referrerPhone}
-                onChange={handleChange}
+                onChange={(val) => setForm((prev) => ({ ...prev, referrerPhone: val }))}
                 disabled={loading}
-                placeholder="+254 7XX XXX XXX"
+                allowMultiple={false}
               />
 
               <p className="mb-2 mt-4 text-xs font-bold uppercase tracking-wider text-blue-600">
@@ -177,15 +175,12 @@ export default function ReferralProgram({ onBackToLogin }) {
                 required
                 placeholder="contact@apexdental.co.ke"
               />
-              <AuthInput
-                id="referred-phone"
-                name="referredContactPhone"
+              <PhoneInputWithCountry
                 label="Contact phone (optional)"
-                type="tel"
                 value={form.referredContactPhone}
-                onChange={handleChange}
+                onChange={(val) => setForm((prev) => ({ ...prev, referredContactPhone: val }))}
                 disabled={loading}
-                placeholder="+254 7XX XXX XXX"
+                allowMultiple={false}
               />
               <AuthInput
                 id="referred-website"

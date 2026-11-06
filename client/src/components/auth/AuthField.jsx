@@ -1,5 +1,5 @@
 import React from 'react';
-import { EyeIcon, EyeOffIcon } from './tableIcons.jsx';
+import { EyeIcon, EyeOffIcon } from '../UI/tableIcons.jsx';
 
 const inputBase =
   "w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] transition placeholder:text-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:opacity-60";
