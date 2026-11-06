@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, useMemo } from "react";
 import { createPortal } from "react-dom";
 import {
   SearchIcon,
@@ -45,7 +45,7 @@ export default function Dropdown({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [coords, setCoords] = useState({ top: 0, left: 0, width: 200 });
+  const [coords, setCoords] = useState({ top: 0, left: 0, width: 200, isReady: false });
 
   const triggerRef = useRef(null);
   const menuRef = useRef(null);
@@ -116,12 +116,27 @@ export default function Dropdown({
     left = Math.max(8, Math.min(left, window.innerWidth - menuWidth - 8));
     top = Math.max(8, top);
 
-    setCoords({ top, left, width: menuWidth, isUpwards });
+    setCoords({ top, left, width: menuWidth, isUpwards, isReady: true });
   }, [align]);
+
+  useLayoutEffect(() => {
+    if (isOpen) {
+      calculatePosition();
+      const handleScrollOrResize = () => calculatePosition();
+      window.addEventListener("scroll", handleScrollOrResize, true);
+      window.addEventListener("resize", handleScrollOrResize);
+
+      return () => {
+        window.removeEventListener("scroll", handleScrollOrResize, true);
+        window.removeEventListener("resize", handleScrollOrResize);
+      };
+    } else {
+      setCoords((prev) => ({ ...prev, isReady: false }));
+    }
+  }, [isOpen, calculatePosition]);
 
   useEffect(() => {
     if (isOpen) {
-      calculatePosition();
       const timer = setTimeout(() => {
         calculatePosition();
         if ((variant === "combobox" || searchQuery) && searchInputRef.current) {
@@ -129,7 +144,6 @@ export default function Dropdown({
         }
       }, 0);
 
-      const handleScrollOrResize = () => calculatePosition();
       const handleClickOutside = (e) => {
         if (
           triggerRef.current &&
@@ -144,15 +158,11 @@ export default function Dropdown({
         if (e.key === "Escape") setIsOpen(false);
       };
 
-      window.addEventListener("scroll", handleScrollOrResize, true);
-      window.addEventListener("resize", handleScrollOrResize);
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("keydown", handleKeyDown);
 
       return () => {
         clearTimeout(timer);
-        window.removeEventListener("scroll", handleScrollOrResize, true);
-        window.removeEventListener("resize", handleScrollOrResize);
         document.removeEventListener("mousedown", handleClickOutside);
         document.removeEventListener("keydown", handleKeyDown);
       };
@@ -225,6 +235,8 @@ export default function Dropdown({
         left: `${coords.left}px`,
         width: `${coords.width}px`,
         zIndex: 9999,
+        opacity: coords.isReady ? 1 : 0,
+        visibility: coords.isReady ? "visible" : "hidden",
       }}
       className={`
         bg-white/95 backdrop-blur-md border border-slate-200 rounded shadow-xl shadow-slate-900/10
@@ -382,7 +394,12 @@ export default function Dropdown({
       {/* Field Input Box */}
       <div ref={triggerRef} className="relative inline-block w-full font-sans">
         <div
-          onClick={() => !disabled && !readOnly && setIsOpen((prev) => !prev)}
+          onClick={() => {
+            if (!disabled && !readOnly) {
+              if (!isOpen) calculatePosition();
+              setIsOpen((prev) => !prev);
+            }
+          }}
           className={`
             w-full flex items-center justify-between gap-2 border rounded bg-white transition-all cursor-pointer select-none font-sans
             ${styleType === "fluid" ? "h-16 px-3.5 py-2.5 flex-col justify-center items-start" : `${heightClasses}`}

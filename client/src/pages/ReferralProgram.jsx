@@ -3,6 +3,7 @@ import api from '../api/axios';
 import AuthBrandHeader from '../components/auth/AuthBrandHeader.jsx';
 import { AuthInput } from '../components/auth/AuthField.jsx';
 import PhoneInputWithCountry from '../components/UI/PhoneInputWithCountry.jsx';
+import Button from '../components/UI/Button.jsx';
 import SEO from '../components/common/SEO.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowLeft01Icon, CheckmarkCircle01Icon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
@@ -212,13 +213,14 @@ export default function ReferralProgram({ onBackToLogin }) {
                 />
               </div>
 
-              <button
+              <Button
                 type="submit"
-                disabled={loading}
-                className="w-full mt-3 rounded bg-blue-600 py-3 text-xs font-semibold text-white shadow-sm shadow-blue-200 hover:bg-blue-700 transition"
+                variant="primary"
+                loading={loading}
+                className="w-full mt-3 font-semibold"
               >
                 {loading ? 'Submitting referral...' : 'Submit Referral'}
-              </button>
+              </Button>
             </form>
           )}
         </div>

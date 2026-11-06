@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LoginLayout } from './login.jsx';
 import { AuthInput } from '../components/auth/AuthField.jsx';
+import Button from '../components/UI/Button.jsx';
 import SEO from '../components/common/SEO.jsx';
 import api from '../api/axios';
 
@@ -67,13 +68,14 @@ export default function ForgotPassword({ onNavigate, onOpenReferral }) {
               required
             />
 
-            <button
+            <Button
               type="submit"
-              disabled={loading}
-              className="mt-2 w-full rounded bg-blue-600 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition"
+              variant="primary"
+              loading={loading}
+              className="mt-2 w-full font-semibold"
             >
               {loading ? 'Sending link…' : 'Send Reset Instructions'}
-            </button>
+            </Button>
           </form>
         )}
 

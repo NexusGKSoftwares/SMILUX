@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import Dropdown from './Dropdown.jsx';
 import {
@@ -360,7 +360,7 @@ export async function fetchUserCountryCode() {
 function SecondaryCountryPicker({ selectedCode, onSelect }) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const [coords, setCoords] = useState({ top: 0, left: 0, width: 240 });
+  const [coords, setCoords] = useState({ top: 0, left: 0, width: 240, isReady: false });
   const triggerRef = useRef(null);
   const menuRef = useRef(null);
   const searchInputRef = useRef(null);
@@ -392,18 +392,32 @@ function SecondaryCountryPicker({ selectedCode, onSelect }) {
     left = Math.max(8, Math.min(left, window.innerWidth - menuWidth - 8));
     top = Math.max(8, top);
 
-    setCoords({ top, left, width: menuWidth });
+    setCoords({ top, left, width: menuWidth, isReady: true });
   }, []);
+
+  useLayoutEffect(() => {
+    if (isOpen) {
+      calculatePosition();
+      const handleScrollOrResize = () => calculatePosition();
+      window.addEventListener('scroll', handleScrollOrResize, true);
+      window.addEventListener('resize', handleScrollOrResize);
+
+      return () => {
+        window.removeEventListener('scroll', handleScrollOrResize, true);
+        window.removeEventListener('resize', handleScrollOrResize);
+      };
+    } else {
+      setCoords((prev) => ({ ...prev, isReady: false }));
+    }
+  }, [isOpen, calculatePosition]);
 
   useEffect(() => {
     if (isOpen) {
-      calculatePosition();
       const timer = setTimeout(() => {
         calculatePosition();
         if (searchInputRef.current) searchInputRef.current.focus();
       }, 0);
 
-      const handleScrollOrResize = () => calculatePosition();
       const handleClickOutside = (e) => {
         if (
           triggerRef.current &&
@@ -418,15 +432,11 @@ function SecondaryCountryPicker({ selectedCode, onSelect }) {
         if (e.key === 'Escape') setIsOpen(false);
       };
 
-      window.addEventListener('scroll', handleScrollOrResize, true);
-      window.addEventListener('resize', handleScrollOrResize);
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleKeyDown);
 
       return () => {
         clearTimeout(timer);
-        window.removeEventListener('scroll', handleScrollOrResize, true);
-        window.removeEventListener('resize', handleScrollOrResize);
         document.removeEventListener('mousedown', handleClickOutside);
         document.removeEventListener('keydown', handleKeyDown);
       };
@@ -439,7 +449,10 @@ function SecondaryCountryPicker({ selectedCode, onSelect }) {
     <div className="relative shrink-0 h-full font-sans" ref={triggerRef}>
       <button
         type="button"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => {
+          if (!isOpen) calculatePosition();
+          setIsOpen((prev) => !prev);
+        }}
         className="flex items-center gap-0.5 px-1.5 bg-slate-50/90 hover:bg-slate-100 border-r border-slate-200 rounded-l-md text-xs font-semibold text-slate-700 h-full transition-colors cursor-pointer select-none shrink-0"
         title="Select country code"
       >
@@ -458,6 +471,8 @@ function SecondaryCountryPicker({ selectedCode, onSelect }) {
               left: `${coords.left}px`,
               width: `${coords.width}px`,
               zIndex: 9999,
+              opacity: coords.isReady ? 1 : 0,
+              visibility: coords.isReady ? 'visible' : 'hidden',
             }}
             className="bg-white/95 backdrop-blur-md border border-slate-200 rounded shadow-xl flex flex-col max-h-[240px] overflow-hidden animate-in fade-in zoom-in-95 duration-100 font-sans"
           >
@@ -531,7 +546,7 @@ export default function PhoneInputWithCountry({
   const userHasSelectedRef = useRef(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const [coords, setCoords] = useState({ top: 0, left: 0, width: 280 });
+  const [coords, setCoords] = useState({ top: 0, left: 0, width: 280, isReady: false });
 
   const triggerRef = useRef(null);
   const menuRef = useRef(null);
@@ -587,18 +602,32 @@ export default function PhoneInputWithCountry({
     left = Math.max(8, Math.min(left, window.innerWidth - menuWidth - 8));
     top = Math.max(8, top);
 
-    setCoords({ top, left, width: menuWidth });
+    setCoords({ top, left, width: menuWidth, isReady: true });
   }, []);
+
+  useLayoutEffect(() => {
+    if (dropdownOpen) {
+      calculatePosition();
+      const handleScrollOrResize = () => calculatePosition();
+      window.addEventListener('scroll', handleScrollOrResize, true);
+      window.addEventListener('resize', handleScrollOrResize);
+
+      return () => {
+        window.removeEventListener('scroll', handleScrollOrResize, true);
+        window.removeEventListener('resize', handleScrollOrResize);
+      };
+    } else {
+      setCoords((prev) => ({ ...prev, isReady: false }));
+    }
+  }, [dropdownOpen, calculatePosition]);
 
   useEffect(() => {
     if (dropdownOpen) {
-      calculatePosition();
       const timer = setTimeout(() => {
         calculatePosition();
         if (searchInputRef.current) searchInputRef.current.focus();
       }, 0);
 
-      const handleScrollOrResize = () => calculatePosition();
       const handleClickOutside = (e) => {
         if (
           triggerRef.current &&
@@ -613,15 +642,11 @@ export default function PhoneInputWithCountry({
         if (e.key === 'Escape') setDropdownOpen(false);
       };
 
-      window.addEventListener('scroll', handleScrollOrResize, true);
-      window.addEventListener('resize', handleScrollOrResize);
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleKeyDown);
 
       return () => {
         clearTimeout(timer);
-        window.removeEventListener('scroll', handleScrollOrResize, true);
-        window.removeEventListener('resize', handleScrollOrResize);
         document.removeEventListener('mousedown', handleClickOutside);
         document.removeEventListener('keydown', handleKeyDown);
       };
@@ -734,6 +759,8 @@ export default function PhoneInputWithCountry({
         left: `${coords.left}px`,
         width: `${coords.width}px`,
         zIndex: 9999,
+        opacity: coords.isReady ? 1 : 0,
+        visibility: coords.isReady ? 'visible' : 'hidden',
       }}
       className="bg-white/95 backdrop-blur-md border border-slate-200 rounded shadow-xl shadow-slate-900/10 flex flex-col max-h-[280px] overflow-hidden animate-in fade-in zoom-in-95 duration-100 font-sans"
     >
@@ -826,7 +853,12 @@ export default function PhoneInputWithCountry({
           <button
             type="button"
             disabled={disabled}
-            onClick={() => setDropdownOpen((prev) => !prev)}
+            onClick={() => {
+              if (!disabled) {
+                if (!dropdownOpen) calculatePosition();
+                setDropdownOpen((prev) => !prev);
+              }
+            }}
             className={`
               flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-50 border border-r-0 border-slate-300 rounded-l text-xs font-semibold text-slate-800
               hover:bg-slate-100/90 focus:outline-none transition-colors cursor-pointer select-none h-[38px] font-sans

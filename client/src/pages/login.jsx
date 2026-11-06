@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthBrandHeader from '../components/auth/AuthBrandHeader.jsx';
 import { AuthInput, AuthPasswordField } from '../components/auth/AuthField.jsx';
 import { GoogleIcon, MicrosoftIcon, PhoneIcon, MailIcon } from '../components/UI/tableIcons.jsx';
+import Button from '../components/UI/Button.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Calendar01Icon, ArrowUpRight01Icon, GiftIcon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 import useSettingsStore from '../store/settingsStore.js';
@@ -43,49 +44,103 @@ const changelog = [
   },
 ];
 
+function WhatsNewWireframeSkeleton() {
+  return (
+    <ul className="divide-y divide-slate-100">
+      {[1, 2, 3, 4].map((idx) => (
+        <li key={idx} className="py-3.5 first:pt-2">
+          {/* Tag + Date wireframe */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="h-4.5 w-20 rounded bg-slate-200/80 animate-shimmer" />
+            <div className="h-3.5 w-24 rounded bg-slate-200/70 animate-shimmer" />
+          </div>
+          {/* Title wireframe */}
+          <div className="mt-2.5 h-4.5 w-4/5 rounded bg-slate-200/90 animate-shimmer" />
+          {/* Excerpt wireframe */}
+          <div className="mt-2 space-y-1.5">
+            <div className="h-3.5 w-full rounded bg-slate-200/60 animate-shimmer" />
+            <div className="h-3.5 w-3/4 rounded bg-slate-200/60 animate-shimmer" />
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function WhatsNewPanel() {
   const general = useSettingsStore((s) => s.general);
   const companyName = general?.companyName || 'Smilux Software';
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleRefresh = () => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 1000);
+  };
 
   return (
     <div className="flex h-[46rem] flex-col overflow-hidden rounded border border-slate-300/90 bg-white/90 backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
       {/* Header */}
-      <div className="flex shrink-0 items-start justify-between gap-2 border-b border-slate-100 px-4 py-3 sm:px-5">
-        <h2 className="text-base font-semibold text-slate-900">What&apos;s New</h2>
-        <span className="shrink-0 rounded p-1 text-slate-400" title="Product updates" aria-hidden>
-          <HugeiconsIcon icon={ArrowUpRight01Icon} size={16} />
-        </span>
+      <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-100 px-4 py-3 sm:px-5">
+        <h2 className="text-base font-semibold text-slate-900 flex items-center gap-2">
+          What&apos;s New
+          {loading && (
+            <span className="inline-block h-2 w-2 rounded-full bg-blue-600 animate-ping" />
+          )}
+        </h2>
+        <button
+          type="button"
+          onClick={handleRefresh}
+          className="shrink-0 rounded p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+          title="Refresh updates"
+        >
+          <HugeiconsIcon icon={ArrowUpRight01Icon} size={16} className={loading ? 'animate-spin' : ''} />
+        </button>
       </div>
 
       {/* Feed */}
-      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-4 pt-2 sm:px-5 sm:pb-5"
-        style={{ scrollbarWidth: 'none' }}>
-        <ul className="divide-y divide-slate-100">
-          {changelog.map((item) => (
-            <li key={item.title} className="py-3.5 first:pt-2">
-              <div className="flex flex-wrap items-center justify-between gap-1.5">
-                <span
-                  className={`inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ring-1 ${item.tagClass}`}
-                >
-                  {item.tag}
-                </span>
-                <span className="flex items-center gap-1 text-xs text-slate-500">
-                  <HugeiconsIcon icon={Calendar01Icon} size={14} className="text-slate-400" />
-                  {item.when}
-                </span>
-              </div>
-              <p className="mt-1.5 text-sm font-semibold text-slate-900">{item.title}</p>
-              <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{item.excerpt}</p>
-            </li>
-          ))}
-        </ul>
+      <div
+        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-4 pt-2 sm:px-5 sm:pb-5"
+        style={{ scrollbarWidth: 'none' }}
+      >
+        {loading ? (
+          <WhatsNewWireframeSkeleton />
+        ) : (
+          <ul className="divide-y divide-slate-100 animate-page">
+            {changelog.map((item) => (
+              <li key={item.title} className="py-3.5 first:pt-2">
+                <div className="flex flex-wrap items-center justify-between gap-1.5">
+                  <span
+                    className={`inline-flex items-center rounded px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ring-1 ${item.tagClass}`}
+                  >
+                    {item.tag}
+                  </span>
+                  <span className="flex items-center gap-1 text-xs text-slate-500">
+                    <HugeiconsIcon icon={Calendar01Icon} size={14} className="text-slate-400" />
+                    {item.when}
+                  </span>
+                </div>
+                <p className="mt-1.5 text-sm font-semibold text-slate-900">{item.title}</p>
+                <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{item.excerpt}</p>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       {/* Footer */}
       <div className="shrink-0 border-t border-slate-100 px-4 py-3 sm:px-5">
-        <p className="text-center text-[11px] text-slate-400">
-          © {new Date().getFullYear()} {companyName} · Powered by Tekvora Systems
-        </p>
+        {loading ? (
+          <div className="h-3.5 w-48 mx-auto rounded bg-slate-200/70 animate-shimmer" />
+        ) : (
+          <p className="text-center text-[11px] text-slate-400">
+            © {new Date().getFullYear()} {companyName} · Powered by Tekvora Systems
+          </p>
+        )}
       </div>
     </div>
   );
@@ -273,13 +328,14 @@ export default function LoginPage({ onLoginSuccess, onOpenReferral, onNavigate }
             </button>
           </div>
 
-          <button
+          <Button
             type="submit"
-            disabled={loading}
-            className="mt-2 w-full rounded bg-blue-600 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition"
+            variant="primary"
+            loading={loading}
+            className="mt-2 w-full font-semibold"
           >
             {loading ? 'Signing in…' : 'Sign in'}
-          </button>
+          </Button>
         </form>
 
         {/* Social login divider */}
@@ -294,24 +350,26 @@ export default function LoginPage({ onLoginSuccess, onOpenReferral, onNavigate }
 
         {/* Social login buttons: Google and Microsoft */}
         <div className="grid grid-cols-2 gap-2.5">
-          <button
+          <Button
             type="button"
+            variant="outline"
             onClick={() => handleOpenSocialLogin('Google')}
             disabled={loading}
-            className="flex items-center justify-center space-x-2 rounded border border-slate-200 bg-white py-2 px-3 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-xs transition-all"
+            className="w-full font-medium"
           >
             <GoogleIcon className="h-4 w-4 shrink-0" />
             <span>Google</span>
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
+            variant="outline"
             onClick={() => handleOpenSocialLogin('Microsoft')}
             disabled={loading}
-            className="flex items-center justify-center space-x-2 rounded border border-slate-200 bg-white py-2 px-3 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-xs transition-all"
+            className="w-full font-medium"
           >
             <MicrosoftIcon className="h-4 w-4 shrink-0" />
             <span>Microsoft</span>
-          </button>
+          </Button>
         </div>
 
         {/* Start Trial Footer */}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LoginLayout } from './login.jsx';
 import { AuthInput, AuthPasswordField } from '../components/auth/AuthField.jsx';
 import PhoneInputWithCountry from '../components/UI/PhoneInputWithCountry.jsx';
+import Button from '../components/UI/Button.jsx';
 import SEO from '../components/common/SEO.jsx';
 import api from '../api/axios';
 
@@ -117,13 +118,14 @@ export default function Register({ onNavigate, onLoginSuccess, onOpenReferral })
             required
           />
 
-          <button
+          <Button
             type="submit"
-            disabled={loading}
-            className="mt-3 w-full rounded bg-blue-600 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition"
+            variant="primary"
+            loading={loading}
+            className="mt-3 w-full font-semibold"
           >
             {loading ? 'Creating Clinic Workspace…' : 'Start 14-Day Free Trial'}
-          </button>
+          </Button>
         </form>
 
         <div className="text-center pt-3 border-t border-slate-100 text-xs text-slate-500">
