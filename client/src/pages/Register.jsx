@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LoginLayout } from './login.jsx';
 import { AuthInput, AuthPasswordField } from '../components/auth/AuthField.jsx';
+import AuthErrorBanner from '../components/auth/AuthErrorBanner.jsx';
 import PhoneInputWithCountry from '../components/UI/PhoneInputWithCountry.jsx';
 import Button from '../components/UI/Button.jsx';
 import SEO from '../components/common/SEO.jsx';
@@ -25,8 +26,35 @@ export default function Register({ onNavigate, onLoginSuccess, onOpenReferral })
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
+
+    if (!formData.clinicName.trim()) {
+      setError('Please enter your clinic or practice name.');
+      return;
+    }
+
+    if (!formData.ownerName.trim()) {
+      setError('Please enter your full name.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !emailRegex.test(formData.email.trim())) {
+      setError('Please enter a valid work email address (e.g. doctor@clinic.co.ke).');
+      return;
+    }
+
+    if (!formData.phone || formData.phone.replace(/\D/g, '').length < 9) {
+      setError('Please enter a valid phone number.');
+      return;
+    }
+
+    if (!formData.password || formData.password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const res = await api.post('/auth/register', formData);
@@ -52,13 +80,9 @@ export default function Register({ onNavigate, onLoginSuccess, onOpenReferral })
           <p className="mt-1 text-xs text-slate-500">Register your clinic to access Smilux Dental SaaS</p>
         </div>
 
-        {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">
-            {error}
-          </div>
-        )}
+        <AuthErrorBanner error={error} onDismiss={() => setError('')} />
 
-        <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
+        <form className="mt-4 space-y-3" noValidate onSubmit={handleSubmit}>
           <AuthInput
             id="reg-clinic"
             name="clinicName"

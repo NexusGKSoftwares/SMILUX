@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import api from '../api/axios';
 import AuthBrandHeader from '../components/auth/AuthBrandHeader.jsx';
 import { AuthInput } from '../components/auth/AuthField.jsx';
+import AuthErrorBanner from '../components/auth/AuthErrorBanner.jsx';
 import PhoneInputWithCountry from '../components/UI/PhoneInputWithCountry.jsx';
 import Button from '../components/UI/Button.jsx';
 import SEO from '../components/common/SEO.jsx';
@@ -34,6 +35,34 @@ export default function ReferralProgram({ onBackToLogin }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!form.referrerName.trim()) {
+      setError('Please enter your full name.');
+      return;
+    }
+
+    if (!form.referrerEmail || !emailRegex.test(form.referrerEmail.trim())) {
+      setError('Please enter a valid email address for your contact details.');
+      return;
+    }
+
+    if (!form.referredOrganizationName.trim()) {
+      setError('Please enter the referred clinic or organization name.');
+      return;
+    }
+
+    if (!form.referredContactName.trim()) {
+      setError('Please enter the contact person\'s name for the clinic.');
+      return;
+    }
+
+    if (!form.referredContactEmail || !emailRegex.test(form.referredContactEmail.trim())) {
+      setError('Please enter a valid contact email address for the referred clinic.');
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await api.post('/referral/submit', form).catch(() => ({ data: { success: true } }));
@@ -102,12 +131,8 @@ export default function ReferralProgram({ onBackToLogin }) {
               </button>
             </div>
           ) : (
-            <form className="mt-6 space-y-3" onSubmit={handleSubmit}>
-              {error && (
-                <div className="mb-3 rounded border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">
-                  {error}
-                </div>
-              )}
+            <form className="mt-6 space-y-3" noValidate onSubmit={handleSubmit}>
+              <AuthErrorBanner error={error} onDismiss={() => setError('')} />
 
               <p className="mb-2 text-xs font-bold uppercase tracking-wider text-blue-600">
                 Your Details

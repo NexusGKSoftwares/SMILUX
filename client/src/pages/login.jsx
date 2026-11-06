@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AuthBrandHeader from '../components/auth/AuthBrandHeader.jsx';
 import { AuthInput, AuthPasswordField } from '../components/auth/AuthField.jsx';
+import AuthErrorBanner from '../components/auth/AuthErrorBanner.jsx';
 import { GoogleIcon, MicrosoftIcon, PhoneIcon, MailIcon } from '../components/UI/tableIcons.jsx';
 import Button from '../components/UI/Button.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -245,6 +246,7 @@ export default function LoginPage({ onLoginSuccess, onOpenReferral, onNavigate }
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -258,6 +260,34 @@ export default function LoginPage({ onLoginSuccess, onOpenReferral, onNavigate }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
+
+    const val = formData.email.trim();
+    if (!val) {
+      setError('Please enter your phone number or email address.');
+      return;
+    }
+
+    const isPhoneInput = /^[0-9+ ]+$/.test(val);
+    if (isPhoneInput) {
+      const cleanDigits = val.replace(/\D/g, '');
+      if (cleanDigits.length < 9) {
+        setError('Please enter a valid phone number (at least 9 digits).');
+        return;
+      }
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(val)) {
+        setError('Please enter a valid email address (e.g. doctor@clinic.co.ke).');
+        return;
+      }
+    }
+
+    if (!formData.password || formData.password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -278,7 +308,9 @@ export default function LoginPage({ onLoginSuccess, onOpenReferral, onNavigate }
           <p className="mt-1 text-xs text-slate-500">Sign in to your clinic to access your workspace</p>
         </div>
 
-        <form className="mt-4" onSubmit={handleSubmit}>
+        <AuthErrorBanner error={error} onDismiss={() => setError('')} />
+
+        <form className="mt-4" noValidate onSubmit={handleSubmit}>
           <div className="mb-3">
             <AuthInput
               id="login-email"

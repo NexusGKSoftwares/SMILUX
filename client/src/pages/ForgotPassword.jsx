@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LoginLayout } from './login.jsx';
 import { AuthInput } from '../components/auth/AuthField.jsx';
+import AuthErrorBanner from '../components/auth/AuthErrorBanner.jsx';
 import Button from '../components/UI/Button.jsx';
 import SEO from '../components/common/SEO.jsx';
 import api from '../api/axios';
@@ -13,9 +14,16 @@ export default function ForgotPassword({ onNavigate, onOpenReferral }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
     setMessage('');
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email.trim())) {
+      setError('Please enter a valid email address to receive password reset instructions.');
+      return;
+    }
+
+    setLoading(true);
 
     try {
       await api.post('/auth/forgot-password', { email }).catch(() => {});
@@ -39,7 +47,7 @@ export default function ForgotPassword({ onNavigate, onOpenReferral }) {
         </div>
 
         {message ? (
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-center text-xs text-emerald-800 space-y-3">
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-center text-xs text-emerald-800 space-y-3 font-sans">
             <p className="font-bold">{message}</p>
             <button
               onClick={() => onNavigate('login')}
@@ -49,12 +57,8 @@ export default function ForgotPassword({ onNavigate, onOpenReferral }) {
             </button>
           </div>
         ) : (
-          <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
-            {error && (
-              <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">
-                {error}
-              </div>
-            )}
+          <form className="mt-4 space-y-3" noValidate onSubmit={handleSubmit}>
+            <AuthErrorBanner error={error} onDismiss={() => setError('')} />
 
             <AuthInput
               id="reset-email"
