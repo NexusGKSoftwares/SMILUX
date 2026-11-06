@@ -181,7 +181,7 @@ export function WideLayout({ children }) {
 }
 
 // ─── Default Exported Page Component ───────────────────────────────────────
-export default function LoginPage({ onLoginSuccess, onOpenReferral }) {
+export default function LoginPage({ onLoginSuccess, onOpenReferral, onNavigate }) {
   const [formData, setFormData] = useState({
     email: 'owner@avicena.co.ke',
     password: 'password123',
@@ -262,9 +262,13 @@ export default function LoginPage({ onLoginSuccess, onOpenReferral }) {
               />
               <span className="text-sm text-slate-700">Keep me logged in</span>
             </label>
-            <a href="#forgot-password" className="text-sm font-medium text-blue-600 hover:text-blue-700 sm:text-right">
+            <button
+              type="button"
+              onClick={() => onNavigate && onNavigate('forgot')}
+              className="text-sm font-medium text-blue-600 hover:text-blue-700 sm:text-right"
+            >
               Forgot password?
-            </a>
+            </button>
           </div>
 
           <button
@@ -311,11 +315,16 @@ export default function LoginPage({ onLoginSuccess, onOpenReferral }) {
         {/* Start Trial Footer */}
         <div className="text-center pt-3 border-t border-slate-100 text-xs text-slate-500">
           Don&apos;t have an account?{' '}
-          <a href="#trial" className="font-bold text-blue-600 hover:underline">
+          <button
+            type="button"
+            onClick={() => onNavigate && onNavigate('register')}
+            className="font-bold text-blue-600 hover:underline"
+          >
             Start your 14-day free trial
-          </a>
+          </button>
         </div>
-      </div>
+        </div>
+      
     </LoginLayout>
   );
 }

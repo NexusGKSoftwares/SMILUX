@@ -1,0 +1,9 @@
+# Robots.txt for Smilux Software Dental Practice SaaS
+User-agent: *
+Allow: /
+Allow: /login
+Allow: /register
+Allow: /forgot-password
+Allow: /referral
+
+Sitemap: https://smilux.co.ke/sitemap.xml
