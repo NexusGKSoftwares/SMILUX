@@ -53,6 +53,36 @@
   }
 }
 
+@layer utilities {
+  .text-brand-pink {
+    color: #e8368f !important;
+  }
+  .text-brand-blue {
+    color: #3a5bff !important;
+  }
+  .text-brand-sky {
+    color: #38bdf8 !important;
+  }
+  .text-brand-navy {
+    color: #1c2536 !important;
+  }
+  .text-brand-green {
+    color: #2ec4b6 !important;
+  }
+  .text-brand-amber {
+    color: #ffb703 !important;
+  }
+  .bg-brand-pink {
+    background-color: #e8368f !important;
+  }
+  .bg-brand-blue {
+    background-color: #3a5bff !important;
+  }
+  .bg-brand-green {
+    background-color: #2ec4b6 !important;
+  }
+}
+
 .bg-mesh {
   background:
     radial-gradient(circle at 10% 20%, rgba(230, 235, 255, 0.6) 0%, transparent 50%),

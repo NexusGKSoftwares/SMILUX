@@ -62,7 +62,7 @@ export default function ReferralProgram({ onBackToLogin }) {
         </button>
 
         {/* Banner */}
-        <div className="mb-4 overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white shadow-sm border border-blue-500/20">
+        <div className="mb-4 overflow-hidden rounded bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white shadow-sm border border-blue-500/20">
           <span className="text-[10px] font-extrabold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded text-white">
             Referral Program
           </span>
@@ -72,7 +72,7 @@ export default function ReferralProgram({ onBackToLogin }) {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-slate-200/90 bg-white/90 backdrop-blur-md px-5 py-6 shadow-sm">
+        <div className="rounded border border-slate-200/90 bg-white/90 backdrop-blur-md px-5 py-6 shadow-sm">
           <h1 className="text-center text-xl font-bold tracking-tight text-slate-900">
             Submit a Referral
           </h1>
@@ -82,7 +82,7 @@ export default function ReferralProgram({ onBackToLogin }) {
           </p>
 
           {success ? (
-            <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center text-xs text-emerald-800 space-y-3">
+            <div className="mt-6 rounded border border-emerald-200 bg-emerald-50 p-6 text-center text-xs text-emerald-800 space-y-3">
               <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
                 <HugeiconsIcon icon={CheckmarkCircle01Icon} size={24} />
               </div>
@@ -101,7 +101,7 @@ export default function ReferralProgram({ onBackToLogin }) {
           ) : (
             <form className="mt-6 space-y-2" onSubmit={handleSubmit}>
               {error && (
-                <div className="mb-3 rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">
+                <div className="mb-3 rounded border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">
                   {error}
                 </div>
               )}
@@ -212,14 +212,14 @@ export default function ReferralProgram({ onBackToLogin }) {
                   onChange={handleChange}
                   disabled={loading}
                   placeholder="How do you know this clinic? Expected timeline, size, etc."
-                  className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 transition placeholder:text-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 disabled:opacity-60"
+                  className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 transition placeholder:text-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600 disabled:opacity-60"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-3 rounded-xl bg-blue-600 py-3 text-xs font-semibold text-white shadow-sm shadow-blue-200 hover:bg-blue-700 transition"
+                className="w-full mt-3 rounded bg-blue-600 py-3 text-xs font-semibold text-white shadow-sm shadow-blue-200 hover:bg-blue-700 transition"
               >
                 {loading ? 'Submitting referral...' : 'Submit Referral'}
               </button>

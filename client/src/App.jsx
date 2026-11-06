@@ -1,22 +1,28 @@
 import { useState } from "react";
 import LoginPage from "./pages/login.jsx";
+import ReferralProgram from "./pages/ReferralProgram.jsx";
 
 export default function App() {
-  const [showLoginPage, setShowLoginPage] = useState(true);
+  const [currentPage, setCurrentPage] = useState("login");
   const [loggedInUser, setLoggedInUser] = useState(null);
 
-  if (showLoginPage && !loggedInUser) {
+  if (currentPage === "referral") {
+    return <ReferralProgram onBackToLogin={() => setCurrentPage("login")} />;
+  }
+
+  if (currentPage === "login" && !loggedInUser) {
     return (
       <LoginPage
         onLoginSuccess={(user) => {
           setLoggedInUser(user);
         }}
+        onOpenReferral={() => setCurrentPage("referral")}
       />
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6 flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-slate-50 p-6 flex flex-col items-center justify-center font-sans">
       <div className="max-w-md w-full bg-white p-8 rounded border border-slate-200 shadow-sm text-center space-y-4">
         <h2 className="text-2xl font-bold text-slate-900">
           Welcome to Smilux Dental
@@ -36,7 +42,7 @@ export default function App() {
             <button
               onClick={() => {
                 setLoggedInUser(null);
-                setShowLoginPage(true);
+                setCurrentPage("login");
               }}
               className="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2.5 rounded text-xs transition-all"
             >
@@ -44,7 +50,7 @@ export default function App() {
             </button>
           ) : (
             <button
-              onClick={() => setShowLoginPage(true)}
+              onClick={() => setCurrentPage("login")}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded text-xs transition-all shadow-sm shadow-blue-200"
             >
               Go to Login Page
