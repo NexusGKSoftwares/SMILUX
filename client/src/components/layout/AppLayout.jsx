@@ -55,7 +55,7 @@ export default function AppLayout({ children, user, onLogout, onQuickAction }) {
         />
 
         {/* Dynamic Page Content Viewport */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 min-w-0 bg-mesh">
+        <main className="flex-1 overflow-y-auto p-2  min-w-0 bg-mesh">
           {children || <Outlet />}
         </main>
 
