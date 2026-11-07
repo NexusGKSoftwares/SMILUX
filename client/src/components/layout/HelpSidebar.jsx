@@ -261,7 +261,7 @@ export default function HelpSidebar({
         title="Help & Support Center"
         aria-label="Help and Support"
       >
-        <HugeiconsIcon icon={HelpCircleIcon} size={18} />
+        <HugeiconsIcon icon={HelpCircleIcon} size={20} />
       </button>
 
       {isOpen && typeof document !== 'undefined' && createPortal(
