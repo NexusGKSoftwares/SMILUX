@@ -14,7 +14,72 @@ import {
 } from '@hugeicons/core-free-icons';
 import Button from '../components/UI/Button.jsx';
 import { RefreshIcon, ChartIcon } from '../components/UI/tableIcons.jsx';
-import { kpiCardsData } from './data.js';
+import { kpiCardsData, webAnalyticsData } from './data.js';
+
+// ─── Shared Card Info Icon & Action Toolbar (From SVG Spec) ─────────────────
+export function InfoBadgeIcon() {
+  return (
+    <svg width="14" height="14" viewBox="208 32 16 16" fill="none" className="shrink-0">
+      <circle cx="216" cy="40" r="8" fill="#AFAFAF" />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M217.305 37.2422C217.43 37.0234 217.5 36.7695 217.5 36.5C217.5 35.6719 216.828 35 216 35C215.172 35 214.5 35.6719 214.5 36.5C214.5 37.3281 215.172 38 216 38C216.559 38 217.047 37.6953 217.305 37.2422ZM215 39H215.5H216.5C217.053 39 217.5 39.4473 217.5 40V41V45C217.5 45.5527 217.053 46 216.5 46C215.947 46 215.5 45.5527 215.5 45V41.75C215.5 41.3359 215.164 41 214.75 41C214.336 41 214 40.6641 214 40.25V40C214 39.6484 214.182 39.3379 214.455 39.1602C214.611 39.0586 214.799 39 215 39Z"
+        fill="white"
+      />
+    </svg>
+  );
+}
+
+export function CardActionToolbar() {
+  return (
+    <div className="inline-flex h-7 items-center gap-2.5 rounded-lg border border-[#E0E0E0] bg-white px-2.5 shadow-[0px_1px_2px_rgba(0,0,0,0.05)]">
+      <button
+        type="button"
+        className="text-[#888888] hover:text-[#080808] transition-colors cursor-pointer"
+        title="Expand"
+      >
+        <svg width="13" height="13" viewBox="614 32 16 16" fill="none">
+          <path
+            d="M620 47H615V42M624 33H629V38"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      <button
+        type="button"
+        className="text-[#888888] hover:text-[#080808] transition-colors cursor-pointer"
+        title="Edit"
+      >
+        <svg width="13" height="13" viewBox="644 32 16 16" fill="none">
+          <path
+            d="M648.673 47.4434L658.832 37.2329C659.463 36.5988 659.461 35.5737 658.829 34.9412L657.062 33.1739C656.429 32.5413 655.404 32.5401 654.77 33.1713L644.559 43.3343L644.559 47.4434L648.673 47.4434Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path d="M653.48 34.4629L657.537 38.5192" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        className="text-[#888888] hover:text-[#080808] transition-colors cursor-pointer"
+        title="More options"
+      >
+        <svg width="13" height="13" viewBox="674 32 16 16" fill="none">
+          <path
+            d="M676 42C675.45 42 674.979 41.804 674.587 41.412C674.195 41.02 673.999 40.5493 674 40C674 39.45 674.196 38.979 674.588 38.587C674.98 38.195 675.451 37.9993 676 38C676.55 38 677.021 38.196 677.413 38.588C677.805 38.98 678.001 39.4507 678 40C678 40.55 677.804 41.021 677.412 41.413C677.02 41.805 676.549 42.0007 676 42ZM682 42C681.45 42 680.979 41.804 680.587 41.412C680.195 41.02 679.999 40.5493 680 40C680 39.45 680.196 38.979 680.588 38.587C680.98 38.195 681.451 37.9993 682 38C682.55 38 683.021 38.196 683.413 38.588C683.805 38.98 684.001 39.4507 684 40C684 40.55 683.804 41.021 683.412 41.413C683.02 41.805 682.549 42.0007 682 42ZM688 42C687.45 42 686.979 41.804 686.587 41.412C686.195 41.02 685.999 40.5493 686 40C686 39.45 686.196 38.979 686.588 38.587C686.98 38.195 687.451 37.9993 688 38C688.55 38 689.021 38.196 689.413 38.588C689.805 38.98 690.001 39.4507 690 40C690 40.55 689.804 41.021 689.412 41.413C689.02 41.805 688.549 42.0007 688 42Z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </div>
+  );
+}
 
 // ─── Shared Section Header ──────────────────────────────────────────────────
 export function ViewHeader({ title, subtitle, actions }) {
@@ -166,32 +231,46 @@ export function DashboardView({ user }) {
       </div>
 
       {/* Main Section 1: Sales & Revenue Tracking Chart (Custom SVG & Specified Colors) */}
-      <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-6 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
+      <div className="rounded border border-[#EFEFEF] bg-white p-6 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
         {/* Card Header */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-100 pb-4 mb-6">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 border border-blue-100 text-[#004491]">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <rect x="4" y="6" width="16" height="12" rx="2" stroke="#004491" strokeWidth="2" />
-                <path d="M4 10h16" stroke="#004491" strokeWidth="2" />
-                <circle cx="9" cy="14" r="1.5" fill="#004491" />
-              </svg>
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-[#080808] tracking-tight">Sales &amp; Revenue Tracking</h2>
-              <p className="text-xs text-[#888888] font-medium">Dental Procedure &amp; Payment Channel Revenue Analytics</p>
-            </div>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2.5">
+            <svg width="22" height="22" viewBox="33 29 22 22" fill="none" className="shrink-0">
+              <path
+                d="M52.9451 39C52.4476 34.5 48.6326 31 44 31C39.0294 31 35 35.0294 35 40C35 44.6326 38.5 48.4476 43 48.9451"
+                stroke="#FF9F0A"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M43.8087 32.0882C44.1336 31.6415 44.0348 31.0161 43.5882 30.6913C43.1415 30.3664 42.5161 30.4652 42.1913 30.9118L43 31.5L43.8087 32.0882ZM43 31.5L42.1913 30.9118C37.9363 36.7625 37.9363 43.7375 42.1913 49.5882L43 49L43.8087 48.4118C40.0638 43.2625 40.0638 37.2375 43.8087 32.0882L43 31.5Z"
+                fill="#FF9F0A"
+              />
+              <path
+                d="M45.0007 31.5C46.4998 33.5613 47.4371 35.7631 47.8125 38"
+                stroke="#FF9F0A"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path d="M43 40H36" stroke="#FF9F0A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <circle
+                cx="48.5"
+                cy="44.5"
+                r="3.5"
+                stroke="#FF9F0A"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path d="M53 49L51 47" stroke="#FF9F0A" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            <h2 className="text-[19px] font-bold text-[#080808] tracking-tight">Sales &amp; Revenue Tracking</h2>
+            <InfoBadgeIcon />
           </div>
 
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 rounded-xl border border-[#E0E0E0] bg-white px-3 py-1.5 text-xs font-semibold text-[#888888] shadow-2xs">
-              <HugeiconsIcon icon={Calendar01Icon} size={14} className="text-[#888888]" />
-              <span>Feb 2026 - Nov 2026</span>
-            </div>
-            <button className="rounded-xl border border-slate-200 bg-slate-50 p-2 text-slate-500 hover:bg-slate-100 cursor-pointer">
-              <span className="text-xs font-bold">•••</span>
-            </button>
-          </div>
+          <CardActionToolbar />
         </div>
 
         {/* Top Summaries Row ($420,110 & $91,110) */}
@@ -366,126 +445,149 @@ export function DashboardView({ user }) {
       </div>
 
       {/* Main Section 2: Two Column Analytics Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
-        {/* Column 1: Web & Patient Analytics Chart Card */}
-        <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-6 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+        {/* Column 1: Web Analytics Card (Exact SVG Spec) */}
+        <div className="rounded border border-[#EFEFEF] bg-white p-6 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
           {/* Card Header */}
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50 border border-orange-100 text-[#FF9900]">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="9" stroke="#FF9900" strokeWidth="2" />
-                  <path d="M12 7v5l3 3" stroke="#FF9900" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-base font-bold text-[#080808]">Patient Traffic &amp; Web Analytics</h3>
-                <p className="text-xs text-[#888888]">Weekly Appointment &amp; Portal Visitor Volume</p>
-              </div>
+          <div className="flex items-center justify-between mb-7">
+            <div className="flex items-center gap-2.5">
+              <svg width="22" height="22" viewBox="33 29 22 22" fill="none" className="shrink-0">
+                <path
+                  d="M52.9451 39C52.4476 34.5 48.6326 31 44 31C39.0294 31 35 35.0294 35 40C35 44.6326 38.5 48.4476 43 48.9451"
+                  stroke="#FF9F0A"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M43.8087 32.0882C44.1336 31.6415 44.0348 31.0161 43.5882 30.6913C43.1415 30.3664 42.5161 30.4652 42.1913 30.9118L43 31.5L43.8087 32.0882ZM43 31.5L42.1913 30.9118C37.9363 36.7625 37.9363 43.7375 42.1913 49.5882L43 49L43.8087 48.4118C40.0638 43.2625 40.0638 37.2375 43.8087 32.0882L43 31.5Z"
+                  fill="#FF9F0A"
+                />
+                <path
+                  d="M45.0007 31.5C46.4998 33.5613 47.4371 35.7631 47.8125 38"
+                  stroke="#FF9F0A"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path d="M43 40H36" stroke="#FF9F0A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <circle
+                  cx="48.5"
+                  cy="44.5"
+                  r="3.5"
+                  stroke="#FF9F0A"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path d="M53 49L51 47" stroke="#FF9F0A" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              <h3 className="text-[19px] font-bold text-[#080808] tracking-tight">{webAnalyticsData.title}</h3>
+              <InfoBadgeIcon />
             </div>
 
-            <div className="flex items-center gap-1.5 rounded-xl border border-[#E0E0E0] bg-white px-2.5 py-1 text-xs font-medium text-[#888888] shadow-2xs">
-              <span>Nov 2026</span>
-            </div>
+            <CardActionToolbar />
           </div>
 
           {/* Metrics Overview Row */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
-            {/* Metric 1 */}
-            <div className="flex flex-col rounded-xl bg-slate-50 p-3">
-              <span className="text-xs font-medium text-[#888888]">Avg Visit Duration</span>
-              <div className="mt-1 flex items-baseline gap-1.5">
-                <span className="text-xl font-bold text-[#080808]">1m 35s</span>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+            {webAnalyticsData.metrics.map((metric) => (
+              <div key={metric.id} className="flex flex-col">
+                <span className="text-[14px] font-medium text-[#888888]">{metric.label}</span>
+                <div className="mt-2.5 flex items-center gap-2.5">
+                  <span className="text-3xl xl:text-[36px] font-bold tracking-tight text-[#080808] leading-none">
+                    {metric.value}
+                  </span>
+                  {metric.isPositive ? (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[#E8FFF4] border border-[#8FE7BE] px-2.5 py-0.5 text-xs font-bold text-[#1DBF73]">
+                      <svg width="11" height="11" viewBox="389 150 12 12" fill="none">
+                        <path
+                          d="M395.669 153.219V161.334H394.335V153.219L390.759 156.795L389.816 155.852L395.002 150.667L400.187 155.852L399.244 156.795L395.669 153.219Z"
+                          fill="#1DBF73"
+                        />
+                      </svg>
+                      {metric.change}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[#FFEAEA] border border-[#FF9F9D] px-2.5 py-0.5 text-xs font-bold text-[#FB3B52]">
+                      <svg width="11" height="11" viewBox="186 150 12 12" fill="none">
+                        <path
+                          d="M191.331 158.781L191.331 150.666L192.665 150.666L192.665 158.781L196.241 155.205L197.184 156.148L191.998 161.333L186.813 156.148L187.756 155.205L191.331 158.781Z"
+                          fill="#FB3B52"
+                        />
+                      </svg>
+                      {metric.change}
+                    </span>
+                  )}
+                </div>
               </div>
-              <span className="mt-1 flex items-center gap-1 rounded-full bg-[#FFE9EA] border border-[#FF999A] px-1.5 py-0.5 text-[10px] font-bold text-[#FF104B] w-fit">
-                ▼ 12%
-              </span>
-            </div>
-
-            {/* Metric 2 */}
-            <div className="flex flex-col rounded-xl bg-slate-50 p-3">
-              <span className="text-xs font-medium text-[#888888]">Total Page Views</span>
-              <div className="mt-1 flex items-baseline gap-1.5">
-                <span className="text-xl font-bold text-[#080808]">803k</span>
-              </div>
-              <span className="mt-1 flex items-center gap-1 rounded-full bg-[#E2FFF3] border border-[#6EEABB] px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B] w-fit">
-                ▲ 12%
-              </span>
-            </div>
-
-            {/* Metric 3 */}
-            <div className="flex flex-col rounded-xl bg-slate-50 p-3">
-              <span className="text-xs font-medium text-[#888888]">Unique Visitors</span>
-              <div className="mt-1 flex items-baseline gap-1.5">
-                <span className="text-xl font-bold text-[#080808]">120k</span>
-              </div>
-              <span className="mt-1 flex items-center gap-1 rounded-full bg-[#E2FFF3] border border-[#6EEABB] px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B] w-fit">
-                ▲ 12%
-              </span>
-            </div>
+            ))}
           </div>
 
-          {/* Bar Chart Area with Dashed Grid Lines */}
-          <div className="relative h-48 w-full border-b border-[#E9E9E9] pt-4">
-            {/* Dashed Grid Lines */}
-            <div className="absolute inset-0 flex flex-col justify-between pointer-events-none pb-6">
-              <div className="w-full border-b border-dashed border-[#E0E0E0]" />
-              <div className="w-full border-b border-dashed border-[#E0E0E0]" />
-              <div className="w-full border-b border-dashed border-[#E0E0E0]" />
-              <div className="w-full border-b border-dashed border-[#E0E0E0]" />
-            </div>
+          {/* Exact SVG Bar Chart with Dashed Grid Lines */}
+          <div className="w-full overflow-hidden">
+            <svg viewBox="28 220 680 262" fill="none" className="w-full h-auto">
+              {/* Dashed Horizontal Grid Lines */}
+              {[234, 286, 338, 390].map((yPos) => (
+                <line
+                  key={yPos}
+                  x1="78"
+                  y1={yPos}
+                  x2="700"
+                  y2={yPos}
+                  stroke="#E0E0E0"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  strokeDasharray="4 4"
+                />
+              ))}
 
-            {/* Y-Axis Labels */}
-            <div className="absolute left-0 top-0 bottom-6 flex flex-col justify-between text-[11px] font-medium text-[#888888]">
-              <span>80k</span>
-              <span>60k</span>
-              <span>40k</span>
-              <span>20k</span>
-              <span>0</span>
-            </div>
+              {/* Y-Axis Labels */}
+              {webAnalyticsData.yAxisLabels.map((item) => (
+                <text
+                  key={item.label}
+                  x="61"
+                  y={item.y + 5}
+                  textAnchor="end"
+                  fill="#888888"
+                  fontSize="14"
+                  fontWeight="500"
+                >
+                  {item.label}
+                </text>
+              ))}
 
-            {/* Bars Layout */}
-            <div className="ml-10 h-full flex items-end justify-between px-4 pb-6">
-              {/* Week 01 Bars */}
-              <div className="flex items-end gap-1">
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '45px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '70px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '40px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '110px' }} />
-              </div>
+              {/* 20 Orange Bars */}
+              {webAnalyticsData.bars.map((bar, idx) => (
+                <rect
+                  key={idx}
+                  x={bar.x}
+                  y={bar.y}
+                  width="23.5"
+                  height={bar.height}
+                  rx="8"
+                  fill="#FF9F0A"
+                />
+              ))}
 
-              {/* Week 08 Bars */}
-              <div className="flex items-end gap-1">
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '80px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '130px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '95px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '65px' }} />
-              </div>
+              {/* Solid X-Axis Baseline */}
+              <line x1="78" y1="441.5" x2="700" y2="441.5" stroke="#E9E9E9" strokeWidth="1" />
 
-              {/* Week 15 Bars */}
-              <div className="flex items-end gap-1">
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '145px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '120px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '75px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '55px' }} />
-              </div>
-
-              {/* Week 22 Bars */}
-              <div className="flex items-end gap-1">
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '70px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '115px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '135px' }} />
-                <div className="w-3 rounded-t-md bg-[#FF9900]" style={{ height: '150px' }} />
-              </div>
-            </div>
-
-            {/* X-Axis Labels */}
-            <div className="ml-10 flex items-center justify-between text-xs font-medium text-[#888888] pt-1">
-              <span>Week 01</span>
-              <span>Week 08</span>
-              <span>Week 15</span>
-              <span className="rounded-full bg-slate-100 px-2 py-0.5 font-bold text-slate-800">Week 22</span>
-            </div>
+              {/* X-Axis Labels */}
+              {webAnalyticsData.xAxisLabels.map((item) => (
+                <text
+                  key={item.label}
+                  x={item.x}
+                  y="471"
+                  textAnchor="middle"
+                  fill="#888888"
+                  fontSize="14"
+                  fontWeight="500"
+                >
+                  {item.label}
+                </text>
+              ))}
+            </svg>
           </div>
         </div>
 
