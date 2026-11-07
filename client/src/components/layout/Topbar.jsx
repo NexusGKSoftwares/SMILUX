@@ -44,7 +44,7 @@ export default function Topbar({
         <button
           type="button"
           onClick={onOpenMobile}
-          className="rounded-md p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 lg:hidden cursor-pointer"
+          className="rounded p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 lg:hidden cursor-pointer"
           aria-label="Open Mobile Menu"
         >
           <HugeiconsIcon icon={Menu01Icon} size={20} />
@@ -79,7 +79,7 @@ export default function Topbar({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search patient, record, invoice, or appointment... (⌘K)"
-            className="w-full rounded-md border border-slate-200 bg-slate-50/80 py-1.5 pl-9 pr-3 text-xs text-slate-900 placeholder:text-slate-400 focus:border-brand-600 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-600/30 transition-all font-sans"
+            className="w-full rounded border border-slate-200 bg-slate-50/80 py-1.5 pl-9 pr-3 text-xs text-slate-900 placeholder:text-slate-400 focus:border-brand-600 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-600/30 transition-all font-sans"
           />
         </div>
       </div>
@@ -101,7 +101,7 @@ export default function Topbar({
         {/* Support Icon */}
         <a
           href="mailto:support@smilux.co.ke"
-          className="hidden sm:flex h-8 w-8 items-center justify-center rounded-md border border-slate-200/80 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors"
+          className="hidden sm:flex h-8 w-8 items-center justify-center rounded border border-slate-200/80 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors"
           title="Contact Support"
         >
           <HugeiconsIcon icon={HelpCircleIcon} size={18} />
@@ -110,7 +110,7 @@ export default function Topbar({
         {/* Notifications Icon Button */}
         <button
           type="button"
-          className="relative flex h-8 w-8 items-center justify-center rounded-md border border-slate-200/80 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors cursor-pointer"
+          className="relative flex h-8 w-8 items-center justify-center rounded border border-slate-200/80 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors cursor-pointer"
           title="Notifications"
         >
           <HugeiconsIcon icon={Notification01Icon} size={18} />
@@ -122,7 +122,7 @@ export default function Topbar({
           <button
             type="button"
             onClick={() => setUserDropdownOpen((prev) => !prev)}
-            className="flex items-center gap-2 rounded-lg border border-slate-200/90 p-1 hover:bg-slate-100/80 transition-colors cursor-pointer"
+            className="flex items-center gap-2 rounded border border-slate-200/90 p-1 hover:bg-slate-100/80 transition-colors cursor-pointer"
           >
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-900 text-white text-xs font-bold shrink-0">
               {user?.name?.[0] || 'D'}
@@ -134,7 +134,7 @@ export default function Topbar({
           </button>
 
           {userDropdownOpen && (
-            <div className="absolute right-0 top-11 z-50 w-48 rounded-md border border-slate-200 bg-white p-1 shadow-lg animate-in fade-in zoom-in-95 duration-100 font-sans">
+            <div className="absolute right-0 top-11 z-50 w-48 rounded border border-slate-200 bg-white p-1 shadow-lg animate-in fade-in zoom-in-95 duration-100 font-sans">
               <div className="border-b border-slate-100 p-2 text-xs">
                 <p className="font-bold text-slate-900 truncate">{user?.name || 'Dr. John'}</p>
                 <p className="text-[11px] text-slate-400 truncate">{user?.email || 'doctor@clinic.co.ke'}</p>

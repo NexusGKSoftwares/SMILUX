@@ -109,7 +109,7 @@ function AppRoutes({ loggedInUser, setLoggedInUser }) {
                 onQuickAction={() => alert("Quick Action: Add New Patient")}
               >
                 <div className="space-y-6">
-                  <div className="rounded-xl border border-slate-200/90 bg-white p-6 shadow-2xs">
+                  <div className="rounded border border-slate-200/90 bg-white p-6 shadow-2xs">
                     <h2 className="text-xl font-bold text-slate-900">
                       Welcome back, {loggedInUser.name}!
                     </h2>

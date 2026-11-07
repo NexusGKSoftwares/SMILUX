@@ -26,7 +26,7 @@ export default function ForgotPassword({ onNavigate, onOpenReferral }) {
     setLoading(true);
 
     try {
-      await api.post('/auth/forgot-password', { email }).catch(() => {});
+      await api.post('/auth/forgot-password', { email }).catch(() => { });
       setMessage('Password reset instructions have been sent to your email address.');
     } catch (err) {
       setError(err.response?.data?.message || 'Error sending password reset request');
@@ -47,7 +47,7 @@ export default function ForgotPassword({ onNavigate, onOpenReferral }) {
         </div>
 
         {message ? (
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-center text-xs text-emerald-800 space-y-3 font-sans">
+          <div className="rounded border border-emerald-200 bg-emerald-50 p-4 text-center text-xs text-emerald-800 space-y-3 font-sans">
             <p className="font-bold">{message}</p>
             <button
               onClick={() => onNavigate('login')}
