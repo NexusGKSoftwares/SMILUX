@@ -10,6 +10,7 @@ import {
   ShieldCheckIcon,
   Store01Icon,
   Settings01Icon,
+  HelpCircleIcon,
   Logout01Icon,
   Cancel01Icon,
   UnfoldMoreIcon,
@@ -125,7 +126,7 @@ export default function Sidebar({
                 className="hidden lg:flex ml-1.5 rounded p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors cursor-pointer shrink-0"
                 title="Collapse Sidebar (264px → 68px)"
               >
-                <PanelLeftCloseIcon className="w-4.5 h-4.5 text-slate-500" />
+                <PanelLeftCloseIcon className="h-4 h-4 text-slate-500" />
               </button>
             )}
           </>
@@ -331,7 +332,7 @@ export default function Sidebar({
               className="rounded p-1 text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors cursor-pointer mt-1"
               title="Expand Sidebar (68px → 264px)"
             >
-              <PanelLeftOpenIcon className="w-4.5 h-4.5 text-slate-500" />
+              <PanelLeftOpenIcon className="h-4 h-4 text-slate-500" />
             </button>
           </div>
         )}

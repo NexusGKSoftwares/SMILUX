@@ -52,11 +52,11 @@ function WhatsNewWireframeSkeleton() {
         <li key={idx} className="py-3.5 first:pt-2">
           {/* Tag + Date wireframe */}
           <div className="flex items-center justify-between gap-2">
-            <div className="h-4.5 w-20 rounded bg-slate-200/80 animate-shimmer" />
+            <div className="h-4 w-20 rounded bg-slate-200/80 animate-shimmer" />
             <div className="h-3.5 w-24 rounded bg-slate-200/70 animate-shimmer" />
           </div>
           {/* Title wireframe */}
-          <div className="mt-2.5 h-4.5 w-4/5 rounded bg-slate-200/90 animate-shimmer" />
+          <div className="mt-2.5 h-4 w-4/5 rounded bg-slate-200/90 animate-shimmer" />
           {/* Excerpt wireframe */}
           <div className="mt-2 space-y-1.5">
             <div className="h-3.5 w-full rounded bg-slate-200/60 animate-shimmer" />
@@ -151,10 +151,10 @@ function MoneyBagGraphic() {
   return (
     <div className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 flex items-center justify-center">
       {/* Floating blue diamonds */}
-      <div className="absolute top-1 left-2 w-2.5 h-2.5 bg-blue-600 rotate-45 rounded-xs" />
+      <div className="absolute top-1 left-2 h-4 h-4 bg-blue-600 rotate-45 rounded-xs" />
       <div className="absolute top-0 right-3 w-3 h-3 bg-blue-600 rotate-45 rounded-xs" />
       <div className="absolute top-8 left-0 w-3.5 h-3.5 bg-blue-600 rotate-45 rounded-xs" />
-      <div className="absolute top-12 right-1 w-2.5 h-2.5 bg-blue-600 rotate-45 rounded-xs" />
+      <div className="absolute top-12 right-1 h-4 h-4 bg-blue-600 rotate-45 rounded-xs" />
 
       {/* Money Bag & Pedestal SVG */}
       <svg className="w-22 h-22 sm:w-24 sm:h-24 drop-shadow-md" viewBox="0 0 100 100" fill="none">
