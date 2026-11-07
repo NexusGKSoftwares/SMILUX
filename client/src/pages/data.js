@@ -110,6 +110,35 @@ export const webAnalyticsData = {
   ],
 };
 
+export const salesAreaChartData = {
+  title: 'Sales',
+  subtitle: 'Total $ profit',
+  totalProfitUsd: '$420,110',
+  totalProfitKes: 'KES 1,485,000',
+  defaultMonth: 'Jun',
+  yAxisLabels: [
+    { label: '$80K', kesLabel: '10M', y: 224 },
+    { label: '$60K', kesLabel: '7.5M', y: 276 },
+    { label: '$40K', kesLabel: '5.0M', y: 328 },
+    { label: '$20K', kesLabel: '2.5M', y: 380 },
+    { label: '0', kesLabel: '0', y: 431 },
+  ],
+  months: [
+    { month: 'Jan', x: 113, y: 312, valueUsd: '$46,200', valueKes: 'KES 163K' },
+    { month: 'Feb', x: 194, y: 284, valueUsd: '$56,800', valueKes: 'KES 201K' },
+    { month: 'Mar', x: 275, y: 318, valueUsd: '$43,500', valueKes: 'KES 154K' },
+    { month: 'Apr', x: 356, y: 292, valueUsd: '$53,900', valueKes: 'KES 190K' },
+    { month: 'May', x: 437, y: 321, valueUsd: '$42,300', valueKes: 'KES 149K' },
+    { month: 'Jun', x: 518, y: 283, valueUsd: '$57,000', valueKes: 'KES 202K' },
+    { month: 'Jul', x: 645, y: 298, valueUsd: '$51,400', valueKes: 'KES 182K' },
+  ],
+  // Smooth cubic bezier curve from x=74 to x=690 within y=276..321
+  linePath:
+    'M 74 308 C 100 318, 125 315, 150 296 C 175 277, 200 278, 230 298 C 255 315, 275 321, 305 308 C 335 295, 355 286, 385 298 C 415 310, 435 321, 465 306 C 490 293, 505 283, 518 283 C 545 283, 575 312, 610 304 C 645 296, 668 276, 690 282',
+  areaPath:
+    'M 74 308 C 100 318, 125 315, 150 296 C 175 277, 200 278, 230 298 C 255 315, 275 321, 305 308 C 335 295, 355 286, 385 298 C 415 310, 435 321, 465 306 C 490 293, 505 283, 518 283 C 545 283, 575 312, 610 304 C 645 296, 668 276, 690 282 L 690 431 L 74 431 Z',
+};
+
 export const kpiData = kpiCardsData;
 export const getKpiCardsData = () => kpiCardsData;
 

@@ -14,12 +14,12 @@ import {
 } from '@hugeicons/core-free-icons';
 import Button from '../components/UI/Button.jsx';
 import { RefreshIcon, ChartIcon } from '../components/UI/tableIcons.jsx';
-import { kpiCardsData, webAnalyticsData } from './data.js';
+import { kpiCardsData, webAnalyticsData, salesAreaChartData } from './data.js';
 
 // ─── Shared Card Info Icon & Action Toolbar (From SVG Spec) ─────────────────
-export function InfoBadgeIcon() {
+export function InfoBadgeIcon({ title = 'Analytics Overview' }) {
   return (
-    <svg width="14" height="14" viewBox="208 32 16 16" fill="none" className="shrink-0">
+    <svg width="14" height="14" viewBox="208 32 16 16" fill="none" className="shrink-0 cursor-help" title={title}>
       <circle cx="216" cy="40" r="8" fill="#AFAFAF" />
       <path
         fillRule="evenodd"
@@ -31,13 +31,14 @@ export function InfoBadgeIcon() {
   );
 }
 
-export function CardActionToolbar() {
+export function CardActionToolbar({ onExpand, onEdit, onMore, editTitle = 'Edit / Toggle View' }) {
   return (
     <div className="inline-flex h-7 items-center gap-2.5 rounded-lg border border-[#E0E0E0] bg-white px-2.5 shadow-[0px_1px_2px_rgba(0,0,0,0.05)]">
       <button
         type="button"
+        onClick={onExpand}
         className="text-[#888888] hover:text-[#080808] transition-colors cursor-pointer"
-        title="Expand"
+        title="Toggle Expand"
       >
         <svg width="13" height="13" viewBox="614 32 16 16" fill="none">
           <path
@@ -51,8 +52,9 @@ export function CardActionToolbar() {
       </button>
       <button
         type="button"
+        onClick={onEdit}
         className="text-[#888888] hover:text-[#080808] transition-colors cursor-pointer"
-        title="Edit"
+        title={editTitle}
       >
         <svg width="13" height="13" viewBox="644 32 16 16" fill="none">
           <path
@@ -67,8 +69,9 @@ export function CardActionToolbar() {
       </button>
       <button
         type="button"
+        onClick={onMore}
         className="text-[#888888] hover:text-[#080808] transition-colors cursor-pointer"
-        title="More options"
+        title="Reset / More options"
       >
         <svg width="13" height="13" viewBox="674 32 16 16" fill="none">
           <path
@@ -163,6 +166,18 @@ export function DashboardView({ user }) {
   const [selectedTimeframe, setSelectedTimeframe] = useState('This Month');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  // Interactive states for Sales Area Chart & Web Analytics
+  const [selectedSalesMonth, setSelectedSalesMonth] = useState(salesAreaChartData.defaultMonth);
+  const [salesCurrency, setSalesCurrency] = useState('USD');
+  const [isSalesExpanded, setIsSalesExpanded] = useState(false);
+  const [hoveredBarIndex, setHoveredBarIndex] = useState(null);
+  const [selectedWebWeek, setSelectedWebWeek] = useState('22');
+  const [isWebExpanded, setIsWebExpanded] = useState(false);
+
+  const activeSalesMonthObj =
+    salesAreaChartData.months.find((m) => m.month === selectedSalesMonth) ||
+    salesAreaChartData.months[5];
+
   const greeting = getTimeBasedGreeting();
   const doctorName = user?.name || 'Dr. Darrell Steward';
 
@@ -230,303 +245,346 @@ export function DashboardView({ user }) {
         ))}
       </div>
 
-      {/* Main Section 1: Sales & Revenue Tracking Chart (Custom SVG & Specified Colors) */}
-      <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
-        {/* Card Header */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <svg width="16" height="16" viewBox="33 29 22 22" fill="none" className="shrink-0">
+      {/* Main Analytics Row: Sales (Smooth Line & Area Chart) + Web Analytics (Bar Chart) in 2 Columns */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
+        {/* Column 1: Sales Area & Smooth Line Chart Card (Exact Figma Spec) */}
+        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+          <div>
+            {/* Card Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                {/* Purple sack-coin Icon (#5654DC) */}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                  <path
+                    d="M9 6C9 4.34315 10.3431 3 12 3H16C17.6569 3 19 4.34315 19 6L17.5 8H10.5L9 6Z"
+                    stroke="#5654DC"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <rect
+                    x="7.15"
+                    y="8"
+                    width="12.85"
+                    height="13"
+                    rx="4"
+                    stroke="#5654DC"
+                    strokeWidth="2"
+                  />
+                  <rect
+                    x="3"
+                    y="14"
+                    width="7"
+                    height="3.5"
+                    rx="1.5"
+                    fill="white"
+                    stroke="#5654DC"
+                    strokeWidth="2"
+                  />
+                  <rect
+                    x="3"
+                    y="17.5"
+                    width="7"
+                    height="3.5"
+                    rx="1.5"
+                    fill="white"
+                    stroke="#5654DC"
+                    strokeWidth="2"
+                  />
+                </svg>
+                <h2 className="text-sm font-semibold text-[#080808] tracking-tight">
+                  {salesAreaChartData.title}
+                </h2>
+                <InfoBadgeIcon title="Monthly Sales & Profit Area Chart" />
+              </div>
+
+              <CardActionToolbar
+                onExpand={() => setIsSalesExpanded((prev) => !prev)}
+                onEdit={() => setSalesCurrency((prev) => (prev === 'USD' ? 'KES' : 'USD'))}
+                onMore={() => {
+                  setSelectedSalesMonth(salesAreaChartData.defaultMonth);
+                  setSalesCurrency('USD');
+                }}
+                editTitle="Toggle USD / KES Currency"
+              />
+            </div>
+
+            {/* Total $ Profit Value Block */}
+            <div className="mb-3 flex items-baseline justify-between">
+              <div className="flex flex-col">
+                <span className="text-xs font-medium text-[#888888]">
+                  {salesCurrency === 'USD' ? salesAreaChartData.subtitle : 'Total KES profit'}
+                </span>
+                <span className="mt-1 text-2xl font-semibold tracking-tight text-[#080808] leading-none">
+                  {salesCurrency === 'USD'
+                    ? salesAreaChartData.totalProfitUsd
+                    : salesAreaChartData.totalProfitKes}
+                </span>
+              </div>
+              <span className="text-[11px] font-medium text-[#888888]">
+                Selected: <strong className="text-[#080808]">{activeSalesMonthObj.month}</strong> (
+                {salesCurrency === 'USD' ? activeSalesMonthObj.valueUsd : activeSalesMonthObj.valueKes})
+              </span>
+            </div>
+          </div>
+
+          {/* Smooth Line & Area Graph (SVG) */}
+          <div className="w-full overflow-hidden">
+            <svg
+              viewBox="18 210 684 268"
+              fill="none"
+              className={`w-full transition-all duration-300 ${
+                isSalesExpanded ? 'max-h-56' : 'max-h-40'
+              } h-auto select-none`}
+            >
+              <defs>
+                {/* Horizontal Red-to-Purple Stroke Gradient */}
+                <linearGradient id="salesLineGrad" x1="74" y1="276" x2="690" y2="276" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#FF4049" />
+                  <stop offset="87.18%" stopColor="#5654DC" />
+                </linearGradient>
+
+                {/* Horizontal Area Tint Gradient */}
+                <linearGradient id="salesAreaHoriz" x1="74" y1="276" x2="690" y2="276" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#FF4049" stopOpacity="0.18" />
+                  <stop offset="87.18%" stopColor="#5654DC" stopOpacity="0.18" />
+                </linearGradient>
+
+                {/* Vertical Fade Mask to White at Bottom */}
+                <linearGradient id="salesAreaVertMask" x1="0" y1="276" x2="0" y2="431" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="white" stopOpacity="1" />
+                  <stop offset="27.56%" stopColor="white" stopOpacity="0.85" />
+                  <stop offset="100%" stopColor="white" stopOpacity="0" />
+                </linearGradient>
+                <mask id="salesAreaFadeMask">
+                  <rect x="70" y="220" width="625" height="215" fill="url(#salesAreaVertMask)" />
+                </mask>
+              </defs>
+
+              {/* 4 Dashed Horizontal Grid Lines */}
+              {[224, 276, 328, 380].map((yPos) => (
+                <line
+                  key={yPos}
+                  x1="72"
+                  y1={yPos}
+                  x2="692"
+                  y2={yPos}
+                  stroke="#E0E0E0"
+                  strokeWidth="1.2"
+                  strokeDasharray="4 4"
+                />
+              ))}
+
+              {/* Y-Axis Labels ($80K .. 0) */}
+              {salesAreaChartData.yAxisLabels.map((item) => (
+                <text
+                  key={item.label}
+                  x="62"
+                  y={item.y + 5}
+                  textAnchor="end"
+                  fill="#888888"
+                  fontSize="14"
+                  fontWeight="500"
+                >
+                  {salesCurrency === 'USD' ? item.label : item.kesLabel}
+                </text>
+              ))}
+
+              {/* Gradient Area Fill Under Smooth Curve */}
               <path
-                d="M52.9451 39C52.4476 34.5 48.6326 31 44 31C39.0294 31 35 35.0294 35 40C35 44.6326 38.5 48.4476 43 48.9451"
-                stroke="#FF9F0A"
-                strokeWidth="2"
+                d={salesAreaChartData.areaPath}
+                fill="url(#salesAreaHoriz)"
+                mask="url(#salesAreaFadeMask)"
+              />
+
+              {/* Smooth Cubic Bezier Line (Vector 846) */}
+              <path
+                d={salesAreaChartData.linePath}
+                stroke="url(#salesLineGrad)"
+                strokeWidth="2.5"
                 strokeLinecap="round"
-                strokeLinejoin="round"
+                fill="none"
               />
-              <path
-                d="M43.8087 32.0882C44.1336 31.6415 44.0348 31.0161 43.5882 30.6913C43.1415 30.3664 42.5161 30.4652 42.1913 30.9118L43 31.5L43.8087 32.0882ZM43 31.5L42.1913 30.9118C37.9363 36.7625 37.9363 43.7375 42.1913 49.5882L43 49L43.8087 48.4118C40.0638 43.2625 40.0638 37.2375 43.8087 32.0882L43 31.5Z"
-                fill="#FF9F0A"
-              />
-              <path
-                d="M45.0007 31.5C46.4998 33.5613 47.4371 35.7631 47.8125 38"
-                stroke="#FF9F0A"
+
+              {/* Solid X-Axis Baseline (y=431) */}
+              <line x1="72" y1="431" x2="692" y2="431" stroke="#E0E0E0" strokeWidth="1.5" />
+
+              {/* Vertical Dashed Indicator Line (Vector 938) */}
+              <line
+                x1={activeSalesMonthObj.x}
+                y1="252"
+                x2={activeSalesMonthObj.x}
+                y2="431"
+                stroke="#101010"
                 strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeDasharray="4 4"
               />
-              <path d="M43 40H36" stroke="#FF9F0A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+
+              {/* Active Point Circle on Smooth Curve */}
               <circle
-                cx="48.5"
-                cy="44.5"
-                r="3.5"
-                stroke="#FF9F0A"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                cx={activeSalesMonthObj.x}
+                cy={activeSalesMonthObj.y}
+                r="4.5"
+                fill="#FFFFFF"
+                stroke="#5654DC"
+                strokeWidth="2.5"
               />
-              <path d="M53 49L51 47" stroke="#FF9F0A" strokeWidth="2" strokeLinecap="round" />
+
+              {/* Floating Dark Tooltip Badge (#030303, $57,000) */}
+              <g transform={`translate(${activeSalesMonthObj.x - 42}, 224)`}>
+                <rect width="84" height="24" rx="4" fill="#030303" />
+                <text
+                  x="42"
+                  y="16"
+                  textAnchor="middle"
+                  fill="#FFFFFF"
+                  fontSize="13.5"
+                  fontWeight="500"
+                >
+                  {salesCurrency === 'USD'
+                    ? activeSalesMonthObj.valueUsd
+                    : activeSalesMonthObj.valueKes}
+                </text>
+              </g>
+
+              {/* Interactive Month Columns & X-Axis Labels (Jan .. Jul) */}
+              {salesAreaChartData.months.map((m) => {
+                const isSelected = m.month === selectedSalesMonth;
+                return (
+                  <g
+                    key={m.month}
+                    className="cursor-pointer"
+                    onMouseEnter={() => setSelectedSalesMonth(m.month)}
+                    onClick={() => setSelectedSalesMonth(m.month)}
+                  >
+                    {/* Transparent Hover/Click Hit Zone */}
+                    <rect x={m.x - 38} y="220" width="76" height="252" fill="transparent" />
+
+                    {/* Pill Background for Active Month */}
+                    {isSelected && (
+                      <rect
+                        x={m.x - 28}
+                        y="444"
+                        width="56"
+                        height="26"
+                        rx="13"
+                        fill="#F3F4F6"
+                      />
+                    )}
+
+                    <text
+                      x={m.x}
+                      y="462"
+                      textAnchor="middle"
+                      fill={isSelected ? '#080808' : '#888888'}
+                      fontSize="14"
+                      fontWeight={isSelected ? '600' : '500'}
+                    >
+                      {m.month}
+                    </text>
+                  </g>
+                );
+              })}
             </svg>
-            <h2 className="text-sm font-bold text-[#080808] tracking-tight">Sales &amp; Revenue Tracking</h2>
-            <InfoBadgeIcon />
           </div>
-
-          <CardActionToolbar />
         </div>
 
-        {/* Top Summaries Row ($420,110 & $91,110) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
-          {/* Online Store / M-Pesa STK Revenue */}
-          <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
-            <span className="text-xs font-medium text-[#888888]">Online / M-Pesa STK Revenue</span>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-xl font-extrabold tracking-tight text-[#080808]">$420,110</span>
-              <div className="flex items-center gap-1 rounded-md bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                  <path d="M6 2.5L9 6.5H3L6 2.5Z" fill="#00C26B" />
+        {/* Column 2: Web Analytics Card (Exact SVG Spec) */}
+        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+          <div>
+            {/* Card Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <svg width="16" height="16" viewBox="33 29 22 22" fill="none" className="shrink-0">
+                  <path
+                    d="M52.9451 39C52.4476 34.5 48.6326 31 44 31C39.0294 31 35 35.0294 35 40C35 44.6326 38.5 48.4476 43 48.9451"
+                    stroke="#FF9F0A"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M43.8087 32.0882C44.1336 31.6415 44.0348 31.0161 43.5882 30.6913C43.1415 30.3664 42.5161 30.4652 42.1913 30.9118L43 31.5L43.8087 32.0882ZM43 31.5L42.1913 30.9118C37.9363 36.7625 37.9363 43.7375 42.1913 49.5882L43 49L43.8087 48.4118C40.0638 43.2625 40.0638 37.2375 43.8087 32.0882L43 31.5Z"
+                    fill="#FF9F0A"
+                  />
+                  <path
+                    d="M45.0007 31.5C46.4998 33.5613 47.4371 35.7631 47.8125 38"
+                    stroke="#FF9F0A"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path d="M43 40H36" stroke="#FF9F0A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle
+                    cx="48.5"
+                    cy="44.5"
+                    r="3.5"
+                    stroke="#FF9F0A"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path d="M53 49L51 47" stroke="#FF9F0A" strokeWidth="2" strokeLinecap="round" />
                 </svg>
-                <span>25%</span>
-              </div>
-            </div>
-            {/* Visual indicator line */}
-            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-200 flex">
-              <div className="h-full bg-[#00C26B]" style={{ width: '75%' }} />
-              <div className="h-full bg-[#FF9900]" style={{ width: '25%' }} />
-            </div>
-          </div>
-
-          {/* Offline Store / SHA Insurance Revenue */}
-          <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
-            <span className="text-xs font-medium text-[#888888]">Offline / SHA Claims Revenue</span>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-xl font-extrabold tracking-tight text-[#080808]">$91,110</span>
-              <div className="flex items-center gap-1 rounded-md bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                  <path d="M6 2.5L9 6.5H3L6 2.5Z" fill="#00C26B" />
-                </svg>
-                <span>13%</span>
-              </div>
-            </div>
-            {/* Visual indicator line */}
-            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-200 flex">
-              <div className="h-full bg-[#004491]" style={{ width: '60%' }} />
-              <div className="h-full bg-[#5654DC]" style={{ width: '40%' }} />
-            </div>
-          </div>
-
-          {/* Procedure Legend List */}
-          <div className="flex flex-col justify-between rounded-xl border border-slate-100 bg-slate-50/50 p-3">
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Procedure Categories</span>
-            <div className="grid grid-cols-2 gap-1.5 text-[11px] font-medium text-[#888888]">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-xs bg-[#004491]" />
-                <span className="truncate">Restorative ($140k)</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-xs bg-[#FF9900]" />
-                <span className="truncate">Prosthodontics ($110k)</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-xs bg-[#FFC600]" />
-                <span className="truncate">Hygiene ($85k)</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-xs bg-[#5654DC]" />
-                <span className="truncate">Orthodontics ($55k)</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-xs bg-[#00CBE8]" />
-                <span className="truncate">Implants ($30k)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Stacked Bar Chart & Horizontal Overlay Visual Representation */}
-        <div className="space-y-2.5">
-          <div className="relative overflow-x-auto rounded-xl border border-slate-100 bg-[#FAFBFD] p-3.5">
-            <div className="space-y-2.5 min-w-[500px]">
-              {/* Category 1: Restorative Dental Fillings */}
-              <div className="space-y-1">
-                <div className="flex justify-between text-[11px] font-medium">
-                  <span className="font-semibold text-slate-700">Restorative &amp; Composite Fillings</span>
-                  <span className="font-bold text-[#004491]">42% ($214,800)</span>
-                </div>
-                <div className="relative h-4 w-full overflow-hidden rounded-md bg-slate-100">
-                  <div
-                    className="h-full rounded-md transition-all duration-500"
-                    style={{
-                      width: '84%',
-                      background: 'linear-gradient(95.39deg, #004391 0%, #FF4049 101.08%)',
-                      opacity: 0.85,
-                    }}
-                  />
-                  <div className="absolute left-1.5 top-0.5 h-3 w-4 rounded-xs bg-[#004491]" />
-                </div>
+                <h3 className="text-sm font-semibold text-[#080808] tracking-tight">{webAnalyticsData.title}</h3>
+                <InfoBadgeIcon title="Weekly Patient Portal & Web Traffic" />
               </div>
 
-              {/* Category 2: Prosthodontics & Crowns */}
-              <div className="space-y-1">
-                <div className="flex justify-between text-[11px] font-medium">
-                  <span className="font-semibold text-slate-700">Prosthodontics &amp; Crown Prep</span>
-                  <span className="font-bold text-[#FF9900]">28% ($143,200)</span>
-                </div>
-                <div className="relative h-4 w-full overflow-hidden rounded-md bg-slate-100">
-                  <div
-                    className="h-full rounded-md transition-all duration-500"
-                    style={{
-                      width: '68%',
-                      background: 'linear-gradient(90deg, #FF9900 0%, #FF4049 100%)',
-                      opacity: 0.85,
-                    }}
-                  />
-                  <div className="absolute left-1.5 top-0.5 h-3 w-4 rounded-xs bg-[#FF9900]" />
-                </div>
-              </div>
-
-              {/* Category 3: Dental Hygiene & Scaling */}
-              <div className="space-y-1">
-                <div className="flex justify-between text-[11px] font-medium">
-                  <span className="font-semibold text-slate-700">Hygiene, Scaling &amp; Polishing</span>
-                  <span className="font-bold text-[#FFC600]">18% ($92,100)</span>
-                </div>
-                <div className="relative h-4 w-full overflow-hidden rounded-md bg-slate-100">
-                  <div
-                    className="h-full rounded-md transition-all duration-500"
-                    style={{
-                      width: '52%',
-                      background: 'linear-gradient(180deg, #FFC600 0%, #FF4049 100%)',
-                      opacity: 0.85,
-                    }}
-                  />
-                  <div className="absolute left-1.5 top-0.5 h-3 w-4 rounded-xs bg-[#FFC600]" />
-                </div>
-              </div>
-
-              {/* Category 4: Orthodontics & Braces */}
-              <div className="space-y-1">
-                <div className="flex justify-between text-[11px] font-medium">
-                  <span className="font-semibold text-slate-700">Orthodontic Aligners &amp; Braces</span>
-                  <span className="font-bold text-[#5654DC]">12% ($61,400)</span>
-                </div>
-                <div className="relative h-4 w-full overflow-hidden rounded-md bg-slate-100">
-                  <div
-                    className="h-full rounded-md transition-all duration-500"
-                    style={{
-                      width: '38%',
-                      background: 'linear-gradient(90deg, #5654DC 0.01%, #FF4049 100%)',
-                      opacity: 0.85,
-                    }}
-                  />
-                  <div className="absolute left-1.5 top-0.5 h-3 w-4 rounded-xs bg-[#5654DC]" />
-                </div>
-              </div>
-
-              {/* Category 5: Implants & Oral Surgery */}
-              <div className="space-y-1">
-                <div className="flex justify-between text-[11px] font-medium">
-                  <span className="font-semibold text-slate-700">Implants &amp; Surgical Extractions</span>
-                  <span className="font-bold text-[#00CBE8]">10% ($51,200)</span>
-                </div>
-                <div className="relative h-4 w-full overflow-hidden rounded-md bg-slate-100">
-                  <div
-                    className="h-full rounded-md transition-all duration-500"
-                    style={{
-                      width: '28%',
-                      background: 'linear-gradient(89.86deg, #00CBE8 0.12%, #FF4049 100%)',
-                      opacity: 0.85,
-                    }}
-                  />
-                  <div className="absolute left-1.5 top-0.5 h-3 w-4 rounded-xs bg-[#00CBE8]" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Section 2: Two Column Analytics Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-        {/* Column 1: Web Analytics Card (Exact SVG Spec) */}
-        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
-          {/* Card Header */}
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <svg width="16" height="16" viewBox="33 29 22 22" fill="none" className="shrink-0">
-                <path
-                  d="M52.9451 39C52.4476 34.5 48.6326 31 44 31C39.0294 31 35 35.0294 35 40C35 44.6326 38.5 48.4476 43 48.9451"
-                  stroke="#FF9F0A"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M43.8087 32.0882C44.1336 31.6415 44.0348 31.0161 43.5882 30.6913C43.1415 30.3664 42.5161 30.4652 42.1913 30.9118L43 31.5L43.8087 32.0882ZM43 31.5L42.1913 30.9118C37.9363 36.7625 37.9363 43.7375 42.1913 49.5882L43 49L43.8087 48.4118C40.0638 43.2625 40.0638 37.2375 43.8087 32.0882L43 31.5Z"
-                  fill="#FF9F0A"
-                />
-                <path
-                  d="M45.0007 31.5C46.4998 33.5613 47.4371 35.7631 47.8125 38"
-                  stroke="#FF9F0A"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path d="M43 40H36" stroke="#FF9F0A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <circle
-                  cx="48.5"
-                  cy="44.5"
-                  r="3.5"
-                  stroke="#FF9F0A"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path d="M53 49L51 47" stroke="#FF9F0A" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-              <h3 className="text-sm font-bold text-[#080808] tracking-tight">{webAnalyticsData.title}</h3>
-              <InfoBadgeIcon />
+              <CardActionToolbar
+                onExpand={() => setIsWebExpanded((prev) => !prev)}
+                onEdit={() => setSelectedWebWeek((prev) => (prev === '22' ? '01' : '22'))}
+                onMore={() => {
+                  setHoveredBarIndex(null);
+                  setSelectedWebWeek('22');
+                }}
+              />
             </div>
 
-            <CardActionToolbar />
-          </div>
-
-          {/* Metrics Overview Row */}
-          <div className="grid grid-cols-3 gap-3 mb-4">
-            {webAnalyticsData.metrics.map((metric) => (
-              <div key={metric.id} className="flex flex-col">
-                <span className="text-xs font-medium text-[#888888]">{metric.label}</span>
-                <div className="mt-1 flex items-center gap-1.5">
-                  <span className="text-xl font-bold tracking-tight text-[#080808] leading-none">
-                    {metric.value}
-                  </span>
-                  {metric.isPositive ? (
-                    <span className="inline-flex items-center gap-0.5 rounded-full bg-[#E8FFF4] border border-[#8FE7BE] px-1.5 py-0.5 text-[10px] font-bold text-[#1DBF73]">
-                      <svg width="9" height="9" viewBox="389 150 12 12" fill="none">
-                        <path
-                          d="M395.669 153.219V161.334H394.335V153.219L390.759 156.795L389.816 155.852L395.002 150.667L400.187 155.852L399.244 156.795L395.669 153.219Z"
-                          fill="#1DBF73"
-                        />
-                      </svg>
-                      {metric.change}
+            {/* Metrics Overview Row */}
+            <div className="grid grid-cols-3 gap-3 mb-3">
+              {webAnalyticsData.metrics.map((metric) => (
+                <div key={metric.id} className="flex flex-col">
+                  <span className="text-xs font-medium text-[#888888]">{metric.label}</span>
+                  <div className="mt-1 flex items-center gap-1.5">
+                    <span className="text-xl font-bold tracking-tight text-[#080808] leading-none">
+                      {metric.value}
                     </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-0.5 rounded-full bg-[#FFEAEA] border border-[#FF9F9D] px-1.5 py-0.5 text-[10px] font-bold text-[#FB3B52]">
-                      <svg width="9" height="9" viewBox="186 150 12 12" fill="none">
-                        <path
-                          d="M191.331 158.781L191.331 150.666L192.665 150.666L192.665 158.781L196.241 155.205L197.184 156.148L191.998 161.333L186.813 156.148L187.756 155.205L191.331 158.781Z"
-                          fill="#FB3B52"
-                        />
-                      </svg>
-                      {metric.change}
-                    </span>
-                  )}
+                    {metric.isPositive ? (
+                      <span className="inline-flex items-center gap-0.5 rounded-full bg-[#E8FFF4] border border-[#8FE7BE] px-1.5 py-0.5 text-[10px] font-bold text-[#1DBF73]">
+                        <svg width="9" height="9" viewBox="389 150 12 12" fill="none">
+                          <path
+                            d="M395.669 153.219V161.334H394.335V153.219L390.759 156.795L389.816 155.852L395.002 150.667L400.187 155.852L399.244 156.795L395.669 153.219Z"
+                            fill="#1DBF73"
+                          />
+                        </svg>
+                        {metric.change}
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-0.5 rounded-full bg-[#FFEAEA] border border-[#FF9F9D] px-1.5 py-0.5 text-[10px] font-bold text-[#FB3B52]">
+                        <svg width="9" height="9" viewBox="186 150 12 12" fill="none">
+                          <path
+                            d="M191.331 158.781L191.331 150.666L192.665 150.666L192.665 158.781L196.241 155.205L197.184 156.148L191.998 161.333L186.813 156.148L187.756 155.205L191.331 158.781Z"
+                            fill="#FB3B52"
+                          />
+                        </svg>
+                        {metric.change}
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Exact SVG Bar Chart with Dashed Grid Lines */}
           <div className="w-full overflow-hidden">
-            <svg viewBox="28 220 680 262" fill="none" className="w-full max-h-40 h-auto">
+            <svg
+              viewBox="28 220 680 262"
+              fill="none"
+              className={`w-full transition-all duration-300 ${
+                isWebExpanded ? 'max-h-56' : 'max-h-40'
+              } h-auto select-none`}
+            >
               {/* Dashed Horizontal Grid Lines */}
               {[234, 286, 338, 390].map((yPos) => (
                 <line
@@ -557,39 +615,86 @@ export function DashboardView({ user }) {
                 </text>
               ))}
 
-              {/* 20 Orange Bars */}
-              {webAnalyticsData.bars.map((bar, idx) => (
-                <rect
-                  key={idx}
-                  x={bar.x}
-                  y={bar.y}
-                  width="23.5"
-                  height={bar.height}
-                  rx="8"
-                  fill="#FF9F0A"
-                />
-              ))}
+              {/* 20 Interactive Orange Bars */}
+              {webAnalyticsData.bars.map((bar, idx) => {
+                const isHovered = hoveredBarIndex === idx;
+                const approxVisits = `${Math.round((bar.height / 140) * 72)}K`;
+                return (
+                  <g
+                    key={idx}
+                    className="cursor-pointer"
+                    onMouseEnter={() => setHoveredBarIndex(idx)}
+                    onMouseLeave={() => setHoveredBarIndex(null)}
+                  >
+                    <rect
+                      x={bar.x}
+                      y={bar.y}
+                      width="23.5"
+                      height={bar.height}
+                      rx="8"
+                      fill={isHovered ? '#E08600' : '#FF9F0A'}
+                    />
+                    {isHovered && (
+                      <g transform={`translate(${bar.x + 11.75 - 28}, ${bar.y - 28})`}>
+                        <rect width="56" height="22" rx="4" fill="#030303" />
+                        <text
+                          x="28"
+                          y="15"
+                          textAnchor="middle"
+                          fill="#FFFFFF"
+                          fontSize="12"
+                          fontWeight="600"
+                        >
+                          {approxVisits}
+                        </text>
+                      </g>
+                    )}
+                  </g>
+                );
+              })}
 
               {/* Solid X-Axis Baseline */}
               <line x1="78" y1="441.5" x2="700" y2="441.5" stroke="#E9E9E9" strokeWidth="1" />
 
               {/* X-Axis Labels */}
-              {webAnalyticsData.xAxisLabels.map((item) => (
-                <text
-                  key={item.label}
-                  x={item.x}
-                  y="471"
-                  textAnchor="middle"
-                  fill="#888888"
-                  fontSize="14"
-                  fontWeight="500"
-                >
-                  {item.label}
-                </text>
-              ))}
+              {webAnalyticsData.xAxisLabels.map((item) => {
+                const isSelected = selectedWebWeek === item.label;
+                return (
+                  <g
+                    key={item.label}
+                    className="cursor-pointer"
+                    onClick={() => setSelectedWebWeek(item.label)}
+                  >
+                    {isSelected && (
+                      <rect
+                        x={item.x - 24}
+                        y="453"
+                        width="48"
+                        height="24"
+                        rx="12"
+                        fill="#F3F4F6"
+                      />
+                    )}
+                    <text
+                      x={item.x}
+                      y="470"
+                      textAnchor="middle"
+                      fill={isSelected ? '#080808' : '#888888'}
+                      fontSize="14"
+                      fontWeight={isSelected ? '600' : '500'}
+                    >
+                      {item.label}
+                    </text>
+                  </g>
+                );
+              })}
             </svg>
           </div>
         </div>
+      </div>
+
+      {/* Secondary Row: Procedure Distribution Donut Chart Card */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
 
         {/* Column 2: Procedure Distribution Donut Chart Card */}
         <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-6 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
@@ -711,10 +816,9 @@ export function DashboardView({ user }) {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Section 3: Financial Balance & Settlement Channels */}
-      <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-6 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
+        {/* Column 2: Financial Balance & Settlement Channels */}
+        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
           <div className="flex items-center gap-3">
@@ -790,6 +894,7 @@ export function DashboardView({ user }) {
             <div className="h-full bg-[#00C26B]" style={{ width: '34%' }} title="M-Pesa STK ($32,000)" />
             <div className="h-full bg-[#FFC600]" style={{ width: '11%' }} title="Cash & Cards ($12,500)" />
           </div>
+        </div>
         </div>
       </div>
 
