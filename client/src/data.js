@@ -1,8 +1,2 @@
-export {
-  kpiCardsData,
-  kpiData,
-  getKpiCardsData,
-  webAnalyticsData,
-  salesAreaChartData,
-  default,
-} from './pages/data.js';
+export * from './pages/data';
+export { default } from './pages/data';

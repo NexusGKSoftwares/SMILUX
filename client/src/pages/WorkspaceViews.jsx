@@ -166,12 +166,12 @@ export function DashboardView({ user }) {
   const [selectedTimeframe, setSelectedTimeframe] = useState('This Month');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // Interactive states for Sales Area Chart & Web Analytics
+  // Interactive states for Sales Area Chart & Patient Growth Overview
   const [selectedSalesMonth, setSelectedSalesMonth] = useState(salesAreaChartData.defaultMonth);
   const [salesCurrency, setSalesCurrency] = useState('USD');
   const [isSalesExpanded, setIsSalesExpanded] = useState(false);
   const [hoveredBarIndex, setHoveredBarIndex] = useState(null);
-  const [selectedWebWeek, setSelectedWebWeek] = useState('22');
+  const [selectedWebWeek, setSelectedWebWeek] = useState(webAnalyticsData.defaultMonth || 'Jun');
   const [isWebExpanded, setIsWebExpanded] = useState(false);
 
   const activeSalesMonthObj =
@@ -293,9 +293,9 @@ export function DashboardView({ user }) {
                   />
                 </svg>
                 <h2 className="text-sm font-semibold text-[#080808] tracking-tight">
-                  {salesAreaChartData.title}
+                  {salesAreaChartData.title} ({salesAreaChartData.year})
                 </h2>
-                <InfoBadgeIcon title="Monthly Sales & Profit Area Chart" />
+                <InfoBadgeIcon title={`Monthly Sales & Profit Area Chart (${salesAreaChartData.year})`} />
               </div>
 
               <CardActionToolbar
@@ -313,7 +313,9 @@ export function DashboardView({ user }) {
             <div className="mb-3 flex items-baseline justify-between">
               <div className="flex flex-col">
                 <span className="text-xs font-medium text-[#888888]">
-                  {salesCurrency === 'USD' ? salesAreaChartData.subtitle : 'Total KES profit'}
+                  {salesCurrency === 'USD'
+                    ? `${salesAreaChartData.subtitle} • ${salesAreaChartData.year}`
+                    : `Total KES profit • ${salesAreaChartData.year}`}
                 </span>
                 <span className="mt-1 text-2xl font-semibold tracking-tight text-[#080808] leading-none">
                   {salesCurrency === 'USD'
@@ -322,8 +324,11 @@ export function DashboardView({ user }) {
                 </span>
               </div>
               <span className="text-[11px] font-medium text-[#888888]">
-                Selected: <strong className="text-[#080808]">{activeSalesMonthObj.month}</strong> (
-                {salesCurrency === 'USD' ? activeSalesMonthObj.valueUsd : activeSalesMonthObj.valueKes})
+                Selected:{' '}
+                <strong className="text-[#080808]">
+                  {activeSalesMonthObj.month} {salesAreaChartData.year}
+                </strong>{' '}
+                ({salesCurrency === 'USD' ? activeSalesMonthObj.valueUsd : activeSalesMonthObj.valueKes})
               </span>
             </div>
           </div>
@@ -431,7 +436,7 @@ export function DashboardView({ user }) {
               />
 
               {/* Floating Dark Tooltip Badge (#030303, $57,000) */}
-              <g transform={`translate(${activeSalesMonthObj.x - 42}, 224)`}>
+              <g transform={`translate(${Math.min(Math.max(activeSalesMonthObj.x - 42, 72), 608)}, 224)`}>
                 <rect width="84" height="24" rx="4" fill="#030303" />
                 <text
                   x="42"
@@ -447,7 +452,7 @@ export function DashboardView({ user }) {
                 </text>
               </g>
 
-              {/* Interactive Month Columns & X-Axis Labels (Jan .. Jul) */}
+              {/* Interactive 12 Month Columns & X-Axis Labels (Jan .. Dec) */}
               {salesAreaChartData.months.map((m) => {
                 const isSelected = m.month === selectedSalesMonth;
                 return (
@@ -458,26 +463,26 @@ export function DashboardView({ user }) {
                     onClick={() => setSelectedSalesMonth(m.month)}
                   >
                     {/* Transparent Hover/Click Hit Zone */}
-                    <rect x={m.x - 38} y="220" width="76" height="252" fill="transparent" />
+                    <rect x={m.x - 25} y="220" width="50" height="252" fill="transparent" />
 
                     {/* Pill Background for Active Month */}
                     {isSelected && (
                       <rect
-                        x={m.x - 28}
+                        x={m.x - 22}
                         y="444"
-                        width="56"
-                        height="26"
-                        rx="13"
+                        width="44"
+                        height="24"
+                        rx="12"
                         fill="#F3F4F6"
                       />
                     )}
 
                     <text
                       x={m.x}
-                      y="462"
+                      y="461"
                       textAnchor="middle"
                       fill={isSelected ? '#080808' : '#888888'}
-                      fontSize="14"
+                      fontSize="12.5"
                       fontWeight={isSelected ? '600' : '500'}
                     >
                       {m.month}
@@ -489,7 +494,7 @@ export function DashboardView({ user }) {
           </div>
         </div>
 
-        {/* Column 2: Web Analytics Card (Exact SVG Spec) */}
+        {/* Column 2: Patient Growth Overview Card */}
         <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             {/* Card Header */}
@@ -526,16 +531,18 @@ export function DashboardView({ user }) {
                   />
                   <path d="M53 49L51 47" stroke="#FF9F0A" strokeWidth="2" strokeLinecap="round" />
                 </svg>
-                <h3 className="text-sm font-semibold text-[#080808] tracking-tight">{webAnalyticsData.title}</h3>
-                <InfoBadgeIcon title="Weekly Patient Portal & Web Traffic" />
+                <h3 className="text-sm font-semibold text-[#080808] tracking-tight">
+                  {webAnalyticsData.title} ({webAnalyticsData.year})
+                </h3>
+                <InfoBadgeIcon title={`Monthly Patient Growth Overview (${webAnalyticsData.year})`} />
               </div>
 
               <CardActionToolbar
                 onExpand={() => setIsWebExpanded((prev) => !prev)}
-                onEdit={() => setSelectedWebWeek((prev) => (prev === '22' ? '01' : '22'))}
+                onEdit={() => setSelectedWebWeek((prev) => (prev === 'Dec' ? 'Jun' : 'Dec'))}
                 onMore={() => {
                   setHoveredBarIndex(null);
-                  setSelectedWebWeek('22');
+                  setSelectedWebWeek(webAnalyticsData.defaultMonth || 'Jun');
                 }}
               />
             </div>
@@ -576,7 +583,7 @@ export function DashboardView({ user }) {
             </div>
           </div>
 
-          {/* Exact SVG Bar Chart with Dashed Grid Lines */}
+          {/* Exact SVG Bar Chart with Dashed Grid Lines (12 Months in Current Year) */}
           <div className="w-full flex-1 flex items-end overflow-hidden">
             <svg
               viewBox="28 220 674 258"
@@ -615,37 +622,40 @@ export function DashboardView({ user }) {
                 </text>
               ))}
 
-              {/* 20 Interactive Orange Bars */}
+              {/* 12 Monthly Interactive Orange Bars */}
               {webAnalyticsData.bars.map((bar, idx) => {
-                const isHovered = hoveredBarIndex === idx;
-                const approxVisits = `${Math.round((bar.height / 140) * 72)}K`;
+                const isHovered = hoveredBarIndex === idx || selectedWebWeek === bar.month;
                 return (
                   <g
-                    key={idx}
+                    key={bar.month || idx}
                     className="cursor-pointer"
-                    onMouseEnter={() => setHoveredBarIndex(idx)}
+                    onMouseEnter={() => {
+                      setHoveredBarIndex(idx);
+                      setSelectedWebWeek(bar.month);
+                    }}
                     onMouseLeave={() => setHoveredBarIndex(null)}
+                    onClick={() => setSelectedWebWeek(bar.month)}
                   >
                     <rect
                       x={bar.x}
                       y={bar.y}
-                      width="23.5"
+                      width="26"
                       height={bar.height}
                       rx="8"
                       fill={isHovered ? '#E08600' : '#FF9F0A'}
                     />
                     {isHovered && (
-                      <g transform={`translate(${bar.x + 11.75 - 28}, ${bar.y - 28})`}>
-                        <rect width="56" height="22" rx="4" fill="#030303" />
+                      <g transform={`translate(${bar.xCenter - 32}, ${bar.y - 28})`}>
+                        <rect width="64" height="22" rx="4" fill="#030303" />
                         <text
-                          x="28"
+                          x="32"
                           y="15"
                           textAnchor="middle"
                           fill="#FFFFFF"
-                          fontSize="12"
+                          fontSize="11.5"
                           fontWeight="600"
                         >
-                          {approxVisits}
+                          {bar.count} pts
                         </text>
                       </g>
                     )}
@@ -656,7 +666,7 @@ export function DashboardView({ user }) {
               {/* Solid X-Axis Baseline */}
               <line x1="78" y1="441.5" x2="700" y2="441.5" stroke="#E9E9E9" strokeWidth="1" />
 
-              {/* X-Axis Labels */}
+              {/* 12 Monthly X-Axis Labels (Jan .. Dec) */}
               {webAnalyticsData.xAxisLabels.map((item) => {
                 const isSelected = selectedWebWeek === item.label;
                 return (
@@ -667,9 +677,9 @@ export function DashboardView({ user }) {
                   >
                     {isSelected && (
                       <rect
-                        x={item.x - 24}
-                        y="453"
-                        width="48"
+                        x={item.x - 22}
+                        y="451"
+                        width="44"
                         height="24"
                         rx="12"
                         fill="#F3F4F6"
@@ -677,10 +687,10 @@ export function DashboardView({ user }) {
                     )}
                     <text
                       x={item.x}
-                      y="470"
+                      y="468"
                       textAnchor="middle"
                       fill={isSelected ? '#080808' : '#888888'}
-                      fontSize="14"
+                      fontSize="12.5"
                       fontWeight={isSelected ? '600' : '500'}
                     >
                       {item.label}
