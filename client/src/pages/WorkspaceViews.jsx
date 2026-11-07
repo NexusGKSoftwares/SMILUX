@@ -19,7 +19,7 @@ import { kpiCardsData } from './data.js';
 // ─── Shared Section Header ──────────────────────────────────────────────────
 export function ViewHeader({ title, subtitle, actions }) {
   return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 pb-4 mb-5">
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80  mb-1">
       <div>
         <h1 className="text-xl font-bold text-slate-900 tracking-tight">{title}</h1>
         {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}

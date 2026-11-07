@@ -1,8 +1,8 @@
 import {
   Money01Icon,
   Calendar01Icon,
-  CheckmarkCircle01Icon,
-  Tick01Icon,
+  DentalCareIcon,
+  Note05Icon,
 } from '@hugeicons/core-free-icons';
 
 export const kpiCardsData = [
@@ -33,7 +33,7 @@ export const kpiCardsData = [
     subtitle: 'KES 342,000 Value',
     badge: '98.2% Approved',
     badgeStyle: 'bg-[#FFF3E0] border border-[#FFE0B2] text-[#FF9900]',
-    icon: CheckmarkCircle01Icon,
+    icon: DentalCareIcon,
     iconStyle: 'bg-amber-50 text-amber-600 border border-amber-100',
   },
   {
@@ -43,7 +43,7 @@ export const kpiCardsData = [
     subtitle: 'FDI Charting Validated',
     badge: '▲ 84.5% Accept',
     badgeStyle: 'bg-[#E2FFF3] border border-[#6EEABB] text-[#00C26B]',
-    icon: Tick01Icon,
+    icon: Note05Icon,
     iconStyle: 'bg-sky-50 text-sky-600 border border-sky-100',
   },
 ];
