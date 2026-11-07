@@ -8,7 +8,6 @@ import {
   HelpCircleIcon,
   PlusSignIcon,
   ChevronDownIcon,
-  User01Icon,
   Logout01Icon,
   Settings01Icon,
 } from '@hugeicons/core-free-icons';
@@ -40,8 +39,8 @@ export default function Topbar({
 
   return (
     <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white/95 px-4 backdrop-blur-md sm:px-6 font-sans shrink-0">
-      {/* Left Column: Mobile Menu Toggle + Breadcrumb Title */}
-      <div className="flex items-center gap-3 min-w-0">
+      {/* Left Column: Mobile Menu Toggle + Smilux Brand Badge */}
+      <div className="flex items-center gap-3 shrink-0">
         <button
           type="button"
           onClick={onOpenMobile}
@@ -51,15 +50,21 @@ export default function Topbar({
           <HugeiconsIcon icon={Menu01Icon} size={20} />
         </button>
 
-        <div className="flex flex-col min-w-0">
-          <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-400">
-            <span>Workspace</span>
-            <span>/</span>
-            <span className="text-slate-600 font-semibold truncate">{title}</span>
+        {/* Smilux Brand Header */}
+        <div className="flex items-center gap-2.5 min-w-0">
+          <img
+            src="/favicon.svg"
+            alt="Smilux Logo"
+            className="h-8 w-8 shrink-0 object-contain drop-shadow-xs"
+          />
+          <div className="flex flex-col min-w-0">
+            <span className="text-base font-extrabold text-slate-900 tracking-tight leading-none">
+              Smilux <span className="text-brand-pink">Dental</span>
+            </span>
+            <span className="text-[10px] font-semibold text-slate-400 tracking-wide uppercase mt-0.5">
+              Practice SaaS
+            </span>
           </div>
-          <h1 className="text-sm sm:text-base font-bold text-slate-900 truncate tracking-tight">
-            {title}
-          </h1>
         </div>
       </div>
 

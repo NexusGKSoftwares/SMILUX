@@ -4,12 +4,11 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Home01Icon,
   UserGroupIcon,
-  Medical01Icon,
+  Doc01Icon,
   Calendar01Icon,
   Invoice01Icon,
   ShieldCheckIcon,
   Store01Icon,
-  BarChart01Icon,
   Settings01Icon,
   Logout01Icon,
   Cancel01Icon,
@@ -23,7 +22,7 @@ const NAV_GROUPS = [
     items: [
       { label: 'Dashboard', path: '/dashboard', icon: Home01Icon },
       { label: 'Patients & Records', path: '/patients', icon: UserGroupIcon, badge: '128' },
-      { label: 'FDI Dental Charting', path: '/charting', icon: Medical01Icon, isNew: true },
+      { label: 'FDI Dental Charting', path: '/charting', icon: Doc01Icon, isNew: true },
       { label: 'Appointments', path: '/appointments', icon: Calendar01Icon, badge: '5 Today' },
     ],
   },
@@ -38,7 +37,7 @@ const NAV_GROUPS = [
     title: 'MANAGEMENT',
     items: [
       { label: 'Inventory & Supplies', path: '/inventory', icon: Store01Icon },
-      { label: 'Reports & Analytics', path: '/reports', icon: BarChart01Icon },
+      { label: 'Reports & Analytics', path: '/reports', icon: Doc01Icon },
       { label: 'Clinic Settings', path: '/settings', icon: Settings01Icon },
     ],
   },
@@ -64,43 +63,12 @@ export default function Sidebar({
 
   const sidebarContent = (
     <aside className="flex h-full w-[264px] flex-col border-r border-slate-200 bg-white font-sans text-slate-800 shrink-0">
-      {/* Brand Header */}
-      <div className="flex h-16 shrink-0 items-center justify-between border-b border-slate-100 px-4">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <img
-            src="/favicon.svg"
-            alt="Smilux Logo"
-            className="h-8 w-8 shrink-0 object-contain drop-shadow-xs"
-          />
-          <div className="flex flex-col min-w-0">
-            <span className="text-base font-extrabold text-slate-900 tracking-tight leading-none">
-              Smilux <span className="text-brand-pink">Dental</span>
-            </span>
-            <span className="text-[10px] font-semibold text-slate-400 tracking-wide uppercase mt-0.5">
-              Practice SaaS
-            </span>
-          </div>
-        </div>
-
-        {/* Mobile Close Button */}
-        {isMobileOpen && (
-          <button
-            type="button"
-            onClick={onCloseMobile}
-            className="rounded p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 lg:hidden cursor-pointer"
-            aria-label="Close Sidebar"
-          >
-            <HugeiconsIcon icon={Cancel01Icon} size={18} />
-          </button>
-        )}
-      </div>
-
-      {/* Clinic Workspace Selector */}
-      <div className="relative px-3 py-3 border-b border-slate-100">
+      {/* Clinic Workspace Selector Header */}
+      <div className="relative flex h-16 shrink-0 items-center justify-between border-b border-slate-100 px-3">
         <button
           type="button"
           onClick={() => setClinicMenuOpen((prev) => !prev)}
-          className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50/80 p-2 text-left hover:bg-slate-100/80 transition-colors cursor-pointer"
+          className="flex flex-1 items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50/80 p-2 text-left hover:bg-slate-100/80 transition-colors cursor-pointer min-w-0"
         >
           <div className="flex items-center gap-2 min-w-0">
             <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-brand-blue text-white text-xs font-bold shadow-xs">
@@ -110,7 +78,7 @@ export default function Sidebar({
               <span className="text-xs font-bold text-slate-900 truncate">
                 Avicena Dental Practice
               </span>
-              <span className="text-[10px] text-slate-500 font-medium">
+              <span className="text-[10px] text-slate-500 font-medium truncate">
                 Nairobi Main Clinic
               </span>
             </div>
@@ -118,8 +86,20 @@ export default function Sidebar({
           <HugeiconsIcon icon={UnfoldMoreIcon} size={16} className="text-slate-400 shrink-0" />
         </button>
 
+        {/* Mobile Close Button */}
+        {isMobileOpen && (
+          <button
+            type="button"
+            onClick={onCloseMobile}
+            className="ml-2 rounded p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 lg:hidden cursor-pointer shrink-0"
+            aria-label="Close Sidebar"
+          >
+            <HugeiconsIcon icon={Cancel01Icon} size={18} />
+          </button>
+        )}
+
         {clinicMenuOpen && (
-          <div className="absolute left-3 right-3 top-16 z-50 rounded-lg border border-slate-200 bg-white p-1.5 shadow-lg animate-in fade-in zoom-in-95 duration-100">
+          <div className="absolute left-3 right-3 top-15 z-50 rounded-lg border border-slate-200 bg-white p-1.5 shadow-lg animate-in fade-in zoom-in-95 duration-100">
             <div className="flex items-center justify-between p-2 rounded bg-brand-50 text-xs font-bold text-brand-800">
               <span>Avicena Dental Practice</span>
               <HugeiconsIcon icon={CheckmarkCircle01Icon} size={14} className="text-brand-600" />
@@ -127,7 +107,7 @@ export default function Sidebar({
             <button
               type="button"
               onClick={() => setClinicMenuOpen(false)}
-              className="mt-1 w-full text-left p-2 rounded hover:bg-slate-100 text-xs text-slate-700 font-medium"
+              className="mt-1 w-full text-left p-2 rounded hover:bg-slate-100 text-xs text-slate-700 font-medium cursor-pointer"
             >
               + Add Branch / Clinic Workspace
             </button>
