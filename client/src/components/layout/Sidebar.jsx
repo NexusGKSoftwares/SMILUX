@@ -261,7 +261,7 @@ export default function Sidebar({
       </div>
 
       {/* Navigation Links Grouped */}
-      <nav className={`flex-1 overflow-y-auto py-1 space-y-2 no-scrollbar ${isCollapsed ? 'px-1' : 'px-3'}`}>
+      <nav className={`flex-1 overflow-y-auto py-1 space-y-2 sidebar-scrollbar ${isCollapsed ? 'px-1' : 'px-3'}`}>
         {NAV_GROUPS.map((group) => (
           <div key={group.title} className="space-y-1">
             {!isCollapsed ? (

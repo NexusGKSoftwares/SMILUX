@@ -167,4 +167,40 @@
   );
   background-size: 200% 100%;
   animation: shimmer 1.6s infinite ease-in-out;
-} 
+}
+
+/* Premium Brand Green Sidebar Scrollbar */
+.sidebar-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(46, 196, 182, 0.45) transparent;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(46, 196, 182, 0.35);
+  border-radius: 9999px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sidebar-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(46, 196, 182, 0.75);
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #2ec4b6;
+  box-shadow: 0 0 6px rgba(46, 196, 182, 0.5);
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb:active {
+  background: #25a195;
+  box-shadow: 0 0 8px rgba(46, 196, 182, 0.75);
+}
