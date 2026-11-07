@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
+import Button from '../UI/Button.jsx';
 import {
   Home01Icon as DashIcon,
   UserGroupIcon as PatientsIcon,
@@ -87,14 +88,15 @@ export default function Footer() {
         </div>
 
         {/* Mobile: expand toggle */}
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={() => setExpanded((v) => !v)}
-          className="lg:hidden p-1.5 rounded text-slate-500 hover:bg-slate-100 transition-colors cursor-pointer"
+          className="lg:hidden p-1.5 h-auto text-slate-500 hover:bg-slate-100"
           aria-label={expanded ? 'Collapse' : 'Expand'}
         >
           <MenuIcon expanded={expanded} />
-        </button>
+        </Button>
 
         {/* Right: copyright */}
         <div className="hidden xl:flex items-center shrink-0 gap-1.5">

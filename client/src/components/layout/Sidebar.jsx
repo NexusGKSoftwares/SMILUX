@@ -17,6 +17,7 @@ import {
   CheckmarkCircle01Icon,
 } from '@hugeicons/core-free-icons';
 import { PanelLeftCloseIcon, PanelLeftOpenIcon } from '../UI/tableIcons.jsx';
+import Button from '../UI/Button.jsx';
 
 const NAV_GROUPS = [
   {
@@ -292,7 +293,7 @@ export default function Sidebar({
           onClick={() => navigate('/settings')}
           title={isCollapsed ? 'Clinic Settings' : undefined}
           className={`
-            w-full flex items-center rounded-lg text-xs font-semibold transition-all cursor-pointer
+            w-full flex items-center rounded text-xs font-semibold transition-all cursor-pointer
             ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-3 py-1'}
             ${location.pathname === '/settings'
               ? 'bg-brand-50 text-brand-700 font-bold border-l-3 border-brand-600 shadow-2xs'
@@ -318,7 +319,7 @@ export default function Sidebar({
           }}
           title={isCollapsed ? 'Help & Support Center' : undefined}
           className={`
-            w-full flex items-center rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-100/90 hover:text-slate-900 transition-all cursor-pointer
+            w-full flex items-center rounded text-xs font-semibold text-slate-700 hover:bg-slate-100/90 hover:text-slate-900 transition-all cursor-pointer
             ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-3 py-1'}
           `.trim()}
         >
@@ -334,7 +335,7 @@ export default function Sidebar({
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2 py-1">
-          
+
             <button
               type="button"
               onClick={onToggleCollapse}
