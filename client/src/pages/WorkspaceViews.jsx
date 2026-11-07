@@ -4,20 +4,12 @@ import {
   Calendar01Icon,
   Search01Icon,
   FilterIcon,
-  Plus01Icon,
+  PlusSignIcon,
   CheckmarkCircle01Icon,
   AlertCircleIcon,
-  UserIcon,
+  UserCircleIcon,
   Tick01Icon,
   Money01Icon,
-  SecurityCheckIcon,
-  Settings01Icon,
-  Notification01Icon,
-  Building01Icon,
-  Invoice01Icon,
-  Mail01Icon,
-  Download01Icon,
-  PrinterIcon,
 } from '@hugeicons/core-free-icons';
 
 // ─── Shared Section Header ──────────────────────────────────────────────────
@@ -68,7 +60,7 @@ export function KpiCard({ title, value, change, isPositive, icon: Icon, color = 
 // ─── 1. Dashboard View ──────────────────────────────────────────────────────
 export function DashboardView({ user }) {
   return (
-    <div className="space-y-6 animate-page">
+    <div className="space-y-6">
       <ViewHeader
         title={`Welcome back, ${user?.name || 'Dr. Darrell Steward'}`}
         subtitle="Avicena Dental Practice — Nairobi Main Branch Workspace Overview"
@@ -77,7 +69,7 @@ export function DashboardView({ user }) {
             onClick={() => alert('Opening New Appointment modal...')}
             className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
           >
-            <HugeiconsIcon icon={Plus01Icon} size={16} />
+            <HugeiconsIcon icon={PlusSignIcon} size={16} />
             <span>New Appointment</span>
           </button>
         }
@@ -87,7 +79,7 @@ export function DashboardView({ user }) {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <KpiCard title="Today's Appointments" value="14 Patients" change="+3 from yesterday" isPositive icon={Calendar01Icon} color="blue" />
         <KpiCard title="Today's Revenue" value="KES 148,500" change="+18.5% vs avg" isPositive icon={Money01Icon} color="emerald" />
-        <KpiCard title="Pending SHA Claims" value="8 Claims (KES 92K)" change="2 awaiting pre-auth" isPositive={false} icon={SecurityCheckIcon} color="amber" />
+        <KpiCard title="Pending SHA Claims" value="8 Claims (KES 92K)" change="2 awaiting pre-auth" isPositive={false} icon={CheckmarkCircle01Icon} color="amber" />
         <KpiCard title="M-Pesa STK Push Status" value="98.4% Success" change="Instant Settlement" isPositive icon={Tick01Icon} color="sky" />
       </div>
 
@@ -196,7 +188,7 @@ export function PatientsView() {
   );
 
   return (
-    <div className="space-y-6 animate-page">
+    <div className="space-y-6">
       <ViewHeader
         title="Patients Directory"
         subtitle="Manage patient clinical files, medical histories, and contact profiles"
@@ -205,7 +197,7 @@ export function PatientsView() {
             onClick={() => alert('Registering New Patient...')}
             className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
           >
-            <HugeiconsIcon icon={Plus01Icon} size={16} />
+            <HugeiconsIcon icon={PlusSignIcon} size={16} />
             <span>Add New Patient</span>
           </button>
         }
@@ -270,7 +262,7 @@ export function PatientsView() {
 // ─── 3. Appointments View ───────────────────────────────────────────────────
 export function AppointmentsView() {
   return (
-    <div className="space-y-6 animate-page">
+    <div className="space-y-6">
       <ViewHeader
         title="Appointments & Scheduling Calendar"
         subtitle="Clinic chair assignments, practitioner schedules, and appointment bookings"
@@ -279,7 +271,7 @@ export function AppointmentsView() {
             onClick={() => alert('Booking New Appointment...')}
             className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
           >
-            <HugeiconsIcon icon={Plus01Icon} size={16} />
+            <HugeiconsIcon icon={PlusSignIcon} size={16} />
             <span>Book Appointment</span>
           </button>
         }
@@ -354,7 +346,7 @@ export function DentalChartingView() {
   const teethLowerLeft = [31, 32, 33, 34, 35, 36, 37, 38];
 
   return (
-    <div className="space-y-6 animate-page">
+    <div className="space-y-6">
       <ViewHeader
         title="Interactive FDI Dental Charting (Odontogram)"
         subtitle="Patient: Wanjiku Kamau (File PAT-1082) — Upper & Lower Arch Odontogram"
@@ -480,7 +472,7 @@ export function InvoicesView() {
   };
 
   return (
-    <div className="space-y-6 animate-page">
+    <div className="space-y-6">
       <ViewHeader
         title="Invoices & Safaricom M-Pesa Billing"
         subtitle="Manage billing, create patient invoices, and trigger instant M-Pesa STK Push prompts"
@@ -489,7 +481,7 @@ export function InvoicesView() {
             onClick={() => alert('Creating New Invoice...')}
             className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
           >
-            <HugeiconsIcon icon={Plus01Icon} size={16} />
+            <HugeiconsIcon icon={PlusSignIcon} size={16} />
             <span>Create Invoice</span>
           </button>
         }
@@ -575,7 +567,7 @@ export function InvoicesView() {
 // ─── 6. Generic Feature View (for all remaining routes) ──────────────────────
 export function GenericFeatureView({ title, description, badge = 'Active Module' }) {
   return (
-    <div className="space-y-6 animate-page">
+    <div className="space-y-6">
       <ViewHeader
         title={title}
         subtitle={description}
@@ -584,7 +576,7 @@ export function GenericFeatureView({ title, description, badge = 'Active Module'
             onClick={() => alert(`Performing action on ${title}...`)}
             className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
           >
-            <HugeiconsIcon icon={Plus01Icon} size={16} />
+            <HugeiconsIcon icon={PlusSignIcon} size={16} />
             <span>Add Item</span>
           </button>
         }

@@ -111,7 +111,7 @@ function WhatsNewPanel() {
         {loading ? (
           <WhatsNewWireframeSkeleton />
         ) : (
-          <ul className="divide-y divide-slate-100 animate-page">
+          <ul className="divide-y divide-slate-100">
             {changelog.map((item) => (
               <li key={item.title} className="py-3.5 first:pt-2">
                 <div className="flex flex-wrap items-center justify-between gap-1.5">

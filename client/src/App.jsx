@@ -49,8 +49,7 @@ function AppRoutes({ loggedInUser, setLoggedInUser }) {
   };
 
   return (
-    <div key={location.pathname} className="animate-page">
-      <Routes>
+    <Routes>
         {/* Auth Routes */}
         <Route
           path="/login"
@@ -285,7 +284,6 @@ function AppRoutes({ loggedInUser, setLoggedInUser }) {
           element={<Navigate to={loggedInUser ? '/dashboard' : '/login'} replace />}
         />
       </Routes>
-    </div>
   );
 }
 

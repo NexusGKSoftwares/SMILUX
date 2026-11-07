@@ -8,12 +8,7 @@ export function DashboardIcon({ className = "w-4 h-4" }) {
 
 export function PatientsIcon({ className = "w-4 h-4" }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><title>user-duotone</title><circle cx="12" cy="8" r="4" fill="currentColor"/><path fill="currentColor" fill-opacity=".25" fill-rule="evenodd" d="M12 13c-3.67 0-6.68 2.42-6.976 5.5c-.026.275.2.5.476.5h13a.465.465 0 0 0 .476-.5C18.68 15.42 15.67 13 12 13" clip-rule="evenodd"/></svg>
   );
 }
 
