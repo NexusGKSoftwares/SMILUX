@@ -42,7 +42,7 @@ export default function SmsBalanceWidget() {
       <button
         type="button"
         onClick={() => setModalOpen(true)}
-        className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-md border border-slate-200 bg-slate-50/90 hover:bg-slate-100/90 hover:border-slate-300 transition-all cursor-pointer font-sans"
+        className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded border border-slate-200 bg-slate-50/90 hover:bg-slate-100/90 hover:border-slate-300 transition-all cursor-pointer font-sans"
         title="Patient SMS Reminders Balance · Click to Top Up"
       >
         <div className="flex h-5 w-5 items-center justify-center rounded bg-emerald-100 text-emerald-700">
@@ -62,11 +62,11 @@ export default function SmsBalanceWidget() {
       {modalOpen &&
         createPortal(
           <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4 font-sans animate-in fade-in duration-150">
-            <div className="relative w-full max-w-md rounded-xl border border-slate-200 bg-white p-5 shadow-2xl space-y-4">
+            <div className="relative w-full max-w-md rounded border border-slate-200 bg-white p-5 shadow-2xl space-y-4">
               {/* Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-xs">
+                  <div className="flex h-9 w-9 items-center justify-center rounded bg-emerald-600 text-white shadow-xs">
                     <HugeiconsIcon icon={BubbleChatIcon} size={20} />
                   </div>
                   <div>
@@ -108,7 +108,7 @@ export default function SmsBalanceWidget() {
                           key={pkg.credits}
                           onClick={() => setSelectedPkg(pkg)}
                           className={`
-                            flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all
+                            flex items-center justify-between p-3 rounded border cursor-pointer transition-all
                             ${selectedPkg.credits === pkg.credits
                               ? 'border-emerald-600 bg-emerald-50/60 ring-2 ring-emerald-600/20 font-bold'
                               : 'border-slate-200 hover:border-slate-300 bg-slate-50/50'
@@ -136,7 +136,7 @@ export default function SmsBalanceWidget() {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="e.g. 0712 345 678"
-                      className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-900 focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                      className="w-full rounded border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-900 focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
                       required
                     />
                   </div>

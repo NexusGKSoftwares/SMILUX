@@ -109,17 +109,53 @@
   }
 }
 
-@keyframes shimmer {
+@keyframes drawerSlideRight {
   0% {
-    background-position: -200% 0;
+    opacity: 0;
+    transform: translateX(100%);
   }
   100% {
-    background-position: 200% 0;
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes drawerSlideLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes dropdownScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }
 
 .animate-page {
   animation: pageFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-drawer-right {
+  animation: drawerSlideRight 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-drawer-left {
+  animation: drawerSlideLeft 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-dropdown {
+  animation: dropdownScaleIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-shimmer {
@@ -131,5 +167,4 @@
   );
   background-size: 200% 100%;
   animation: shimmer 1.6s infinite ease-in-out;
-}
-
+} 

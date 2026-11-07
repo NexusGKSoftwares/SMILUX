@@ -6,12 +6,33 @@ import Footer from './Footer.jsx';
 
 export default function AppLayout({ children, user, onLogout, onQuickAction }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    try {
+      return localStorage.getItem('smilux_sidebar_collapsed') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const handleToggleCollapse = () => {
+    setIsCollapsed((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem('smilux_sidebar_collapsed', String(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  };
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-slate-50 font-sans text-slate-900 antialiased">
-      {/* 264px Fixed Desktop Sidebar & Mobile Drawer */}
+      {/* Desktop Persistent Sidebar (264px <-> 68px) & Mobile Drawer */}
       <Sidebar
         isMobileOpen={isMobileOpen}
+        isCollapsed={isCollapsed}
+        onToggleCollapse={handleToggleCollapse}
         onCloseMobile={() => setIsMobileOpen(false)}
         user={user}
         onLogout={onLogout}
@@ -21,6 +42,8 @@ export default function AppLayout({ children, user, onLogout, onQuickAction }) {
       <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <Topbar
           onOpenMobile={() => setIsMobileOpen(true)}
+          sidebarOpen={!isCollapsed}
+          currentDrawerWidth={isCollapsed ? 68 : 264}
           user={user}
           onLogout={onLogout}
           onQuickAction={onQuickAction}
