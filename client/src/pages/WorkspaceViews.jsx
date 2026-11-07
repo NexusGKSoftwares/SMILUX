@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Calendar01Icon,
@@ -11,6 +12,8 @@ import {
   Tick01Icon,
   Money01Icon,
 } from '@hugeicons/core-free-icons';
+import Button from '../components/UI/Button.jsx';
+import { RefreshIcon, ChartIcon } from '../components/UI/tableIcons.jsx';
 
 // ─── Shared Section Header ──────────────────────────────────────────────────
 export function ViewHeader({ title, subtitle, actions }) {
@@ -57,27 +60,46 @@ export function KpiCard({ title, value, change, isPositive, icon: Icon, color = 
   );
 }
 
+function getTimeBasedGreeting() {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return { text: 'Good morning', emoji: '☀️' };
+  if (hour >= 12 && hour < 17) return { text: 'Good afternoon', emoji: '🌤️' };
+  if (hour >= 17 && hour < 22) return { text: 'Good evening', emoji: '🌙' };
+  return { text: 'Good night', emoji: '✨' };
+}
+
 // ─── 1. Dashboard View ──────────────────────────────────────────────────────
 export function DashboardView({ user }) {
+  const navigate = useNavigate();
   const [selectedTimeframe, setSelectedTimeframe] = useState('This Month');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const greeting = getTimeBasedGreeting();
+  const doctorName = user?.name || 'Dr. Darrell Steward';
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => setIsRefreshing(false), 700);
+  };
 
   return (
     <div className="space-y-7 font-sans text-slate-900 pb-8">
       {/* Workspace Header & Action Bar */}
       <ViewHeader
-        title={`Welcome back, ${user?.name || 'Dr. Darrell Steward'}`}
+        title={`${greeting.emoji} ${greeting.text}, ${doctorName}`}
         subtitle="Avicena Dental Practice — Nairobi Main Branch Workspace Overview"
         actions={
           <div className="flex items-center gap-2">
-            <div className="flex items-center rounded-xl border border-slate-200 bg-white p-1 shadow-2xs">
+            {/* Date Filter Pill */}
+            <div className="flex items-center rounded-lg border border-slate-200 bg-white p-0.5 shadow-2xs">
               {['Today', 'This Week', 'This Month', 'Year 2026'].map((tf) => (
                 <button
                   key={tf}
                   onClick={() => setSelectedTimeframe(tf)}
-                  className={`px-3 py-1 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
                     selectedTimeframe === tf
-                      ? 'bg-slate-900 text-white shadow-2xs'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60'
+                      ? 'bg-slate-900 text-white shadow-2xs font-bold'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
                   }`}
                 >
                   {tf}
@@ -85,24 +107,32 @@ export function DashboardView({ user }) {
               ))}
             </div>
 
-            <button
-              onClick={() => alert('Opening Patient Registration Wizard...')}
-              className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-800 shadow-2xs hover:bg-slate-50 transition-colors cursor-pointer"
+            {/* Refresh Button */}
+            <Button
+              variant="outline"
+              size="sm"
+              loading={isRefreshing}
+              onClick={handleRefresh}
+              className="px-3 py-1.5 cursor-pointer font-bold border-slate-300 text-slate-700 hover:bg-slate-50"
             >
-              <HugeiconsIcon icon={PlusSignIcon} size={15} />
-              <span>New Patient</span>
-            </button>
+              <RefreshIcon className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-brand-green' : 'text-slate-600'}`} />
+              <span>Refresh</span>
+            </Button>
 
-            <button
-              onClick={() => alert('Opening New Appointment modal...')}
-              className="flex items-center gap-1.5 rounded-xl bg-brand-green px-4 py-2 text-xs font-extrabold text-white shadow-sm hover:bg-[#25a89c] transition-all cursor-pointer"
+            {/* Reports Button */}
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => navigate('/reports')}
+              className="px-3.5 py-1.5 cursor-pointer font-extrabold"
             >
-              <HugeiconsIcon icon={PlusSignIcon} size={16} />
-              <span>New Appointment</span>
-            </button>
+              <ChartIcon className="w-3.5 h-3.5 text-white" />
+              <span>Reports</span>
+            </Button>
           </div>
         }
       />
+
 
       {/* KPI Top Cards Row - Styled with 24px Spec */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
