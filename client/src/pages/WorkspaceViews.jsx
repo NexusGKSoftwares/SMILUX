@@ -14,6 +14,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import Button from '../components/UI/Button.jsx';
 import { RefreshIcon, ChartIcon } from '../components/UI/tableIcons.jsx';
+import { kpiCardsData } from './data.js';
 
 // ─── Shared Section Header ──────────────────────────────────────────────────
 export function ViewHeader({ title, subtitle, actions }) {
@@ -29,30 +30,53 @@ export function ViewHeader({ title, subtitle, actions }) {
 }
 
 // ─── Shared KPI Card ───────────────────────────────────────────────────────
-export function KpiCard({ title, value, change, isPositive, icon: Icon, color = 'blue' }) {
+export function KpiCard({
+  title,
+  value,
+  subtitle,
+  badge,
+  badgeStyle,
+  icon: Icon,
+  iconStyle,
+  change,
+  isPositive,
+  color = 'blue',
+}) {
+  const displayBadge = badge || change;
   const colorMap = {
-    blue: 'bg-blue-50 text-blue-600 border-blue-100',
-    emerald: 'bg-emerald-50 text-emerald-600 border-emerald-100',
-    amber: 'bg-amber-50 text-amber-600 border-amber-100',
-    sky: 'bg-sky-50 text-sky-600 border-sky-100',
-    violet: 'bg-violet-50 text-violet-600 border-violet-100',
+    blue: 'bg-blue-50 text-blue-600 border border-blue-100',
+    emerald: 'bg-emerald-50 text-emerald-600 border border-emerald-100',
+    amber: 'bg-amber-50 text-amber-600 border border-amber-100',
+    sky: 'bg-sky-50 text-sky-600 border border-sky-100',
+    violet: 'bg-violet-50 text-violet-600 border border-violet-100',
   };
+  const finalIconStyle = iconStyle || colorMap[color] || colorMap.blue;
+  const finalBadgeStyle =
+    badgeStyle ||
+    (isPositive
+      ? 'bg-[#E2FFF3] border border-[#6EEABB] text-[#00C26B]'
+      : 'bg-[#FFF3E0] border border-[#FFE0B2] text-[#FF9900]');
 
   return (
-    <div className="rounded-lg border border-slate-200/80 bg-white p-4 shadow-2xs">
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-semibold text-slate-500">{title}</span>
+    <div className="rounded  border border-[#EFEFEF] bg-white p-3 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] transition-transform hover:-translate-y-0.5">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-bold text-[#888888]">{title}</span>
         {Icon && (
-          <div className={`p-2 rounded-md border ${colorMap[color] || colorMap.blue}`}>
+          <div className={`flex h-8 w-8 items-center justify-center rounded ${finalIconStyle}`}>
             <HugeiconsIcon icon={Icon} size={18} />
           </div>
         )}
       </div>
-      <div className="mt-2 flex items-baseline justify-between">
-        <span className="text-xl font-extrabold text-slate-900">{value}</span>
-        {change && (
-          <span className={`text-[11px] font-bold ${isPositive ? 'text-emerald-600' : 'text-amber-600'}`}>
-            {change}
+      <div className="mt-3 flex items-baseline justify-between">
+        <div>
+          <div className="text-2xl font-bold tracking-tight text-[#080808]">{value}</div>
+          {subtitle && (
+            <div className="text-[11px] text-[#888888] font-medium mt-0.5">{subtitle}</div>
+          )}
+        </div>
+        {displayBadge && (
+          <span className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold ${finalBadgeStyle}`}>
+            {displayBadge}
           </span>
         )}
       </div>
@@ -136,81 +160,9 @@ export function DashboardView({ user }) {
 
       {/* KPI Top Cards Row - Styled with 24px Spec */}
       <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Card 1: Today's Revenue */}
-        <div className="rounded border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] transition-transform hover:-translate-y-0.5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#888888]">Practice Revenue</span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
-              <HugeiconsIcon icon={Money01Icon} size={18} />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline justify-between">
-            <div>
-              <div className="text-2xl font-bold tracking-tight text-[#080808]">KES 1,485,000</div>
-              <div className="text-[11px] text-[#888888] font-medium mt-0.5">$420,110 Equivalent</div>
-            </div>
-            <span className="flex items-center gap-1 rounded-full bg-[#E2FFF3] border border-[#6EEABB] px-2.5 py-1 text-[11px] font-bold text-[#00C26B]">
-              ▲ +18.5%
-            </span>
-          </div>
-        </div>
-
-        {/* Card 2: Today's Patient Schedule */}
-        <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] transition-transform hover:-translate-y-0.5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#888888]">Today's Appointments</span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
-              <HugeiconsIcon icon={Calendar01Icon} size={18} />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline justify-between">
-            <div>
-              <div className="text-2xl font-bold tracking-tight text-[#080808]">14 Patients</div>
-              <div className="text-[11px] text-[#888888] font-medium mt-0.5">5 In-Chair / Waiting</div>
-            </div>
-            <span className="flex items-center gap-1 rounded-full bg-[#E2FFF3] border border-[#6EEABB] px-2.5 py-1 text-[11px] font-bold text-[#00C26B]">
-              ▲ +3 Today
-            </span>
-          </div>
-        </div>
-
-        {/* Card 3: Pending SHA & Insurance Claims */}
-        <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] transition-transform hover:-translate-y-0.5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#888888]">SHA & Insurance Claims</span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50 text-amber-600 border border-amber-100">
-              <HugeiconsIcon icon={CheckmarkCircle01Icon} size={18} />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline justify-between">
-            <div>
-              <div className="text-2xl font-bold tracking-tight text-[#080808]">14 Claims</div>
-              <div className="text-[11px] text-[#888888] font-medium mt-0.5">KES 342,000 Value</div>
-            </div>
-            <span className="flex items-center gap-1 rounded-full bg-[#FFF3E0] border border-[#FFE0B2] px-2.5 py-1 text-[11px] font-bold text-[#FF9900]">
-              98.2% Approved
-            </span>
-          </div>
-        </div>
-
-        {/* Card 4: Active Treatment Plans */}
-        <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] transition-transform hover:-translate-y-0.5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#888888]">Active Treatment Plans</span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-sky-50 text-sky-600 border border-sky-100">
-              <HugeiconsIcon icon={Tick01Icon} size={18} />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline justify-between">
-            <div>
-              <div className="text-2xl font-bold tracking-tight text-[#080808]">38 Plans</div>
-              <div className="text-[11px] text-[#888888] font-medium mt-0.5">FDI Charting Validated</div>
-            </div>
-            <span className="flex items-center gap-1 rounded-full bg-[#E2FFF3] border border-[#6EEABB] px-2.5 py-1 text-[11px] font-bold text-[#00C26B]">
-              ▲ 84.5% Accept
-            </span>
-          </div>
-        </div>
+        {kpiCardsData.map((card) => (
+          <KpiCard key={card.id || card.title} {...card} />
+        ))}
       </div>
 
       {/* Main Section 1: Sales & Revenue Tracking Chart (Custom SVG & Specified Colors) */}
