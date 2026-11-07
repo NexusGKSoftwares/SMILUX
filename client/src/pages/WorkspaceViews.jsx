@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
@@ -15,20 +15,120 @@ import {
 import Button from '../components/UI/Button.jsx';
 import { RefreshIcon, ChartIcon } from '../components/UI/tableIcons.jsx';
 import { kpiCardsData, webAnalyticsData, salesAreaChartData } from './data.js';
-import { formatCurrency } from '../utils/formatter.js';
+import { formatCurrency, formatNumber } from '../utils/formatter.js';
 
-// ─── Shared Card Info Icon & Action Toolbar (From SVG Spec) ─────────────────
-export function InfoBadgeIcon({ title = 'Analytics Overview' }) {
+// ─── Shared Card Info Icon & Interactive Data Popover (From SVG Spec) ───────
+export function InfoBadgeIcon({
+  title = 'Analytics Overview',
+  subtitle,
+  stats = [],
+  items = [],
+  accentColor = '#5654DC',
+  onOpenModal,
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const popoverRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const handleClickOutside = (e) => {
+      if (popoverRef.current && !popoverRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen]);
+
   return (
-    <svg width="14" height="14" viewBox="208 32 16 16" fill="none" className="shrink-0 cursor-help" title={title}>
-      <circle cx="216" cy="40" r="8" fill="#AFAFAF" />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M217.305 37.2422C217.43 37.0234 217.5 36.7695 217.5 36.5C217.5 35.6719 216.828 35 216 35C215.172 35 214.5 35.6719 214.5 36.5C214.5 37.3281 215.172 38 216 38C216.559 38 217.047 37.6953 217.305 37.2422ZM215 39H215.5H216.5C217.053 39 217.5 39.4473 217.5 40V41V45C217.5 45.5527 217.053 46 216.5 46C215.947 46 215.5 45.5527 215.5 45V41.75C215.5 41.3359 215.164 41 214.75 41C214.336 41 214 40.6641 214 40.25V40C214 39.6484 214.182 39.3379 214.455 39.1602C214.611 39.0586 214.799 39 215 39Z"
-        fill="white"
-      />
-    </svg>
+    <div className="relative inline-flex items-center" ref={popoverRef}>
+      <button
+        type="button"
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="inline-flex items-center justify-center rounded-full focus:outline-none cursor-pointer transition-transform hover:scale-110"
+        title={`Click to view full ${title} data`}
+        aria-expanded={isOpen}
+      >
+        <svg width="15" height="15" viewBox="208 32 16 16" fill="none" className="shrink-0">
+          <circle cx="216" cy="40" r="8" fill={isOpen ? accentColor : '#AFAFAF'} className="transition-colors" />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M217.305 37.2422C217.43 37.0234 217.5 36.7695 217.5 36.5C217.5 35.6719 216.828 35 216 35C215.172 35 214.5 35.6719 214.5 36.5C214.5 37.3281 215.172 38 216 38C216.559 38 217.047 37.6953 217.305 37.2422ZM215 39H215.5H216.5C217.053 39 217.5 39.4473 217.5 40V41V45C217.5 45.5527 217.053 46 216.5 46C215.947 46 215.5 45.5527 215.5 45V41.75C215.5 41.3359 215.164 41 214.75 41C214.336 41 214 40.6641 214 40.25V40C214 39.6484 214.182 39.3379 214.455 39.1602C214.611 39.0586 214.799 39 215 39Z"
+            fill="white"
+          />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div className="absolute left-0 top-6 z-50 w-80 sm:w-96 rounded-xl border border-[#E0E0E0] bg-white p-4 shadow-[0px_16px_36px_rgba(0,0,0,0.14)] animate-in fade-in zoom-in-95 duration-150">
+          <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-2.5 mb-3">
+            <div>
+              <h4 className="text-xs font-bold text-[#080808]">{title}</h4>
+              {subtitle && <p className="text-[11px] text-[#888888] mt-0.5">{subtitle}</p>}
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              className="rounded-md p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 cursor-pointer"
+              aria-label="Close data popover"
+            >
+              ✕
+            </button>
+          </div>
+
+          {stats.length > 0 && (
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              {stats.map((st) => (
+                <div key={st.label} className="rounded-lg bg-slate-50 border border-slate-100 px-2.5 py-1.5">
+                  <div className="text-[10px] font-medium text-[#888888]">{st.label}</div>
+                  <div className="text-xs font-bold text-[#080808] mt-0.5">{st.value}</div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {items.length > 0 && (
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-[#888888] mb-1.5">
+                Full 12-Month Breakdown ({salesAreaChartData.year})
+              </div>
+              <div className="grid grid-cols-3 gap-1.5 max-h-48 overflow-y-auto pr-0.5">
+                {items.map((item) => (
+                  <div
+                    key={item.label}
+                    className="flex items-center justify-between rounded border border-slate-100 bg-white px-2 py-1 text-[11px]"
+                  >
+                    <span className="font-semibold text-[#555555]">{item.label}</span>
+                    <span className="font-bold text-[#080808]">{item.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {onOpenModal && (
+            <button
+              type="button"
+              onClick={() => {
+                setIsOpen(false);
+                onOpenModal();
+              }}
+              className="mt-3 w-full rounded-lg bg-slate-900 py-1.5 text-[11px] font-semibold text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            >
+              Open Full Chart Display Modal
+            </button>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -39,7 +139,7 @@ export function CardActionToolbar({ onExpand, onEdit, onMore, editTitle = 'Edit 
         type="button"
         onClick={onExpand}
         className="text-[#888888] hover:text-[#080808] transition-colors cursor-pointer"
-        title="Toggle Expand"
+        title="Open Chart in Full Display Modal"
       >
         <svg width="13" height="13" viewBox="614 32 16 16" fill="none">
           <path
@@ -173,10 +273,29 @@ export function DashboardView({ user }) {
   const [hoveredBarIndex, setHoveredBarIndex] = useState(null);
   const [selectedWebWeek, setSelectedWebWeek] = useState(webAnalyticsData.defaultMonth || 'Jun');
   const [isWebExpanded, setIsWebExpanded] = useState(false);
+  const [activeChartModal, setActiveChartModal] = useState(null); // 'sales' | 'patient-growth' | null
+
+  useEffect(() => {
+    if (!activeChartModal) return undefined;
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') setActiveChartModal(null);
+    };
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [activeChartModal]);
 
   const activeSalesMonthObj =
     salesAreaChartData.months.find((m) => m.month === selectedSalesMonth) ||
     salesAreaChartData.months[5];
+
+  const activePatientMonthObj =
+    webAnalyticsData.bars.find((b) => b.month === selectedWebWeek) ||
+    webAnalyticsData.bars[5];
+
+  const totalAnnualSales = salesAreaChartData.months.reduce((sum, m) => sum + (m.amount || 0), 0);
+  const avgMonthlySales = Math.round(totalAnnualSales / salesAreaChartData.months.length);
+  const totalAnnualPatients = webAnalyticsData.bars.reduce((sum, b) => sum + Number(b.count || 0), 0);
+  const avgMonthlyPatients = Math.round(totalAnnualPatients / webAnalyticsData.bars.length);
 
   const greeting = getTimeBasedGreeting();
   const doctorName = user?.name || 'Dr. Darrell Steward';
@@ -295,11 +414,26 @@ export function DashboardView({ user }) {
                 <h2 className="text-sm font-semibold text-[#080808] tracking-tight">
                   {salesAreaChartData.title} ({salesAreaChartData.year})
                 </h2>
-                <InfoBadgeIcon title={`Monthly Sales & Profit Area Chart (${salesAreaChartData.year})`} />
+                <InfoBadgeIcon
+                  title={`Sales & Profit Summary (${salesAreaChartData.year})`}
+                  subtitle="Avicena Dental Practice — Monthly Revenue & Profit"
+                  accentColor="#5654DC"
+                  stats={[
+                    { label: 'Net Profit (YTD)', value: salesAreaChartData.totalProfit },
+                    { label: '12-Mo Gross Sales', value: formatCurrency(totalAnnualSales) },
+                    { label: 'Monthly Average', value: formatCurrency(avgMonthlySales) },
+                    { label: 'Peak Month (Dec)', value: formatCurrency(215000) },
+                  ]}
+                  items={salesAreaChartData.months.map((m) => ({
+                    label: m.month,
+                    value: m.compactValue,
+                  }))}
+                  onOpenModal={() => setActiveChartModal('sales')}
+                />
               </div>
 
               <CardActionToolbar
-                onExpand={() => setIsSalesExpanded((prev) => !prev)}
+                onExpand={() => setActiveChartModal('sales')}
                 onEdit={() =>
                   setSelectedSalesMonth((prev) => (prev === 'Dec' ? salesAreaChartData.defaultMonth : 'Dec'))
                 }
@@ -529,11 +663,26 @@ export function DashboardView({ user }) {
                 <h3 className="text-sm font-semibold text-[#080808] tracking-tight">
                   {webAnalyticsData.title} ({webAnalyticsData.year})
                 </h3>
-                <InfoBadgeIcon title={`Monthly Patient Growth Overview (${webAnalyticsData.year})`} />
+                <InfoBadgeIcon
+                  title={`Patient Growth Overview (${webAnalyticsData.year})`}
+                  subtitle="Monthly New & Returning Patient Visits"
+                  accentColor="#FF9F0A"
+                  stats={[
+                    { label: 'Annual Visits', value: `${formatNumber(totalAnnualPatients)} pts` },
+                    { label: 'Monthly Average', value: `${formatNumber(avgMonthlyPatients)} pts` },
+                    { label: 'New Patients', value: webAnalyticsData.metrics[0].value },
+                    { label: 'Peak Month (Dec)', value: '630 pts' },
+                  ]}
+                  items={webAnalyticsData.bars.map((b) => ({
+                    label: b.month,
+                    value: `${b.count} pts`,
+                  }))}
+                  onOpenModal={() => setActiveChartModal('patient-growth')}
+                />
               </div>
 
               <CardActionToolbar
-                onExpand={() => setIsWebExpanded((prev) => !prev)}
+                onExpand={() => setActiveChartModal('patient-growth')}
                 onEdit={() => setSelectedWebWeek((prev) => (prev === 'Dec' ? 'Jun' : 'Dec'))}
                 onMore={() => {
                   setHoveredBarIndex(null);
@@ -697,6 +846,378 @@ export function DashboardView({ user }) {
           </div>
         </div>
       </div>
+
+      {/* Full Display Chart Modal (Triggered by CardActionToolbar Expand or InfoBadgeIcon) */}
+      {activeChartModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4"
+          onClick={() => setActiveChartModal(null)}
+        >
+          <div
+            className="w-full max-w-4xl rounded-2xl border border-[#EFEFEF] bg-white p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div className="flex items-center gap-3">
+                <div
+                  className={`flex h-10 w-10 items-center justify-center rounded-xl border ${
+                    activeChartModal === 'sales'
+                      ? 'bg-indigo-50 border-indigo-100 text-[#5654DC]'
+                      : 'bg-amber-50 border-amber-100 text-[#FF9F0A]'
+                  }`}
+                >
+                  {activeChartModal === 'sales' ? (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M9 6C9 4.34315 10.3431 3 12 3H16C17.6569 3 19 4.34315 19 6L17.5 8H10.5L9 6Z"
+                        stroke="#5654DC"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <rect x="7.15" y="8" width="12.85" height="13" rx="4" stroke="#5654DC" strokeWidth="2" />
+                    </svg>
+                  ) : (
+                    <svg width="20" height="20" viewBox="33 29 22 22" fill="none">
+                      <path
+                        d="M52.9451 39C52.4476 34.5 48.6326 31 44 31C39.0294 31 35 35.0294 35 40C35 44.6326 38.5 48.4476 43 48.9451"
+                        stroke="#FF9F0A"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <circle cx="48.5" cy="44.5" r="3.5" stroke="#FF9F0A" strokeWidth="2" />
+                    </svg>
+                  )}
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-[#080808]">
+                    {activeChartModal === 'sales'
+                      ? `${salesAreaChartData.title} — Full Year Analytics (${salesAreaChartData.year})`
+                      : `${webAnalyticsData.title} — Full Year Analytics (${webAnalyticsData.year})`}
+                  </h2>
+                  <p className="text-xs text-[#888888]">
+                    Interactive 12-month performance display • Click any month on the chart or grid to inspect details
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActiveChartModal((prev) => (prev === 'sales' ? 'patient-growth' : 'sales'))
+                  }
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 cursor-pointer"
+                >
+                  Switch to {activeChartModal === 'sales' ? 'Patient Growth' : 'Sales Chart'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveChartModal(null)}
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-900 cursor-pointer"
+                  aria-label="Close modal"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {activeChartModal === 'sales' ? (
+              <>
+                {/* Sales KPI Summary Strip */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">Total Net Profit</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">{salesAreaChartData.totalProfit}</div>
+                  </div>
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">12-Month Gross Sales</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(totalAnnualSales)}</div>
+                  </div>
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">Monthly Average</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(avgMonthlySales)}</div>
+                  </div>
+                  <div className="rounded-xl border border-indigo-100 bg-indigo-50/50 p-3">
+                    <span className="text-[11px] font-semibold text-[#5654DC]">
+                      Selected ({activeSalesMonthObj.month} {salesAreaChartData.year})
+                    </span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">{activeSalesMonthObj.value}</div>
+                  </div>
+                </div>
+
+                {/* Expanded Sales Smooth Line & Area Chart */}
+                <div className="rounded-xl border border-[#EFEFEF] bg-white p-4">
+                  <svg viewBox="20 214 674 258" fill="none" className="w-full h-auto block select-none">
+                    {[224, 276, 328, 380].map((yPos) => (
+                      <line
+                        key={yPos}
+                        x1="72"
+                        y1={yPos}
+                        x2="692"
+                        y2={yPos}
+                        stroke="#E0E0E0"
+                        strokeWidth="1.2"
+                        strokeDasharray="4 4"
+                      />
+                    ))}
+                    {salesAreaChartData.yAxisLabels.map((item) => (
+                      <text
+                        key={item.label}
+                        x="62"
+                        y={item.y + 5}
+                        textAnchor="end"
+                        fill="#888888"
+                        fontSize="14"
+                        fontWeight="500"
+                      >
+                        {item.label}
+                      </text>
+                    ))}
+                    <path
+                      d={salesAreaChartData.areaPath}
+                      fill="url(#salesAreaHoriz)"
+                      mask="url(#salesAreaFadeMask)"
+                    />
+                    <path
+                      d={salesAreaChartData.linePath}
+                      stroke="url(#salesLineGrad)"
+                      strokeWidth="2.8"
+                      strokeLinecap="round"
+                      fill="none"
+                    />
+                    <line x1="72" y1="431" x2="692" y2="431" stroke="#E0E0E0" strokeWidth="1.5" />
+                    <line
+                      x1={activeSalesMonthObj.x}
+                      y1="252"
+                      x2={activeSalesMonthObj.x}
+                      y2="431"
+                      stroke="#101010"
+                      strokeWidth="2"
+                      strokeDasharray="4 4"
+                    />
+                    <circle
+                      cx={activeSalesMonthObj.x}
+                      cy={activeSalesMonthObj.y}
+                      r="5"
+                      fill="#FFFFFF"
+                      stroke="#5654DC"
+                      strokeWidth="2.8"
+                    />
+                    <g transform={`translate(${Math.min(Math.max(activeSalesMonthObj.x - 48, 72), 596)}, 222)`}>
+                      <rect width="96" height="24" rx="4" fill="#030303" />
+                      <text x="48" y="16" textAnchor="middle" fill="#FFFFFF" fontSize="12" fontWeight="600">
+                        {activeSalesMonthObj.value}
+                      </text>
+                    </g>
+                    {salesAreaChartData.months.map((m) => {
+                      const isSelected = m.month === selectedSalesMonth;
+                      return (
+                        <g
+                          key={m.month}
+                          className="cursor-pointer"
+                          onMouseEnter={() => setSelectedSalesMonth(m.month)}
+                          onClick={() => setSelectedSalesMonth(m.month)}
+                        >
+                          <rect x={m.x - 25} y="220" width="50" height="252" fill="transparent" />
+                          {isSelected && (
+                            <rect x={m.x - 22} y="444" width="44" height="24" rx="12" fill="#F3F4F6" />
+                          )}
+                          <text
+                            x={m.x}
+                            y="461"
+                            textAnchor="middle"
+                            fill={isSelected ? '#080808' : '#888888'}
+                            fontSize="12.5"
+                            fontWeight={isSelected ? '600' : '500'}
+                          >
+                            {m.month}
+                          </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+
+                {/* Interactive 12-Month Breakdown Grid */}
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#888888] mb-2">
+                    Monthly Sales Breakdown ({salesAreaChartData.year})
+                  </h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                    {salesAreaChartData.months.map((m) => {
+                      const isSelected = m.month === selectedSalesMonth;
+                      return (
+                        <button
+                          key={m.month}
+                          type="button"
+                          onClick={() => setSelectedSalesMonth(m.month)}
+                          className={`flex flex-col items-start rounded-xl border p-2.5 text-left transition-all cursor-pointer ${
+                            isSelected
+                              ? 'border-[#5654DC] bg-indigo-50/60 shadow-2xs'
+                              : 'border-slate-100 bg-slate-50/50 hover:border-slate-200 hover:bg-white'
+                          }`}
+                        >
+                          <span className="text-[11px] font-semibold text-[#888888]">
+                            {m.month} {salesAreaChartData.year}
+                          </span>
+                          <span className="mt-0.5 text-xs font-bold text-[#080808]">{m.value}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Patient Growth KPI Summary Strip */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {webAnalyticsData.metrics.map((metric) => (
+                    <div key={metric.id} className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                      <span className="text-[11px] font-medium text-[#888888]">{metric.label}</span>
+                      <div className="mt-1 flex items-center gap-1.5">
+                        <span className="text-lg font-bold text-[#080808]">{metric.value}</span>
+                        <span
+                          className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
+                            metric.isPositive
+                              ? 'bg-[#E8FFF4] border border-[#8FE7BE] text-[#1DBF73]'
+                              : 'bg-[#FFEAEA] border border-[#FF9F9D] text-[#FB3B52]'
+                          }`}
+                        >
+                          {metric.isPositive ? '▲' : '▼'} {metric.change}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="rounded-xl border border-amber-200 bg-amber-50/60 p-3">
+                    <span className="text-[11px] font-semibold text-[#E08600]">
+                      Selected ({activePatientMonthObj.month} {webAnalyticsData.year})
+                    </span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">
+                      {activePatientMonthObj.count} Patients
+                    </div>
+                  </div>
+                </div>
+
+                {/* Expanded Patient Growth 12-Month Bar Chart */}
+                <div className="rounded-xl border border-[#EFEFEF] bg-white p-4">
+                  <svg viewBox="28 220 674 258" fill="none" className="w-full h-auto block select-none">
+                    {[234, 286, 338, 390].map((yPos) => (
+                      <line
+                        key={yPos}
+                        x1="78"
+                        y1={yPos}
+                        x2="700"
+                        y2={yPos}
+                        stroke="#E0E0E0"
+                        strokeWidth="1.2"
+                        strokeLinecap="round"
+                        strokeDasharray="4 4"
+                      />
+                    ))}
+                    {webAnalyticsData.yAxisLabels.map((item) => (
+                      <text
+                        key={item.label}
+                        x="61"
+                        y={item.y + 5}
+                        textAnchor="end"
+                        fill="#888888"
+                        fontSize="14"
+                        fontWeight="500"
+                      >
+                        {item.label}
+                      </text>
+                    ))}
+                    {webAnalyticsData.bars.map((bar, idx) => {
+                      const isSelected = selectedWebWeek === bar.month;
+                      return (
+                        <g
+                          key={bar.month || idx}
+                          className="cursor-pointer"
+                          onClick={() => setSelectedWebWeek(bar.month)}
+                        >
+                          <rect
+                            x={bar.x}
+                            y={bar.y}
+                            width="26"
+                            height={bar.height}
+                            rx="8"
+                            fill={isSelected ? '#E08600' : '#FF9F0A'}
+                          />
+                          {isSelected && (
+                            <g transform={`translate(${bar.xCenter - 32}, ${bar.y - 28})`}>
+                              <rect width="64" height="22" rx="4" fill="#030303" />
+                              <text x="32" y="15" textAnchor="middle" fill="#FFFFFF" fontSize="11.5" fontWeight="600">
+                                {bar.count} pts
+                              </text>
+                            </g>
+                          )}
+                        </g>
+                      );
+                    })}
+                    <line x1="78" y1="441.5" x2="700" y2="441.5" stroke="#E9E9E9" strokeWidth="1" />
+                    {webAnalyticsData.xAxisLabels.map((item) => {
+                      const isSelected = selectedWebWeek === item.label;
+                      return (
+                        <g
+                          key={item.label}
+                          className="cursor-pointer"
+                          onClick={() => setSelectedWebWeek(item.label)}
+                        >
+                          {isSelected && (
+                            <rect x={item.x - 22} y="451" width="44" height="24" rx="12" fill="#F3F4F6" />
+                          )}
+                          <text
+                            x={item.x}
+                            y="468"
+                            textAnchor="middle"
+                            fill={isSelected ? '#080808' : '#888888'}
+                            fontSize="12.5"
+                            fontWeight={isSelected ? '600' : '500'}
+                          >
+                            {item.label}
+                          </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+
+                {/* Interactive 12-Month Patient Growth Grid */}
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#888888] mb-2">
+                    Monthly Patient Visits Breakdown ({webAnalyticsData.year})
+                  </h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                    {webAnalyticsData.bars.map((bar) => {
+                      const isSelected = bar.month === selectedWebWeek;
+                      return (
+                        <button
+                          key={bar.month}
+                          type="button"
+                          onClick={() => setSelectedWebWeek(bar.month)}
+                          className={`flex flex-col items-start rounded-xl border p-2.5 text-left transition-all cursor-pointer ${
+                            isSelected
+                              ? 'border-[#FF9F0A] bg-amber-50/70 shadow-2xs'
+                              : 'border-slate-100 bg-slate-50/50 hover:border-slate-200 hover:bg-white'
+                          }`}
+                        >
+                          <span className="text-[11px] font-semibold text-[#888888]">
+                            {bar.month} {webAnalyticsData.year}
+                          </span>
+                          <span className="mt-0.5 text-xs font-bold text-[#080808]">{bar.count} Patients</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Secondary Row: Procedure Distribution Donut Chart Card */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
