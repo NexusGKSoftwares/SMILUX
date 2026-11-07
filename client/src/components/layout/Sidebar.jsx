@@ -2,46 +2,101 @@ import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
-  Home01Icon,
-  UserGroupIcon,
-  Doc01Icon,
-  Calendar01Icon,
-  Invoice01Icon,
-  ShieldCheckIcon,
-  Store01Icon,
-  Settings01Icon,
-  HelpCircleIcon,
-  Logout01Icon,
   Cancel01Icon,
   UnfoldMoreIcon,
   CheckmarkCircle01Icon,
 } from '@hugeicons/core-free-icons';
 import { PanelLeftCloseIcon, PanelLeftOpenIcon } from '../UI/tableIcons.jsx';
 import Button from '../UI/Button.jsx';
+import {
+  DashboardIcon,
+  PatientsIcon,
+  AppointmentsIcon,
+  CalendarIcon,
+  ClinicalRecordsIcon,
+  DentalChartingIcon,
+  TreatmentPlansIcon,
+  TreatmentsProceduresIcon,
+  InvoicesIcon,
+  PaymentsIcon,
+  MPesaIcon,
+  InsuranceShaIcon,
+  ExpensesIcon,
+  InventoryIcon,
+  SuppliersIcon,
+  PurchaseOrdersIcon,
+  StaffIcon,
+  DentistsIcon,
+  BranchesIcon,
+  ReportsAnalyticsIcon,
+  NotificationsIcon,
+  MessagesRemindersIcon,
+  SupportIcon,
+  SubscriptionBillingIcon,
+  ClinicSettingsIcon,
+  RolesPermissionsIcon,
+} from './sidebarIcons.jsx';
 
 const NAV_GROUPS = [
   {
-    title: 'MAIN WORKSPACE',
+    title: 'OVERVIEW',
     items: [
-      { label: 'Dashboard', path: '/dashboard', icon: Home01Icon },
-      { label: 'Patients & Records', path: '/patients', icon: UserGroupIcon, badge: '128' },
-      { label: 'FDI Dental Charting', path: '/charting', icon: Doc01Icon, isNew: true },
-      { label: 'Appointments', path: '/appointments', icon: Calendar01Icon, badge: '5 Today' },
+      { label: 'Dashboard', path: '/dashboard', icon: DashboardIcon },
     ],
   },
   {
-    title: 'FINANCE & CLAIMS',
+    title: 'CLINIC OPERATIONS',
     items: [
-      { label: 'Invoices & M-Pesa', path: '/invoices', icon: Invoice01Icon },
-      { label: 'SHA & Insurance', path: '/insurance', icon: ShieldCheckIcon },
+      { label: 'Patients', path: '/patients', icon: PatientsIcon, badge: '128' },
+      { label: 'Appointments', path: '/appointments', icon: AppointmentsIcon, badge: '5 Today' },
+      { label: 'Calendar', path: '/calendar', icon: CalendarIcon },
+      { label: 'Clinical Records', path: '/clinical-records', icon: ClinicalRecordsIcon },
+      { label: 'Dental Charting', path: '/charting', icon: DentalChartingIcon, isNew: true },
+      { label: 'Treatment Plans', path: '/treatment-plans', icon: TreatmentPlansIcon },
+      { label: 'Treatments & Procedures', path: '/treatments', icon: TreatmentsProceduresIcon },
+    ],
+  },
+  {
+    title: 'FINANCIAL MANAGEMENT',
+    items: [
+      { label: 'Invoices', path: '/invoices', icon: InvoicesIcon },
+      { label: 'Payments', path: '/payments', icon: PaymentsIcon },
+      { label: 'M-Pesa Transactions', path: '/mpesa', icon: MPesaIcon },
+      { label: 'Insurance & SHA', path: '/insurance', icon: InsuranceShaIcon },
+      { label: 'Expenses', path: '/expenses', icon: ExpensesIcon },
+    ],
+  },
+  {
+    title: 'INVENTORY & RESOURCES',
+    items: [
+      { label: 'Inventory', path: '/inventory', icon: InventoryIcon },
+      { label: 'Suppliers', path: '/suppliers', icon: SuppliersIcon },
+      { label: 'Purchase Orders', path: '/purchase-orders', icon: PurchaseOrdersIcon },
     ],
   },
   {
     title: 'MANAGEMENT',
     items: [
-      { label: 'Inventory & Supplies', path: '/inventory', icon: Store01Icon },
-      { label: 'Reports & Analytics', path: '/reports', icon: Doc01Icon },
-      { label: 'Clinic Settings', path: '/settings', icon: Settings01Icon },
+      { label: 'Staff', path: '/staff', icon: StaffIcon },
+      { label: 'Dentists', path: '/dentists', icon: DentistsIcon },
+      { label: 'Branches', path: '/branches', icon: BranchesIcon },
+      { label: 'Reports & Analytics', path: '/reports', icon: ReportsAnalyticsIcon },
+    ],
+  },
+  {
+    title: 'COMMUNICATION',
+    items: [
+      { label: 'Notifications', path: '/notifications', icon: NotificationsIcon },
+      { label: 'Messages & Reminders', path: '/messages', icon: MessagesRemindersIcon },
+      { label: 'Support', path: '/support', icon: SupportIcon },
+    ],
+  },
+  {
+    title: 'CONFIGURATION',
+    items: [
+      { label: 'Subscription & Billing', path: '/subscription', icon: SubscriptionBillingIcon },
+      { label: 'Clinic Settings', path: '/settings', icon: ClinicSettingsIcon },
+      { label: 'Roles & Permissions', path: '/roles-permissions', icon: RolesPermissionsIcon },
     ],
   },
 ];
@@ -232,6 +287,7 @@ export default function Sidebar({
             <ul className="space-y-1">
               {group.items.map((item) => {
                 const isActive = location.pathname === item.path;
+                const IconComponent = item.icon;
                 return (
                   <li key={item.path}>
                     <NavLink
@@ -248,10 +304,10 @@ export default function Sidebar({
                       `.trim()}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <HugeiconsIcon
-                          icon={item.icon}
-                          size={19}
-                          className={isActive ? 'text-brand-600 shrink-0' : 'text-slate-400 shrink-0'}
+                        <IconComponent
+                          className={`w-[18px] h-[18px] shrink-0 transition-colors ${
+                            isActive ? 'text-brand-600' : 'text-slate-400 group-hover:text-slate-600'
+                          }`}
                         />
                         {!isCollapsed && <span className="truncate">{item.label}</span>}
                       </div>
@@ -266,8 +322,9 @@ export default function Sidebar({
 
                           {item.badge && !item.isNew && (
                             <span
-                              className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${isActive ? 'bg-brand-100 text-brand-800' : 'bg-slate-100 text-slate-600'
-                                }`}
+                              className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${
+                                isActive ? 'bg-brand-100 text-brand-800' : 'bg-slate-100 text-slate-600'
+                              }`}
                             >
                               {item.badge}
                             </span>
@@ -287,33 +344,31 @@ export default function Sidebar({
         ))}
       </nav>
 
-      {/* ── Fixed bottom buttons (Settings + Help & Support) ───────────────── */}
-      <div className={`shrink-0 border-t border-slate-200  ${isCollapsed ? 'p-1.5 space-y-1' : 'p-2 space-y-1'}`}>
-        {/* Settings */}
+      {/* Fixed bottom controls */}
+      <div className={`shrink-0 border-t border-slate-200 ${isCollapsed ? 'p-1.5 space-y-1' : 'p-2 space-y-1'}`}>
+        {/* Clinic Settings */}
         <button
-          variant="ghost"
+          type="button"
           onClick={() => navigate('/settings')}
           title={isCollapsed ? 'Clinic Settings' : undefined}
           className={`
             w-full flex items-center rounded text-xs font-semibold transition-all cursor-pointer h-auto
-            ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-2 py-1'}
+            ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-2 py-1.5'}
             ${location.pathname === '/settings'
               ? 'bg-brand-50 text-brand-700 font-bold border-l-3 border-brand-600 shadow-2xs'
               : 'text-slate-700 hover:bg-slate-100/90 hover:text-slate-900'
             }
           `.trim()}
         >
-          <HugeiconsIcon
-            icon={Settings01Icon}
-            size={18}
-            className={location.pathname === '/settings' ? 'text-brand-600 shrink-0' : 'text-slate-400 shrink-0'}
+          <ClinicSettingsIcon
+            className={`w-[18px] h-[18px] shrink-0 ${location.pathname === '/settings' ? 'text-brand-600' : 'text-slate-400'}`}
           />
           {!isCollapsed && <span>Clinic Settings</span>}
         </button>
 
         {/* Help & Support */}
         <button
-          variant="ghost"
+          type="button"
           onClick={() => {
             if (isMobileOpen && onCloseMobile) onCloseMobile();
             if (onOpenHelp) onOpenHelp();
@@ -322,22 +377,18 @@ export default function Sidebar({
           title={isCollapsed ? 'Help & Support Center' : undefined}
           className={`
             w-full flex items-center rounded text-xs font-semibold text-slate-700 hover:bg-slate-100/90 hover:text-slate-900 transition-all cursor-pointer h-auto
-            ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-2 py-1'}
+            ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-2 py-1.5'}
           `.trim()}
         >
-          <HugeiconsIcon icon={HelpCircleIcon} size={18} className="text-slate-400 shrink-0" />
+          <SupportIcon className="w-[18px] h-[18px] text-slate-400 shrink-0" />
           {!isCollapsed && <span>Help &amp; Support</span>}
         </button>
       </div>
 
-      {/* User Footer Profile & Quick Logout */}
+      {/* User Footer Profile & Quick Expand/Collapse */}
       <div className={`shrink-0 border-t border-slate-100 ${isCollapsed ? 'p-0' : 'p-0'}`}>
-        {!isCollapsed ? (
-          <div className=" ">
-          </div>
-        ) : (
+        {isCollapsed && (
           <div className="flex flex-col items-center gap-2 py-1">
-
             <Button
               variant="ghost"
               size="sm"
