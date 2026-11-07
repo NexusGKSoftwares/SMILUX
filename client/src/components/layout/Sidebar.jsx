@@ -49,7 +49,6 @@ const NAV_GROUPS = [
     items: [
       { label: 'Patients', path: '/patients', icon: PatientsIcon, badge: '128' },
       { label: 'Appointments', path: '/appointments', icon: AppointmentsIcon, badge: '5 Today' },
-      { label: 'Calendar', path: '/calendar', icon: CalendarIcon },
       { label: 'Clinical Records', path: '/clinical-records', icon: ClinicalRecordsIcon },
       { label: 'Dental Charting', path: '/charting', icon: DentalChartingIcon, isNew: true },
       { label: 'Treatment Plans', path: '/treatment-plans', icon: TreatmentPlansIcon },
@@ -61,7 +60,6 @@ const NAV_GROUPS = [
     items: [
       { label: 'Invoices', path: '/invoices', icon: InvoicesIcon },
       { label: 'Payments', path: '/payments', icon: PaymentsIcon },
-      { label: 'M-Pesa Transactions', path: '/mpesa', icon: MPesaIcon },
       { label: 'Insurance & SHA', path: '/insurance', icon: InsuranceShaIcon },
       { label: 'Expenses', path: '/expenses', icon: ExpensesIcon },
     ],
@@ -85,20 +83,10 @@ const NAV_GROUPS = [
   },
   {
     title: 'COMMUNICATION',
-    items: [
-      { label: 'Notifications', path: '/notifications', icon: NotificationsIcon },
-      { label: 'Messages & Reminders', path: '/messages', icon: MessagesRemindersIcon },
-      { label: 'Support', path: '/support', icon: SupportIcon },
+    items: [ 
+      { label: 'Messages & Reminders', path: '/messages', icon: MessagesRemindersIcon }, 
     ],
-  },
-  {
-    title: 'CONFIGURATION',
-    items: [
-      { label: 'Subscription & Billing', path: '/subscription', icon: SubscriptionBillingIcon },
-      { label: 'Clinic Settings', path: '/settings', icon: ClinicSettingsIcon },
-      { label: 'Roles & Permissions', path: '/roles-permissions', icon: RolesPermissionsIcon },
-    ],
-  },
+  }, 
 ];
 
 export default function Sidebar({
@@ -106,8 +94,7 @@ export default function Sidebar({
   isCollapsed = false,
   onToggleCollapse,
   onCloseMobile,
-  onOpenHelp,
-  user = { name: 'Dr. John Doe', email: 'owner@avicena.co.ke', role: 'Lead Dentist' },
+  onOpenHelp, 
   onLogout,
 }) {
   const location = useLocation();
@@ -274,15 +261,15 @@ export default function Sidebar({
       </div>
 
       {/* Navigation Links Grouped */}
-      <nav className={`flex-1 overflow-y-auto py-3 space-y-4 no-scrollbar ${isCollapsed ? 'px-2' : 'px-3'}`}>
+      <nav className={`flex-1 overflow-y-auto py-1 space-y-2 no-scrollbar ${isCollapsed ? 'px-1' : 'px-3'}`}>
         {NAV_GROUPS.map((group) => (
           <div key={group.title} className="space-y-1">
             {!isCollapsed ? (
-              <h3 className="px-3 text-[10px] font-bold tracking-wider text-slate-400 uppercase">
+              <h3 className="px-2 text-[10px] font-bold   text-slate-400 uppercase">
                 {group.title}
               </h3>
             ) : (
-              <div className="my-2 border-t border-slate-100" title={group.title} />
+              <div className=" border-t border-slate-100" title={group.title} />
             )}
             <ul className="space-y-1">
               {group.items.map((item) => {
@@ -295,18 +282,18 @@ export default function Sidebar({
                       title={isCollapsed ? item.label : undefined}
                       onClick={() => isMobileOpen && onCloseMobile?.()}
                       className={`
-                        flex items-center rounded text-xs font-semibold transition-all
-                        ${isCollapsed ? 'justify-center p-2.5' : 'justify-between px-3 py-2'}
+                        group flex items-center rounded text-xs font-semibold transition-all
+                        ${isCollapsed ? 'justify-center px-1 py-1' : 'justify-between px-3 py-1.5'}
                         ${isActive
-                          ? 'bg-brand-50 text-brand-700 font-bold border-l-3 border-brand-600 shadow-2xs'
+                          ? 'bg-sky-50 text-sky-700 font-bold border-l-2 border-sky-600 shadow-2xs'
                           : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900'
                         }
                       `.trim()}
                     >
-                      <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="flex items-center gap-2 min-w-0">
                         <IconComponent
                           className={`w-[18px] h-[18px] shrink-0 transition-colors ${
-                            isActive ? 'text-brand-600' : 'text-slate-400 group-hover:text-slate-600'
+                            isActive ? 'text-sky-600' : 'text-slate-400 group-hover:text-slate-600'
                           }`}
                         />
                         {!isCollapsed && <span className="truncate">{item.label}</span>}
@@ -323,7 +310,7 @@ export default function Sidebar({
                           {item.badge && !item.isNew && (
                             <span
                               className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${
-                                isActive ? 'bg-brand-100 text-brand-800' : 'bg-slate-100 text-slate-600'
+                                isActive ? 'bg-sky-100 text-sky-800' : 'bg-slate-100 text-slate-600'
                               }`}
                             >
                               {item.badge}
@@ -352,16 +339,16 @@ export default function Sidebar({
           onClick={() => navigate('/settings')}
           title={isCollapsed ? 'Clinic Settings' : undefined}
           className={`
-            w-full flex items-center rounded text-xs font-semibold transition-all cursor-pointer h-auto
+            group w-full flex items-center rounded text-xs font-semibold transition-all cursor-pointer h-auto
             ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-2 py-1.5'}
             ${location.pathname === '/settings'
-              ? 'bg-brand-50 text-brand-700 font-bold border-l-3 border-brand-600 shadow-2xs'
+              ? 'bg-sky-50 text-sky-700 font-bold border-l-2 border-sky-600 shadow-2xs'
               : 'text-slate-700 hover:bg-slate-100/90 hover:text-slate-900'
             }
           `.trim()}
         >
           <ClinicSettingsIcon
-            className={`w-[18px] h-[18px] shrink-0 ${location.pathname === '/settings' ? 'text-brand-600' : 'text-slate-400'}`}
+            className={`w-[18px] h-[18px] shrink-0 transition-colors ${location.pathname === '/settings' ? 'text-sky-600' : 'text-slate-400 group-hover:text-slate-600'}`}
           />
           {!isCollapsed && <span>Clinic Settings</span>}
         </button>
