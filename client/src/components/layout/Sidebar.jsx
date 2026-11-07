@@ -282,17 +282,17 @@ export default function Sidebar({
                       title={isCollapsed ? item.label : undefined}
                       onClick={() => isMobileOpen && onCloseMobile?.()}
                       className={`
-                        group flex items-center rounded text-xs font-semibold transition-all
+                        group flex items-center rounded text-xs font-bold transition-all
                         ${isCollapsed ? 'justify-center px-1 py-1' : 'justify-between px-3 py-1.5'}
                         ${isActive
-                          ? 'bg-sky-50 text-sky-700 font-bold border-l-2 border-sky-600 shadow-2xs'
+                          ? 'bg-sky-100 text-sky-700 font-bold shadow-2xs'
                           : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900'
                         }
                       `.trim()}
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <IconComponent
-                          className={`w-[18px] h-[18px] shrink-0 transition-colors ${
+                          className={`w-[20px] h-[20px] shrink-0 transition-colors ${
                             isActive ? 'text-sky-600' : 'text-slate-400 group-hover:text-slate-600'
                           }`}
                         />
@@ -342,13 +342,13 @@ export default function Sidebar({
             group w-full flex items-center rounded text-xs font-semibold transition-all cursor-pointer h-auto
             ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-2 py-1.5'}
             ${location.pathname === '/settings'
-              ? 'bg-sky-50 text-sky-700 font-bold border-l-2 border-sky-600 shadow-2xs'
+              ? 'bg-sky-50 text-sky-700 font-bold shadow-2xs'
               : 'text-slate-700 hover:bg-slate-100/90 hover:text-slate-900'
             }
           `.trim()}
         >
           <ClinicSettingsIcon
-            className={`w-[18px] h-[18px] shrink-0 transition-colors ${location.pathname === '/settings' ? 'text-sky-600' : 'text-slate-400 group-hover:text-slate-600'}`}
+            className={`w-[20px] h-[20px] shrink-0 transition-colors ${location.pathname === '/settings' ? 'text-sky-600' : 'text-slate-400 group-hover:text-slate-600'}`}
           />
           {!isCollapsed && <span>Clinic Settings</span>}
         </button>
