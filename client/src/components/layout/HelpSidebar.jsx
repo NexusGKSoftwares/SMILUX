@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../../api/axios.js';
+import Button from '../UI/Button.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   HelpCircleIcon,

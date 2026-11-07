@@ -122,39 +122,41 @@ export default function Sidebar({
 
             {/* Desktop Collapse Button */}
             {onToggleCollapse && (
-              <button
-                type="button"
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={onToggleCollapse}
-                className="hidden lg:flex ml-1.5 rounded p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors cursor-pointer shrink-0"
+                className="hidden lg:flex ml-1.5 rounded p-1.5 h-auto text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors cursor-pointer shrink-0"
                 title="Collapse Sidebar (264px → 68px)"
               >
-                <PanelLeftCloseIcon className="h-4 h-4 text-slate-500" />
-              </button>
+                <PanelLeftCloseIcon className="h-4 w-4 text-slate-500" />
+              </Button>
             )}
           </>
         ) : (
           <div className="flex flex-col items-center ">
-            <button
-              type="button"
+            <Button
+              variant="ghost"
               onClick={onToggleCollapse}
-              className="flex h-9 w-9 items-center justify-center rounded bg-brand-green text-white text-xs font-extrabold shadow-xs hover:scale-105 transition-transform cursor-pointer"
+              className="flex h-9 w-9 items-center justify-center rounded bg-brand-green text-white text-xs font-extrabold shadow-xs hover:scale-105 transition-transform cursor-pointer p-0"
               title="Expand Sidebar (68px → 264px)"
             >
               AD
-            </button>
+            </Button>
           </div>
         )}
 
         {/* Mobile Close Button */}
         {isMobileOpen && (
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={onCloseMobile}
-            className="ml-1.5 rounded p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 lg:hidden cursor-pointer shrink-0"
+            className="ml-1.5 rounded p-1 h-auto text-slate-400 hover:bg-slate-100 hover:text-slate-700 lg:hidden cursor-pointer shrink-0"
             aria-label="Close Sidebar"
           >
             <HugeiconsIcon icon={Cancel01Icon} size={18} />
-          </button>
+          </Button>
         )}
 
         {/* Clinic Dropdown Popover */}
@@ -181,13 +183,13 @@ export default function Sidebar({
             <div className="px-1.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
               Other Branches
             </div>
-            <button
-              type="button"
+            <Button
+              variant="ghost"
               onClick={() => {
                 alert("Switching to Westlands Branch...");
                 setClinicMenuOpen(false);
               }}
-              className="flex w-full items-center justify-between p-2 rounded hover:bg-slate-100 text-xs text-slate-700 font-medium transition-colors cursor-pointer text-left"
+              className="flex w-full items-center justify-between p-2 h-auto rounded hover:bg-slate-100 text-xs text-slate-700 font-medium transition-colors cursor-pointer text-left"
             >
               <div className="flex items-center gap-2 min-w-0">
                 <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-slate-200 text-slate-700 text-[10px] font-bold">
@@ -198,20 +200,20 @@ export default function Sidebar({
                   <span className="text-[10px] text-slate-500 truncate">Westlands Branch</span>
                 </div>
               </div>
-            </button>
+            </Button>
 
             <div className="my-1 border-t border-slate-100" />
 
-            <button
-              type="button"
+            <Button
+              variant="ghost"
               onClick={() => {
                 alert("Opening Add Clinic Branch wizard...");
                 setClinicMenuOpen(false);
               }}
-              className="flex w-full items-center gap-2 p-2 rounded text-brand-600 hover:bg-brand-50 text-xs font-bold transition-colors cursor-pointer text-left"
+              className="flex w-full items-center gap-2 p-2 h-auto rounded text-brand-600 hover:bg-brand-50 text-xs font-bold transition-colors cursor-pointer text-left"
             >
               <span>+ Add Branch / Workspace</span>
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -288,12 +290,12 @@ export default function Sidebar({
       {/* ── Fixed bottom buttons (Settings + Help & Support) ───────────────── */}
       <div className={`shrink-0 border-t border-slate-200  ${isCollapsed ? 'p-1.5 space-y-1' : 'p-2 space-y-1'}`}>
         {/* Settings */}
-        <button
-          type="button"
+        <Button
+          variant="ghost"
           onClick={() => navigate('/settings')}
           title={isCollapsed ? 'Clinic Settings' : undefined}
           className={`
-            w-full flex items-center rounded text-xs font-semibold transition-all cursor-pointer
+            w-full flex items-center rounded text-xs font-semibold transition-all cursor-pointer h-auto
             ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-3 py-1'}
             ${location.pathname === '/settings'
               ? 'bg-brand-50 text-brand-700 font-bold border-l-3 border-brand-600 shadow-2xs'
@@ -307,11 +309,11 @@ export default function Sidebar({
             className={location.pathname === '/settings' ? 'text-brand-600 shrink-0' : 'text-slate-400 shrink-0'}
           />
           {!isCollapsed && <span>Clinic Settings</span>}
-        </button>
+        </Button>
 
         {/* Help & Support */}
-        <button
-          type="button"
+        <Button
+          variant="ghost"
           onClick={() => {
             if (isMobileOpen && onCloseMobile) onCloseMobile();
             if (onOpenHelp) onOpenHelp();
@@ -319,13 +321,13 @@ export default function Sidebar({
           }}
           title={isCollapsed ? 'Help & Support Center' : undefined}
           className={`
-            w-full flex items-center rounded text-xs font-semibold text-slate-700 hover:bg-slate-100/90 hover:text-slate-900 transition-all cursor-pointer
+            w-full flex items-center rounded text-xs font-semibold text-slate-700 hover:bg-slate-100/90 hover:text-slate-900 transition-all cursor-pointer h-auto
             ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-3 py-1'}
           `.trim()}
         >
           <HugeiconsIcon icon={HelpCircleIcon} size={18} className="text-slate-400 shrink-0" />
           {!isCollapsed && <span>Help &amp; Support</span>}
-        </button>
+        </Button>
       </div>
 
       {/* User Footer Profile & Quick Logout */}
@@ -336,14 +338,15 @@ export default function Sidebar({
         ) : (
           <div className="flex flex-col items-center gap-2 py-1">
 
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={onToggleCollapse}
-              className="rounded p-1 text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors cursor-pointer mt-1"
+              className="rounded p-1 h-auto text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors cursor-pointer mt-1"
               title="Expand Sidebar (68px → 264px)"
             >
-              <PanelLeftOpenIcon className="h-4 h-4 text-slate-500" />
-            </button>
+              <PanelLeftOpenIcon className="h-4 w-4 text-slate-500" />
+            </Button>
           </div>
         )}
       </div>
