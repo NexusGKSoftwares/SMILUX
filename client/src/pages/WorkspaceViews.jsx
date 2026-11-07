@@ -83,11 +83,11 @@ export function DashboardView({ user }) {
   };
 
   return (
-    <div className="space-y-7 font-sans text-slate-900 pb-8">
+    <div className="space-y-2 font-sans text-slate-900 mb-8">
       {/* Workspace Header & Action Bar */}
       <ViewHeader
         title={`${greeting.emoji} ${greeting.text}, ${doctorName}`}
-        subtitle="Avicena Dental Practice — Nairobi Main Branch Workspace Overview"
+        subtitle="Avicena Dental Practice — Nairobi Main Branch  Overview"
         actions={
           <div className="flex items-center gap-2">
             {/* Date Filter Pill */}
@@ -135,9 +135,9 @@ export function DashboardView({ user }) {
 
 
       {/* KPI Top Cards Row - Styled with 24px Spec */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-4">
         {/* Card 1: Today's Revenue */}
-        <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] transition-transform hover:-translate-y-0.5">
+        <div className="rounded border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-[#888888]">Practice Revenue</span>
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
