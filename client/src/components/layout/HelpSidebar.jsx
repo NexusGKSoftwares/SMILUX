@@ -128,11 +128,35 @@ const SERVICES = [
   { name: 'Kenya SHA Insurance Gateway', status: 'operational' },
 ];
 
-export default function HelpSidebar() {
+export default function HelpSidebar({
+  isOpen: externalIsOpen,
+  onOpen: externalOnOpen,
+  onClose: externalOnClose,
+}) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+
+  const isControlled = externalIsOpen !== undefined;
+  const isOpen = isControlled ? externalIsOpen : internalIsOpen;
+
+  const handleOpen = () => {
+    if (isControlled) {
+      if (externalOnOpen) externalOnOpen();
+    } else {
+      setInternalIsOpen(true);
+    }
+  };
+
+  const handleClose = () => {
+    if (isControlled) {
+      if (externalOnClose) externalOnClose();
+    } else {
+      setInternalIsOpen(false);
+    }
+  };
+
   const [activeTab, setActiveTab] = useState('help');
   const [helpSearch, setHelpSearch] = useState('');
   const [expandedTopicId, setExpandedTopicId] = useState(null);
@@ -161,7 +185,7 @@ export default function HelpSidebar() {
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e) => {
-      if (e.key === 'Escape') setIsOpen(false);
+      if (e.key === 'Escape') handleClose();
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
@@ -231,7 +255,7 @@ export default function HelpSidebar() {
     <>
       <button
         type="button"
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         className="hidden sm:flex h-8 w-8 items-center justify-center rounded  text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors cursor-pointer"
         title="Help & Support Center"
         aria-label="Help and Support"
@@ -243,7 +267,7 @@ export default function HelpSidebar() {
         <>
           <div
             className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-[99998] transition-opacity duration-200 ease-out"
-            onClick={() => setIsOpen(false)}
+            onClick={handleClose}
           />
           <aside className="fixed top-0 right-0 h-full w-full max-w-md bg-white border-l border-slate-200 shadow-2xl z-[99999] flex flex-col font-sans animate-drawer-right">
             {/* Header */}
@@ -254,7 +278,7 @@ export default function HelpSidebar() {
               </div>
               <button
                 type="button"
-                onClick={() => setIsOpen(false)}
+                onClick={handleClose}
                 className="p-1.5 rounded text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
                 aria-label="Close"
               >
@@ -297,7 +321,7 @@ export default function HelpSidebar() {
                         <button
                           type="button"
                           onClick={() => {
-                            setIsOpen(false);
+                            handleClose();
                             navigate(contextualTopic.action.path);
                           }}
                           className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-brand-600 hover:underline cursor-pointer"
@@ -369,7 +393,7 @@ export default function HelpSidebar() {
                                   <button
                                     type="button"
                                     onClick={() => {
-                                      setIsOpen(false);
+                                      handleClose();
                                       navigate(topic.action.path);
                                     }}
                                     className="px-3 py-1 bg-brand-blue text-white rounded text-[11px] font-bold hover:bg-blue-700 transition-colors cursor-pointer"

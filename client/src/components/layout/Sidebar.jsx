@@ -312,6 +312,7 @@ export default function Sidebar({
         <button
           type="button"
           onClick={() => {
+            if (isMobileOpen && onCloseMobile) onCloseMobile();
             if (onOpenHelp) onOpenHelp();
             else window.location.href = 'mailto:support@smilux.co.ke';
           }}

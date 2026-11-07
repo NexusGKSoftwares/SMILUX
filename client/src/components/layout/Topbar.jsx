@@ -20,6 +20,9 @@ export default function Topbar({
   onOpenMobile,
   user = { name: 'Dr. John Doe', email: 'owner@avicena.co.ke', role: 'Lead Dentist' },
   onLogout,
+  isHelpOpen,
+  onOpenHelp,
+  onCloseHelp,
 }) {
   const navigate = useNavigate();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -99,7 +102,7 @@ export default function Topbar({
         <NotificationDropdown />
 
         {/* Help & Support Center */}
-        <HelpSidebar />
+        <HelpSidebar isOpen={isHelpOpen} onOpen={onOpenHelp} onClose={onCloseHelp} />
 
         {/* User Menu Dropdown */}
         <div className="relative" ref={userMenuRef}>
@@ -161,14 +164,17 @@ export default function Topbar({
                   <span>Clinic Settings</span>
                 </Link>
 
-                <a
-                  href="mailto:support@smilux.co.ke"
-                  onClick={() => setUserMenuOpen(false)}
-                  className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUserMenuOpen(false);
+                    if (onOpenHelp) onOpenHelp();
+                  }}
+                  className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer text-left"
                 >
                   <HugeiconsIcon icon={HelpCircleIcon} size={16} className="text-slate-400" />
                   <span>Help &amp; Support</span>
-                </a>
+                </button>
 
                 <div className="my-1 h-px bg-slate-100" />
 

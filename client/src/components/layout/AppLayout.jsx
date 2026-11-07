@@ -6,6 +6,7 @@ import Footer from './Footer.jsx';
 
 export default function AppLayout({ children, user, onLogout, onQuickAction }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(() => {
     try {
       return localStorage.getItem('smilux_sidebar_collapsed') === 'true';
@@ -34,6 +35,7 @@ export default function AppLayout({ children, user, onLogout, onQuickAction }) {
         isCollapsed={isCollapsed}
         onToggleCollapse={handleToggleCollapse}
         onCloseMobile={() => setIsMobileOpen(false)}
+        onOpenHelp={() => setIsHelpOpen(true)}
         user={user}
         onLogout={onLogout}
       />
@@ -47,6 +49,9 @@ export default function AppLayout({ children, user, onLogout, onQuickAction }) {
           user={user}
           onLogout={onLogout}
           onQuickAction={onQuickAction}
+          isHelpOpen={isHelpOpen}
+          onOpenHelp={() => setIsHelpOpen(true)}
+          onCloseHelp={() => setIsHelpOpen(false)}
         />
 
         {/* Dynamic Page Content Viewport */}
