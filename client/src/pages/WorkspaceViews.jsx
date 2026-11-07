@@ -322,18 +322,42 @@ export function DashboardView({ user }) {
   const [selectedTimeframe, setSelectedTimeframe] = useState('This Month');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // Interactive states for Sales Area Chart & Patient Growth Overview
+  // Interactive states for Charts
   const [salesYear, setSalesYear] = useState(currentYear);
   const [patientGrowthYear, setPatientGrowthYear] = useState(currentYear);
+  const [paymentYear, setPaymentYear] = useState(currentYear);
+  const [incomeYear, setIncomeYear] = useState(currentYear);
+  const [balanceYear, setBalanceYear] = useState(currentYear);
   const [selectedSalesMonth, setSelectedSalesMonth] = useState(salesAreaChartData.defaultMonth);
   const [isSalesExpanded, setIsSalesExpanded] = useState(false);
   const [hoveredBarIndex, setHoveredBarIndex] = useState(null);
   const [selectedWebWeek, setSelectedWebWeek] = useState(webAnalyticsData.defaultMonth || 'Jun');
   const [isWebExpanded, setIsWebExpanded] = useState(false);
-  const [activeChartModal, setActiveChartModal] = useState(null); // 'sales' | 'patient-growth' | null
+  const [activeChartModal, setActiveChartModal] = useState(null); // 'sales' | 'patient-growth' | 'payment' | 'income' | 'balance' | null
 
   const currentSalesData = getSalesChartDataByYear(salesYear);
   const currentPatientData = getPatientGrowthDataByYear(patientGrowthYear);
+
+  // Dynamic computations for Payment Distribution card
+  const paymentFactor = paymentYear === 2026 ? 1 : paymentYear === 2025 ? 0.92 : paymentYear === 2024 ? 0.81 : 0.72;
+  const shaSales = Math.round(54071 * paymentFactor);
+  const mpesaSales = Math.round(32210 * paymentFactor);
+  const cashSales = Math.round(24410 * paymentFactor);
+  const totalTransactions = shaSales + mpesaSales + cashSales;
+
+  // Dynamic computations for Income Summary card
+  const incomeFactor = incomeYear === 2026 ? 1 : incomeYear === 2025 ? 0.88 : incomeYear === 2024 ? 0.79 : 0.69;
+  const totalIncomeVal = Math.round(988238 * incomeFactor);
+  const mpesaIncomeVal = Math.round(108208 * incomeFactor);
+  const privateIncomeVal = Math.round(400338 * incomeFactor);
+  const claimsIncomeVal = Math.round(388203 * incomeFactor);
+
+  // Dynamic computations for Financial Balance card
+  const balanceFactor = balanceYear === 2026 ? 1 : balanceYear === 2025 ? 0.90 : balanceYear === 2024 ? 0.82 : 0.74;
+  const totalBalanceVal = Math.round(94127 * balanceFactor);
+  const primaryCareVal = Math.round(52000 * balanceFactor);
+  const specialityCareVal = Math.round(32000 * balanceFactor);
+  const fixedIncomeVal = Math.round(12500 * balanceFactor);
 
   useEffect(() => {
     if (!activeChartModal) return undefined;
@@ -918,13 +942,19 @@ export function DashboardView({ user }) {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
               <div className="flex items-center gap-3">
                 <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-xl border ${
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${
                     activeChartModal === 'sales'
                       ? 'bg-indigo-50 border-indigo-100 text-[#5654DC]'
-                      : 'bg-amber-50 border-amber-100 text-[#FF9F0A]'
+                      : activeChartModal === 'patient-growth'
+                      ? 'bg-amber-50 border-amber-100 text-[#FF9F0A]'
+                      : activeChartModal === 'payment'
+                      ? 'bg-cyan-50 border-cyan-100 text-[#00CBE8]'
+                      : activeChartModal === 'income'
+                      ? 'bg-orange-50 border-orange-100 text-[#FF9900]'
+                      : 'bg-emerald-50 border-emerald-100 text-[#00C26B]'
                   }`}
                 >
                   {activeChartModal === 'sales' ? (
@@ -938,7 +968,7 @@ export function DashboardView({ user }) {
                       />
                       <rect x="7.15" y="8" width="12.85" height="13" rx="4" stroke="#5654DC" strokeWidth="2" />
                     </svg>
-                  ) : (
+                  ) : activeChartModal === 'patient-growth' ? (
                     <svg width="20" height="20" viewBox="33 29 22 22" fill="none">
                       <path
                         d="M52.9451 39C52.4476 34.5 48.6326 31 44 31C39.0294 31 35 35.0294 35 40C35 44.6326 38.5 48.4476 43 48.9451"
@@ -949,55 +979,74 @@ export function DashboardView({ user }) {
                       />
                       <circle cx="48.5" cy="44.5" r="3.5" stroke="#FF9F0A" strokeWidth="2" />
                     </svg>
+                  ) : activeChartModal === 'payment' ? (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <rect x="3" y="10" width="7" height="11" rx="1" stroke="#00CBE8" strokeWidth="2" />
+                      <path d="M2.5 3h19v7H2.5z" stroke="#00CBE8" strokeWidth="2" strokeLinejoin="round" />
+                      <rect x="14" y="13" width="7.5" height="8" rx="1" stroke="#00CBE8" strokeWidth="2" />
+                    </svg>
+                  ) : activeChartModal === 'income' ? (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <rect x="7" y="8" width="13" height="13" rx="3" stroke="#FF9900" strokeWidth="2" />
+                      <path d="M5 3h14v5H5z" stroke="#FF9900" strokeWidth="2" strokeLinejoin="round" />
+                      <rect x="3" y="14" width="7" height="3.5" rx="1.5" stroke="#FF9900" strokeWidth="2" />
+                    </svg>
+                  ) : (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <rect x="3" y="6" width="18" height="14" rx="2" stroke="#00CBE8" strokeWidth="2" />
+                      <path d="M16 13a2 2 0 100-4 2 2 0 000 4z" stroke="#00CBE8" strokeWidth="2" />
+                      <path d="M9 3v3M15 3v3" stroke="#00CBE8" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
                   )}
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-[#080808]">
                     {activeChartModal === 'sales'
                       ? `${currentSalesData.title} — Full Year Analytics (${currentSalesData.year})`
-                      : `${currentPatientData.title} — Full Year Analytics (${currentPatientData.year})`}
+                      : activeChartModal === 'patient-growth'
+                      ? `${currentPatientData.title} — Full Year Analytics (${currentPatientData.year})`
+                      : activeChartModal === 'payment'
+                      ? `Payment Distribution Overview (${paymentYear})`
+                      : activeChartModal === 'income'
+                      ? `Asset Distribution & Income Summary (${incomeYear})`
+                      : `Practice Financial Balance & Streams (${balanceYear})`}
                   </h2>
                   <p className="text-xs text-[#888888]">
-                    Interactive 12-month performance display • Click any month on the chart or grid to inspect details
+                    Interactive practice analytics display • Select tabs to review complete departmental metrics
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                {activeChartModal === 'sales' ? (
-                  <select
-                    value={salesYear}
-                    onChange={(e) => setSalesYear(Number(e.target.value))}
-                    className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs"
-                  >
-                    {availableYears.map((yr) => (
-                      <option key={yr} value={yr}>
-                        Year {yr}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <select
-                    value={patientGrowthYear}
-                    onChange={(e) => setPatientGrowthYear(Number(e.target.value))}
-                    className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs"
-                  >
-                    {availableYears.map((yr) => (
-                      <option key={yr} value={yr}>
-                        Year {yr}
-                      </option>
-                    ))}
-                  </select>
-                )}
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActiveChartModal((prev) => (prev === 'sales' ? 'patient-growth' : 'sales'))
+              <div className="flex items-center gap-2 flex-wrap">
+                <select
+                  value={
+                    activeChartModal === 'sales'
+                      ? salesYear
+                      : activeChartModal === 'patient-growth'
+                      ? patientGrowthYear
+                      : activeChartModal === 'payment'
+                      ? paymentYear
+                      : activeChartModal === 'income'
+                      ? incomeYear
+                      : balanceYear
                   }
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 cursor-pointer"
+                  onChange={(e) => {
+                    const yr = Number(e.target.value);
+                    if (activeChartModal === 'sales') setSalesYear(yr);
+                    else if (activeChartModal === 'patient-growth') setPatientGrowthYear(yr);
+                    else if (activeChartModal === 'payment') setPaymentYear(yr);
+                    else if (activeChartModal === 'income') setIncomeYear(yr);
+                    else setBalanceYear(yr);
+                  }}
+                  className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs cursor-pointer"
                 >
-                  Switch to {activeChartModal === 'sales' ? 'Patient Growth' : 'Sales Chart'}
-                </button>
+                  {availableYears.map((yr) => (
+                    <option key={yr} value={yr}>
+                      Year {yr}
+                    </option>
+                  ))}
+                </select>
+
                 <button
                   type="button"
                   onClick={() => setActiveChartModal(null)}
@@ -1007,6 +1056,33 @@ export function DashboardView({ user }) {
                   ✕
                 </button>
               </div>
+            </div>
+
+            {/* Quick Chart Switch Tabs */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 border-b border-slate-100">
+              {[
+                { id: 'sales', label: 'Sales & Revenue' },
+                { id: 'patient-growth', label: 'Patient Growth' },
+                { id: 'payment', label: 'Payment Distribution' },
+                { id: 'income', label: 'Income Summary' },
+                { id: 'balance', label: 'Financial Balance' },
+              ].map((tab) => {
+                const isActive = activeChartModal === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveChartModal(tab.id)}
+                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      isActive
+                        ? 'bg-slate-900 text-white shadow-xs'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
             </div>
 
             {activeChartModal === 'sales' ? (
@@ -1155,7 +1231,7 @@ export function DashboardView({ user }) {
                   </div>
                 </div>
               </>
-            ) : (
+            ) : activeChartModal === 'patient-growth' ? (
               <>
                 {/* Patient Growth KPI Summary Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -1299,6 +1375,273 @@ export function DashboardView({ user }) {
                   </div>
                 </div>
               </>
+            ) : activeChartModal === 'payment' ? (
+              <>
+                {/* Payment Distribution KPI Strip */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">Total Transactions</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">{formatNumber(totalTransactions)} sales</div>
+                  </div>
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">Monthly Growth</span>
+                    <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B]">
+                      <span>▲</span> +14% vs last mo
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">Dominant Channel</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">SHA &amp; Ins. (60%)</div>
+                  </div>
+                  <div className="rounded-xl border border-cyan-100 bg-cyan-50/50 p-3">
+                    <span className="text-[11px] font-semibold text-[#00CBE8]">Active Filter</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">Year {paymentYear}</div>
+                  </div>
+                </div>
+
+                {/* Donut Chart Visual */}
+                <div className="rounded-xl border border-[#EFEFEF] bg-white p-6 flex flex-col md:flex-row items-center justify-around gap-6">
+                  <div className="relative flex items-center justify-center">
+                    <svg className="w-56 h-56 -rotate-90 select-none" viewBox="0 0 100 100">
+                      <circle cx="50" cy="50" r="38" fill="none" stroke="#F1F5F9" strokeWidth="13" />
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="38"
+                        fill="none"
+                        stroke="#00CBE8"
+                        strokeWidth="13"
+                        strokeDasharray="143.2 238.7"
+                        strokeDashoffset="0"
+                      />
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="38"
+                        fill="none"
+                        stroke="#5654DC"
+                        strokeWidth="13"
+                        strokeDasharray="57.3 238.7"
+                        strokeDashoffset="-143.2"
+                      />
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="38"
+                        fill="none"
+                        stroke="#FF104B"
+                        strokeWidth="13"
+                        strokeDasharray="38.2 238.7"
+                        strokeDashoffset="-200.5"
+                      />
+                    </svg>
+
+                    <div className="absolute flex flex-col items-center justify-center text-center">
+                      <span className="text-3xl font-extrabold text-[#5654DC] leading-none">+14%</span>
+                      <span className="text-xs font-semibold text-[#080808] mt-0.5">vs last month</span>
+                      <span className="text-[11px] text-[#888888]">Great results with</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 w-full max-w-sm">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#888888]">Channel Breakdown</h4>
+                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="h-3 w-3 rounded-full bg-[#FF104B]" />
+                        <span className="text-xs font-semibold text-slate-800">SHA &amp; Insurance</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-xs font-bold text-[#080808]">{formatNumber(shaSales)}</span>
+                        <span className="text-[10px] text-slate-500 ml-1">(16%)</span>
+                      </div>
+                    </div>
+                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="h-3 w-3 rounded-full bg-[#5654DC]" />
+                        <span className="text-xs font-semibold text-slate-800">M-Pesa STK Till</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-xs font-bold text-[#080808]">{formatNumber(mpesaSales)}</span>
+                        <span className="text-[10px] text-slate-500 ml-1">(24%)</span>
+                      </div>
+                    </div>
+                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="h-3 w-3 rounded-full bg-[#00CBE8]" />
+                        <span className="text-xs font-semibold text-slate-800">Cash &amp; Private Pay</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-xs font-bold text-[#080808]">{formatNumber(cashSales)}</span>
+                        <span className="text-[10px] text-slate-500 ml-1">(60%)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : activeChartModal === 'income' ? (
+              <>
+                {/* Income Summary KPI Strip */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">Total Income</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(totalIncomeVal)}</div>
+                  </div>
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">Growth Pace</span>
+                    <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B]">
+                      <span>▲</span> 32.1%
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">Yield Score</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">94% Optimal</div>
+                  </div>
+                  <div className="rounded-xl border border-orange-100 bg-orange-50/50 p-3">
+                    <span className="text-[11px] font-semibold text-[#FF9900]">Active Year</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">Year {incomeYear}</div>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-[#EFEFEF] bg-white p-6 flex flex-col md:flex-row items-center justify-around gap-6">
+                  <div className="relative flex items-center justify-center">
+                    <svg className="w-52 h-52 -rotate-90 select-none" viewBox="0 0 120 120">
+                      <circle cx="60" cy="60" r="50" fill="none" stroke="#EFEFEF" strokeWidth="8" />
+                      <circle
+                        cx="60"
+                        cy="60"
+                        r="50"
+                        fill="none"
+                        stroke="#00C26B"
+                        strokeWidth="8"
+                        strokeDasharray="314"
+                        strokeDashoffset="78"
+                        strokeLinecap="round"
+                      />
+                      <circle cx="60" cy="60" r="38" fill="none" stroke="#EFEFEF" strokeWidth="8" />
+                      <circle
+                        cx="60"
+                        cy="60"
+                        r="38"
+                        fill="none"
+                        stroke="#FF9900"
+                        strokeWidth="8"
+                        strokeDasharray="238"
+                        strokeDashoffset="95"
+                        strokeLinecap="round"
+                      />
+                      <circle cx="60" cy="60" r="26" fill="none" stroke="#EFEFEF" strokeWidth="8" />
+                      <circle
+                        cx="60"
+                        cy="60"
+                        r="26"
+                        fill="none"
+                        stroke="#FFDC8E"
+                        strokeWidth="8"
+                        strokeDasharray="163"
+                        strokeDashoffset="65"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    <div className="absolute flex flex-col items-center justify-center text-center">
+                      <span className="text-xl font-bold text-[#080808]">32.1%</span>
+                      <span className="text-xs text-[#888888]">Pacing yield</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 w-full max-w-sm">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#888888]">Settlement Routes</h4>
+                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="h-3 w-3 rounded-full bg-[#00C26B]" />
+                        <span className="text-xs font-semibold text-slate-800">M-Pesa STK</span>
+                      </div>
+                      <span className="text-xs font-bold text-[#080808]">{formatCurrency(mpesaIncomeVal)}</span>
+                    </div>
+                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="h-3 w-3 rounded-full bg-[#FF9900]" />
+                        <span className="text-xs font-semibold text-slate-800">Private Payers</span>
+                      </div>
+                      <span className="text-xs font-bold text-[#080808]">{formatCurrency(privateIncomeVal)}</span>
+                    </div>
+                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="h-3 w-3 rounded-full bg-[#FFE88C]" />
+                        <span className="text-xs font-semibold text-slate-800">Insurance Claims</span>
+                      </div>
+                      <span className="text-xs font-bold text-[#080808]">{formatCurrency(claimsIncomeVal)}</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Balance KPI Summary Strip */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">Settled Balance</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(totalBalanceVal)}</div>
+                  </div>
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">Fiscal Pace</span>
+                    <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B]">
+                      <span>▲</span> 12% vs last yrs
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <span className="text-[11px] font-medium text-[#888888]">Cycle Window</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">Feb 1 – 28</div>
+                  </div>
+                  <div className="rounded-xl border border-emerald-100 bg-emerald-50/50 p-3">
+                    <span className="text-[11px] font-semibold text-[#00C26B]">Active Year</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808]">Year {balanceYear}</div>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-[#EFEFEF] bg-white p-6 space-y-6">
+                  <div className="grid grid-cols-3 gap-3 border-y border-dashed border-[#AFAFAF]/40 py-4">
+                    <div className="flex flex-col">
+                      <span className="text-sm font-bold text-[#080808]">{formatCurrency(primaryCareVal)}</span>
+                      <span className="text-xs text-[#AFAFAF] font-medium mt-0.5">Primary Care</span>
+                      <span className="text-xs font-bold text-[#00C26B] mt-1">▲ 32.1%</span>
+                    </div>
+                    <div className="flex flex-col border-l border-dashed border-[#AFAFAF]/40 pl-3">
+                      <span className="text-sm font-bold text-[#080808]">{formatCurrency(specialityCareVal)}</span>
+                      <span className="text-xs text-[#AFAFAF] font-medium mt-0.5">Speciality Care</span>
+                      <span className="text-xs font-bold text-[#FF104B] mt-1">▼ 16.1%</span>
+                    </div>
+                    <div className="flex flex-col border-l border-dashed border-[#AFAFAF]/40 pl-3">
+                      <span className="text-sm font-bold text-[#080808]">{formatCurrency(fixedIncomeVal)}</span>
+                      <span className="text-xs text-[#AFAFAF] font-medium mt-0.5">Full-time Retainer</span>
+                      <span className="text-xs font-medium text-[#888888] mt-1">Fixed income</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="h-5 w-full flex items-center gap-1 rounded overflow-hidden">
+                      <div
+                        className="h-full bg-[#FFC600] rounded-xs border border-white"
+                        style={{ width: '32%' }}
+                        title={`Primary Care (${formatCurrency(primaryCareVal)})`}
+                      />
+                      <div
+                        className="h-full bg-[#00C26B] rounded-xs border border-white"
+                        style={{ width: '38%' }}
+                        title={`Speciality (${formatCurrency(specialityCareVal)})`}
+                      />
+                      <div
+                        className="h-full bg-[#00CBE8] rounded-xs border border-white"
+                        style={{ width: '30%' }}
+                        title={`Fixed Income (${formatCurrency(fixedIncomeVal)})`}
+                      />
+                    </div>
+                    <div className="mt-2 flex items-center justify-between text-xs font-semibold text-[#888888]">
+                      <span>Feb 1</span>
+                      <span>Feb 28 (Reconciliation Complete)</span>
+                    </div>
+                  </div>
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -1307,45 +1650,80 @@ export function DashboardView({ user }) {
       {/* Secondary Row: 3 Analytics Cards (Payment Distribution Overview, Asset Distribution, Practice Financial Balance) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-1">
         {/* Card 1: Payment Distribution Overview (Donut Chart) */}
-        <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 {/* Store-detail / Blue Icon (#00CBE8) */}
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-50 text-[#00CBE8]">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <rect x="3" y="10" width="7" height="11" rx="1" stroke="#00CBE8" strokeWidth="2" />
-                    <path d="M2.5 3h19v7H2.5z" stroke="#00CBE8" strokeWidth="2" strokeLinejoin="round" />
-                    <rect x="14" y="13" width="7.5" height="8" rx="1" stroke="#00CBE8" strokeWidth="2" />
-                  </svg>
-                </div>
-                <h3 className="text-sm font-semibold text-[#080808] tracking-tight">Payment Distribution</h3>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                  <rect x="3" y="10" width="7" height="11" rx="1" stroke="#00CBE8" strokeWidth="2" />
+                  <path d="M2.5 3h19v7H2.5z" stroke="#00CBE8" strokeWidth="2" strokeLinejoin="round" />
+                  <rect x="14" y="13" width="7.5" height="8" rx="1" stroke="#00CBE8" strokeWidth="2" />
+                </svg>
+                <h3 className="text-sm font-semibold text-[#080808] tracking-tight">
+                  Payment Distribution ({paymentYear})
+                </h3>
                 <InfoBadgeIcon
-                  title="Payment Distribution Overview"
-                  subtitle="Breakdown by Payment & Care Channels"
+                  title={`Payment Distribution Overview (${paymentYear})`}
+                  subtitle="Breakdown by Payment Channels & Care Streams"
                   accentColor="#00CBE8"
                   stats={[
                     { label: 'Growth', value: '+14% vs last month' },
-                    { label: 'Top Channel', value: 'Insurance (60%)' },
+                    { label: 'Dominant Channel', value: 'SHA & Ins. (60%)' },
+                    { label: 'Total Volume', value: `${formatNumber(totalTransactions)} sales` },
+                    { label: 'Top Method', value: 'M-Pesa STK Till' },
                   ]}
                   items={[
-                    { label: 'SHA & Ins.', value: '54,071' },
-                    { label: 'M-Pesa Till', value: '32,210' },
-                    { label: 'Cash & Card', value: '24,410' },
+                    { label: 'SHA & Ins.', value: formatNumber(shaSales) },
+                    { label: 'M-Pesa Till', value: formatNumber(mpesaSales) },
+                    { label: 'Cash & Card', value: formatNumber(cashSales) },
                   ]}
+                  onOpenModal={() => setActiveChartModal('payment')}
                 />
               </div>
 
               <CardActionToolbar
-                onExpand={() => alert('Opening Payment Distribution Overview in full view')}
-                selectedYear={salesYear}
-                onSelectYear={(yr) => setSalesYear(Number(yr))}
+                onExpand={() => setActiveChartModal('payment')}
+                selectedYear={paymentYear}
+                onSelectYear={(yr) => setPaymentYear(Number(yr))}
               />
             </div>
 
+            {/* Top Summaries Row (Matching Top Cards UI) */}
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+                <span className="text-xs font-medium text-[#888888]">Monthly Channel Growth</span>
+                <div className="mt-1 flex items-baseline gap-2">
+                  <span className="text-xl font-bold tracking-tight text-[#080808]">+14%</span>
+                  <div className="flex items-center gap-0.5 rounded-md bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                      <path d="M6 2.5L9 6.5H3L6 2.5Z" fill="#00C26B" />
+                    </svg>
+                    <span>vs last mo</span>
+                  </div>
+                </div>
+                <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-200 flex">
+                  <div className="h-full bg-[#00CBE8]" style={{ width: '60%' }} title="Cash & Private (60%)" />
+                  <div className="h-full bg-[#5654DC]" style={{ width: '24%' }} title="M-Pesa Till (24%)" />
+                  <div className="h-full bg-[#FF104B]" style={{ width: '16%' }} title="SHA / Insurance (16%)" />
+                </div>
+              </div>
+
+              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+                <span className="text-xs font-medium text-[#888888]">Total Transactions</span>
+                <div className="mt-1 flex items-baseline gap-2">
+                  <span className="text-xl font-bold tracking-tight text-[#080808]">{formatNumber(totalTransactions)}</span>
+                  <span className="text-[10px] font-semibold text-[#888888]">sales</span>
+                </div>
+                <span className="mt-2 text-[11px] font-medium text-[#00CBE8] truncate">
+                  Dominant: SHA / Ins. ({formatNumber(shaSales)})
+                </span>
+              </div>
+            </div>
+
             {/* Donut Chart Visual & Floating Percentage Badges */}
-            <div className="relative flex items-center justify-center py-4">
+            <div className="relative flex items-center justify-center py-3">
               <svg className="w-48 h-48 -rotate-90 select-none" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="38" fill="none" stroke="#F1F5F9" strokeWidth="13" />
                 {/* 60% Blue (#00CBE8) */}
@@ -1384,13 +1762,13 @@ export function DashboardView({ user }) {
               </svg>
 
               {/* Floating Badges */}
-              <div className="absolute top-1 left-4 flex h-8 w-8 items-center justify-center rounded-full bg-white border border-[#E0E0E0] text-[11px] font-semibold text-[#080808] shadow-[0px_4px_12px_rgba(0,0,0,0.06)]">
+              <div className="absolute top-1 left-4 flex h-8 w-8 items-center justify-center rounded-full bg-white border border-[#E0E0E0] text-[11px] font-bold text-[#080808] shadow-[0px_4px_12px_rgba(0,0,0,0.06)]">
                 16%
               </div>
-              <div className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-white border border-[#E0E0E0] text-[11px] font-semibold text-[#080808] shadow-[0px_4px_12px_rgba(0,0,0,0.06)]">
+              <div className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-white border border-[#E0E0E0] text-[11px] font-bold text-[#080808] shadow-[0px_4px_12px_rgba(0,0,0,0.06)]">
                 24%
               </div>
-              <div className="absolute bottom-2 left-6 flex h-8 w-8 items-center justify-center rounded-full bg-white border border-[#E0E0E0] text-[11px] font-semibold text-[#080808] shadow-[0px_4px_12px_rgba(0,0,0,0.06)]">
+              <div className="absolute bottom-2 left-6 flex h-8 w-8 items-center justify-center rounded-full bg-white border border-[#E0E0E0] text-[11px] font-bold text-[#080808] shadow-[0px_4px_12px_rgba(0,0,0,0.06)]">
                 60%
               </div>
 
@@ -1403,231 +1781,279 @@ export function DashboardView({ user }) {
             </div>
           </div>
 
-          {/* Value Breakdown List */}
-          <div className="space-y-2.5 pt-3 border-t border-slate-100">
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-1 rounded-full bg-[#FF104B]" />
-                <span className="font-medium text-[#888888]">SHA / Insurance</span>
+          {/* Value Breakdown Mini Cards */}
+          <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100">
+            <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-[#FF104B]" />
+                <span className="text-[11px] font-medium text-[#888888] truncate">SHA / Ins.</span>
               </div>
-              <div className="flex items-center gap-1 font-semibold text-[#080808]">
-                <span>54,071</span>
-                <span className="text-[10px] text-[#888888] font-normal">sales</span>
-              </div>
+              <span className="mt-1 text-sm font-bold text-[#080808]">{formatNumber(shaSales)}</span>
+              <span className="text-[10px] text-[#888888]">sales (16%)</span>
             </div>
 
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-1 rounded-full bg-[#5654DC]" />
-                <span className="font-medium text-[#888888]">M-Pesa STK Till</span>
+            <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-[#5654DC]" />
+                <span className="text-[11px] font-medium text-[#888888] truncate">M-Pesa STK</span>
               </div>
-              <div className="flex items-center gap-1 font-semibold text-[#080808]">
-                <span>32,210</span>
-                <span className="text-[10px] text-[#888888] font-normal">sales</span>
-              </div>
+              <span className="mt-1 text-sm font-bold text-[#080808]">{formatNumber(mpesaSales)}</span>
+              <span className="text-[10px] text-[#888888]">sales (24%)</span>
             </div>
 
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-1 rounded-full bg-[#00CBE8]" />
-                <span className="font-medium text-[#888888]">Cash &amp; Private Pay</span>
+            <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-[#00CBE8]" />
+                <span className="text-[11px] font-medium text-[#888888] truncate">Cash / Card</span>
               </div>
-              <div className="flex items-center gap-1 font-semibold text-[#080808]">
-                <span>24,410</span>
-                <span className="text-[10px] text-[#888888] font-normal">sales</span>
-              </div>
+              <span className="mt-1 text-sm font-bold text-[#080808]">{formatNumber(cashSales)}</span>
+              <span className="text-[10px] text-[#888888]">sales (60%)</span>
             </div>
           </div>
         </div>
 
         {/* Card 2: Asset Distribution (Income Summary Radial Chart) */}
-        <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 {/* Orange Sack-coin Icon (#FF9900) */}
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-[#FF9900]">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <rect x="7" y="8" width="13" height="13" rx="3" stroke="#FF9900" strokeWidth="2" />
-                    <path d="M5 3h14v5H5z" stroke="#FF9900" strokeWidth="2" strokeLinejoin="round" />
-                    <rect x="3" y="14" width="7" height="3.5" rx="1.5" stroke="#FF9900" strokeWidth="2" />
-                  </svg>
-                </div>
-                <h3 className="text-sm font-semibold text-[#080808] tracking-tight">Income Summary</h3>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                  <rect x="7" y="8" width="13" height="13" rx="3" stroke="#FF9900" strokeWidth="2" />
+                  <path d="M5 3h14v5H5z" stroke="#FF9900" strokeWidth="2" strokeLinejoin="round" />
+                  <rect x="3" y="14" width="7" height="3.5" rx="1.5" stroke="#FF9900" strokeWidth="2" />
+                </svg>
+                <h3 className="text-sm font-semibold text-[#080808] tracking-tight">
+                  Income Summary ({incomeYear})
+                </h3>
                 <InfoBadgeIcon
-                  title="Asset & Income Distribution"
-                  subtitle="Settlement channels and growth pacing"
+                  title={`Income Summary (${incomeYear})`}
+                  subtitle="Settlement Channels & Revenue Yield"
                   accentColor="#FF9900"
                   stats={[
-                    { label: 'Active Income', value: formatCurrency(988238) },
-                    { label: 'Growth', value: '+32.1% pace' },
+                    { label: 'Active Income', value: formatCurrency(totalIncomeVal) },
+                    { label: 'Growth Pace', value: '+32.1%' },
+                    { label: 'Optimization', value: 'High Efficiency' },
+                    { label: 'Settlement Routes', value: '3 Active Channels' },
                   ]}
                   items={[
-                    { label: 'M-Pesa STK', value: formatCurrency(108208) },
-                    { label: 'Private Pay', value: formatCurrency(400338) },
-                    { label: 'Claims Till', value: formatCurrency(388203) },
+                    { label: 'M-Pesa STK', value: formatCurrency(mpesaIncomeVal) },
+                    { label: 'Private Payers', value: formatCurrency(privateIncomeVal) },
+                    { label: 'Insurance Claims', value: formatCurrency(claimsIncomeVal) },
                   ]}
+                  onOpenModal={() => setActiveChartModal('income')}
                 />
               </div>
 
               <CardActionToolbar
-                onExpand={() => alert('Opening Asset Distribution Overview in full view')}
-                selectedYear={salesYear}
-                onSelectYear={(yr) => setSalesYear(Number(yr))}
+                onExpand={() => setActiveChartModal('income')}
+                selectedYear={incomeYear}
+                onSelectYear={(yr) => setIncomeYear(Number(yr))}
               />
             </div>
 
-            {/* Content: Main Income Value & Concentric Radial Gauge */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center py-2">
-              <div className="flex flex-col">
-                <span className="text-xs font-medium text-[#AFAFAF]">Income</span>
-                <span className="text-2xl font-bold tracking-tight text-[#080808] mt-1">
-                  {formatCurrency(988238)}
-                </span>
-                <div className="flex items-center gap-1 text-[11px] font-semibold text-[#00C26B] mt-1.5">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M6 2.5L9.5 7.5H2.5L6 2.5Z" fill="#00C26B" />
-                  </svg>
-                  <span>32.1%</span>
+            {/* Top Summaries Row (Matching Top Cards UI) */}
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+                <span className="text-xs font-medium text-[#888888]">Active Practice Income</span>
+                <div className="mt-1 flex items-baseline gap-2">
+                  <span className="text-xl font-bold tracking-tight text-[#080808]">
+                    {formatCurrency(totalIncomeVal)}
+                  </span>
+                  <div className="flex items-center gap-0.5 rounded-md bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                      <path d="M6 2.5L9 6.5H3L6 2.5Z" fill="#00C26B" />
+                    </svg>
+                    <span>32.1%</span>
+                  </div>
+                </div>
+                <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-200 flex">
+                  <div className="h-full bg-[#00C26B]" style={{ width: '45%' }} />
+                  <div className="h-full bg-[#FF9900]" style={{ width: '35%' }} />
+                  <div className="h-full bg-[#FFDC8E]" style={{ width: '20%' }} />
                 </div>
               </div>
 
-              {/* Concentric Nested Gauge Rings SVG */}
-              <div className="relative flex items-center justify-center">
-                <svg className="w-36 h-36 -rotate-90 select-none" viewBox="0 0 120 120">
-                  {/* Outer Ring - Green (#00C26B) */}
-                  <circle cx="60" cy="60" r="50" fill="none" stroke="#EFEFEF" strokeWidth="8" />
-                  <circle
-                    cx="60"
-                    cy="60"
-                    r="50"
-                    fill="none"
-                    stroke="#00C26B"
-                    strokeWidth="8"
-                    strokeDasharray="314"
-                    strokeDashoffset="78"
-                    strokeLinecap="round"
-                  />
-                  {/* Middle Ring - Orange (#FF9900) */}
-                  <circle cx="60" cy="60" r="38" fill="none" stroke="#EFEFEF" strokeWidth="8" />
-                  <circle
-                    cx="60"
-                    cy="60"
-                    r="38"
-                    fill="none"
-                    stroke="#FF9900"
-                    strokeWidth="8"
-                    strokeDasharray="238"
-                    strokeDashoffset="95"
-                    strokeLinecap="round"
-                  />
-                  {/* Inner Ring - Soft Yellow (#FFDC8E) */}
-                  <circle cx="60" cy="60" r="26" fill="none" stroke="#EFEFEF" strokeWidth="8" />
-                  <circle
-                    cx="60"
-                    cy="60"
-                    r="26"
-                    fill="none"
-                    stroke="#FFDC8E"
-                    strokeWidth="8"
-                    strokeDasharray="163"
-                    strokeDashoffset="65"
-                    strokeLinecap="round"
-                  />
-                </svg>
+              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+                <span className="text-xs font-medium text-[#888888]">Channel Yield Status</span>
+                <div className="mt-1 flex items-baseline gap-2">
+                  <span className="text-xl font-bold tracking-tight text-[#080808]">Optimal</span>
+                  <span className="text-[10px] font-semibold text-[#00C26B]">94% score</span>
+                </div>
+                <span className="mt-2 text-[11px] font-medium text-[#888888] truncate">
+                  3 active settlement routes
+                </span>
+              </div>
+            </div>
+
+            {/* Concentric Nested Radial Gauge Rings SVG */}
+            <div className="relative flex items-center justify-center py-2">
+              <svg className="w-44 h-44 -rotate-90 select-none" viewBox="0 0 120 120">
+                {/* Outer Ring - Green (#00C26B) */}
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#F1F5F9" strokeWidth="8" />
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="50"
+                  fill="none"
+                  stroke="#00C26B"
+                  strokeWidth="8"
+                  strokeDasharray="314"
+                  strokeDashoffset="78"
+                  strokeLinecap="round"
+                />
+                {/* Middle Ring - Orange (#FF9900) */}
+                <circle cx="60" cy="60" r="38" fill="none" stroke="#F1F5F9" strokeWidth="8" />
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="38"
+                  fill="none"
+                  stroke="#FF9900"
+                  strokeWidth="8"
+                  strokeDasharray="238"
+                  strokeDashoffset="95"
+                  strokeLinecap="round"
+                />
+                {/* Inner Ring - Soft Yellow (#FFDC8E) */}
+                <circle cx="60" cy="60" r="26" fill="none" stroke="#F1F5F9" strokeWidth="8" />
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="26"
+                  fill="none"
+                  stroke="#FFDC8E"
+                  strokeWidth="8"
+                  strokeDasharray="163"
+                  strokeDashoffset="65"
+                  strokeLinecap="round"
+                />
+              </svg>
+
+              <div className="absolute flex flex-col items-center justify-center text-center">
+                <span className="text-lg font-bold text-[#080808] leading-tight">32.1%</span>
+                <span className="text-[10px] text-[#888888]">Growth rate</span>
               </div>
             </div>
           </div>
 
-          {/* Breakdown Rows */}
+          {/* Breakdown Mini Cards & Footer */}
           <div className="space-y-2 pt-3 border-t border-slate-100">
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#00C26B]" />
-                <span className="text-[#888888] font-medium">M-Pesa STK</span>
+            <div className="grid grid-cols-3 gap-2">
+              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-[#00C26B]" />
+                  <span className="text-[11px] font-medium text-[#888888] truncate">M-Pesa STK</span>
+                </div>
+                <span className="mt-1 text-xs font-bold text-[#080808]">{formatCurrency(mpesaIncomeVal)}</span>
+                <span className="text-[10px] text-[#00C26B]">Direct Mobile</span>
               </div>
-              <span className="font-semibold text-[#030303]">{formatCurrency(108208)}</span>
+
+              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-[#FF9900]" />
+                  <span className="text-[11px] font-medium text-[#888888] truncate">Private Pay</span>
+                </div>
+                <span className="mt-1 text-xs font-bold text-[#080808]">{formatCurrency(privateIncomeVal)}</span>
+                <span className="text-[10px] text-[#FF9900]">Self-funded</span>
+              </div>
+
+              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-[#FFE88C]" />
+                  <span className="text-[11px] font-medium text-[#888888] truncate">SHA Claims</span>
+                </div>
+                <span className="mt-1 text-xs font-bold text-[#080808]">{formatCurrency(claimsIncomeVal)}</span>
+                <span className="text-[10px] text-[#888888]">Institutional</span>
+              </div>
             </div>
 
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#FF9900]" />
-                <span className="text-[#888888] font-medium">Private Payers</span>
-              </div>
-              <span className="font-semibold text-[#030303]">{formatCurrency(400338)}</span>
-            </div>
-
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#FFE88C]" />
-                <span className="text-[#888888] font-medium">Insurance Claims</span>
-              </div>
-              <span className="font-semibold text-[#030303]">{formatCurrency(388203)}</span>
-            </div>
-
-            <p className="text-[10px] text-center text-[#888888] pt-1">
+            <p className="text-[11px] text-center text-[#888888] pt-1">
               Optimize again to get your best score
             </p>
           </div>
         </div>
 
         {/* Card 3: Practice Financial Balance (Horizontal Segmented Bar Chart) */}
-        <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 {/* Wallet-dollar Blue Icon (#00CBE8) */}
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-50 text-[#00CBE8]">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <rect x="3" y="6" width="18" height="14" rx="2" stroke="#00CBE8" strokeWidth="2" />
-                    <path d="M16 13a2 2 0 100-4 2 2 0 000 4z" stroke="#00CBE8" strokeWidth="2" />
-                    <path d="M9 3v3M15 3v3" stroke="#00CBE8" strokeWidth="2" strokeLinecap="round" />
-                  </svg>
-                </div>
-                <h3 className="text-sm font-semibold text-[#080808] tracking-tight">Balance</h3>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                  <rect x="3" y="6" width="18" height="14" rx="2" stroke="#00CBE8" strokeWidth="2" />
+                  <path d="M16 13a2 2 0 100-4 2 2 0 000 4z" stroke="#00CBE8" strokeWidth="2" />
+                  <path d="M9 3v3M15 3v3" stroke="#00CBE8" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                <h3 className="text-sm font-semibold text-[#080808] tracking-tight">
+                  Financial Balance ({balanceYear})
+                </h3>
                 <InfoBadgeIcon
-                  title="Practice Financial Balance"
-                  subtitle="Settlement channels by Upwork, Fiverr & Private Retainers"
+                  title={`Practice Financial Balance (${balanceYear})`}
+                  subtitle="Retainer & Service Settlement Streams"
                   accentColor="#00CBE8"
                   stats={[
-                    { label: 'Total Balance', value: formatCurrency(94127) },
-                    { label: 'Pace', value: '+12% vs last years' },
+                    { label: 'Total Balance', value: formatCurrency(totalBalanceVal) },
+                    { label: 'Annual Pace', value: '+12% vs last years' },
+                    { label: 'Primary Share', value: '32% (Primary Care)' },
+                    { label: 'Cycle Range', value: 'Feb 1 - 28' },
                   ]}
                   items={[
-                    { label: 'Primary Care', value: formatCurrency(52000) },
-                    { label: 'Consultation', value: formatCurrency(32000) },
-                    { label: 'Fixed Income', value: formatCurrency(12500) },
+                    { label: 'Primary Care', value: formatCurrency(primaryCareVal) },
+                    { label: 'Speciality Care', value: formatCurrency(specialityCareVal) },
+                    { label: 'Full-time Retainer', value: formatCurrency(fixedIncomeVal) },
                   ]}
+                  onOpenModal={() => setActiveChartModal('balance')}
                 />
               </div>
 
               <CardActionToolbar
-                onExpand={() => alert('Opening Practice Financial Balance in full view')}
-                selectedYear={salesYear}
-                onSelectYear={(yr) => setSalesYear(Number(yr))}
+                onExpand={() => setActiveChartModal('balance')}
+                selectedYear={balanceYear}
+                onSelectYear={(yr) => setBalanceYear(Number(yr))}
               />
             </div>
 
-            {/* Total Balance Value & Year Growth */}
-            <div className="mb-4">
-              <span className="text-2xl font-bold tracking-tight text-[#080808] leading-none">
-                {formatCurrency(94127)}
-              </span>
-              <div className="mt-1 flex items-center gap-1.5">
-                <span className="inline-flex items-center gap-0.5 rounded-full bg-[#E2FFF3] border border-[#6EEABB] px-2 py-0.5 text-[10px] font-bold text-[#00C26B]">
-                  ▲ 12%
+            {/* Top Summaries Row (Matching Top Cards UI) */}
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+                <span className="text-xs font-medium text-[#888888]">Total Settled Balance</span>
+                <div className="mt-1 flex items-baseline gap-2">
+                  <span className="text-xl font-bold tracking-tight text-[#080808]">
+                    {formatCurrency(totalBalanceVal)}
+                  </span>
+                  <div className="flex items-center gap-0.5 rounded-md bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                      <path d="M6 2.5L9 6.5H3L6 2.5Z" fill="#00C26B" />
+                    </svg>
+                    <span>12%</span>
+                  </div>
+                </div>
+                <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-200 flex">
+                  <div className="h-full bg-[#FFC600]" style={{ width: '32%' }} />
+                  <div className="h-full bg-[#00C26B]" style={{ width: '38%' }} />
+                  <div className="h-full bg-[#00CBE8]" style={{ width: '30%' }} />
+                </div>
+              </div>
+
+              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+                <span className="text-xs font-medium text-[#888888]">Fiscal Cycle Range</span>
+                <div className="mt-1 flex items-baseline gap-2">
+                  <span className="text-xl font-bold tracking-tight text-[#080808]">Feb 1 – 28</span>
+                </div>
+                <span className="mt-2 text-[11px] font-medium text-[#00C26B]">
+                  ▲ 12% vs last years performance
                 </span>
-                <span className="text-[11px] text-[#888888] font-medium">vs last years</span>
               </div>
             </div>
 
             {/* 3 Dashed Columns Channel Grid */}
-            <div className="grid grid-cols-3 gap-2 border-y border-dashed border-[#AFAFAF]/40 py-3 mb-3">
+            <div className="grid grid-cols-3 gap-2 border-y border-dashed border-[#AFAFAF]/40 py-3 mb-4">
               {/* Channel 1: Primary Care */}
               <div className="flex flex-col">
-                <span className="text-xs font-semibold text-[#080808]">{formatCurrency(52000)}</span>
+                <span className="text-xs font-semibold text-[#080808]">{formatCurrency(primaryCareVal)}</span>
                 <span className="text-[10px] text-[#AFAFAF] font-medium mt-0.5">Primary Care</span>
                 <div className="flex items-center gap-0.5 text-[10px] font-semibold text-[#00C26B] mt-1">
                   <span>▲</span>
@@ -1637,7 +2063,7 @@ export function DashboardView({ user }) {
 
               {/* Channel 2: Speciality */}
               <div className="flex flex-col border-l border-dashed border-[#AFAFAF]/40 pl-2">
-                <span className="text-xs font-semibold text-[#080808]">{formatCurrency(32000)}</span>
+                <span className="text-xs font-semibold text-[#080808]">{formatCurrency(specialityCareVal)}</span>
                 <span className="text-[10px] text-[#AFAFAF] font-medium mt-0.5">Speciality</span>
                 <div className="flex items-center gap-0.5 text-[10px] font-semibold text-[#FF104B] mt-1">
                   <span>▼</span>
@@ -1647,7 +2073,7 @@ export function DashboardView({ user }) {
 
               {/* Channel 3: Fixed Income */}
               <div className="flex flex-col border-l border-dashed border-[#AFAFAF]/40 pl-2">
-                <span className="text-xs font-semibold text-[#080808]">{formatCurrency(12500)}</span>
+                <span className="text-xs font-semibold text-[#080808]">{formatCurrency(fixedIncomeVal)}</span>
                 <span className="text-[10px] text-[#AFAFAF] font-medium mt-0.5">Full-time</span>
                 <span className="text-[10px] text-[#888888] font-medium mt-1">Fixed income</span>
               </div>
@@ -1660,17 +2086,17 @@ export function DashboardView({ user }) {
               <div
                 className="h-full bg-[#FFC600] rounded-xs border border-white"
                 style={{ width: '32%' }}
-                title={`Primary Care (${formatCurrency(52000)})`}
+                title={`Primary Care (${formatCurrency(primaryCareVal)})`}
               />
               <div
                 className="h-full bg-[#00C26B] rounded-xs border border-white"
                 style={{ width: '38%' }}
-                title={`Speciality (${formatCurrency(32000)})`}
+                title={`Speciality (${formatCurrency(specialityCareVal)})`}
               />
               <div
                 className="h-full bg-[#00CBE8] rounded-xs border border-white"
                 style={{ width: '30%' }}
-                title={`Fixed Income (${formatCurrency(12500)})`}
+                title={`Fixed Income (${formatCurrency(fixedIncomeVal)})`}
               />
             </div>
 
