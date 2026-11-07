@@ -288,8 +288,7 @@ export default function HelpSidebar() {
                   {/* Contextual Recommendation Card */}
                   {contextualTopic && !helpSearch.trim() && (
                     <div className="p-3.5 bg-brand-50/60 border border-brand-200/80 rounded space-y-1.5">
-                      <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-700">
-                        <span className="w-2 h-2 rounded-full bg-brand-pink inline-block animate-pulse" />
+                      <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-700"> 
                         Relevant to Current View
                       </div>
                       <h3 className="text-xs font-bold text-slate-900">{contextualTopic.title}</h3>

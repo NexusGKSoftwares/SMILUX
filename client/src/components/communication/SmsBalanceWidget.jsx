@@ -42,18 +42,18 @@ export default function SmsBalanceWidget() {
       <button
         type="button"
         onClick={() => setModalOpen(true)}
-        className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded border border-slate-200 bg-slate-50/90 hover:bg-slate-100/90 hover:border-slate-300 transition-all cursor-pointer font-sans"
+        className="hidden md:flex items-center gap-2 px-1 py-1 rounded border border-slate-200 bg-slate-50/90 hover:bg-slate-100/90 hover:border-slate-300 transition-all cursor-pointer font-sans"
         title="Patient SMS Reminders Balance · Click to Top Up"
       >
-        <div className="flex h-5 w-5 items-center justify-center rounded bg-emerald-100 text-emerald-700">
-          <HugeiconsIcon icon={BubbleChatIcon} size={13} />
+        <div className="flex h-5 w-5 items-center justify-center rounded bg-brand-green text-emerald-700">
+          <HugeiconsIcon icon={BubbleChatIcon} size={13} className='text-white' />
         </div>
         <div className="flex items-center gap-1.5 text-xs">
           <span className="font-bold text-slate-800">{balance.toLocaleString()}</span>
           <span className="text-[11px] font-medium text-slate-500">SMS</span>
         </div>
         <span className="inline-flex items-center gap-0.5 rounded bg-emerald-50 px-1.5 py-0.5 text-[9px] font-bold text-emerald-700 border border-emerald-200 uppercase">
-          <HugeiconsIcon icon={FlashIcon} size={10} />
+
           Top Up
         </span>
       </button>

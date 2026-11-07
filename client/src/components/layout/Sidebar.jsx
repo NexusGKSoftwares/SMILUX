@@ -50,6 +50,7 @@ export default function Sidebar({
   isCollapsed = false,
   onToggleCollapse,
   onCloseMobile,
+  onOpenHelp,
   user = { name: 'Dr. John Doe', email: 'owner@avicena.co.ke', role: 'Lead Dentist' },
   onLogout,
 }) {
@@ -87,7 +88,7 @@ export default function Sidebar({
     >
       {/* Clinic Workspace Selector Header */}
       <div
-        className={`relative flex h-16 shrink-0 items-center border-b border-slate-100 ${isCollapsed ? 'justify-center px-1.5' : 'justify-between px-3'}`}
+        className={`relative flex h-14 shrink-0 items-center border-b border-slate-100 ${isCollapsed ? 'justify-center px-1' : 'justify-between px-3'}`}
         ref={clinicMenuRef}
       >
         {!isCollapsed ? (
@@ -131,7 +132,7 @@ export default function Sidebar({
             )}
           </>
         ) : (
-          <div className="flex flex-col items-center gap-1">
+          <div className="flex flex-col items-center ">
             <button
               type="button"
               onClick={onToggleCollapse}
@@ -283,49 +284,56 @@ export default function Sidebar({
         ))}
       </nav>
 
-      {/* User Footer Profile & Quick Logout */}
-      <div className={`shrink-0 border-t border-slate-100 bg-slate-50/50 ${isCollapsed ? 'p-1.5' : 'p-3'}`}>
-        {!isCollapsed ? (
-          <div className="flex items-center justify-between gap-2 p-2 rounded bg-white border border-slate-200/90 shadow-2xs">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-900 text-white text-xs font-bold">
-                {user?.name?.[0] || 'D'}
-              </div>
-              <div className="flex flex-col min-w-0">
-                <span className="text-xs font-bold text-slate-900 truncate">
-                  {user?.name || 'Dr. John Doe'}
-                </span>
-                <span className="text-[10px] font-medium text-slate-500 truncate">
-                  {user?.role || 'Lead Dentist'}
-                </span>
-              </div>
-            </div>
+      {/* ── Fixed bottom buttons (Settings + Help & Support) ───────────────── */}
+      <div className={`shrink-0 border-t border-slate-200  ${isCollapsed ? 'p-1.5 space-y-1' : 'p-2 space-y-1'}`}>
+        {/* Settings */}
+        <button
+          type="button"
+          onClick={() => navigate('/settings')}
+          title={isCollapsed ? 'Clinic Settings' : undefined}
+          className={`
+            w-full flex items-center rounded-lg text-xs font-semibold transition-all cursor-pointer
+            ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-3 py-1'}
+            ${location.pathname === '/settings'
+              ? 'bg-brand-50 text-brand-700 font-bold border-l-3 border-brand-600 shadow-2xs'
+              : 'text-slate-700 hover:bg-slate-100/90 hover:text-slate-900'
+            }
+          `.trim()}
+        >
+          <HugeiconsIcon
+            icon={Settings01Icon}
+            size={18}
+            className={location.pathname === '/settings' ? 'text-brand-600 shrink-0' : 'text-slate-400 shrink-0'}
+          />
+          {!isCollapsed && <span>Clinic Settings</span>}
+        </button>
 
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="rounded p-1.5 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors cursor-pointer shrink-0"
-              title="Log Out"
-            >
-              <HugeiconsIcon icon={Logout01Icon} size={16} />
-            </button>
+        {/* Help & Support */}
+        <button
+          type="button"
+          onClick={() => {
+            if (onOpenHelp) onOpenHelp();
+            else window.location.href = 'mailto:support@smilux.co.ke';
+          }}
+          title={isCollapsed ? 'Help & Support Center' : undefined}
+          className={`
+            w-full flex items-center rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-100/90 hover:text-slate-900 transition-all cursor-pointer
+            ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-3 py-1'}
+          `.trim()}
+        >
+          <HugeiconsIcon icon={HelpCircleIcon} size={18} className="text-slate-400 shrink-0" />
+          {!isCollapsed && <span>Help &amp; Support</span>}
+        </button>
+      </div>
+
+      {/* User Footer Profile & Quick Logout */}
+      <div className={`shrink-0 border-t border-slate-100 ${isCollapsed ? 'p-0' : 'p-0'}`}>
+        {!isCollapsed ? (
+          <div className=" ">
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2 py-1">
-            <div
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-white text-xs font-bold"
-              title={`${user?.name || 'Dr. John Doe'} (${user?.role || 'Lead Dentist'})`}
-            >
-              {user?.name?.[0] || 'D'}
-            </div>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="rounded p-1.5 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors cursor-pointer"
-              title="Log Out"
-            >
-              <HugeiconsIcon icon={Logout01Icon} size={16} />
-            </button>
+          
             <button
               type="button"
               onClick={onToggleCollapse}
