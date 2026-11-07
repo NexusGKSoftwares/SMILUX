@@ -11,6 +11,7 @@ import LoginPage from "./pages/login.jsx";
 import ForgotPasswordPage from "./pages/ForgotPassword.jsx";
 import RegisterPage from "./pages/Register.jsx";
 import ReferralProgram from "./pages/ReferralProgram.jsx";
+import { AppLayout } from "./components/layout";
 
 function AppRoutes({ loggedInUser, setLoggedInUser }) {
   const navigate = useNavigate();
@@ -32,6 +33,11 @@ function AppRoutes({ loggedInUser, setLoggedInUser }) {
         navigate("/login");
         break;
     }
+  };
+
+  const handleLogout = () => {
+    setLoggedInUser(null);
+    navigate("/login");
   };
 
   return (
@@ -92,32 +98,27 @@ function AppRoutes({ loggedInUser, setLoggedInUser }) {
           }
         />
 
+        {/* Authenticated Layout & Workspace Routes */}
         <Route
           path="/dashboard"
           element={
             loggedInUser ? (
-              <div className="min-h-screen bg-slate-50 p-6 flex flex-col items-center justify-center font-sans">
-                <div className="max-w-md w-full bg-white p-8 rounded-2xl border border-slate-200 shadow-sm text-center space-y-4">
-                  <h2 className="text-2xl font-bold text-slate-900">
-                    Welcome to Smilux Dental
-                  </h2>
-                  <p className="text-sm text-emerald-600 font-semibold">
-                    Logged in as {loggedInUser.name} ({loggedInUser.email})
-                  </p>
-
-                  <div className="pt-4 flex flex-col gap-2">
-                    <button
-                      onClick={() => {
-                        setLoggedInUser(null);
-                        navigate("/login");
-                      }}
-                      className="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2.5 rounded-xl text-xs transition-all cursor-pointer"
-                    >
-                      Log Out
-                    </button>
+              <AppLayout
+                user={loggedInUser}
+                onLogout={handleLogout}
+                onQuickAction={() => alert("Quick Action: Add New Patient")}
+              >
+                <div className="space-y-6">
+                  <div className="rounded-xl border border-slate-200/90 bg-white p-6 shadow-2xs">
+                    <h2 className="text-xl font-bold text-slate-900">
+                      Welcome back, {loggedInUser.name}!
+                    </h2>
+                    <p className="mt-1 text-xs text-slate-500">
+                      Logged in as <span className="font-semibold text-brand-600">{loggedInUser.email}</span>. Here is your practice overview.
+                    </p>
                   </div>
                 </div>
-              </div>
+              </AppLayout>
             ) : (
               <Navigate to="/login" replace />
             )
