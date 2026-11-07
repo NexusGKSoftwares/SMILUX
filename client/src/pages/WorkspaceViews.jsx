@@ -15,6 +15,7 @@ import {
 import Button from '../components/UI/Button.jsx';
 import { RefreshIcon, ChartIcon } from '../components/UI/tableIcons.jsx';
 import { kpiCardsData, webAnalyticsData, salesAreaChartData } from './data.js';
+import { formatCurrency } from '../utils/formatter.js';
 
 // ─── Shared Card Info Icon & Action Toolbar (From SVG Spec) ─────────────────
 export function InfoBadgeIcon({ title = 'Analytics Overview' }) {
@@ -168,7 +169,6 @@ export function DashboardView({ user }) {
 
   // Interactive states for Sales Area Chart & Patient Growth Overview
   const [selectedSalesMonth, setSelectedSalesMonth] = useState(salesAreaChartData.defaultMonth);
-  const [salesCurrency, setSalesCurrency] = useState('USD');
   const [isSalesExpanded, setIsSalesExpanded] = useState(false);
   const [hoveredBarIndex, setHoveredBarIndex] = useState(null);
   const [selectedWebWeek, setSelectedWebWeek] = useState(webAnalyticsData.defaultMonth || 'Jun');
@@ -300,27 +300,24 @@ export function DashboardView({ user }) {
 
               <CardActionToolbar
                 onExpand={() => setIsSalesExpanded((prev) => !prev)}
-                onEdit={() => setSalesCurrency((prev) => (prev === 'USD' ? 'KES' : 'USD'))}
+                onEdit={() =>
+                  setSelectedSalesMonth((prev) => (prev === 'Dec' ? salesAreaChartData.defaultMonth : 'Dec'))
+                }
                 onMore={() => {
                   setSelectedSalesMonth(salesAreaChartData.defaultMonth);
-                  setSalesCurrency('USD');
                 }}
-                editTitle="Toggle USD / KES Currency"
+                editTitle="Cycle Month Selection"
               />
             </div>
 
-            {/* Total $ Profit Value Block */}
+            {/* Total Profit Value Block */}
             <div className="mb-3 flex items-baseline justify-between">
               <div className="flex flex-col">
                 <span className="text-xs font-medium text-[#888888]">
-                  {salesCurrency === 'USD'
-                    ? `${salesAreaChartData.subtitle} • ${salesAreaChartData.year}`
-                    : `Total KES profit • ${salesAreaChartData.year}`}
+                  {salesAreaChartData.subtitle} • {salesAreaChartData.year}
                 </span>
                 <span className="mt-1 text-2xl font-semibold tracking-tight text-[#080808] leading-none">
-                  {salesCurrency === 'USD'
-                    ? salesAreaChartData.totalProfitUsd
-                    : salesAreaChartData.totalProfitKes}
+                  {salesAreaChartData.totalProfit}
                 </span>
               </div>
               <span className="text-[11px] font-medium text-[#888888]">
@@ -328,7 +325,7 @@ export function DashboardView({ user }) {
                 <strong className="text-[#080808]">
                   {activeSalesMonthObj.month} {salesAreaChartData.year}
                 </strong>{' '}
-                ({salesCurrency === 'USD' ? activeSalesMonthObj.valueUsd : activeSalesMonthObj.valueKes})
+                ({activeSalesMonthObj.value})
               </span>
             </div>
           </div>
@@ -380,7 +377,7 @@ export function DashboardView({ user }) {
                 />
               ))}
 
-              {/* Y-Axis Labels ($80K .. 0) */}
+              {/* Y-Axis Labels (300K .. 0) */}
               {salesAreaChartData.yAxisLabels.map((item) => (
                 <text
                   key={item.label}
@@ -391,7 +388,7 @@ export function DashboardView({ user }) {
                   fontSize="14"
                   fontWeight="500"
                 >
-                  {salesCurrency === 'USD' ? item.label : item.kesLabel}
+                  {item.label}
                 </text>
               ))}
 
@@ -435,20 +432,18 @@ export function DashboardView({ user }) {
                 strokeWidth="2.5"
               />
 
-              {/* Floating Dark Tooltip Badge (#030303, $57,000) */}
-              <g transform={`translate(${Math.min(Math.max(activeSalesMonthObj.x - 42, 72), 608)}, 224)`}>
-                <rect width="84" height="24" rx="4" fill="#030303" />
+              {/* Floating Dark Tooltip Badge (#030303) */}
+              <g transform={`translate(${Math.min(Math.max(activeSalesMonthObj.x - 45, 72), 602)}, 224)`}>
+                <rect width="90" height="24" rx="4" fill="#030303" />
                 <text
-                  x="42"
+                  x="45"
                   y="16"
                   textAnchor="middle"
                   fill="#FFFFFF"
-                  fontSize="13.5"
+                  fontSize="12.5"
                   fontWeight="500"
                 >
-                  {salesCurrency === 'USD'
-                    ? activeSalesMonthObj.valueUsd
-                    : activeSalesMonthObj.valueKes}
+                  {activeSalesMonthObj.compactValue}
                 </text>
               </g>
 
@@ -846,9 +841,9 @@ export function DashboardView({ user }) {
 
           <div className="flex items-center gap-2">
             <div className="text-right">
-              <span className="text-2xl font-extrabold text-[#080808]">$94,127</span>
+              <span className="text-2xl font-extrabold text-[#080808]">{formatCurrency(965000)}</span>
               <div className="flex items-center gap-1 text-[11px] font-bold text-[#00C26B] justify-end">
-                <span className="rounded-full bg-[#E2FFF3] border border-[#6EEABB] px-2 py-0.5">▲ +12% vs last years</span>
+                <span className="rounded-full bg-[#E2FFF3] border border-[#6EEABB] px-2 py-0.5">▲ +12% vs last year</span>
               </div>
             </div>
           </div>
@@ -859,7 +854,7 @@ export function DashboardView({ user }) {
           {/* Channel 1: SHA Insurance */}
           <div className="space-y-2 rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#080808]">$52,000</span>
+              <span className="text-xs font-bold text-[#080808]">{formatCurrency(520000)}</span>
               <span className="rounded-md bg-white border border-slate-200 px-2 py-0.5 text-[11px] font-bold text-[#00C26B]">
                 ▲ 32.1%
               </span>
@@ -871,7 +866,7 @@ export function DashboardView({ user }) {
           {/* Channel 2: M-Pesa STK Push */}
           <div className="space-y-2 rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#080808]">$32,000</span>
+              <span className="text-xs font-bold text-[#080808]">{formatCurrency(320000)}</span>
               <span className="rounded-md bg-white border border-slate-200 px-2 py-0.5 text-[11px] font-bold text-[#FF104B]">
                 ▼ 16.1%
               </span>
@@ -883,7 +878,7 @@ export function DashboardView({ user }) {
           {/* Channel 3: Private Cash */}
           <div className="space-y-2 rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#080808]">$12,500</span>
+              <span className="text-xs font-bold text-[#080808]">{formatCurrency(125000)}</span>
               <span className="rounded-md bg-white border border-slate-200 px-2 py-0.5 text-[11px] font-medium text-[#888888]">
                 Fixed income
               </span>
@@ -900,9 +895,9 @@ export function DashboardView({ user }) {
             <span>100% Reconciled</span>
           </div>
           <div className="h-3 w-full overflow-hidden rounded-full bg-slate-100 flex gap-0.5">
-            <div className="h-full bg-[#00CBE8]" style={{ width: '55%' }} title="SHA Insurance ($52,000)" />
-            <div className="h-full bg-[#00C26B]" style={{ width: '34%' }} title="M-Pesa STK ($32,000)" />
-            <div className="h-full bg-[#FFC600]" style={{ width: '11%' }} title="Cash & Cards ($12,500)" />
+            <div className="h-full bg-[#00CBE8]" style={{ width: '55%' }} title={`SHA Insurance (${formatCurrency(520000)})`} />
+            <div className="h-full bg-[#00C26B]" style={{ width: '34%' }} title={`M-Pesa STK (${formatCurrency(320000)})`} />
+            <div className="h-full bg-[#FFC600]" style={{ width: '11%' }} title={`Cash & Cards (${formatCurrency(125000)})`} />
           </div>
         </div>
         </div>
