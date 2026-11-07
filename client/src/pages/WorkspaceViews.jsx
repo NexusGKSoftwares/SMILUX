@@ -14,7 +14,15 @@ import {
 } from '@hugeicons/core-free-icons';
 import Button from '../components/UI/Button.jsx';
 import { RefreshIcon, ChartIcon } from '../components/UI/tableIcons.jsx';
-import { kpiCardsData, webAnalyticsData, salesAreaChartData } from './data.js';
+import {
+  kpiCardsData,
+  webAnalyticsData,
+  salesAreaChartData,
+  currentYear,
+  availableYears,
+  getSalesChartDataByYear,
+  getPatientGrowthDataByYear,
+} from './data.js';
 import { formatCurrency, formatNumber } from '../utils/formatter.js';
 
 // ─── Shared Card Info Icon & Interactive Data Popover (From SVG Spec) ───────
@@ -132,9 +140,38 @@ export function InfoBadgeIcon({
   );
 }
 
-export function CardActionToolbar({ onExpand, onEdit, onMore, editTitle = 'Edit / Toggle View' }) {
+export function CardActionToolbar({
+  onExpand,
+  selectedYear = currentYear,
+  onSelectYear,
+  years = availableYears,
+}) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    if (!isMenuOpen) return undefined;
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setIsMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMenuOpen]);
+
   return (
-    <div className="inline-flex h-7 items-center gap-2.5 rounded-lg border border-[#E0E0E0] bg-white px-2.5 shadow-[0px_1px_2px_rgba(0,0,0,0.05)]">
+    <div
+      ref={menuRef}
+      className="relative inline-flex h-7 items-center gap-2 rounded-lg border border-[#E0E0E0] bg-white px-2.5 shadow-[0px_1px_2px_rgba(0,0,0,0.05)]"
+    >
       <button
         type="button"
         onClick={onExpand}
@@ -151,28 +188,17 @@ export function CardActionToolbar({ onExpand, onEdit, onMore, editTitle = 'Edit 
           />
         </svg>
       </button>
+
+      <span className="h-3.5 w-px bg-[#EFEFEF]" />
+
       <button
         type="button"
-        onClick={onEdit}
-        className="text-[#888888] hover:text-[#080808] transition-colors cursor-pointer"
-        title={editTitle}
-      >
-        <svg width="13" height="13" viewBox="644 32 16 16" fill="none">
-          <path
-            d="M648.673 47.4434L658.832 37.2329C659.463 36.5988 659.461 35.5737 658.829 34.9412L657.062 33.1739C656.429 32.5413 655.404 32.5401 654.77 33.1713L644.559 43.3343L644.559 47.4434L648.673 47.4434Z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path d="M653.48 34.4629L657.537 38.5192" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-      </button>
-      <button
-        type="button"
-        onClick={onMore}
-        className="text-[#888888] hover:text-[#080808] transition-colors cursor-pointer"
-        title="Reset / More options"
+        onClick={() => setIsMenuOpen((prev) => !prev)}
+        className={`inline-flex items-center gap-1 text-xs transition-colors cursor-pointer ${
+          isMenuOpen ? 'text-[#080808]' : 'text-[#888888] hover:text-[#080808]'
+        }`}
+        title="Select Year"
+        aria-expanded={isMenuOpen}
       >
         <svg width="13" height="13" viewBox="674 32 16 16" fill="none">
           <path
@@ -181,6 +207,35 @@ export function CardActionToolbar({ onExpand, onEdit, onMore, editTitle = 'Edit 
           />
         </svg>
       </button>
+
+      {isMenuOpen && (
+        <div className="absolute right-0 top-8 z-50 w-36 rounded-xl border border-[#E0E0E0] bg-white p-1.5 shadow-[0px_12px_28px_rgba(0,0,0,0.12)]">
+          <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#888888]">
+            Select Year
+          </div>
+          {years.map((yr) => {
+            const isSelected = Number(selectedYear) === Number(yr);
+            return (
+              <button
+                key={yr}
+                type="button"
+                onClick={() => {
+                  if (onSelectYear) onSelectYear(yr);
+                  setIsMenuOpen(false);
+                }}
+                className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-colors cursor-pointer ${
+                  isSelected
+                    ? 'bg-slate-900 text-white'
+                    : 'text-[#080808] hover:bg-slate-100'
+                }`}
+              >
+                <span>Year {yr}</span>
+                {isSelected && <span className="text-[10px]">✓</span>}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -268,12 +323,17 @@ export function DashboardView({ user }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Interactive states for Sales Area Chart & Patient Growth Overview
+  const [salesYear, setSalesYear] = useState(currentYear);
+  const [patientGrowthYear, setPatientGrowthYear] = useState(currentYear);
   const [selectedSalesMonth, setSelectedSalesMonth] = useState(salesAreaChartData.defaultMonth);
   const [isSalesExpanded, setIsSalesExpanded] = useState(false);
   const [hoveredBarIndex, setHoveredBarIndex] = useState(null);
   const [selectedWebWeek, setSelectedWebWeek] = useState(webAnalyticsData.defaultMonth || 'Jun');
   const [isWebExpanded, setIsWebExpanded] = useState(false);
   const [activeChartModal, setActiveChartModal] = useState(null); // 'sales' | 'patient-growth' | null
+
+  const currentSalesData = getSalesChartDataByYear(salesYear);
+  const currentPatientData = getPatientGrowthDataByYear(patientGrowthYear);
 
   useEffect(() => {
     if (!activeChartModal) return undefined;
@@ -285,17 +345,25 @@ export function DashboardView({ user }) {
   }, [activeChartModal]);
 
   const activeSalesMonthObj =
-    salesAreaChartData.months.find((m) => m.month === selectedSalesMonth) ||
-    salesAreaChartData.months[5];
+    currentSalesData.months.find((m) => m.month === selectedSalesMonth) ||
+    currentSalesData.months[5];
 
   const activePatientMonthObj =
-    webAnalyticsData.bars.find((b) => b.month === selectedWebWeek) ||
-    webAnalyticsData.bars[5];
+    currentPatientData.bars.find((b) => b.month === selectedWebWeek) ||
+    currentPatientData.bars[5];
 
-  const totalAnnualSales = salesAreaChartData.months.reduce((sum, m) => sum + (m.amount || 0), 0);
-  const avgMonthlySales = Math.round(totalAnnualSales / salesAreaChartData.months.length);
-  const totalAnnualPatients = webAnalyticsData.bars.reduce((sum, b) => sum + Number(b.count || 0), 0);
-  const avgMonthlyPatients = Math.round(totalAnnualPatients / webAnalyticsData.bars.length);
+  const totalAnnualSales = currentSalesData.months.reduce((sum, m) => sum + (m.amount || 0), 0);
+  const avgMonthlySales = Math.round(totalAnnualSales / currentSalesData.months.length);
+  const peakSalesMonth = currentSalesData.months.reduce(
+    (max, m) => (m.amount > max.amount ? m : max),
+    currentSalesData.months[0]
+  );
+  const totalAnnualPatients = currentPatientData.bars.reduce((sum, b) => sum + Number(b.count || 0), 0);
+  const avgMonthlyPatients = Math.round(totalAnnualPatients / currentPatientData.bars.length);
+  const peakPatientMonth = currentPatientData.bars.reduce(
+    (max, b) => (Number(b.count) > Number(max.count) ? b : max),
+    currentPatientData.bars[0]
+  );
 
   const greeting = getTimeBasedGreeting();
   const doctorName = user?.name || 'Dr. Darrell Steward';
