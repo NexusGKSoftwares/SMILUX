@@ -329,13 +329,13 @@ export function DashboardView({ user }) {
           </div>
 
           {/* Smooth Line & Area Graph (SVG) */}
-          <div className="w-full overflow-hidden">
+          <div className="w-full flex-1 flex items-end overflow-hidden">
             <svg
-              viewBox="18 210 684 268"
+              viewBox="20 214 674 258"
               fill="none"
-              className={`w-full transition-all duration-300 ${
-                isSalesExpanded ? 'max-h-56' : 'max-h-40'
-              } h-auto select-none`}
+              className={`w-full block transition-all duration-300 ${
+                isSalesExpanded ? 'h-80' : 'h-auto'
+              } select-none`}
             >
               <defs>
                 {/* Horizontal Red-to-Purple Stroke Gradient */}
@@ -577,13 +577,13 @@ export function DashboardView({ user }) {
           </div>
 
           {/* Exact SVG Bar Chart with Dashed Grid Lines */}
-          <div className="w-full overflow-hidden">
+          <div className="w-full flex-1 flex items-end overflow-hidden">
             <svg
-              viewBox="28 220 680 262"
+              viewBox="28 220 674 258"
               fill="none"
-              className={`w-full transition-all duration-300 ${
-                isWebExpanded ? 'max-h-56' : 'max-h-40'
-              } h-auto select-none`}
+              className={`w-full block transition-all duration-300 ${
+                isWebExpanded ? 'h-80' : 'h-auto'
+              } select-none`}
             >
               {/* Dashed Horizontal Grid Lines */}
               {[234, 286, 338, 390].map((yPos) => (
