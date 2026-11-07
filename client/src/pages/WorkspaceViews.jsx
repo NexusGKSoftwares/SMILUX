@@ -1389,82 +1389,103 @@ export function DashboardView({ user }) {
                   </div>
                 </div>
 
-                {/* Donut Chart Visual */}
-                <div className="rounded border border-[#EFEFEF] bg-white p-6 flex flex-col md:flex-row items-center justify-around gap-6">
-                  <div className="relative flex items-center justify-center">
-                    <svg className="w-56 h-56 -rotate-90 select-none" viewBox="0 0 100 100">
-                      <circle cx="50" cy="50" r="38" fill="none" stroke="#F1F5F9" strokeWidth="13" />
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="38"
-                        fill="none"
-                        stroke="#00CBE8"
-                        strokeWidth="13"
-                        strokeDasharray="143.2 238.7"
-                        strokeDashoffset="0"
+                {/* Donut Chart Visual & Channel Breakdown (Exact Figma SVG Spec) */}
+                <div className="rounded border border-[#EFEFEF] bg-white p-6">
+                  <div className="w-full max-w-2xl mx-auto">
+                    <svg viewBox="65 60 625 345" fill="none" className="w-full h-auto block select-none">
+                      <defs>
+                        <filter id="modalBadgeShadow_pie" x="0" y="0" width="200%" height="200%">
+                          <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.08" />
+                        </filter>
+                      </defs>
+
+                      {/* 3 Donut Smooth Arc Paths (Exact Figma Vector Geometry) */}
+                      {/* 16% Red Arc (#FB3B52) */}
+                      <path
+                        d="M160.443 114.178C159.429 112.215 160.196 109.797 162.185 108.836C183.475 98.5506 206.926 93.4712 230.601 94.0435C254.276 94.6158 277.454 100.822 298.222 112.124C300.162 113.18 300.811 115.633 299.704 117.544L288.773 136.406C287.665 138.317 285.221 138.962 283.273 137.919C266.84 129.119 248.554 124.286 229.881 123.835C211.208 123.383 192.709 127.327 175.87 135.323C173.874 136.271 171.464 135.508 170.45 133.545L160.443 114.178Z"
+                        fill="#FB3B52"
                       />
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="38"
-                        fill="none"
-                        stroke="#5654DC"
-                        strokeWidth="13"
-                        strokeDasharray="57.3 238.7"
-                        strokeDashoffset="-143.2"
+                      {/* 24% Purple Arc (#5654D4) */}
+                      <path
+                        d="M305.526 121.104C306.722 119.247 309.201 118.707 311.026 119.952C338.558 138.753 359.025 166.273 369.086 198.139C379.147 230.004 378.194 264.288 366.448 295.489C365.67 297.557 363.331 298.538 361.285 297.705L341.096 289.48C339.05 288.647 338.074 286.314 338.838 284.242C347.969 259.482 348.637 232.348 340.669 207.111C332.701 181.874 316.573 160.043 294.88 145.015C293.064 143.757 292.523 141.287 293.72 139.43L305.526 121.104Z"
+                        fill="#5654D4"
                       />
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="38"
-                        fill="none"
-                        stroke="#FF104B"
-                        strokeWidth="13"
-                        strokeDasharray="38.2 238.7"
-                        strokeDashoffset="-200.5"
+                      {/* 60% Cyan Arc (#3FC8E4) */}
+                      <path
+                        d="M359.027 302.949C361.039 303.862 361.934 306.236 360.967 308.222C351.273 328.134 337.254 345.65 319.915 359.481C301.533 374.144 279.942 384.248 256.907 388.968C233.872 393.687 210.046 392.888 187.379 386.636C164.712 380.383 143.846 368.855 126.488 352.993C109.13 337.131 95.7728 317.386 87.5078 295.373C79.2428 273.36 76.305 249.703 78.9347 226.337C81.5644 202.97 89.6868 180.558 102.638 160.933C114.854 142.421 131.039 126.884 149.999 115.439C151.89 114.297 154.334 114.976 155.425 116.897L166.186 135.856C167.276 137.777 166.599 140.213 164.715 141.367C149.842 150.482 137.136 162.759 127.51 177.346C117.149 193.047 110.652 210.976 108.548 229.669C106.444 248.362 108.794 267.288 115.406 284.898C122.018 302.509 132.704 318.305 146.591 330.994C160.477 343.684 177.17 352.906 195.303 357.909C213.437 362.911 232.497 363.55 250.925 359.774C269.354 355.999 286.627 347.915 301.332 336.185C314.994 325.287 326.08 311.528 333.821 295.896C334.801 293.916 337.166 293.022 339.177 293.936L359.027 302.949Z"
+                        fill="#3FC8E4"
                       />
+
+                      {/* 3 Circular Floating Percentage Badges with Soft Drop Shadow */}
+                      {/* 16% Badge */}
+                      <g filter="url(#modalBadgeShadow_pie)">
+                        <rect x="207" y="68" width="40" height="40" rx="20" fill="white" stroke="#E0E0E0" />
+                        <text x="227" y="93" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700">
+                          16%
+                        </text>
+                      </g>
+
+                      {/* 24% Badge */}
+                      <g filter="url(#modalBadgeShadow_pie)">
+                        <rect x="346" y="157" width="40" height="40" rx="20" fill="white" stroke="#E0E0E0" />
+                        <text x="366" y="182" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700">
+                          24%
+                        </text>
+                      </g>
+
+                      {/* 60% Badge */}
+                      <g filter="url(#modalBadgeShadow_pie)">
+                        <rect x="78" y="304" width="40" height="40" rx="20" fill="white" stroke="#E0E0E0" />
+                        <text x="98" y="329" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700">
+                          60%
+                        </text>
+                      </g>
+
+                      {/* Center Cutout Text */}
+                      <text x="235" y="235" textAnchor="middle" fill="#5654D4" fontSize="28" fontWeight="800">
+                        +14%
+                      </text>
+                      <text x="235" y="258" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="600">
+                        vs last month
+                      </text>
+                      <text x="235" y="278" textAnchor="middle" fill="#888888" fontSize="11" fontWeight="500">
+                        Great results with
+                      </text>
+
+                      {/* Right Channel Breakdown List */}
+                      {/* Item 1: SHA & Insurance */}
+                      <g>
+                        <rect x="475" y="129" width="4" height="26" rx="2" fill="#FB3B52" />
+                        <text x="490" y="141" fill="#080808" fontSize="14" fontWeight="600">
+                          SHA &amp; Insurance
+                        </text>
+                        <text x="490" y="160" fill="#888888" fontSize="13" fontWeight="500">
+                          <tspan fill="#080808" fontWeight="700">{formatNumber(shaSales)}</tspan> sales (16%)
+                        </text>
+                      </g>
+
+                      {/* Item 2: M-Pesa STK Till */}
+                      <g>
+                        <rect x="475" y="217" width="4" height="26" rx="2" fill="#5654D4" />
+                        <text x="490" y="229" fill="#080808" fontSize="14" fontWeight="600">
+                          M-Pesa STK Till
+                        </text>
+                        <text x="490" y="248" fill="#888888" fontSize="13" fontWeight="500">
+                          <tspan fill="#080808" fontWeight="700">{formatNumber(mpesaSales)}</tspan> sales (24%)
+                        </text>
+                      </g>
+
+                      {/* Item 3: Cash & Private Pay */}
+                      <g>
+                        <rect x="475" y="305" width="4" height="26" rx="2" fill="#3FC8E4" />
+                        <text x="490" y="317" fill="#080808" fontSize="14" fontWeight="600">
+                          Cash &amp; Private Pay
+                        </text>
+                        <text x="490" y="336" fill="#888888" fontSize="13" fontWeight="500">
+                          <tspan fill="#080808" fontWeight="700">{formatNumber(cashSales)}</tspan> sales (60%)
+                        </text>
+                      </g>
                     </svg>
-
-                    <div className="absolute flex flex-col items-center justify-center text-center">
-                      <span className="text-3xl font-extrabold text-[#5654DC] leading-none">+14%</span>
-                      <span className="text-xs font-semibold text-[#080808] mt-0.5">vs last month</span>
-                      <span className="text-[11px] text-[#888888]">Great results with</span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 w-full max-w-sm">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#888888]">Channel Breakdown</h4>
-                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="h-3 w-3 rounded-full bg-[#FF104B]" />
-                        <span className="text-xs font-semibold text-slate-800">SHA &amp; Insurance</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-xs font-bold text-[#080808]">{formatNumber(shaSales)}</span>
-                        <span className="text-[10px] text-slate-500 ml-1">(16%)</span>
-                      </div>
-                    </div>
-                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="h-3 w-3 rounded-full bg-[#5654DC]" />
-                        <span className="text-xs font-semibold text-slate-800">M-Pesa STK Till</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-xs font-bold text-[#080808]">{formatNumber(mpesaSales)}</span>
-                        <span className="text-[10px] text-slate-500 ml-1">(24%)</span>
-                      </div>
-                    </div>
-                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="h-3 w-3 rounded-full bg-[#00CBE8]" />
-                        <span className="text-xs font-semibold text-slate-800">Cash &amp; Private Pay</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-xs font-bold text-[#080808]">{formatNumber(cashSales)}</span>
-                        <span className="text-[10px] text-slate-500 ml-1">(60%)</span>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </>
@@ -1588,47 +1609,80 @@ export function DashboardView({ user }) {
                   </div>
                 </div>
 
-                <div className="rounded border border-[#EFEFEF] bg-white p-6 space-y-6">
-                  <div className="grid grid-cols-3 gap-3 border-y border-dashed border-[#AFAFAF]/40 py-4">
-                    <div className="flex flex-col">
-                      <span className="text-sm font-bold text-[#080808]">{formatCurrency(primaryCareVal)}</span>
-                      <span className="text-xs text-[#AFAFAF] font-medium mt-0.5">Primary Care</span>
-                      <span className="text-xs font-bold text-[#00C26B] mt-1">▲ 32.1%</span>
-                    </div>
-                    <div className="flex flex-col border-l border-dashed border-[#AFAFAF]/40 pl-3">
-                      <span className="text-sm font-bold text-[#080808]">{formatCurrency(specialityCareVal)}</span>
-                      <span className="text-xs text-[#AFAFAF] font-medium mt-0.5">Speciality Care</span>
-                      <span className="text-xs font-bold text-[#FF104B] mt-1">▼ 16.1%</span>
-                    </div>
-                    <div className="flex flex-col border-l border-dashed border-[#AFAFAF]/40 pl-3">
-                      <span className="text-sm font-bold text-[#080808]">{formatCurrency(fixedIncomeVal)}</span>
-                      <span className="text-xs text-[#AFAFAF] font-medium mt-0.5">Full-time Retainer</span>
-                      <span className="text-xs font-medium text-[#888888] mt-1">Fixed income</span>
-                    </div>
-                  </div>
+                {/* Financial Balance SVG Visual (Exact Figma Spec) */}
+                <div className="rounded border border-[#EFEFEF] bg-white p-6">
+                  <div className="w-full max-w-xl mx-auto">
+                    <svg viewBox="20 100 510 315" fill="none" className="w-full h-auto block select-none">
+                      {/* Total Settled Balance Metric */}
+                      <text x="32" y="132" fill="#080808" fontSize="28" fontWeight="800">
+                        {formatCurrency(totalBalanceVal)}
+                      </text>
 
-                  <div>
-                    <div className="h-5 w-full flex items-center gap-1 rounded overflow-hidden">
-                      <div
-                        className="h-full bg-[#FFC600] rounded-xs border border-white"
-                        style={{ width: '32%' }}
-                        title={`Primary Care (${formatCurrency(primaryCareVal)})`}
-                      />
-                      <div
-                        className="h-full bg-[#00C26B] rounded-xs border border-white"
-                        style={{ width: '38%' }}
-                        title={`Speciality (${formatCurrency(specialityCareVal)})`}
-                      />
-                      <div
-                        className="h-full bg-[#00CBE8] rounded-xs border border-white"
-                        style={{ width: '30%' }}
-                        title={`Fixed Income (${formatCurrency(fixedIncomeVal)})`}
-                      />
-                    </div>
-                    <div className="mt-2 flex items-center justify-between text-xs font-semibold text-[#888888]">
-                      <span>Feb 1</span>
-                      <span>Feb 28 (Reconciliation Complete)</span>
-                    </div>
+                      {/* ▲ 12% vs last years pill badge */}
+                      <rect x="32" y="146" width="62" height="24" rx="12" fill="#E8FFF4" stroke="#8FE7BE" />
+                      <polygon points="43,160 48,154 53,160" fill="#1DBF73" />
+                      <text x="58" y="163" fill="#1DBF73" fontSize="12" fontWeight="700">
+                        12%
+                      </text>
+                      <text x="104" y="163" fill="#888888" fontSize="12" fontWeight="500">
+                        vs last years
+                      </text>
+
+                      {/* 3 Dashed Vertical Grid Lines */}
+                      <line x1="32" y1="195" x2="32" y2="335" stroke="#E5E7EB" strokeWidth="1.2" strokeDasharray="4 4" />
+                      <line x1="190" y1="195" x2="190" y2="335" stroke="#E5E7EB" strokeWidth="1.2" strokeDasharray="4 4" />
+                      <line x1="376" y1="195" x2="376" y2="335" stroke="#E5E7EB" strokeWidth="1.2" strokeDasharray="4 4" />
+
+                      {/* Column 1: Primary Care / Upwork */}
+                      <text x="44" y="232" fill="#080808" fontSize="17" fontWeight="700">
+                        {formatCurrency(primaryCareVal)}
+                      </text>
+                      <text x="44" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500">
+                        Primary Care
+                      </text>
+                      <circle cx="52" cy="318" r="8" fill="#E8FFF4" />
+                      <polygon points="49,320 52,316 55,320" fill="#1DBF73" />
+                      <text x="65" y="322" fill="#1DBF73" fontSize="12.5" fontWeight="700">
+                        32.1%
+                      </text>
+
+                      {/* Column 2: Speciality Care / Fiverr */}
+                      <text x="202" y="232" fill="#080808" fontSize="17" fontWeight="700">
+                        {formatCurrency(specialityCareVal)}
+                      </text>
+                      <text x="202" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500">
+                        Speciality
+                      </text>
+                      <circle cx="210" cy="318" r="8" fill="#FFEFEF" />
+                      <polygon points="207,316 210,320 213,316" fill="#FB3B52" />
+                      <text x="223" y="322" fill="#FB3B52" fontSize="12.5" fontWeight="700">
+                        16.1%
+                      </text>
+
+                      {/* Column 3: Full-time Retainer */}
+                      <text x="388" y="232" fill="#080808" fontSize="17" fontWeight="700">
+                        {formatCurrency(fixedIncomeVal)}
+                      </text>
+                      <text x="388" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500">
+                        Full-time
+                      </text>
+                      <text x="388" y="322" fill="#888888" fontSize="12.5" fontWeight="500">
+                        Fixed income
+                      </text>
+
+                      {/* 3-Color Segmented Horizontal Progress Bar (Figma spec coordinates & colors) */}
+                      <rect x="32" y="352" width="156" height="22" rx="4" fill="#FFC90A" />
+                      <rect x="192" y="352" width="182" height="22" rx="4" fill="#1DBF73" />
+                      <rect x="378" y="352" width="142" height="22" rx="4" fill="#3FC8E4" />
+
+                      {/* Footer Date Timeline */}
+                      <text x="32" y="400" fill="#080808" fontSize="13" fontWeight="600">
+                        Feb
+                      </text>
+                      <text x="520" y="400" textAnchor="end" fill="#080808" fontSize="13" fontWeight="600">
+                        1 - 28
+                      </text>
+                    </svg>
                   </div>
                 </div>
               </>
@@ -1681,7 +1735,7 @@ export function DashboardView({ user }) {
             </div>
 
             {/* Top Summaries Row (Matching Top Cards UI) */}
-            <div className="grid grid-cols-2 gap-3 mb-4">
+            <div className="grid grid-cols-2 gap-3 mb-3">
               <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
                 <span className="text-xs font-medium text-[#888888]">Monthly Channel Growth</span>
                 <div className="mt-1 flex items-baseline gap-2">
@@ -1696,7 +1750,7 @@ export function DashboardView({ user }) {
                 <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-200 flex">
                   <div className="h-full bg-[#00CBE8]" style={{ width: '60%' }} title="Cash & Private (60%)" />
                   <div className="h-full bg-[#5654DC]" style={{ width: '24%' }} title="M-Pesa Till (24%)" />
-                  <div className="h-full bg-[#FF104B]" style={{ width: '16%' }} title="SHA / Insurance (16%)" />
+                  <div className="h-full bg-[#FB3B52]" style={{ width: '16%' }} title="SHA / Insurance (16%)" />
                 </div>
               </div>
 
@@ -1712,92 +1766,102 @@ export function DashboardView({ user }) {
               </div>
             </div>
 
-            {/* Donut Chart Visual & Floating Percentage Badges */}
-            <div className="relative flex items-center justify-center py-3">
-              <svg className="w-48 h-48 -rotate-90 select-none" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="38" fill="none" stroke="#F1F5F9" strokeWidth="13" />
-                {/* 60% Blue (#00CBE8) */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="38"
-                  fill="none"
-                  stroke="#00CBE8"
-                  strokeWidth="13"
-                  strokeDasharray="143.2 238.7"
-                  strokeDashoffset="0"
+            {/* Donut Chart Visual & Channel Breakdown (Exact Figma Vector Spec) */}
+            <div className="w-full flex-1 flex items-center justify-center py-1 overflow-hidden">
+              <svg viewBox="65 60 625 345" fill="none" className="w-full h-auto block select-none">
+                <defs>
+                  <filter id="cardBadgeShadow_pie" x="0" y="0" width="200%" height="200%">
+                    <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.08" />
+                  </filter>
+                </defs>
+
+                {/* 3 Donut Smooth Arc Paths (Exact Figma Vector Geometry) */}
+                {/* 16% Red Arc (#FB3B52) */}
+                <path
+                  d="M160.443 114.178C159.429 112.215 160.196 109.797 162.185 108.836C183.475 98.5506 206.926 93.4712 230.601 94.0435C254.276 94.6158 277.454 100.822 298.222 112.124C300.162 113.18 300.811 115.633 299.704 117.544L288.773 136.406C287.665 138.317 285.221 138.962 283.273 137.919C266.84 129.119 248.554 124.286 229.881 123.835C211.208 123.383 192.709 127.327 175.87 135.323C173.874 136.271 171.464 135.508 170.45 133.545L160.443 114.178Z"
+                  fill="#FB3B52"
                 />
-                {/* 24% Purple (#5654DC) */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="38"
-                  fill="none"
-                  stroke="#5654DC"
-                  strokeWidth="13"
-                  strokeDasharray="57.3 238.7"
-                  strokeDashoffset="-143.2"
+                {/* 24% Purple Arc (#5654D4) */}
+                <path
+                  d="M305.526 121.104C306.722 119.247 309.201 118.707 311.026 119.952C338.558 138.753 359.025 166.273 369.086 198.139C379.147 230.004 378.194 264.288 366.448 295.489C365.67 297.557 363.331 298.538 361.285 297.705L341.096 289.48C339.05 288.647 338.074 286.314 338.838 284.242C347.969 259.482 348.637 232.348 340.669 207.111C332.701 181.874 316.573 160.043 294.88 145.015C293.064 143.757 292.523 141.287 293.72 139.43L305.526 121.104Z"
+                  fill="#5654D4"
                 />
-                {/* 16% Red (#FF104B) */}
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="38"
-                  fill="none"
-                  stroke="#FF104B"
-                  strokeWidth="13"
-                  strokeDasharray="38.2 238.7"
-                  strokeDashoffset="-200.5"
+                {/* 60% Cyan Arc (#3FC8E4) */}
+                <path
+                  d="M359.027 302.949C361.039 303.862 361.934 306.236 360.967 308.222C351.273 328.134 337.254 345.65 319.915 359.481C301.533 374.144 279.942 384.248 256.907 388.968C233.872 393.687 210.046 392.888 187.379 386.636C164.712 380.383 143.846 368.855 126.488 352.993C109.13 337.131 95.7728 317.386 87.5078 295.373C79.2428 273.36 76.305 249.703 78.9347 226.337C81.5644 202.97 89.6868 180.558 102.638 160.933C114.854 142.421 131.039 126.884 149.999 115.439C151.89 114.297 154.334 114.976 155.425 116.897L166.186 135.856C167.276 137.777 166.599 140.213 164.715 141.367C149.842 150.482 137.136 162.759 127.51 177.346C117.149 193.047 110.652 210.976 108.548 229.669C106.444 248.362 108.794 267.288 115.406 284.898C122.018 302.509 132.704 318.305 146.591 330.994C160.477 343.684 177.17 352.906 195.303 357.909C213.437 362.911 232.497 363.55 250.925 359.774C269.354 355.999 286.627 347.915 301.332 336.185C314.994 325.287 326.08 311.528 333.821 295.896C334.801 293.916 337.166 293.022 339.177 293.936L359.027 302.949Z"
+                  fill="#3FC8E4"
                 />
+
+                {/* 3 Circular Floating Percentage Badges with Soft Drop Shadow */}
+                {/* 16% Badge */}
+                <g filter="url(#cardBadgeShadow_pie)">
+                  <rect x="207" y="68" width="40" height="40" rx="20" fill="white" stroke="#E0E0E0" />
+                  <text x="227" y="93" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700">
+                    16%
+                  </text>
+                </g>
+
+                {/* 24% Badge */}
+                <g filter="url(#cardBadgeShadow_pie)">
+                  <rect x="346" y="157" width="40" height="40" rx="20" fill="white" stroke="#E0E0E0" />
+                  <text x="366" y="182" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700">
+                    24%
+                  </text>
+                </g>
+
+                {/* 60% Badge */}
+                <g filter="url(#cardBadgeShadow_pie)">
+                  <rect x="78" y="304" width="40" height="40" rx="20" fill="white" stroke="#E0E0E0" />
+                  <text x="98" y="329" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700">
+                    60%
+                  </text>
+                </g>
+
+                {/* Center Cutout Text */}
+                <text x="235" y="235" textAnchor="middle" fill="#5654D4" fontSize="28" fontWeight="800">
+                  +14%
+                </text>
+                <text x="235" y="258" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="600">
+                  vs last month
+                </text>
+                <text x="235" y="278" textAnchor="middle" fill="#888888" fontSize="11" fontWeight="500">
+                  Great results with
+                </text>
+
+                {/* Right Channel Breakdown List */}
+                {/* Item 1: SHA & Insurance */}
+                <g>
+                  <rect x="475" y="129" width="4" height="26" rx="2" fill="#FB3B52" />
+                  <text x="490" y="141" fill="#080808" fontSize="14" fontWeight="600">
+                    SHA &amp; Insurance
+                  </text>
+                  <text x="490" y="160" fill="#888888" fontSize="13" fontWeight="500">
+                    <tspan fill="#080808" fontWeight="700">{formatNumber(shaSales)}</tspan> sales (16%)
+                  </text>
+                </g>
+
+                {/* Item 2: M-Pesa STK Till */}
+                <g>
+                  <rect x="475" y="217" width="4" height="26" rx="2" fill="#5654D4" />
+                  <text x="490" y="229" fill="#080808" fontSize="14" fontWeight="600">
+                    M-Pesa STK Till
+                  </text>
+                  <text x="490" y="248" fill="#888888" fontSize="13" fontWeight="500">
+                    <tspan fill="#080808" fontWeight="700">{formatNumber(mpesaSales)}</tspan> sales (24%)
+                  </text>
+                </g>
+
+                {/* Item 3: Cash & Private Pay */}
+                <g>
+                  <rect x="475" y="305" width="4" height="26" rx="2" fill="#3FC8E4" />
+                  <text x="490" y="317" fill="#080808" fontSize="14" fontWeight="600">
+                    Cash &amp; Private Pay
+                  </text>
+                  <text x="490" y="336" fill="#888888" fontSize="13" fontWeight="500">
+                    <tspan fill="#080808" fontWeight="700">{formatNumber(cashSales)}</tspan> sales (60%)
+                  </text>
+                </g>
               </svg>
-
-              {/* Floating Badges */}
-              <div className="absolute top-1 left-4 flex h-8 w-8 items-center justify-center rounded-full bg-white border border-[#E0E0E0] text-[11px] font-bold text-[#080808] shadow-[0px_4px_12px_rgba(0,0,0,0.06)]">
-                16%
-              </div>
-              <div className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-white border border-[#E0E0E0] text-[11px] font-bold text-[#080808] shadow-[0px_4px_12px_rgba(0,0,0,0.06)]">
-                24%
-              </div>
-              <div className="absolute bottom-2 left-6 flex h-8 w-8 items-center justify-center rounded-full bg-white border border-[#E0E0E0] text-[11px] font-bold text-[#080808] shadow-[0px_4px_12px_rgba(0,0,0,0.06)]">
-                60%
-              </div>
-
-              {/* Center Content */}
-              <div className="absolute flex flex-col items-center justify-center text-center">
-                <span className="text-2xl font-bold text-[#5654DC] tracking-tight leading-none">+14%</span>
-                <span className="text-[11px] font-medium text-[#080808] mt-0.5">vs last month</span>
-                <span className="text-[10px] text-[#888888]">Great results with</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Value Breakdown Mini Cards */}
-          <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100">
-            <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[#FF104B]" />
-                <span className="text-[11px] font-medium text-[#888888] truncate">SHA / Ins.</span>
-              </div>
-              <span className="mt-1 text-sm font-bold text-[#080808]">{formatNumber(shaSales)}</span>
-              <span className="text-[10px] text-[#888888]">sales (16%)</span>
-            </div>
-
-            <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[#5654DC]" />
-                <span className="text-[11px] font-medium text-[#888888] truncate">M-Pesa STK</span>
-              </div>
-              <span className="mt-1 text-sm font-bold text-[#080808]">{formatNumber(mpesaSales)}</span>
-              <span className="text-[10px] text-[#888888]">sales (24%)</span>
-            </div>
-
-            <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[#00CBE8]" />
-                <span className="text-[11px] font-medium text-[#888888] truncate">Cash / Card</span>
-              </div>
-              <span className="mt-1 text-sm font-bold text-[#080808]">{formatNumber(cashSales)}</span>
-              <span className="text-[10px] text-[#888888]">sales (60%)</span>
             </div>
           </div>
         </div>
@@ -2006,93 +2070,79 @@ export function DashboardView({ user }) {
               />
             </div>
 
-            {/* Top Summaries Row (Matching Top Cards UI) */}
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
-                <span className="text-xs font-medium text-[#888888]">Total Settled Balance</span>
-                <div className="mt-1 flex items-baseline gap-2">
-                  <span className="text-xl font-bold tracking-tight text-[#080808]">
-                    {formatCurrency(totalBalanceVal)}
-                  </span>
-                  <div className="flex items-center gap-0.5 rounded bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
-                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                      <path d="M6 2.5L9 6.5H3L6 2.5Z" fill="#00C26B" />
-                    </svg>
-                    <span>12%</span>
-                  </div>
-                </div>
-                <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-200 flex">
-                  <div className="h-full bg-[#FFC600]" style={{ width: '32%' }} />
-                  <div className="h-full bg-[#00C26B]" style={{ width: '38%' }} />
-                  <div className="h-full bg-[#00CBE8]" style={{ width: '30%' }} />
-                </div>
-              </div>
+            {/* Practice Financial Balance SVG Visual (Exact Figma Vector Spec) */}
+            <div className="w-full flex-1 flex items-center justify-center py-1 overflow-hidden">
+              <svg viewBox="20 100 510 315" fill="none" className="w-full h-auto block select-none">
+                {/* Total Settled Balance Metric */}
+                <text x="32" y="132" fill="#080808" fontSize="28" fontWeight="800">
+                  {formatCurrency(totalBalanceVal)}
+                </text>
 
-              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
-                <span className="text-xs font-medium text-[#888888]">Fiscal Cycle Range</span>
-                <div className="mt-1 flex items-baseline gap-2">
-                  <span className="text-xl font-bold tracking-tight text-[#080808]">Feb 1 – 28</span>
-                </div>
-                <span className="mt-2 text-[11px] font-medium text-[#00C26B]">
-                  ▲ 12% vs last years performance
-                </span>
-              </div>
-            </div>
+                {/* ▲ 12% vs last years pill badge */}
+                <rect x="32" y="146" width="62" height="24" rx="12" fill="#E8FFF4" stroke="#8FE7BE" />
+                <polygon points="43,160 48,154 53,160" fill="#1DBF73" />
+                <text x="58" y="163" fill="#1DBF73" fontSize="12" fontWeight="700">
+                  12%
+                </text>
+                <text x="104" y="163" fill="#888888" fontSize="12" fontWeight="500">
+                  vs last years
+                </text>
 
-            {/* 3 Dashed Columns Channel Grid */}
-            <div className="grid grid-cols-3 gap-2 border-y border-dashed border-[#AFAFAF]/40 py-3 mb-4">
-              {/* Channel 1: Primary Care */}
-              <div className="flex flex-col">
-                <span className="text-xs font-semibold text-[#080808]">{formatCurrency(primaryCareVal)}</span>
-                <span className="text-[10px] text-[#AFAFAF] font-medium mt-0.5">Primary Care</span>
-                <div className="flex items-center gap-0.5 text-[10px] font-semibold text-[#00C26B] mt-1">
-                  <span>▲</span>
-                  <span>32.1%</span>
-                </div>
-              </div>
+                {/* 3 Dashed Vertical Grid Lines */}
+                <line x1="32" y1="195" x2="32" y2="335" stroke="#E5E7EB" strokeWidth="1.2" strokeDasharray="4 4" />
+                <line x1="190" y1="195" x2="190" y2="335" stroke="#E5E7EB" strokeWidth="1.2" strokeDasharray="4 4" />
+                <line x1="376" y1="195" x2="376" y2="335" stroke="#E5E7EB" strokeWidth="1.2" strokeDasharray="4 4" />
 
-              {/* Channel 2: Speciality */}
-              <div className="flex flex-col border-l border-dashed border-[#AFAFAF]/40 pl-2">
-                <span className="text-xs font-semibold text-[#080808]">{formatCurrency(specialityCareVal)}</span>
-                <span className="text-[10px] text-[#AFAFAF] font-medium mt-0.5">Speciality</span>
-                <div className="flex items-center gap-0.5 text-[10px] font-semibold text-[#FF104B] mt-1">
-                  <span>▼</span>
-                  <span>16.1%</span>
-                </div>
-              </div>
+                {/* Column 1: Primary Care / Upwork */}
+                <text x="44" y="232" fill="#080808" fontSize="17" fontWeight="700">
+                  {formatCurrency(primaryCareVal)}
+                </text>
+                <text x="44" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500">
+                  Primary Care
+                </text>
+                <circle cx="52" cy="318" r="8" fill="#E8FFF4" />
+                <polygon points="49,320 52,316 55,320" fill="#1DBF73" />
+                <text x="65" y="322" fill="#1DBF73" fontSize="12.5" fontWeight="700">
+                  32.1%
+                </text>
 
-              {/* Channel 3: Fixed Income */}
-              <div className="flex flex-col border-l border-dashed border-[#AFAFAF]/40 pl-2">
-                <span className="text-xs font-semibold text-[#080808]">{formatCurrency(fixedIncomeVal)}</span>
-                <span className="text-[10px] text-[#AFAFAF] font-medium mt-0.5">Full-time</span>
-                <span className="text-[10px] text-[#888888] font-medium mt-1">Fixed income</span>
-              </div>
-            </div>
-          </div>
+                {/* Column 2: Speciality Care / Fiverr */}
+                <text x="202" y="232" fill="#080808" fontSize="17" fontWeight="700">
+                  {formatCurrency(specialityCareVal)}
+                </text>
+                <text x="202" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500">
+                  Speciality
+                </text>
+                <circle cx="210" cy="318" r="8" fill="#FFEFEF" />
+                <polygon points="207,316 210,320 213,316" fill="#FB3B52" />
+                <text x="223" y="322" fill="#FB3B52" fontSize="12.5" fontWeight="700">
+                  16.1%
+                </text>
 
-          {/* Segmented Solid Visual Bar & Date Subtitle */}
-          <div>
-            <div className="h-4 w-full flex items-center gap-1 rounded overflow-hidden">
-              <div
-                className="h-full bg-[#FFC600] rounded-xs border border-white"
-                style={{ width: '32%' }}
-                title={`Primary Care (${formatCurrency(primaryCareVal)})`}
-              />
-              <div
-                className="h-full bg-[#00C26B] rounded-xs border border-white"
-                style={{ width: '38%' }}
-                title={`Speciality (${formatCurrency(specialityCareVal)})`}
-              />
-              <div
-                className="h-full bg-[#00CBE8] rounded-xs border border-white"
-                style={{ width: '30%' }}
-                title={`Fixed Income (${formatCurrency(fixedIncomeVal)})`}
-              />
-            </div>
+                {/* Column 3: Full-time Retainer */}
+                <text x="388" y="232" fill="#080808" fontSize="17" fontWeight="700">
+                  {formatCurrency(fixedIncomeVal)}
+                </text>
+                <text x="388" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500">
+                  Full-time
+                </text>
+                <text x="388" y="322" fill="#888888" fontSize="12.5" fontWeight="500">
+                  Fixed income
+                </text>
 
-            <div className="mt-2 flex items-center justify-between text-[11px] font-medium text-[#888888]">
-              <span>Feb</span>
-              <span>1 - 28</span>
+                {/* 3-Color Segmented Horizontal Progress Bar (Figma spec coordinates & colors) */}
+                <rect x="32" y="352" width="156" height="22" rx="4" fill="#FFC90A" />
+                <rect x="192" y="352" width="182" height="22" rx="4" fill="#1DBF73" />
+                <rect x="378" y="352" width="142" height="22" rx="4" fill="#3FC8E4" />
+
+                {/* Footer Date Timeline */}
+                <text x="32" y="400" fill="#080808" fontSize="13" fontWeight="600">
+                  Feb
+                </text>
+                <text x="520" y="400" textAnchor="end" fill="#080808" fontSize="13" fontWeight="600">
+                  1 - 28
+                </text>
+              </svg>
             </div>
           </div>
         </div>
