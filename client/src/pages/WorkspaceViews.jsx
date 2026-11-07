@@ -76,7 +76,7 @@ export function InfoBadgeIcon({
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 top-6 z-50 w-80 sm:w-96 rounded-xl border border-[#E0E0E0] bg-white p-4 shadow-[0px_16px_36px_rgba(0,0,0,0.14)] animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute left-0 top-6 z-50 w-80 sm:w-96 rounded border border-[#E0E0E0] bg-white p-4 shadow-[0px_16px_36px_rgba(0,0,0,0.14)] animate-in fade-in zoom-in-95 duration-150">
           <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-2.5 mb-3">
             <div>
               <h4 className="text-xs font-bold text-[#080808]">{title}</h4>
@@ -85,7 +85,7 @@ export function InfoBadgeIcon({
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="rounded-md p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 cursor-pointer"
+              className="rounded p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 cursor-pointer"
               aria-label="Close data popover"
             >
               ✕
@@ -95,7 +95,7 @@ export function InfoBadgeIcon({
           {stats.length > 0 && (
             <div className="grid grid-cols-2 gap-2 mb-3">
               {stats.map((st) => (
-                <div key={st.label} className="rounded-lg bg-slate-50 border border-slate-100 px-2.5 py-1.5">
+                <div key={st.label} className="rounded bg-slate-50 border border-slate-100 px-2.5 py-1.5">
                   <div className="text-[10px] font-medium text-[#888888]">{st.label}</div>
                   <div className="text-xs font-bold text-[#080808] mt-0.5">{st.value}</div>
                 </div>
@@ -129,7 +129,7 @@ export function InfoBadgeIcon({
                 setIsOpen(false);
                 onOpenModal();
               }}
-              className="mt-3 w-full rounded-lg bg-slate-900 py-1.5 text-[11px] font-semibold text-white hover:bg-slate-800 transition-colors cursor-pointer"
+              className="mt-3 w-full rounded bg-slate-900 py-1.5 text-[11px] font-semibold text-white hover:bg-slate-800 transition-colors cursor-pointer"
             >
               Open Full Chart Display Modal
             </button>
@@ -170,7 +170,7 @@ export function CardActionToolbar({
   return (
     <div
       ref={menuRef}
-      className="relative inline-flex h-7 items-center gap-2 rounded-lg border border-[#E0E0E0] bg-white px-2.5 shadow-[0px_1px_2px_rgba(0,0,0,0.05)]"
+      className="relative inline-flex h-7 items-center gap-2 rounded border border-[#E0E0E0] bg-white px-2.5 shadow-[0px_1px_2px_rgba(0,0,0,0.05)]"
     >
       <button
         type="button"
@@ -194,9 +194,8 @@ export function CardActionToolbar({
       <button
         type="button"
         onClick={() => setIsMenuOpen((prev) => !prev)}
-        className={`inline-flex items-center gap-1 text-xs transition-colors cursor-pointer ${
-          isMenuOpen ? 'text-[#080808]' : 'text-[#888888] hover:text-[#080808]'
-        }`}
+        className={`inline-flex items-center gap-1 text-xs transition-colors cursor-pointer ${isMenuOpen ? 'text-[#080808]' : 'text-[#888888] hover:text-[#080808]'
+          }`}
         title="Select Year"
         aria-expanded={isMenuOpen}
       >
@@ -209,7 +208,7 @@ export function CardActionToolbar({
       </button>
 
       {isMenuOpen && (
-        <div className="absolute right-0 top-8 z-50 w-36 rounded-xl border border-[#E0E0E0] bg-white p-1.5 shadow-[0px_12px_28px_rgba(0,0,0,0.12)]">
+        <div className="absolute right-0 top-8 z-50 w-36 rounded border border-[#E0E0E0] bg-white p-1.5 shadow-[0px_12px_28px_rgba(0,0,0,0.12)]">
           <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#888888]">
             Select Year
           </div>
@@ -223,11 +222,10 @@ export function CardActionToolbar({
                   if (onSelectYear) onSelectYear(yr);
                   setIsMenuOpen(false);
                 }}
-                className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-colors cursor-pointer ${
-                  isSelected
-                    ? 'bg-slate-900 text-white'
-                    : 'text-[#080808] hover:bg-slate-100'
-                }`}
+                className={`flex w-full items-center justify-between rounded px-2.5 py-1.5 text-xs font-semibold transition-colors cursor-pointer ${isSelected
+                  ? 'bg-slate-900 text-white'
+                  : 'text-[#080808] hover:bg-slate-100'
+                  }`}
               >
                 <span>Year {yr}</span>
                 {isSelected && <span className="text-[10px]">✓</span>}
@@ -401,21 +399,20 @@ export function DashboardView({ user }) {
     <div className="space-y-2 font-sans text-slate-900 mb-8">
       {/* Workspace Header & Action Bar */}
       <ViewHeader
-        title={`${greeting.emoji} ${greeting.text}, ${doctorName}`}
+        title={`${greeting.text} ${greeting.emoji} , ${doctorName}`}
         subtitle="Avicena Dental Practice — Nairobi Main Branch  Overview"
         actions={
           <div className="flex items-center gap-2">
             {/* Date Filter Pill */}
-            <div className="flex items-center rounded-lg border border-slate-200 bg-white p-0.5 shadow-2xs">
+            <div className="flex items-center rounded border border-slate-200 bg-white p-0.5 shadow-2xs">
               {['Today', 'This Week', 'This Month', 'Year 2026'].map((tf) => (
                 <button
                   key={tf}
                   onClick={() => setSelectedTimeframe(tf)}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                    selectedTimeframe === tf
-                      ? 'bg-slate-900 text-white shadow-2xs font-bold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
-                  }`}
+                  className={`px-2.5 py-1 text-xs font-semibold rounded transition-all cursor-pointer ${selectedTimeframe === tf
+                    ? 'bg-slate-900 text-white shadow-2xs font-bold'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                    }`}
                 >
                   {tf}
                 </button>
@@ -556,9 +553,8 @@ export function DashboardView({ user }) {
             <svg
               viewBox="20 214 674 258"
               fill="none"
-              className={`w-full block transition-all duration-300 ${
-                isSalesExpanded ? 'h-80' : 'h-auto'
-              } select-none`}
+              className={`w-full block transition-all duration-300 ${isSalesExpanded ? 'h-80' : 'h-auto'
+                } select-none`}
             >
               <defs>
                 {/* Horizontal Red-to-Purple Stroke Gradient */}
@@ -816,9 +812,8 @@ export function DashboardView({ user }) {
             <svg
               viewBox="28 220 674 258"
               fill="none"
-              className={`w-full block transition-all duration-300 ${
-                isWebExpanded ? 'h-80' : 'h-auto'
-              } select-none`}
+              className={`w-full block transition-all duration-300 ${isWebExpanded ? 'h-80' : 'h-auto'
+                } select-none`}
             >
               {/* Dashed Horizontal Grid Lines */}
               {[234, 286, 338, 390].map((yPos) => (
@@ -938,24 +933,23 @@ export function DashboardView({ user }) {
           onClick={() => setActiveChartModal(null)}
         >
           <div
-            className="w-full max-w-4xl rounded-2xl border border-[#EFEFEF] bg-white p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto"
+            className="w-full max-w-4xl rounded border border-[#EFEFEF] bg-white p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
               <div className="flex items-center gap-3">
                 <div
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${
-                    activeChartModal === 'sales'
-                      ? 'bg-indigo-50 border-indigo-100 text-[#5654DC]'
-                      : activeChartModal === 'patient-growth'
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded border ${activeChartModal === 'sales'
+                    ? 'bg-indigo-50 border-indigo-100 text-[#5654DC]'
+                    : activeChartModal === 'patient-growth'
                       ? 'bg-amber-50 border-amber-100 text-[#FF9F0A]'
                       : activeChartModal === 'payment'
-                      ? 'bg-cyan-50 border-cyan-100 text-[#00CBE8]'
-                      : activeChartModal === 'income'
-                      ? 'bg-orange-50 border-orange-100 text-[#FF9900]'
-                      : 'bg-emerald-50 border-emerald-100 text-[#00C26B]'
-                  }`}
+                        ? 'bg-cyan-50 border-cyan-100 text-[#00CBE8]'
+                        : activeChartModal === 'income'
+                          ? 'bg-orange-50 border-orange-100 text-[#FF9900]'
+                          : 'bg-emerald-50 border-emerald-100 text-[#00C26B]'
+                    }`}
                 >
                   {activeChartModal === 'sales' ? (
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -1004,12 +998,12 @@ export function DashboardView({ user }) {
                     {activeChartModal === 'sales'
                       ? `${currentSalesData.title} — Full Year Analytics (${currentSalesData.year})`
                       : activeChartModal === 'patient-growth'
-                      ? `${currentPatientData.title} — Full Year Analytics (${currentPatientData.year})`
-                      : activeChartModal === 'payment'
-                      ? `Payment Distribution Overview (${paymentYear})`
-                      : activeChartModal === 'income'
-                      ? `Asset Distribution & Income Summary (${incomeYear})`
-                      : `Practice Financial Balance & Streams (${balanceYear})`}
+                        ? `${currentPatientData.title} — Full Year Analytics (${currentPatientData.year})`
+                        : activeChartModal === 'payment'
+                          ? `Payment Distribution Overview (${paymentYear})`
+                          : activeChartModal === 'income'
+                            ? `Asset Distribution & Income Summary (${incomeYear})`
+                            : `Practice Financial Balance & Streams (${balanceYear})`}
                   </h2>
                   <p className="text-xs text-[#888888]">
                     Interactive practice analytics display • Select tabs to review complete departmental metrics
@@ -1023,12 +1017,12 @@ export function DashboardView({ user }) {
                     activeChartModal === 'sales'
                       ? salesYear
                       : activeChartModal === 'patient-growth'
-                      ? patientGrowthYear
-                      : activeChartModal === 'payment'
-                      ? paymentYear
-                      : activeChartModal === 'income'
-                      ? incomeYear
-                      : balanceYear
+                        ? patientGrowthYear
+                        : activeChartModal === 'payment'
+                          ? paymentYear
+                          : activeChartModal === 'income'
+                            ? incomeYear
+                            : balanceYear
                   }
                   onChange={(e) => {
                     const yr = Number(e.target.value);
@@ -1038,7 +1032,7 @@ export function DashboardView({ user }) {
                     else if (activeChartModal === 'income') setIncomeYear(yr);
                     else setBalanceYear(yr);
                   }}
-                  className="rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs cursor-pointer"
+                  className="rounded border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs cursor-pointer"
                 >
                   {availableYears.map((yr) => (
                     <option key={yr} value={yr}>
@@ -1050,7 +1044,7 @@ export function DashboardView({ user }) {
                 <button
                   type="button"
                   onClick={() => setActiveChartModal(null)}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-900 cursor-pointer"
+                  className="flex h-8 w-8 items-center justify-center rounded border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-900 cursor-pointer"
                   aria-label="Close modal"
                 >
                   ✕
@@ -1073,11 +1067,10 @@ export function DashboardView({ user }) {
                     key={tab.id}
                     type="button"
                     onClick={() => setActiveChartModal(tab.id)}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                      isActive
-                        ? 'bg-slate-900 text-white shadow-xs'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
-                    }`}
+                    className={`rounded px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${isActive
+                      ? 'bg-slate-900 text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
+                      }`}
                   >
                     {tab.label}
                   </button>
@@ -1089,19 +1082,19 @@ export function DashboardView({ user }) {
               <>
                 {/* Sales KPI Summary Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">Total Net Profit</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">{currentSalesData.totalProfit}</div>
                   </div>
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">12-Month Gross Sales</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(totalAnnualSales)}</div>
                   </div>
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">Monthly Average</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(avgMonthlySales)}</div>
                   </div>
-                  <div className="rounded-xl border border-indigo-100 bg-indigo-50/50 p-3">
+                  <div className="rounded border border-indigo-100 bg-indigo-50/50 p-3">
                     <span className="text-[11px] font-semibold text-[#5654DC]">
                       Selected ({activeSalesMonthObj.month} {currentSalesData.year})
                     </span>
@@ -1110,7 +1103,7 @@ export function DashboardView({ user }) {
                 </div>
 
                 {/* Expanded Sales Smooth Line & Area Chart */}
-                <div className="rounded-xl border border-[#EFEFEF] bg-white p-4">
+                <div className="rounded border border-[#EFEFEF] bg-white p-4">
                   <svg viewBox="20 214 674 258" fill="none" className="w-full h-auto block select-none">
                     {[224, 276, 328, 380].map((yPos) => (
                       <line
@@ -1215,11 +1208,10 @@ export function DashboardView({ user }) {
                           key={m.month}
                           type="button"
                           onClick={() => setSelectedSalesMonth(m.month)}
-                          className={`flex flex-col items-start rounded-xl border p-2.5 text-left transition-all cursor-pointer ${
-                            isSelected
-                              ? 'border-[#5654DC] bg-indigo-50/60 shadow-2xs'
-                              : 'border-slate-100 bg-slate-50/50 hover:border-slate-200 hover:bg-white'
-                          }`}
+                          className={`flex flex-col items-start rounded border p-2.5 text-left transition-all cursor-pointer ${isSelected
+                            ? 'border-[#5654DC] bg-indigo-50/60 shadow-2xs'
+                            : 'border-slate-100 bg-slate-50/50 hover:border-slate-200 hover:bg-white'
+                            }`}
                         >
                           <span className="text-[11px] font-semibold text-[#888888]">
                             {m.month} {currentSalesData.year}
@@ -1236,23 +1228,22 @@ export function DashboardView({ user }) {
                 {/* Patient Growth KPI Summary Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {currentPatientData.metrics.map((metric) => (
-                    <div key={metric.id} className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                    <div key={metric.id} className="rounded border border-slate-100 bg-slate-50/70 p-3">
                       <span className="text-[11px] font-medium text-[#888888]">{metric.label}</span>
                       <div className="mt-1 flex items-center gap-1.5">
                         <span className="text-lg font-bold text-[#080808]">{metric.value}</span>
                         <span
-                          className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
-                            metric.isPositive
-                              ? 'bg-[#E8FFF4] border border-[#8FE7BE] text-[#1DBF73]'
-                              : 'bg-[#FFEAEA] border border-[#FF9F9D] text-[#FB3B52]'
-                          }`}
+                          className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${metric.isPositive
+                            ? 'bg-[#E8FFF4] border border-[#8FE7BE] text-[#1DBF73]'
+                            : 'bg-[#FFEAEA] border border-[#FF9F9D] text-[#FB3B52]'
+                            }`}
                         >
                           {metric.isPositive ? '▲' : '▼'} {metric.change}
                         </span>
                       </div>
                     </div>
                   ))}
-                  <div className="rounded-xl border border-amber-200 bg-amber-50/60 p-3">
+                  <div className="rounded border border-amber-200 bg-amber-50/60 p-3">
                     <span className="text-[11px] font-semibold text-[#E08600]">
                       Selected ({activePatientMonthObj.month} {currentPatientData.year})
                     </span>
@@ -1263,7 +1254,7 @@ export function DashboardView({ user }) {
                 </div>
 
                 {/* Expanded Patient Growth 12-Month Bar Chart */}
-                <div className="rounded-xl border border-[#EFEFEF] bg-white p-4">
+                <div className="rounded border border-[#EFEFEF] bg-white p-4">
                   <svg viewBox="28 220 674 258" fill="none" className="w-full h-auto block select-none">
                     {[234, 286, 338, 390].map((yPos) => (
                       <line
@@ -1359,11 +1350,10 @@ export function DashboardView({ user }) {
                           key={bar.month}
                           type="button"
                           onClick={() => setSelectedWebWeek(bar.month)}
-                          className={`flex flex-col items-start rounded-xl border p-2.5 text-left transition-all cursor-pointer ${
-                            isSelected
-                              ? 'border-[#FF9F0A] bg-amber-50/70 shadow-2xs'
-                              : 'border-slate-100 bg-slate-50/50 hover:border-slate-200 hover:bg-white'
-                          }`}
+                          className={`flex flex-col items-start rounded border p-2.5 text-left transition-all cursor-pointer ${isSelected
+                            ? 'border-[#FF9F0A] bg-amber-50/70 shadow-2xs'
+                            : 'border-slate-100 bg-slate-50/50 hover:border-slate-200 hover:bg-white'
+                            }`}
                         >
                           <span className="text-[11px] font-semibold text-[#888888]">
                             {bar.month} {currentPatientData.year}
@@ -1379,28 +1369,28 @@ export function DashboardView({ user }) {
               <>
                 {/* Payment Distribution KPI Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">Total Transactions</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">{formatNumber(totalTransactions)} sales</div>
                   </div>
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">Monthly Growth</span>
                     <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B]">
                       <span>▲</span> +14% vs last mo
                     </div>
                   </div>
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">Dominant Channel</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">SHA &amp; Ins. (60%)</div>
                   </div>
-                  <div className="rounded-xl border border-cyan-100 bg-cyan-50/50 p-3">
+                  <div className="rounded border border-cyan-100 bg-cyan-50/50 p-3">
                     <span className="text-[11px] font-semibold text-[#00CBE8]">Active Filter</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">Year {paymentYear}</div>
                   </div>
                 </div>
 
                 {/* Donut Chart Visual */}
-                <div className="rounded-xl border border-[#EFEFEF] bg-white p-6 flex flex-col md:flex-row items-center justify-around gap-6">
+                <div className="rounded border border-[#EFEFEF] bg-white p-6 flex flex-col md:flex-row items-center justify-around gap-6">
                   <div className="relative flex items-center justify-center">
                     <svg className="w-56 h-56 -rotate-90 select-none" viewBox="0 0 100 100">
                       <circle cx="50" cy="50" r="38" fill="none" stroke="#F1F5F9" strokeWidth="13" />
@@ -1445,7 +1435,7 @@ export function DashboardView({ user }) {
 
                   <div className="space-y-3 w-full max-w-sm">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-[#888888]">Channel Breakdown</h4>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="h-3 w-3 rounded-full bg-[#FF104B]" />
                         <span className="text-xs font-semibold text-slate-800">SHA &amp; Insurance</span>
@@ -1455,7 +1445,7 @@ export function DashboardView({ user }) {
                         <span className="text-[10px] text-slate-500 ml-1">(16%)</span>
                       </div>
                     </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="h-3 w-3 rounded-full bg-[#5654DC]" />
                         <span className="text-xs font-semibold text-slate-800">M-Pesa STK Till</span>
@@ -1465,7 +1455,7 @@ export function DashboardView({ user }) {
                         <span className="text-[10px] text-slate-500 ml-1">(24%)</span>
                       </div>
                     </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="h-3 w-3 rounded-full bg-[#00CBE8]" />
                         <span className="text-xs font-semibold text-slate-800">Cash &amp; Private Pay</span>
@@ -1482,27 +1472,27 @@ export function DashboardView({ user }) {
               <>
                 {/* Income Summary KPI Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">Total Income</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(totalIncomeVal)}</div>
                   </div>
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">Growth Pace</span>
                     <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B]">
                       <span>▲</span> 32.1%
                     </div>
                   </div>
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">Yield Score</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">94% Optimal</div>
                   </div>
-                  <div className="rounded-xl border border-orange-100 bg-orange-50/50 p-3">
+                  <div className="rounded border border-orange-100 bg-orange-50/50 p-3">
                     <span className="text-[11px] font-semibold text-[#FF9900]">Active Year</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">Year {incomeYear}</div>
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-[#EFEFEF] bg-white p-6 flex flex-col md:flex-row items-center justify-around gap-6">
+                <div className="rounded border border-[#EFEFEF] bg-white p-6 flex flex-col md:flex-row items-center justify-around gap-6">
                   <div className="relative flex items-center justify-center">
                     <svg className="w-52 h-52 -rotate-90 select-none" viewBox="0 0 120 120">
                       <circle cx="60" cy="60" r="50" fill="none" stroke="#EFEFEF" strokeWidth="8" />
@@ -1550,21 +1540,21 @@ export function DashboardView({ user }) {
 
                   <div className="space-y-3 w-full max-w-sm">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-[#888888]">Settlement Routes</h4>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="h-3 w-3 rounded-full bg-[#00C26B]" />
                         <span className="text-xs font-semibold text-slate-800">M-Pesa STK</span>
                       </div>
                       <span className="text-xs font-bold text-[#080808]">{formatCurrency(mpesaIncomeVal)}</span>
                     </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="h-3 w-3 rounded-full bg-[#FF9900]" />
                         <span className="text-xs font-semibold text-slate-800">Private Payers</span>
                       </div>
                       <span className="text-xs font-bold text-[#080808]">{formatCurrency(privateIncomeVal)}</span>
                     </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="h-3 w-3 rounded-full bg-[#FFE88C]" />
                         <span className="text-xs font-semibold text-slate-800">Insurance Claims</span>
@@ -1578,27 +1568,27 @@ export function DashboardView({ user }) {
               <>
                 {/* Balance KPI Summary Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">Settled Balance</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(totalBalanceVal)}</div>
                   </div>
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">Fiscal Pace</span>
                     <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B]">
                       <span>▲</span> 12% vs last yrs
                     </div>
                   </div>
-                  <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
                     <span className="text-[11px] font-medium text-[#888888]">Cycle Window</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">Feb 1 – 28</div>
                   </div>
-                  <div className="rounded-xl border border-emerald-100 bg-emerald-50/50 p-3">
+                  <div className="rounded border border-emerald-100 bg-emerald-50/50 p-3">
                     <span className="text-[11px] font-semibold text-[#00C26B]">Active Year</span>
                     <div className="mt-1 text-lg font-bold text-[#080808]">Year {balanceYear}</div>
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-[#EFEFEF] bg-white p-6 space-y-6">
+                <div className="rounded border border-[#EFEFEF] bg-white p-6 space-y-6">
                   <div className="grid grid-cols-3 gap-3 border-y border-dashed border-[#AFAFAF]/40 py-4">
                     <div className="flex flex-col">
                       <span className="text-sm font-bold text-[#080808]">{formatCurrency(primaryCareVal)}</span>
@@ -1692,11 +1682,11 @@ export function DashboardView({ user }) {
 
             {/* Top Summaries Row (Matching Top Cards UI) */}
             <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
                 <span className="text-xs font-medium text-[#888888]">Monthly Channel Growth</span>
                 <div className="mt-1 flex items-baseline gap-2">
                   <span className="text-xl font-bold tracking-tight text-[#080808]">+14%</span>
-                  <div className="flex items-center gap-0.5 rounded-md bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
+                  <div className="flex items-center gap-0.5 rounded bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
                     <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                       <path d="M6 2.5L9 6.5H3L6 2.5Z" fill="#00C26B" />
                     </svg>
@@ -1710,7 +1700,7 @@ export function DashboardView({ user }) {
                 </div>
               </div>
 
-              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
                 <span className="text-xs font-medium text-[#888888]">Total Transactions</span>
                 <div className="mt-1 flex items-baseline gap-2">
                   <span className="text-xl font-bold tracking-tight text-[#080808]">{formatNumber(totalTransactions)}</span>
@@ -1783,7 +1773,7 @@ export function DashboardView({ user }) {
 
           {/* Value Breakdown Mini Cards */}
           <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100">
-            <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+            <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
               <div className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-[#FF104B]" />
                 <span className="text-[11px] font-medium text-[#888888] truncate">SHA / Ins.</span>
@@ -1792,7 +1782,7 @@ export function DashboardView({ user }) {
               <span className="text-[10px] text-[#888888]">sales (16%)</span>
             </div>
 
-            <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+            <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
               <div className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-[#5654DC]" />
                 <span className="text-[11px] font-medium text-[#888888] truncate">M-Pesa STK</span>
@@ -1801,7 +1791,7 @@ export function DashboardView({ user }) {
               <span className="text-[10px] text-[#888888]">sales (24%)</span>
             </div>
 
-            <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+            <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
               <div className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-[#00CBE8]" />
                 <span className="text-[11px] font-medium text-[#888888] truncate">Cash / Card</span>
@@ -1855,13 +1845,13 @@ export function DashboardView({ user }) {
 
             {/* Top Summaries Row (Matching Top Cards UI) */}
             <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
                 <span className="text-xs font-medium text-[#888888]">Active Practice Income</span>
                 <div className="mt-1 flex items-baseline gap-2">
                   <span className="text-xl font-bold tracking-tight text-[#080808]">
                     {formatCurrency(totalIncomeVal)}
                   </span>
-                  <div className="flex items-center gap-0.5 rounded-md bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
+                  <div className="flex items-center gap-0.5 rounded bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
                     <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                       <path d="M6 2.5L9 6.5H3L6 2.5Z" fill="#00C26B" />
                     </svg>
@@ -1875,7 +1865,7 @@ export function DashboardView({ user }) {
                 </div>
               </div>
 
-              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
                 <span className="text-xs font-medium text-[#888888]">Channel Yield Status</span>
                 <div className="mt-1 flex items-baseline gap-2">
                   <span className="text-xl font-bold tracking-tight text-[#080808]">Optimal</span>
@@ -1941,7 +1931,7 @@ export function DashboardView({ user }) {
           {/* Breakdown Mini Cards & Footer */}
           <div className="space-y-2 pt-3 border-t border-slate-100">
             <div className="grid grid-cols-3 gap-2">
-              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
                 <div className="flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full bg-[#00C26B]" />
                   <span className="text-[11px] font-medium text-[#888888] truncate">M-Pesa STK</span>
@@ -1950,7 +1940,7 @@ export function DashboardView({ user }) {
                 <span className="text-[10px] text-[#00C26B]">Direct Mobile</span>
               </div>
 
-              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
                 <div className="flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full bg-[#FF9900]" />
                   <span className="text-[11px] font-medium text-[#888888] truncate">Private Pay</span>
@@ -1959,7 +1949,7 @@ export function DashboardView({ user }) {
                 <span className="text-[10px] text-[#FF9900]">Self-funded</span>
               </div>
 
-              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
                 <div className="flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full bg-[#FFE88C]" />
                   <span className="text-[11px] font-medium text-[#888888] truncate">SHA Claims</span>
@@ -2018,13 +2008,13 @@ export function DashboardView({ user }) {
 
             {/* Top Summaries Row (Matching Top Cards UI) */}
             <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
                 <span className="text-xs font-medium text-[#888888]">Total Settled Balance</span>
                 <div className="mt-1 flex items-baseline gap-2">
                   <span className="text-xl font-bold tracking-tight text-[#080808]">
                     {formatCurrency(totalBalanceVal)}
                   </span>
-                  <div className="flex items-center gap-0.5 rounded-md bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
+                  <div className="flex items-center gap-0.5 rounded bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
                     <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                       <path d="M6 2.5L9 6.5H3L6 2.5Z" fill="#00C26B" />
                     </svg>
@@ -2038,7 +2028,7 @@ export function DashboardView({ user }) {
                 </div>
               </div>
 
-              <div className="flex flex-col rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
                 <span className="text-xs font-medium text-[#888888]">Fiscal Cycle Range</span>
                 <div className="mt-1 flex items-baseline gap-2">
                   <span className="text-xl font-bold tracking-tight text-[#080808]">Feb 1 – 28</span>
@@ -2109,12 +2099,11 @@ export function DashboardView({ user }) {
       </div>
 
       {/* Main Section 4: Operations & Sidebar Modules Quick Integration */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
         {/* Appointments Queue Table */}
-        <div className="lg:col-span-2 rounded-[24px] border border-[#EFEFEF] bg-white p-6 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
+        <div className="lg:col-span-2 rounded border border-[#EFEFEF] bg-white p-6 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-brand-green animate-pulse" />
+            <div className="flex items-center gap-2"> 
               <h3 className="text-sm font-bold text-slate-900">Today&apos;s Clinic Queue &amp; Appointments</h3>
             </div>
             <span className="text-xs font-bold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full border border-brand-200/60">
@@ -2183,17 +2172,17 @@ export function DashboardView({ user }) {
         </div>
 
         {/* Sidebar Operations & Shortcuts */}
-        <div className="space-y-5">
+        <div className="space-y-2">
           {/* Quick Action Operations */}
-          <div className="rounded-[24px] border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
+          <div className="rounded border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
             <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Clinic Fast Actions</h3>
             <div className="space-y-2">
               <button
                 onClick={() => alert('Initiating Safaricom M-Pesa STK Push Billing...')}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-emerald-50/70 hover:bg-emerald-100/70 border border-emerald-200/60 text-emerald-900 text-xs font-bold transition-all cursor-pointer"
+                className="w-full flex items-center justify-between p-3 rounded bg-emerald-50/70 hover:bg-emerald-100/70 border border-emerald-200/60 text-emerald-900 text-xs font-bold transition-all cursor-pointer"
               >
                 <div className="flex items-center gap-2">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-600 text-white font-black text-[10px]">
+                  <span className="flex h-6 w-6 items-center justify-center rounded bg-emerald-600 text-white font-black text-[10px]">
                     M
                   </span>
                   <span>M-Pesa STK Push Payment</span>
@@ -2203,10 +2192,10 @@ export function DashboardView({ user }) {
 
               <button
                 onClick={() => alert('Creating Kenya SHA Insurance Pre-Authorization Claim...')}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-amber-50/70 hover:bg-amber-100/70 border border-amber-200/60 text-amber-900 text-xs font-bold transition-all cursor-pointer"
+                className="w-full flex items-center justify-between p-3 rounded bg-amber-50/70 hover:bg-amber-100/70 border border-amber-200/60 text-amber-900 text-xs font-bold transition-all cursor-pointer"
               >
                 <div className="flex items-center gap-2">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-amber-600 text-white font-black text-[10px]">
+                  <span className="flex h-6 w-6 items-center justify-center rounded bg-amber-600 text-white font-black text-[10px]">
                     S
                   </span>
                   <span>Kenya SHA Claim Validation</span>
@@ -2216,10 +2205,10 @@ export function DashboardView({ user }) {
 
               <button
                 onClick={() => alert('Opening Interactive FDI Dental Charting...')}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-sky-50/70 hover:bg-sky-100/70 border border-sky-200/60 text-sky-900 text-xs font-bold transition-all cursor-pointer"
+                className="w-full flex items-center justify-between p-3 rounded bg-sky-50/70 hover:bg-sky-100/70 border border-sky-200/60 text-sky-900 text-xs font-bold transition-all cursor-pointer"
               >
                 <div className="flex items-center gap-2">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-sky-600 text-white font-black text-[10px]">
+                  <span className="flex h-6 w-6 items-center justify-center rounded bg-sky-600 text-white font-black text-[10px]">
                     F
                   </span>
                   <span>FDI Dental Chart (Odontogram)</span>
@@ -2230,7 +2219,7 @@ export function DashboardView({ user }) {
           </div>
 
           {/* Dental Inventory Low Stock Alert Banner */}
-          <div className="rounded-[24px] border border-amber-200/80 bg-amber-50/40 p-5">
+          <div className="rounded border border-amber-200/80 bg-amber-50/40 p-5">
             <div className="flex items-center gap-2 text-amber-900 font-bold text-xs mb-2">
               <HugeiconsIcon icon={AlertCircleIcon} size={16} className="text-amber-600 shrink-0" />
               <span>Dental Inventory Low Stock Alert</span>
@@ -2240,7 +2229,7 @@ export function DashboardView({ user }) {
             </p>
             <button
               onClick={() => alert('Generating Dental Inventory Purchase Order...')}
-              className="w-full rounded-xl bg-amber-600 px-3 py-1.5 text-center text-xs font-extrabold text-white shadow-2xs hover:bg-amber-700 cursor-pointer transition-colors"
+              className="w-full rounded bg-amber-600 px-3 py-1.5 text-center text-xs font-extrabold text-white shadow-2xs hover:bg-amber-700 cursor-pointer transition-colors"
             >
               Reorder Dental Supplies
             </button>
@@ -2283,7 +2272,7 @@ export function PatientsView() {
         }
       />
 
-      <div className="flex items-center gap-3 bg-white p-3 rounded-lg border border-slate-200/80 shadow-2xs">
+      <div className="flex items-center gap-3 bg-white p-3 rounded border border-slate-200/80 shadow-2xs">
         <div className="relative flex-1">
           <HugeiconsIcon icon={Search01Icon} size={16} className="absolute left-3 top-2.5 text-slate-400" />
           <input
@@ -2300,7 +2289,7 @@ export function PatientsView() {
         </button>
       </div>
 
-      <div className="rounded-lg border border-slate-200/90 bg-white overflow-hidden shadow-2xs">
+      <div className="rounded border border-slate-200/90 bg-white overflow-hidden shadow-2xs">
         <table className="w-full text-left text-xs">
           <thead className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase">
             <tr>
@@ -2358,7 +2347,7 @@ export function AppointmentsView() {
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-3 rounded-lg border border-slate-200/90 bg-white p-5 shadow-2xs">
+        <div className="lg:col-span-3 rounded border border-slate-200/90 bg-white p-5 shadow-2xs">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
             <h2 className="text-sm font-bold text-slate-900">November 2026 — Weekly Schedule</h2>
             <div className="flex items-center gap-2">
@@ -2397,7 +2386,7 @@ export function AppointmentsView() {
           </div>
         </div>
 
-        <div className="rounded-lg border border-slate-200/90 bg-white p-4 shadow-2xs space-y-4">
+        <div className="rounded border border-slate-200/90 bg-white p-4 shadow-2xs space-y-4">
           <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Practitioners</h3>
           <div className="space-y-2 text-xs">
             <div className="p-2 rounded bg-slate-50 border border-slate-200">
@@ -2443,7 +2432,7 @@ export function DentalChartingView() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Odontogram Grid */}
-        <div className="lg:col-span-2 rounded-lg border border-slate-200/90 bg-white p-5 shadow-2xs space-y-6">
+        <div className="lg:col-span-2 rounded border border-slate-200/90 bg-white p-5 shadow-2xs space-y-6">
           <div>
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2 text-center">
               MAXILLARY ARCH (UPPER TEETH)
@@ -2453,13 +2442,12 @@ export function DentalChartingView() {
                 <button
                   key={t}
                   onClick={() => setSelectedTooth(t)}
-                  className={`w-9 h-12 rounded border text-xs font-bold flex flex-col items-center justify-between p-1 transition-all cursor-pointer ${
-                    selectedTooth === t
-                      ? 'bg-blue-600 text-white border-blue-700 shadow-md scale-105'
-                      : t === 16 || t === 24
+                  className={`w-9 h-12 rounded border text-xs font-bold flex flex-col items-center justify-between p-1 transition-all cursor-pointer ${selectedTooth === t
+                    ? 'bg-blue-600 text-white border-blue-700 shadow-md scale-105'
+                    : t === 16 || t === 24
                       ? 'bg-amber-100 text-amber-900 border-amber-300'
                       : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  }`}
+                    }`}
                 >
                   <span className="text-[10px]">{t}</span>
                   <span className="text-[9px] font-extrabold">{t === 16 ? 'F' : t === 24 ? 'RCT' : 'OK'}</span>
@@ -2477,11 +2465,10 @@ export function DentalChartingView() {
                 <button
                   key={t}
                   onClick={() => setSelectedTooth(t)}
-                  className={`w-9 h-12 rounded border text-xs font-bold flex flex-col items-center justify-between p-1 transition-all cursor-pointer ${
-                    selectedTooth === t
-                      ? 'bg-blue-600 text-white border-blue-700 shadow-md scale-105'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  }`}
+                  className={`w-9 h-12 rounded border text-xs font-bold flex flex-col items-center justify-between p-1 transition-all cursor-pointer ${selectedTooth === t
+                    ? 'bg-blue-600 text-white border-blue-700 shadow-md scale-105'
+                    : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                    }`}
                 >
                   <span className="text-[9px] font-extrabold">OK</span>
                   <span className="text-[10px]">{t}</span>
@@ -2492,7 +2479,7 @@ export function DentalChartingView() {
         </div>
 
         {/* Selected Tooth Inspector */}
-        <div className="rounded-lg border border-slate-200/90 bg-white p-5 shadow-2xs space-y-4">
+        <div className="rounded border border-slate-200/90 bg-white p-5 shadow-2xs space-y-4">
           <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">
             Selected Tooth #{selectedTooth} Details
           </h3>
@@ -2569,7 +2556,7 @@ export function InvoicesView() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Invoices List */}
-        <div className="lg:col-span-2 rounded-lg border border-slate-200/90 bg-white p-5 shadow-2xs space-y-4">
+        <div className="lg:col-span-2 rounded border border-slate-200/90 bg-white p-5 shadow-2xs space-y-4">
           <h2 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">Recent Patient Invoices</h2>
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase">
@@ -2605,7 +2592,7 @@ export function InvoicesView() {
         </div>
 
         {/* M-Pesa STK Push Box */}
-        <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-5 shadow-2xs space-y-4">
+        <div className="rounded border border-emerald-200 bg-emerald-50/50 p-5 shadow-2xs space-y-4">
           <div className="flex items-center gap-2 text-emerald-900 border-b border-emerald-200/80 pb-2">
             <HugeiconsIcon icon={Money01Icon} size={20} className="text-emerald-600" />
             <h3 className="text-sm font-bold">Safaricom M-Pesa STK Push</h3>
@@ -2662,7 +2649,7 @@ export function GenericFeatureView({ title, description, badge = 'Active Module'
         }
       />
 
-      <div className="rounded-lg border border-slate-200/90 bg-white p-6 shadow-2xs space-y-4">
+      <div className="rounded border border-slate-200/90 bg-white p-6 shadow-2xs space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold text-slate-900">{title} Workspace Data</span>
