@@ -290,13 +290,13 @@ export default function Sidebar({
       {/* ── Fixed bottom buttons (Settings + Help & Support) ───────────────── */}
       <div className={`shrink-0 border-t border-slate-200  ${isCollapsed ? 'p-1.5 space-y-1' : 'p-2 space-y-1'}`}>
         {/* Settings */}
-        <Button
+        <button
           variant="ghost"
           onClick={() => navigate('/settings')}
           title={isCollapsed ? 'Clinic Settings' : undefined}
           className={`
             w-full flex items-center rounded text-xs font-semibold transition-all cursor-pointer h-auto
-            ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-3 py-1'}
+            ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-2 py-1'}
             ${location.pathname === '/settings'
               ? 'bg-brand-50 text-brand-700 font-bold border-l-3 border-brand-600 shadow-2xs'
               : 'text-slate-700 hover:bg-slate-100/90 hover:text-slate-900'
@@ -309,10 +309,10 @@ export default function Sidebar({
             className={location.pathname === '/settings' ? 'text-brand-600 shrink-0' : 'text-slate-400 shrink-0'}
           />
           {!isCollapsed && <span>Clinic Settings</span>}
-        </Button>
+        </button>
 
         {/* Help & Support */}
-        <Button
+        <button
           variant="ghost"
           onClick={() => {
             if (isMobileOpen && onCloseMobile) onCloseMobile();
@@ -322,12 +322,12 @@ export default function Sidebar({
           title={isCollapsed ? 'Help & Support Center' : undefined}
           className={`
             w-full flex items-center rounded text-xs font-semibold text-slate-700 hover:bg-slate-100/90 hover:text-slate-900 transition-all cursor-pointer h-auto
-            ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-3 py-1'}
+            ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-2 py-1'}
           `.trim()}
         >
           <HugeiconsIcon icon={HelpCircleIcon} size={18} className="text-slate-400 shrink-0" />
           {!isCollapsed && <span>Help &amp; Support</span>}
-        </Button>
+        </button>
       </div>
 
       {/* User Footer Profile & Quick Logout */}

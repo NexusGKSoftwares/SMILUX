@@ -108,7 +108,7 @@ export default function Topbar({
 
         {/* User Menu Dropdown */}
         <div className="relative" ref={userMenuRef}>
-          <Button
+          <button
             variant="ghost"
             onClick={() => setUserMenuOpen(!userMenuOpen)}
             className="flex items-center gap-2 p-1 h-auto rounded-full border border-brand-pink hover:bg-slate-100/80 transition-colors cursor-pointer"
@@ -117,7 +117,7 @@ export default function Topbar({
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-pink text-white text-xs font-bold shrink-0">
               {initials}
             </div>
-          </Button>
+          </button>
 
           {userMenuOpen && (
             <div className="absolute right-0 top-full mt-1.5 w-60 py-1.5 bg-white rounded border border-slate-200 z-50 text-sm overflow-hidden shadow-xl shadow-slate-900/10 animate-in fade-in zoom-in-95 duration-100 font-sans">
@@ -166,7 +166,7 @@ export default function Topbar({
                   <span>Clinic Settings</span>
                 </Link>
 
-                <Button
+                <button
                   variant="ghost"
                   onClick={() => {
                     setUserMenuOpen(false);
@@ -176,18 +176,18 @@ export default function Topbar({
                 >
                   <HugeiconsIcon icon={HelpCircleIcon} size={16} className="text-slate-400" />
                   <span>Help &amp; Support</span>
-                </Button>
+                </button>
 
                 <div className="my-1 h-px bg-slate-100" />
 
-                <Button
+                <button
                   variant="ghost"
                   onClick={handleLogout}
                   className="w-full flex items-center justify-start gap-2.5 px-4 py-2 h-auto text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer text-left"
                 >
                   <HugeiconsIcon icon={Logout01Icon} size={16} className="text-rose-600" />
                   <span>Logout</span>
-                </Button>
+                </button>
               </div>
 
               {/* Version Footer */}

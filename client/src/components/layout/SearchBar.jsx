@@ -270,7 +270,7 @@ export default function SearchBar() {
           </span>
         </div>
         <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono font-bold text-slate-400 bg-white border border-slate-200 rounded shadow-2xs">
-          ⌘K
+          ⌘ K
         </kbd>
       </button>
 
