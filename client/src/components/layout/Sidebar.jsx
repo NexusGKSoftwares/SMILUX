@@ -109,7 +109,7 @@ export default function Sidebar({
         const done = Object.values(parsed).filter(Boolean).length;
         return { completed: done, total: 8 };
       }
-    } catch {}
+    } catch { }
     return { completed: 1, total: 8 };
   });
   const clinicMenuRef = useRef(null);
@@ -124,7 +124,7 @@ export default function Sidebar({
           setOnboardingProgress({ completed: done, total: 8 });
           return;
         }
-      } catch {}
+      } catch { }
       setOnboardingProgress({ completed: 1, total: 8 });
     };
 
@@ -547,7 +547,7 @@ export default function Sidebar({
           className="fixed z-50 pointer-events-none -translate-y-1/2 flex items-center transition-all duration-150 animate-in fade-in zoom-in-95"
           style={{ left: 74, top: activeTooltip.top }}
         >
-          <div className="relative flex items-center gap-1.5 rounded-md bg-slate-900 px-2.5 py-1 text-xs font-semibold text-white shadow-xl shadow-slate-900/25 whitespace-nowrap">
+          <div className="relative flex items-center gap-1.5 rounded bg-slate-900 px-2.5 py-1 text-xs font-semibold text-white shadow-xl shadow-slate-900/25 whitespace-nowrap">
             {/* Arrow pointing to icon */}
             <span className="absolute -left-1 top-1/2 -translate-y-1/2 h-2 w-2 rotate-45 bg-slate-900" />
             <span>{activeTooltip.text}</span>
