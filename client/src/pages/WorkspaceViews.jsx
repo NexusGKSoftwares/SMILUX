@@ -2910,25 +2910,11 @@ export function DashboardView({ user }) {
                 />
               </div>
 
-              <div className="flex items-center gap-2">
-                {/* Period Filter Pill ("Last 6 months" dropdown matching reference screenshot) */}
-                <select
-                  value={expensesPeriod}
-                  onChange={(e) => setExpensesPeriod(e.target.value)}
-                  className="rounded border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-2xs hover:border-slate-300 focus:outline-none cursor-pointer"
-                  aria-label="Select expense timeframe"
-                >
-                  <option value="Last 6 months">Last 6 months</option>
-                  <option value="Last 12 months">Last 12 months</option>
-                  <option value="This Quarter">This Quarter</option>
-                </select>
-
-                <CardActionToolbar
-                  onExpand={() => setActiveChartModal('expenses')}
-                  selectedYear={expensesYear}
-                  onSelectYear={(yr) => setExpensesYear(Number(yr))}
-                />
-              </div>
+              <CardActionToolbar
+                onExpand={() => setActiveChartModal('expenses')}
+                selectedYear={expensesYear}
+                onSelectYear={(yr) => setExpensesYear(Number(yr))}
+              />
             </div>
 
             {/* Middle Section: Multi-Segment Rounded Donut Ring + Right Category Legend */}
@@ -3143,29 +3129,11 @@ export function DashboardView({ user }) {
                 />
               </div>
 
-              <div className="flex items-center gap-2">
-                {/* Period Filter Pill ("Last 6 months" dropdown matching reference screenshot) */}
-                <select
-                  value={incomeExpensePeriod}
-                  onChange={(e) => {
-                    const nextPeriod = e.target.value;
-                    setIncomeExpensePeriod(nextPeriod);
-                    setSelectedPaymentGrowthMonth(nextPeriod === 'H2 (Jul - Dec)' ? 'SEP' : 'MAR');
-                  }}
-                  className="rounded border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-2xs hover:border-slate-300 focus:outline-none cursor-pointer"
-                  aria-label="Select income vs expense timeframe"
-                >
-                  <option value="Last 6 months">Last 6 months</option>
-                  <option value="H2 (Jul - Dec)">H2 (Jul - Dec)</option>
-                  <option value="Full Year">Full Year</option>
-                </select>
-
-                <CardActionToolbar
-                  onExpand={() => setActiveChartModal('payment-growth')}
-                  selectedYear={paymentGrowthYear}
-                  onSelectYear={(yr) => setPaymentGrowthYear(Number(yr))}
-                />
-              </div>
+              <CardActionToolbar
+                onExpand={() => setActiveChartModal('payment-growth')}
+                selectedYear={paymentGrowthYear}
+                onSelectYear={(yr) => setPaymentGrowthYear(Number(yr))}
+              />
             </div>
 
             {/* Dual KPI Summary Strip: TOTAL INCOME vs TOTAL EXPENSES (Matching Reference Image) */}
@@ -3218,10 +3186,10 @@ export function DashboardView({ user }) {
             </div>
           </div>
 
-          {/* Grouped Dual-Bar Chart (JAN..JUN with Green Income & Amber Expense Bars + Active Threshold Line) */}
+          {/* Grouped Dual-Bar Chart (12 Months JAN..DEC with Green Income & Amber Expense Bars + Active Threshold Line) */}
           <div className="w-full overflow-hidden pt-1">
             <svg
-              viewBox="0 0 560 250"
+              viewBox="0 0 680 250"
               fill="none"
               className="w-full h-auto block select-text"
             >
@@ -3249,7 +3217,7 @@ export function DashboardView({ user }) {
                     <line
                       x1="54"
                       y1={tick.y}
-                      x2="536"
+                      x2="664"
                       y2={tick.y}
                       stroke="#F1F5F9"
                       strokeWidth="1.2"
@@ -3259,7 +3227,7 @@ export function DashboardView({ user }) {
                     <line
                       x1="54"
                       y1={tick.y}
-                      x2="536"
+                      x2="664"
                       y2={tick.y}
                       stroke="#E2E8F0"
                       strokeWidth="1.3"
@@ -3272,20 +3240,20 @@ export function DashboardView({ user }) {
               <line
                 x1="54"
                 y1={214 - activeIncomeExpenseMonthObj.incomeH}
-                x2="536"
+                x2="664"
                 y2={214 - activeIncomeExpenseMonthObj.incomeH}
                 stroke="#6BCE85"
                 strokeWidth="1.3"
               />
 
-              {/* 6 Monthly Grouped Bars (Green = Income, Amber = Expense) */}
+              {/* 12 Monthly Grouped Bars (Green = Income, Amber = Expense) */}
               {incomeExpenseMonths.map((item, idx) => {
                 const isSelected = activeIncomeExpenseMonthObj.month === item.month;
                 const isHovered = hoveredPaymentGrowthIndex === idx || isSelected;
                 const incomeY = 214 - item.incomeH;
                 const expenseY = 214 - item.expenseH;
                 const greenBarX = item.xGroup;
-                const amberBarX = item.xGroup + 21;
+                const amberBarX = item.xGroup + 14;
 
                 return (
                   <g
@@ -3309,11 +3277,11 @@ export function DashboardView({ user }) {
                     {/* Soft Translucent Green Pill Halo around Selected Green Bar (Matching MAR in reference) */}
                     {isSelected && (
                       <rect
-                        x={greenBarX - 5}
-                        y={incomeY - 8}
-                        width="26"
-                        height={item.incomeH + 8}
-                        rx="12"
+                        x={greenBarX - 4}
+                        y={incomeY - 7}
+                        width="19"
+                        height={item.incomeH + 7}
+                        rx="9.5"
                         fill="#6BCE85"
                         fillOpacity="0.16"
                       />
@@ -3323,9 +3291,9 @@ export function DashboardView({ user }) {
                     <rect
                       x={greenBarX}
                       y={incomeY}
-                      width="16"
+                      width="11"
                       height={item.incomeH}
-                      rx="3"
+                      rx="2.5"
                       fill={isHovered ? '#58C074' : '#6BCE85'}
                     />
 
@@ -3333,33 +3301,33 @@ export function DashboardView({ user }) {
                     <rect
                       x={amberBarX}
                       y={expenseY}
-                      width="16"
+                      width="11"
                       height={item.expenseH}
-                      rx="3"
+                      rx="2.5"
                       fill={isHovered ? '#F0A200' : '#FFB100'}
                     />
 
                     {/* Active Green Dot with White Ring on Selected Green Bar Top */}
                     {isSelected && (
                       <circle
-                        cx={greenBarX + 8}
+                        cx={greenBarX + 5.5}
                         cy={incomeY}
-                        r="5.5"
+                        r="4.8"
                         fill="#6BCE85"
                         stroke="#FFFFFF"
-                        strokeWidth="2.5"
+                        strokeWidth="2.2"
                       />
                     )}
 
-                    {/* Month Label (JAN, FEB, MAR, APR, MAY, JUN) */}
+                    {/* Month Label (JAN .. DEC) */}
                     <text
-                      x={item.xGroup + 18.5}
+                      x={item.xGroup + 12.5}
                       y="238"
                       textAnchor="middle"
                       fill={isSelected ? '#1E293B' : '#94A3B8'}
-                      fontSize="11.5"
+                      fontSize="11"
                       fontWeight={isSelected ? '800' : '600'}
-                      letterSpacing="0.03em"
+                      letterSpacing="0.02em"
                       className="select-text"
                     >
                       {item.month}
