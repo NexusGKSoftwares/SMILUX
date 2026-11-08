@@ -407,11 +407,10 @@ export default function PatientsPage() {
         filterType: 'select',
         render: (val, row) => (
           <span
-            className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-medium truncate max-w-[165px] ${
-              row.insuranceType === 'insured'
+            className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-medium truncate max-w-[165px] ${row.insuranceType === 'insured'
                 ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-200/60'
                 : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200/60'
-            }`}
+              }`}
           >
             {row.insurance}
           </span>
@@ -465,11 +464,10 @@ export default function PatientsPage() {
         align: 'right',
         render: (val, row) => (
           <span
-            className={`font-mono font-medium text-right block tabular-nums ${
-              row.balance !== 'KES 0'
+            className={`font-mono font-medium text-right block tabular-nums ${row.balance !== 'KES 0'
                 ? 'text-amber-600 dark:text-amber-400 font-semibold'
                 : 'text-slate-500'
-            }`}
+              }`}
           >
             {row.balance}
           </span>
@@ -489,13 +487,12 @@ export default function PatientsPage() {
         ],
         render: (val, row) => (
           <span
-            className={`inline-block px-1.5 py-0.2 rounded-full text-[10px] font-semibold ${
-              row.status === 'Active'
+            className={`inline-block px-1.5 py-0.2 rounded-full text-[10px] font-semibold ${row.status === 'Active'
                 ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300'
                 : row.status === 'Follow Up'
-                ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300'
-                : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
-            }`}
+                  ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300'
+                  : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+              }`}
           >
             {row.status}
           </span>
@@ -543,7 +540,7 @@ export default function PatientsPage() {
   return (
     <div className="space-y-3 mb-8">
       {/* ─── PageHeader with Title, Learn, 3-Dots, & Add Button ─── */}
-      <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xs border border-slate-300 dark:border-slate-800 overflow-hidden">
+      <div className="bg-white dark:bg-slate-900 rounded shadow-xs border border-slate-300 dark:border-slate-800 overflow-hidden">
         <PageHeader
           title="Patients"
           badge={`${tabCounts.all} Files`}
@@ -598,7 +595,7 @@ export default function PatientsPage() {
           <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-1.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={PlusSignIcon} size={16} />
                 </div>
                 <div>
@@ -612,7 +609,7 @@ export default function PatientsPage() {
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded-lg"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
@@ -630,7 +627,7 @@ export default function PatientsPage() {
                     placeholder="e.g. Samuel Waweru"
                     value={newPatient.name}
                     onChange={(e) => setNewPatient({ ...newPatient, name: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -644,7 +641,7 @@ export default function PatientsPage() {
                     placeholder="+254 7XX XXX XXX"
                     value={newPatient.phone}
                     onChange={(e) => setNewPatient({ ...newPatient, phone: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -657,7 +654,7 @@ export default function PatientsPage() {
                     placeholder="patient@example.com"
                     value={newPatient.email}
                     onChange={(e) => setNewPatient({ ...newPatient, email: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -671,12 +668,12 @@ export default function PatientsPage() {
                       placeholder="Age"
                       value={newPatient.age}
                       onChange={(e) => setNewPatient({ ...newPatient, age: e.target.value })}
-                      className="w-20 px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                      className="w-20 px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                     />
                     <select
                       value={newPatient.gender}
                       onChange={(e) => setNewPatient({ ...newPatient, gender: e.target.value })}
-                      className="flex-1 px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                      className="flex-1 px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                     >
                       <option value="Female">Female</option>
                       <option value="Male">Male</option>
@@ -692,7 +689,7 @@ export default function PatientsPage() {
                   <select
                     value={newPatient.insurance}
                     onChange={(e) => setNewPatient({ ...newPatient, insurance: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   >
                     <option value="Self Pay (M-Pesa)">Self Pay (M-Pesa)</option>
                     <option value="Self Pay (Cash)">Self Pay (Cash)</option>
@@ -713,7 +710,7 @@ export default function PatientsPage() {
                     placeholder="e.g. Penicillin allergy, diabetic, pregnant, none"
                     value={newPatient.dentalAlert}
                     onChange={(e) => setNewPatient({ ...newPatient, dentalAlert: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
               </div>
@@ -722,13 +719,13 @@ export default function PatientsPage() {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="px-4 py-2 rounded text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg text-xs font-medium text-white bg-[#057a55] hover:bg-[#046c4b] shadow-xs transition-colors flex items-center gap-1.5"
+                  className="px-4 py-2 rounded text-xs font-medium text-white bg-[#057a55] hover:bg-[#046c4b] shadow-xs transition-colors flex items-center gap-1.5"
                 >
                   <HugeiconsIcon icon={PlusSignIcon} size={15} />
                   <span>Register Patient</span>
@@ -752,14 +749,14 @@ export default function PatientsPage() {
               </div>
               <button
                 onClick={() => setIsLearnModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded-lg"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
             </div>
 
             <div className="p-5 space-y-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-800/50 rounded-lg">
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-800/50 rounded">
                 <p className="font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
                   Spreadsheet Power & Compliance
                 </p>
@@ -790,7 +787,7 @@ export default function PatientsPage() {
                 <button
                   type="button"
                   onClick={() => setIsLearnModalOpen(false)}
-                  className="px-4 py-2 rounded-lg text-xs font-medium text-white bg-emerald-700 hover:bg-emerald-800 transition-colors"
+                  className="px-4 py-2 rounded text-xs font-medium text-white bg-emerald-700 hover:bg-emerald-800 transition-colors"
                 >
                   Got It
                 </button>

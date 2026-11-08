@@ -420,11 +420,10 @@ export default function DataTable({
             type="button"
             title="Toggle column filter inputs"
             onClick={() => setShowColumnFilters((prev) => !prev)}
-            className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs border font-medium transition-colors cursor-pointer ${
-              showColumnFilters
+            className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs border font-medium transition-colors cursor-pointer ${showColumnFilters
                 ? 'bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
                 : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700'
-            }`}
+              }`}
           >
             <HugeiconsIcon icon={FilterIcon} size={13} />
             <span className="hidden sm:inline">Filters</span>
@@ -438,11 +437,10 @@ export default function DataTable({
               type="button"
               title="Compact Spreadsheet Rows"
               onClick={() => setDensity('compact')}
-              className={`px-1.5 py-0.5 rounded font-medium transition-colors ${
-                density === 'compact'
+              className={`px-1.5 py-0.5 rounded font-medium transition-colors ${density === 'compact'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs'
                   : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-              }`}
+                }`}
             >
               Dense
             </button>
@@ -450,11 +448,10 @@ export default function DataTable({
               type="button"
               title="Standard Rows"
               onClick={() => setDensity('standard')}
-              className={`px-1.5 py-0.5 rounded font-medium transition-colors ${
-                density === 'standard'
+              className={`px-1.5 py-0.5 rounded font-medium transition-colors ${density === 'standard'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs'
                   : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-              }`}
+                }`}
             >
               Normal
             </button>
@@ -462,11 +459,10 @@ export default function DataTable({
               type="button"
               title="Relaxed Rows"
               onClick={() => setDensity('relaxed')}
-              className={`px-1.5 py-0.5 rounded font-medium transition-colors ${
-                density === 'relaxed'
+              className={`px-1.5 py-0.5 rounded font-medium transition-colors ${density === 'relaxed'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs'
                   : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-              }`}
+                }`}
             >
               Cozy
             </button>
@@ -487,7 +483,7 @@ export default function DataTable({
             </button>
 
             {isColMenuOpen && (
-              <div className="absolute right-0 top-full mt-1.5 w-56 max-h-72 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-xl p-2 z-50 animate-in fade-in-0 zoom-in-95">
+              <div className="absolute right-0 top-full mt-1.5 w-56 max-h-72 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded shadow-xl p-2 z-50 animate-in fade-in-0 zoom-in-95">
                 <div className="text-[11px] font-bold text-slate-500 uppercase px-2 py-1 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                   <span>Toggle Columns</span>
                   <button
@@ -689,7 +685,7 @@ export default function DataTable({
   };
 
   return (
-    <div className={`w-full flex flex-col font-sans bg-white dark:bg-slate-900 rounded-lg border border-slate-300 dark:border-slate-700 shadow-xs overflow-hidden ${className}`}>
+    <div className={`w-full flex flex-col font-sans bg-white dark:bg-slate-900 rounded border border-slate-300 dark:border-slate-700 shadow-xs overflow-hidden ${className}`}>
       {/* ─── Top Placement Toolbar ────────────────────────────────────────── */}
       {renderTopToolbar ? (
         renderTopToolbar({
@@ -731,9 +727,8 @@ export default function DataTable({
               {/* Optional Selection Checkbox Column */}
               {selectable && (
                 <th
-                  className={`w-9 text-center border-r border-slate-300 dark:border-slate-700 bg-slate-200 dark:bg-slate-800 ${densityStyles.header} ${
-                    stickyFirstColumn ? 'sticky left-0 z-30 shadow-[2px_0_0_0_#94a3b8]' : ''
-                  }`}
+                  className={`w-9 text-center border-r border-slate-300 dark:border-slate-700 bg-slate-200 dark:bg-slate-800 ${densityStyles.header} ${stickyFirstColumn ? 'sticky left-0 z-30 shadow-[2px_0_0_0_#94a3b8]' : ''
+                    }`}
                 >
                   <input
                     type="checkbox"
@@ -769,9 +764,8 @@ export default function DataTable({
                         ? 'Click to sort. Hold Shift + Click to multi-column sort'
                         : undefined
                     }
-                    className={`border-r border-slate-300 dark:border-slate-700 bg-slate-200 dark:bg-slate-800 tracking-tight whitespace-nowrap transition-colors ${
-                      canSort ? 'cursor-pointer hover:bg-slate-300/80 dark:hover:bg-slate-700' : ''
-                    } ${densityStyles.header} ${stickyClass} ${col.headerClassName || ''}`}
+                    className={`border-r border-slate-300 dark:border-slate-700 bg-slate-200 dark:bg-slate-800 tracking-tight whitespace-nowrap transition-colors ${canSort ? 'cursor-pointer hover:bg-slate-300/80 dark:hover:bg-slate-700' : ''
+                      } ${densityStyles.header} ${stickyClass} ${col.headerClassName || ''}`}
                   >
                     <div className="flex items-center justify-between gap-1.5">
                       <span className="truncate">{col.title || col.key}</span>
@@ -818,9 +812,8 @@ export default function DataTable({
               <tr className="bg-slate-100 dark:bg-slate-850 border-b-2 border-slate-400 dark:border-slate-600">
                 {selectable && (
                   <th
-                    className={`border-r border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-850 ${
-                      stickyFirstColumn ? 'sticky left-0 z-30 shadow-[2px_0_0_0_#94a3b8]' : ''
-                    }`}
+                    className={`border-r border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-850 ${stickyFirstColumn ? 'sticky left-0 z-30 shadow-[2px_0_0_0_#94a3b8]' : ''
+                      }`}
                   />
                 )}
 
@@ -846,13 +839,11 @@ export default function DataTable({
                                 });
                                 setCurrentPage(1);
                               }}
-                              className={`w-full rounded border font-sans text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer ${
-                                densityStyles.filterInput
-                              } ${
-                                isFiltered
+                              className={`w-full rounded border font-sans text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer ${densityStyles.filterInput
+                                } ${isFiltered
                                   ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/30'
                                   : 'border-slate-300 dark:border-slate-700'
-                              }`}
+                                }`}
                             >
                               <option value="all">All</option>
                               {(
@@ -884,13 +875,11 @@ export default function DataTable({
                                 });
                                 setCurrentPage(1);
                               }}
-                              className={`w-full rounded border font-sans text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-emerald-500 pr-5 ${
-                                densityStyles.filterInput
-                              } ${
-                                isFiltered
+                              className={`w-full rounded border font-sans text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-emerald-500 pr-5 ${densityStyles.filterInput
+                                } ${isFiltered
                                   ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/30'
                                   : 'border-slate-300 dark:border-slate-700'
-                              }`}
+                                }`}
                             />
                             {filterValue && (
                               <button
@@ -962,26 +951,22 @@ export default function DataTable({
                   <tr
                     key={rowId}
                     onClick={() => onRowClick && onRowClick(row, rowIndex)}
-                    className={`border-b border-slate-200 dark:border-slate-700 transition-colors ${
-                      densityStyles.rowHeight
-                    } ${
-                      isSelected
+                    className={`border-b border-slate-200 dark:border-slate-700 transition-colors ${densityStyles.rowHeight
+                      } ${isSelected
                         ? 'bg-emerald-50/70 dark:bg-emerald-950/30'
                         : isEven
-                        ? 'bg-white dark:bg-slate-900 hover:bg-blue-50/40 dark:hover:bg-slate-800/60'
-                        : 'bg-slate-50/50 dark:bg-slate-850 hover:bg-blue-50/40 dark:hover:bg-slate-800/60'
-                    } ${onRowClick ? 'cursor-pointer' : ''}`}
+                          ? 'bg-white dark:bg-slate-900 hover:bg-blue-50/40 dark:hover:bg-slate-800/60'
+                          : 'bg-slate-50/50 dark:bg-slate-850 hover:bg-blue-50/40 dark:hover:bg-slate-800/60'
+                      } ${onRowClick ? 'cursor-pointer' : ''}`}
                   >
                     {/* Selection Checkbox */}
                     {selectable && (
                       <td
-                        className={`text-center border-r border-slate-300 dark:border-slate-700 ${
-                          isSelected ? 'bg-emerald-50 dark:bg-emerald-950/50' : 'bg-inherit'
-                        } ${
-                          stickyFirstColumn
+                        className={`text-center border-r border-slate-300 dark:border-slate-700 ${isSelected ? 'bg-emerald-50 dark:bg-emerald-950/50' : 'bg-inherit'
+                          } ${stickyFirstColumn
                             ? 'sticky left-0 z-10 shadow-[2px_0_0_0_#94a3b8]'
                             : ''
-                        }`}
+                          }`}
                       >
                         <input
                           type="checkbox"
@@ -1008,9 +993,8 @@ export default function DataTable({
                             minWidth: col.minWidth,
                             maxWidth: col.maxWidth,
                           }}
-                          className={`border-r border-slate-300 dark:border-slate-700 truncate ${
-                            isSelected ? 'bg-emerald-50 dark:bg-emerald-950/50' : 'bg-inherit'
-                          } ${densityStyles.cell} ${stickyClass} ${col.className || ''}`}
+                          className={`border-r border-slate-300 dark:border-slate-700 truncate ${isSelected ? 'bg-emerald-50 dark:bg-emerald-950/50' : 'bg-inherit'
+                            } ${densityStyles.cell} ${stickyClass} ${col.className || ''}`}
                         >
                           {col.render ? (
                             col.render(rawValue, row, rowIndex)
