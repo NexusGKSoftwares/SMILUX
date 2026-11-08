@@ -100,7 +100,26 @@ export default function Sidebar({
   const location = useLocation();
   const navigate = useNavigate();
   const [clinicMenuOpen, setClinicMenuOpen] = useState(false);
+  const [activeTooltip, setActiveTooltip] = useState(null);
   const clinicMenuRef = useRef(null);
+
+  useEffect(() => {
+    setActiveTooltip(null);
+  }, [isCollapsed]);
+
+  const handleMouseEnter = (text, badge = null) => (e) => {
+    if (!isCollapsed) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    setActiveTooltip({
+      text,
+      badge,
+      top: rect.top + rect.height / 2,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setActiveTooltip(null);
+  };
 
   useEffect(() => {
     if (clinicMenuOpen) {
@@ -180,8 +199,10 @@ export default function Sidebar({
             <Button
               variant="ghost"
               onClick={onToggleCollapse}
+              onMouseEnter={handleMouseEnter('Expand Workspace')}
+              onMouseLeave={handleMouseLeave}
               className="flex h-9 w-9 items-center justify-center rounded bg-brand-green text-white text-xs font-extrabold shadow-xs hover:scale-105 transition-transform cursor-pointer p-0"
-              title="Expand Sidebar (68px → 264px)"
+              aria-label="Expand Workspace"
             >
               AD
             </Button>
@@ -261,7 +282,10 @@ export default function Sidebar({
       </div>
 
       {/* Navigation Links Grouped */}
-      <nav className={`flex-1 overflow-y-auto py-2 sidebar-scrollbar ${isCollapsed ? 'px-1' : 'px-3'}`}>
+      <nav
+        onScroll={handleMouseLeave}
+        className={`flex-1 overflow-y-auto py-2 sidebar-scrollbar ${isCollapsed ? 'px-1' : 'px-3'}`}
+      >
         {/* Get Started Button */}
         {!isCollapsed ? (
           <a
@@ -312,11 +336,13 @@ export default function Sidebar({
             <a
               href="/getting_started"
               data-testid="left_nav_getting_started_link"
-              title="Get Started (1/2 complete)"
               onClick={(e) => {
                 e.preventDefault();
                 navigate('/getting_started');
               }}
+              onMouseEnter={handleMouseEnter('Get Started', '1/2')}
+              onMouseLeave={handleMouseLeave}
+              aria-label="Get Started (1/2 complete)"
               className="group flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-slate-50/80 hover:bg-slate-100 text-slate-600 hover:text-emerald-600 shadow-2xs transition-all cursor-pointer select-none"
             >
               <svg
@@ -355,7 +381,9 @@ export default function Sidebar({
                   <li key={item.path}>
                     <NavLink
                       to={item.path}
-                      title={isCollapsed ? item.label : undefined}
+                      aria-label={item.label}
+                      onMouseEnter={handleMouseEnter(item.label, item.badge || (item.isNew ? 'New' : null))}
+                      onMouseLeave={handleMouseLeave}
                       onClick={() => isMobileOpen && onCloseMobile?.()}
                       className={`
                         group flex items-center rounded text-xs font-bold transition-all
@@ -411,7 +439,9 @@ export default function Sidebar({
         <button
           type="button"
           onClick={() => navigate('/settings')}
-          title={isCollapsed ? 'Clinic Settings' : undefined}
+          onMouseEnter={handleMouseEnter('Clinic Settings')}
+          onMouseLeave={handleMouseLeave}
+          aria-label="Clinic Settings"
           className={`
             group w-full flex items-center rounded text-xs font-semibold transition-all cursor-pointer h-auto
             ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-2 py-1.5'}
@@ -435,7 +465,9 @@ export default function Sidebar({
             if (onOpenHelp) onOpenHelp();
             else window.location.href = 'mailto:support@smilux.co.ke';
           }}
-          title={isCollapsed ? 'Help & Support Center' : undefined}
+          onMouseEnter={handleMouseEnter('Help & Support')}
+          onMouseLeave={handleMouseLeave}
+          aria-label="Help & Support Center"
           className={`
             w-full flex items-center rounded text-xs font-semibold text-slate-700 hover:bg-slate-100/90 hover:text-slate-900 transition-all cursor-pointer h-auto
             ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-2 py-1.5'}
@@ -454,8 +486,10 @@ export default function Sidebar({
               variant="ghost"
               size="sm"
               onClick={onToggleCollapse}
+              onMouseEnter={handleMouseEnter('Expand Sidebar')}
+              onMouseLeave={handleMouseLeave}
               className="rounded p-1 h-auto text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors cursor-pointer mt-1"
-              title="Expand Sidebar (68px → 264px)"
+              aria-label="Expand Sidebar (68px → 264px)"
             >
               <PanelLeftOpenIcon className="h-4 w-4 text-slate-500" />
             </Button>
@@ -473,6 +507,25 @@ export default function Sidebar({
       >
         {sidebarContent}
       </div>
+
+      {/* Floating Tooltip for Collapsed Sidebar */}
+      {isCollapsed && activeTooltip && (
+        <div
+          className="fixed z-50 pointer-events-none -translate-y-1/2 flex items-center transition-all duration-150 animate-in fade-in zoom-in-95"
+          style={{ left: 74, top: activeTooltip.top }}
+        >
+          <div className="relative flex items-center gap-1.5 rounded-md bg-slate-900 px-2.5 py-1 text-xs font-semibold text-white shadow-xl shadow-slate-900/25 whitespace-nowrap">
+            {/* Arrow pointing to icon */}
+            <span className="absolute -left-1 top-1/2 -translate-y-1/2 h-2 w-2 rotate-45 bg-slate-900" />
+            <span>{activeTooltip.text}</span>
+            {activeTooltip.badge && (
+              <span className="ml-0.5 rounded bg-sky-500/20 px-1.5 py-0.2 text-[10px] font-bold text-sky-300">
+                {activeTooltip.badge}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Mobile Drawer Overlay */}
       {isMobileOpen && (

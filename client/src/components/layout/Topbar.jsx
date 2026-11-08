@@ -4,6 +4,7 @@ import NotificationDropdown from './NotificationDropdown.jsx';
 import HelpSidebar from './HelpSidebar.jsx';
 import SearchBar from './SearchBar.jsx';
 import SmsBalanceWidget from '../communication/SmsBalanceWidget.jsx';
+import UserAvatar from './UserAvatar.jsx';
 import Button from '../UI/Button.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
@@ -52,10 +53,6 @@ export default function Topbar({
       navigate('/login');
     }
   };
-
-  const initials = user?.name
-    ? user.name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()
-    : 'JD';
 
   return (
     <header
@@ -106,13 +103,13 @@ export default function Topbar({
         {/* User Menu Dropdown */}
         <div className="relative" ref={userMenuRef}>
           <button
-            variant="ghost"
+            type="button"
             onClick={() => setUserMenuOpen(!userMenuOpen)}
-            className="flex items-center gap-2 p-1 h-auto rounded-full border border-brand-pink hover:bg-slate-100/80 transition-colors cursor-pointer"
+            className="flex items-center p-0.5 h-auto rounded-full border border-slate-200 hover:border-brand-pink transition-all cursor-pointer ring-offset-2 hover:ring-2 hover:ring-brand-pink/20"
             aria-label="User menu"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-pink text-white text-xs font-bold shrink-0">
-              {initials}
+            <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden shrink-0 shadow-xs">
+              <UserAvatar user={user} className="h-8 w-8" />
             </div>
           </button>
 
@@ -121,15 +118,22 @@ export default function Topbar({
               {/* User Info Header */}
               <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white text-xs font-bold shrink-0">
-                    {initials}
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full overflow-hidden shrink-0 shadow-xs border border-slate-200/80">
+                    <UserAvatar user={user} className="h-10 w-10" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-slate-900 text-xs truncate">{user?.name || 'Dr. John Doe'}</p>
                     <p className="text-[11px] text-slate-500 truncate">{user?.email || 'doctor@clinic.co.ke'}</p>
-                    <span className="inline-block mt-1 px-1.5 py-0.5 rounded text-[10px] bg-brand-50 text-brand-700 capitalize font-bold border border-brand-200/60">
-                      {user?.role || 'Lead Dentist'}
-                    </span>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <span className="inline-block px-1.5 py-0.5 rounded text-[10px] bg-brand-50 text-brand-700 capitalize font-bold border border-brand-200/60">
+                        {user?.role || 'Lead Dentist'}
+                      </span>
+                      {user?.gender && (
+                        <span className="inline-block px-1.5 py-0.5 rounded text-[10px] bg-slate-100 text-slate-600 capitalize font-medium">
+                          {user.gender}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

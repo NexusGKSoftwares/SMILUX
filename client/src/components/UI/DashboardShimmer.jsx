@@ -82,10 +82,7 @@ export function DashboardWireframeSkeleton({
         <div>
           <div className="flex items-center gap-2.5">
             <div className="h-6 w-64 sm:w-72 rounded animate-shimmer" />
-            <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-indigo-50/90 border border-indigo-200/70 px-2.5 py-0.5 text-[10px] font-bold text-[#5654DC]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#5654DC] animate-ping" />
-              Syncing Live Telemetry
-            </span>
+             
           </div>
           <div className="h-3.5 w-80 max-w-full rounded animate-shimmer mt-1.5" />
         </div>
@@ -1284,40 +1281,6 @@ export function DashboardWireframeSkeleton({
         </div>
       </div>
 
-      {/* ── Floating Wireframe Status & Hold/Inspect Pill ─────────────────── */}
-      {(onToggleHold || onSkipToLive) && (
-        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 rounded-full border border-slate-700/80 bg-slate-900/95 px-3.5 py-2 text-xs font-semibold text-white shadow-xl backdrop-blur-md">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-          </span>
-          <span className="text-[11px] text-slate-200">
-            {isHolding ? 'Wireframe Loader Paused' : 'Loading Dashboard Wireframe…'}
-          </span>
-          {onToggleHold && (
-            <button
-              type="button"
-              onClick={onToggleHold}
-              className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold transition-colors cursor-pointer ${
-                isHolding
-                  ? 'bg-amber-500 text-slate-950 hover:bg-amber-400'
-                  : 'bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-600'
-              }`}
-            >
-              {isHolding ? 'Resume Load' : 'Hold Shimmer'}
-            </button>
-          )}
-          {onSkipToLive && (
-            <button
-              type="button"
-              onClick={onSkipToLive}
-              className="rounded-full bg-emerald-600 px-2.5 py-0.5 text-[10px] font-bold text-white hover:bg-emerald-500 transition-colors cursor-pointer"
-            >
-              Live View
-            </button>
-          )}
-        </div>
-      )}
     </div>
   );
 }
