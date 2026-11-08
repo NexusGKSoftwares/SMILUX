@@ -18,7 +18,7 @@ import {
   LockPasswordIcon,
   Notification01Icon,
 } from '@hugeicons/core-free-icons';
-import  Button  from '../UI/Button';
+import Button from '../UI/Button';
 
 const SEARCH_PAGES = [
   // Dashboard & Account
@@ -270,7 +270,7 @@ export default function SearchBar() {
             Search patient, invoice, FDI chart, appointment... (⌘K)
           </span>
         </div>
-        <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono font-bold text-slate-400 bg-white border border-slate-200 rounded shadow-2xs">
+        <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium font-bold text-slate-400 bg-white border border-slate-200 rounded shadow-2xs">
           ⌘ K
         </kbd>
       </button>
@@ -312,7 +312,7 @@ export default function SearchBar() {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-400 bg-slate-100"
+                className="px-2 py-0.5 rounded text-[10px] font-medium text-slate-400 bg-slate-100"
               >
                 ESC
               </button>
