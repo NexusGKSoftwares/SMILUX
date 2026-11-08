@@ -263,6 +263,7 @@ export function KpiCard({
   change,
   isPositive,
   color = 'blue',
+  onCopy,
 }) {
   const displayBadge = badge || change;
   const colorMap = {
@@ -280,9 +281,13 @@ export function KpiCard({
       : 'bg-[#FFF3E0] border border-[#FFE0B2] text-[#FF9900]');
 
   return (
-    <div className="rounded  border border-[#EFEFEF] bg-white p-3 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] transition-transform hover:-translate-y-0.5">
+    <div
+      className="rounded border border-[#EFEFEF] bg-white p-3 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] transition-all hover:-translate-y-0.5 cursor-pointer group select-text"
+      onClick={() => onCopy && onCopy(value, `${title}`)}
+      title="Click to copy metric value"
+    >
       <div className="flex items-center justify-between">
-        <span className="text-xs font-bold text-[#888888]">{title}</span>
+        <span className="text-xs font-bold text-[#888888] select-text">{title}</span>
         {Icon && (
           <div className={`flex h-8 w-8 items-center justify-center rounded ${finalIconStyle}`}>
             <HugeiconsIcon icon={Icon} size={18} />
@@ -291,13 +296,15 @@ export function KpiCard({
       </div>
       <div className="mt-3 flex items-baseline justify-between">
         <div>
-          <div className="text-2xl font-bold tracking-tight text-[#080808]">{value}</div>
+          <div className="text-2xl font-bold tracking-tight text-[#080808] group-hover:text-emerald-600 transition-colors select-text">
+            {value}
+          </div>
           {subtitle && (
-            <div className="text-[11px] text-[#888888] font-medium mt-0.5">{subtitle}</div>
+            <div className="text-[11px] text-[#888888] font-medium mt-0.5 select-text">{subtitle}</div>
           )}
         </div>
         {displayBadge && (
-          <span className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold ${finalBadgeStyle}`}>
+          <span className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold ${finalBadgeStyle} select-text`}>
             {displayBadge}
           </span>
         )}
@@ -332,6 +339,30 @@ export function DashboardView({ user }) {
   const [selectedWebWeek, setSelectedWebWeek] = useState(webAnalyticsData.defaultMonth || 'Jun');
   const [isWebExpanded, setIsWebExpanded] = useState(false);
   const [activeChartModal, setActiveChartModal] = useState(null); // 'sales' | 'patient-growth' | 'payment' | 'income' | 'balance' | null
+
+  // Interactive Focus States for Charts & Deep Inspection
+  const [focusedPaymentChannel, setFocusedPaymentChannel] = useState(null); // 'sha' | 'mpesa' | 'cash' | null
+  const [focusedBalanceStream, setFocusedBalanceStream] = useState(null); // 'primary' | 'speciality' | 'fixed' | null
+  const [focusedIncomeRoute, setFocusedIncomeRoute] = useState(null); // 'mpesa' | 'private' | 'claims' | null
+
+  // Instant Click-to-Copy Feedback System
+  const [copiedText, setCopiedText] = useState(null);
+  const handleCopy = (text, label) => {
+    if (!text && text !== 0) return;
+    const str = String(text).trim();
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard.writeText(str).then(() => {
+        setCopiedText(label ? `${label}: ${str}` : str);
+        setTimeout(() => setCopiedText(null), 2200);
+      }).catch(() => {
+        setCopiedText(label ? `${label}: ${str}` : str);
+        setTimeout(() => setCopiedText(null), 2200);
+      });
+    } else {
+      setCopiedText(label ? `${label}: ${str}` : str);
+      setTimeout(() => setCopiedText(null), 2200);
+    }
+  };
 
   const currentSalesData = getSalesChartDataByYear(salesYear);
   const currentPatientData = getPatientGrowthDataByYear(patientGrowthYear);
@@ -449,7 +480,7 @@ export function DashboardView({ user }) {
       {/* KPI Top Cards Row - Styled with 24px Spec */}
       <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-4">
         {kpiCardsData.map((card) => (
-          <KpiCard key={card.id || card.title} {...card} />
+          <KpiCard key={card.id || card.title} {...card} onCopy={handleCopy} />
         ))}
       </div>
 
@@ -531,14 +562,22 @@ export function DashboardView({ user }) {
             {/* Total Profit Value Block */}
             <div className="mb-3 flex items-baseline justify-between">
               <div className="flex flex-col">
-                <span className="text-xs font-medium text-[#888888]">
+                <span className="text-xs font-medium text-[#888888] select-text">
                   {currentSalesData.subtitle} • {currentSalesData.year}
                 </span>
-                <span className="mt-1 text-2xl font-semibold tracking-tight text-[#080808] leading-none">
+                <span
+                  className="mt-1 text-2xl font-semibold tracking-tight text-[#080808] leading-none cursor-pointer hover:text-[#5654DC] transition-colors select-text"
+                  title="Click to copy net profit"
+                  onClick={() => handleCopy(currentSalesData.totalProfit, 'Total Net Profit')}
+                >
                   {currentSalesData.totalProfit}
                 </span>
               </div>
-              <span className="text-[11px] font-medium text-[#888888]">
+              <span
+                className="text-[11px] font-medium text-[#888888] cursor-pointer hover:text-[#080808] transition-colors select-text"
+                title="Click to copy month value"
+                onClick={() => handleCopy(activeSalesMonthObj.value, `${activeSalesMonthObj.month} ${currentSalesData.year} Sales`)}
+              >
                 Selected:{' '}
                 <strong className="text-[#080808]">
                   {activeSalesMonthObj.month} {currentSalesData.year}
@@ -554,7 +593,7 @@ export function DashboardView({ user }) {
               viewBox="20 214 674 258"
               fill="none"
               className={`w-full block transition-all duration-300 ${isSalesExpanded ? 'h-80' : 'h-auto'
-                } select-none`}
+                } select-text`}
             >
               <defs>
                 {/* Horizontal Red-to-Purple Stroke Gradient */}
@@ -774,14 +813,19 @@ export function DashboardView({ user }) {
             {/* Metrics Overview Row */}
             <div className="grid grid-cols-3 gap-3 mb-3">
               {currentPatientData.metrics.map((metric) => (
-                <div key={metric.id} className="flex flex-col">
-                  <span className="text-xs font-medium text-[#888888]">{metric.label}</span>
+                <div
+                  key={metric.id}
+                  className="flex flex-col cursor-pointer hover:opacity-80 transition-opacity select-text"
+                  title="Click to copy metric"
+                  onClick={() => handleCopy(metric.value, metric.label)}
+                >
+                  <span className="text-xs font-medium text-[#888888] select-text">{metric.label}</span>
                   <div className="mt-1 flex items-center gap-1.5">
-                    <span className="text-xl font-bold tracking-tight text-[#080808] leading-none">
+                    <span className="text-xl font-bold tracking-tight text-[#080808] leading-none select-text">
                       {metric.value}
                     </span>
                     {metric.isPositive ? (
-                      <span className="inline-flex items-center gap-0.5 rounded-full bg-[#E8FFF4] border border-[#8FE7BE] px-1.5 py-0.5 text-[10px] font-bold text-[#1DBF73]">
+                      <span className="inline-flex items-center gap-0.5 rounded-full bg-[#E8FFF4] border border-[#8FE7BE] px-1.5 py-0.5 text-[10px] font-bold text-[#1DBF73] select-text">
                         <svg width="9" height="9" viewBox="389 150 12 12" fill="none">
                           <path
                             d="M395.669 153.219V161.334H394.335V153.219L390.759 156.795L389.816 155.852L395.002 150.667L400.187 155.852L399.244 156.795L395.669 153.219Z"
@@ -791,7 +835,7 @@ export function DashboardView({ user }) {
                         {metric.change}
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-0.5 rounded-full bg-[#FFEAEA] border border-[#FF9F9D] px-1.5 py-0.5 text-[10px] font-bold text-[#FB3B52]">
+                      <span className="inline-flex items-center gap-0.5 rounded-full bg-[#FFEAEA] border border-[#FF9F9D] px-1.5 py-0.5 text-[10px] font-bold text-[#FB3B52] select-text">
                         <svg width="9" height="9" viewBox="186 150 12 12" fill="none">
                           <path
                             d="M191.331 158.781L191.331 150.666L192.665 150.666L192.665 158.781L196.241 155.205L197.184 156.148L191.998 161.333L186.813 156.148L187.756 155.205L191.331 158.781Z"
@@ -813,7 +857,7 @@ export function DashboardView({ user }) {
               viewBox="28 220 674 258"
               fill="none"
               className={`w-full block transition-all duration-300 ${isWebExpanded ? 'h-80' : 'h-auto'
-                } select-none`}
+                } select-text`}
             >
               {/* Dashed Horizontal Grid Lines */}
               {[234, 286, 338, 390].map((yPos) => (
@@ -857,7 +901,11 @@ export function DashboardView({ user }) {
                       setSelectedWebWeek(bar.month);
                     }}
                     onMouseLeave={() => setHoveredBarIndex(null)}
-                    onClick={() => setSelectedWebWeek(bar.month)}
+                    onClick={() => {
+                      setSelectedWebWeek(bar.month);
+                      handleCopy(`${bar.count} patients`, `${bar.month} visits`);
+                    }}
+                    title="Click to select month and copy visits"
                   >
                     <rect
                       x={bar.x}
@@ -1082,29 +1130,45 @@ export function DashboardView({ user }) {
               <>
                 {/* Sales KPI Summary Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">Total Net Profit</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">{currentSalesData.totalProfit}</div>
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy(currentSalesData.totalProfit, 'Total Net Profit')}
+                    title="Click to copy net profit"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Total Net Profit</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{currentSalesData.totalProfit}</div>
                   </div>
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">12-Month Gross Sales</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(totalAnnualSales)}</div>
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy(formatCurrency(totalAnnualSales), '12-Month Gross Sales')}
+                    title="Click to copy gross sales"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">12-Month Gross Sales</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatCurrency(totalAnnualSales)}</div>
                   </div>
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">Monthly Average</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(avgMonthlySales)}</div>
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy(formatCurrency(avgMonthlySales), 'Monthly Average Sales')}
+                    title="Click to copy monthly average"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Monthly Average</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatCurrency(avgMonthlySales)}</div>
                   </div>
-                  <div className="rounded border border-indigo-100 bg-indigo-50/50 p-3">
-                    <span className="text-[11px] font-semibold text-[#5654DC]">
+                  <div
+                    className="rounded border border-indigo-100 bg-indigo-50/50 p-3 cursor-pointer hover:bg-indigo-50 transition-all select-text"
+                    onClick={() => handleCopy(activeSalesMonthObj.value, `${activeSalesMonthObj.month} ${currentSalesData.year} Sales`)}
+                    title="Click to copy selected month sales"
+                  >
+                    <span className="text-[11px] font-semibold text-[#5654DC] select-text">
                       Selected ({activeSalesMonthObj.month} {currentSalesData.year})
                     </span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">{activeSalesMonthObj.value}</div>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{activeSalesMonthObj.value}</div>
                   </div>
                 </div>
 
                 {/* Expanded Sales Smooth Line & Area Chart */}
                 <div className="rounded border border-[#EFEFEF] bg-white p-4">
-                  <svg viewBox="20 214 674 258" fill="none" className="w-full h-auto block select-none">
+                  <svg viewBox="20 214 674 258" fill="none" className="w-full h-auto block select-text">
                     {[224, 276, 328, 380].map((yPos) => (
                       <line
                         key={yPos}
@@ -1228,12 +1292,17 @@ export function DashboardView({ user }) {
                 {/* Patient Growth KPI Summary Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {currentPatientData.metrics.map((metric) => (
-                    <div key={metric.id} className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                      <span className="text-[11px] font-medium text-[#888888]">{metric.label}</span>
+                    <div
+                      key={metric.id}
+                      className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                      onClick={() => handleCopy(metric.value, metric.label)}
+                      title="Click to copy metric value"
+                    >
+                      <span className="text-[11px] font-medium text-[#888888] select-text">{metric.label}</span>
                       <div className="mt-1 flex items-center gap-1.5">
-                        <span className="text-lg font-bold text-[#080808]">{metric.value}</span>
+                        <span className="text-lg font-bold text-[#080808] select-text">{metric.value}</span>
                         <span
-                          className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${metric.isPositive
+                          className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold select-text ${metric.isPositive
                             ? 'bg-[#E8FFF4] border border-[#8FE7BE] text-[#1DBF73]'
                             : 'bg-[#FFEAEA] border border-[#FF9F9D] text-[#FB3B52]'
                             }`}
@@ -1243,11 +1312,15 @@ export function DashboardView({ user }) {
                       </div>
                     </div>
                   ))}
-                  <div className="rounded border border-amber-200 bg-amber-50/60 p-3">
-                    <span className="text-[11px] font-semibold text-[#E08600]">
+                  <div
+                    className="rounded border border-amber-200 bg-amber-50/60 p-3 cursor-pointer hover:bg-amber-100/60 transition-all select-text"
+                    onClick={() => handleCopy(`${activePatientMonthObj.count} Patients`, `${activePatientMonthObj.month} ${currentPatientData.year} Visits`)}
+                    title="Click to copy selected month patient visits"
+                  >
+                    <span className="text-[11px] font-semibold text-[#E08600] select-text">
                       Selected ({activePatientMonthObj.month} {currentPatientData.year})
                     </span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">
                       {activePatientMonthObj.count} Patients
                     </div>
                   </div>
@@ -1255,7 +1328,7 @@ export function DashboardView({ user }) {
 
                 {/* Expanded Patient Growth 12-Month Bar Chart */}
                 <div className="rounded border border-[#EFEFEF] bg-white p-4">
-                  <svg viewBox="28 220 674 258" fill="none" className="w-full h-auto block select-none">
+                  <svg viewBox="28 220 674 258" fill="none" className="w-full h-auto block select-text">
                     {[234, 286, 338, 390].map((yPos) => (
                       <line
                         key={yPos}
@@ -1736,11 +1809,17 @@ export function DashboardView({ user }) {
 
             {/* Top Summaries Row (Matching Top Cards UI) */}
             <div className="grid grid-cols-2 gap-3 mb-3">
-              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
-                <span className="text-xs font-medium text-[#888888]">Monthly Channel Growth</span>
+              <div
+                className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3 cursor-pointer hover:border-slate-200 transition-all select-text group"
+                onClick={() => handleCopy('+14%', 'Monthly Channel Growth')}
+                title="Click to copy growth rate"
+              >
+                <span className="text-xs font-medium text-[#888888] select-text">Monthly Channel Growth</span>
                 <div className="mt-1 flex items-baseline gap-2">
-                  <span className="text-xl font-bold tracking-tight text-[#080808]">+14%</span>
-                  <div className="flex items-center gap-0.5 rounded bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
+                  <span className="text-xl font-bold tracking-tight text-[#080808] group-hover:text-emerald-600 transition-colors select-text">
+                    +14%
+                  </span>
+                  <div className="flex items-center gap-0.5 rounded bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B] select-text">
                     <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                       <path d="M6 2.5L9 6.5H3L6 2.5Z" fill="#00C26B" />
                     </svg>
@@ -1754,13 +1833,19 @@ export function DashboardView({ user }) {
                 </div>
               </div>
 
-              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
-                <span className="text-xs font-medium text-[#888888]">Total Transactions</span>
+              <div
+                className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3 cursor-pointer hover:border-slate-200 transition-all select-text group"
+                onClick={() => handleCopy(`${formatNumber(totalTransactions)} sales`, 'Total Transactions')}
+                title="Click to copy total sales transactions"
+              >
+                <span className="text-xs font-medium text-[#888888] select-text">Total Transactions</span>
                 <div className="mt-1 flex items-baseline gap-2">
-                  <span className="text-xl font-bold tracking-tight text-[#080808]">{formatNumber(totalTransactions)}</span>
-                  <span className="text-[10px] font-semibold text-[#888888]">sales</span>
+                  <span className="text-xl font-bold tracking-tight text-[#080808] group-hover:text-cyan-600 transition-colors select-text">
+                    {formatNumber(totalTransactions)}
+                  </span>
+                  <span className="text-[10px] font-semibold text-[#888888] select-text">sales</span>
                 </div>
-                <span className="mt-2 text-[11px] font-medium text-[#00CBE8] truncate">
+                <span className="mt-2 text-[11px] font-medium text-[#00CBE8] truncate select-text">
                   Dominant: SHA / Ins. ({formatNumber(shaSales)})
                 </span>
               </div>
@@ -1768,96 +1853,251 @@ export function DashboardView({ user }) {
 
             {/* Donut Chart Visual & Channel Breakdown (Exact Figma Vector Spec) */}
             <div className="w-full flex-1 flex items-center justify-center py-1 overflow-hidden">
-              <svg viewBox="65 60 625 345" fill="none" className="w-full h-auto block select-none">
+              <svg viewBox="65 60 625 345" fill="none" className="w-full h-auto block select-text">
                 <defs>
                   <filter id="cardBadgeShadow_pie" x="0" y="0" width="200%" height="200%">
                     <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.08" />
                   </filter>
                 </defs>
 
-                {/* 3 Donut Smooth Arc Paths (Exact Figma Vector Geometry) */}
-                {/* 16% Red Arc (#FB3B52) */}
+                {/* 3 Donut Smooth Arc Paths (Interactive with Focus & Tooltip) */}
+                {/* 16% Red Arc (#FB3B52) - SHA & Insurance */}
                 <path
                   d="M160.443 114.178C159.429 112.215 160.196 109.797 162.185 108.836C183.475 98.5506 206.926 93.4712 230.601 94.0435C254.276 94.6158 277.454 100.822 298.222 112.124C300.162 113.18 300.811 115.633 299.704 117.544L288.773 136.406C287.665 138.317 285.221 138.962 283.273 137.919C266.84 129.119 248.554 124.286 229.881 123.835C211.208 123.383 192.709 127.327 175.87 135.323C173.874 136.271 171.464 135.508 170.45 133.545L160.443 114.178Z"
                   fill="#FB3B52"
+                  className="cursor-pointer transition-all duration-200"
+                  style={{
+                    opacity: focusedPaymentChannel && focusedPaymentChannel !== 'sha' ? 0.35 : 1,
+                    transform: focusedPaymentChannel === 'sha' ? 'scale(1.02)' : 'scale(1)',
+                    transformOrigin: '235px 245px',
+                  }}
+                  onClick={() => setFocusedPaymentChannel((p) => (p === 'sha' ? null : 'sha'))}
+                  onMouseEnter={() => setFocusedPaymentChannel('sha')}
+                  title="SHA & Insurance: 54,071 sales (16%) • Click to select"
                 />
-                {/* 24% Purple Arc (#5654D4) */}
+                {/* 24% Purple Arc (#5654D4) - M-Pesa STK Till */}
                 <path
                   d="M305.526 121.104C306.722 119.247 309.201 118.707 311.026 119.952C338.558 138.753 359.025 166.273 369.086 198.139C379.147 230.004 378.194 264.288 366.448 295.489C365.67 297.557 363.331 298.538 361.285 297.705L341.096 289.48C339.05 288.647 338.074 286.314 338.838 284.242C347.969 259.482 348.637 232.348 340.669 207.111C332.701 181.874 316.573 160.043 294.88 145.015C293.064 143.757 292.523 141.287 293.72 139.43L305.526 121.104Z"
                   fill="#5654D4"
+                  className="cursor-pointer transition-all duration-200"
+                  style={{
+                    opacity: focusedPaymentChannel && focusedPaymentChannel !== 'mpesa' ? 0.35 : 1,
+                    transform: focusedPaymentChannel === 'mpesa' ? 'scale(1.02)' : 'scale(1)',
+                    transformOrigin: '235px 245px',
+                  }}
+                  onClick={() => setFocusedPaymentChannel((p) => (p === 'mpesa' ? null : 'mpesa'))}
+                  onMouseEnter={() => setFocusedPaymentChannel('mpesa')}
+                  title="M-Pesa STK Till: 32,210 sales (24%) • Click to select"
                 />
-                {/* 60% Cyan Arc (#3FC8E4) */}
+                {/* 60% Cyan Arc (#3FC8E4) - Cash & Private Pay */}
                 <path
                   d="M359.027 302.949C361.039 303.862 361.934 306.236 360.967 308.222C351.273 328.134 337.254 345.65 319.915 359.481C301.533 374.144 279.942 384.248 256.907 388.968C233.872 393.687 210.046 392.888 187.379 386.636C164.712 380.383 143.846 368.855 126.488 352.993C109.13 337.131 95.7728 317.386 87.5078 295.373C79.2428 273.36 76.305 249.703 78.9347 226.337C81.5644 202.97 89.6868 180.558 102.638 160.933C114.854 142.421 131.039 126.884 149.999 115.439C151.89 114.297 154.334 114.976 155.425 116.897L166.186 135.856C167.276 137.777 166.599 140.213 164.715 141.367C149.842 150.482 137.136 162.759 127.51 177.346C117.149 193.047 110.652 210.976 108.548 229.669C106.444 248.362 108.794 267.288 115.406 284.898C122.018 302.509 132.704 318.305 146.591 330.994C160.477 343.684 177.17 352.906 195.303 357.909C213.437 362.911 232.497 363.55 250.925 359.774C269.354 355.999 286.627 347.915 301.332 336.185C314.994 325.287 326.08 311.528 333.821 295.896C334.801 293.916 337.166 293.022 339.177 293.936L359.027 302.949Z"
                   fill="#3FC8E4"
+                  className="cursor-pointer transition-all duration-200"
+                  style={{
+                    opacity: focusedPaymentChannel && focusedPaymentChannel !== 'cash' ? 0.35 : 1,
+                    transform: focusedPaymentChannel === 'cash' ? 'scale(1.02)' : 'scale(1)',
+                    transformOrigin: '235px 245px',
+                  }}
+                  onClick={() => setFocusedPaymentChannel((p) => (p === 'cash' ? null : 'cash'))}
+                  onMouseEnter={() => setFocusedPaymentChannel('cash')}
+                  title="Cash & Private Pay: 24,410 sales (60%) • Click to select"
                 />
 
                 {/* 3 Circular Floating Percentage Badges with Soft Drop Shadow */}
                 {/* 16% Badge */}
-                <g filter="url(#cardBadgeShadow_pie)">
-                  <rect x="207" y="68" width="40" height="40" rx="20" fill="white" stroke="#E0E0E0" />
-                  <text x="227" y="93" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700">
+                <g
+                  filter="url(#cardBadgeShadow_pie)"
+                  className="cursor-pointer hover:scale-105 transition-transform"
+                  onClick={() => {
+                    setFocusedPaymentChannel((p) => (p === 'sha' ? null : 'sha'));
+                    handleCopy('16% (54,071 sales)', 'SHA & Insurance Share');
+                  }}
+                  title="16% SHA & Insurance • Click to inspect and copy"
+                >
+                  <rect x="207" y="68" width="40" height="40" rx="20" fill="white" stroke={focusedPaymentChannel === 'sha' ? '#FB3B52' : '#E0E0E0'} strokeWidth={focusedPaymentChannel === 'sha' ? 2 : 1} />
+                  <text x="227" y="93" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700" className="select-text">
                     16%
                   </text>
                 </g>
 
                 {/* 24% Badge */}
-                <g filter="url(#cardBadgeShadow_pie)">
-                  <rect x="346" y="157" width="40" height="40" rx="20" fill="white" stroke="#E0E0E0" />
-                  <text x="366" y="182" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700">
+                <g
+                  filter="url(#cardBadgeShadow_pie)"
+                  className="cursor-pointer hover:scale-105 transition-transform"
+                  onClick={() => {
+                    setFocusedPaymentChannel((p) => (p === 'mpesa' ? null : 'mpesa'));
+                    handleCopy('24% (32,210 sales)', 'M-Pesa STK Till Share');
+                  }}
+                  title="24% M-Pesa STK Till • Click to inspect and copy"
+                >
+                  <rect x="346" y="157" width="40" height="40" rx="20" fill="white" stroke={focusedPaymentChannel === 'mpesa' ? '#5654D4' : '#E0E0E0'} strokeWidth={focusedPaymentChannel === 'mpesa' ? 2 : 1} />
+                  <text x="366" y="182" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700" className="select-text">
                     24%
                   </text>
                 </g>
 
                 {/* 60% Badge */}
-                <g filter="url(#cardBadgeShadow_pie)">
-                  <rect x="78" y="304" width="40" height="40" rx="20" fill="white" stroke="#E0E0E0" />
-                  <text x="98" y="329" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700">
+                <g
+                  filter="url(#cardBadgeShadow_pie)"
+                  className="cursor-pointer hover:scale-105 transition-transform"
+                  onClick={() => {
+                    setFocusedPaymentChannel((p) => (p === 'cash' ? null : 'cash'));
+                    handleCopy('60% (24,410 sales)', 'Cash & Private Share');
+                  }}
+                  title="60% Cash & Private Pay • Click to inspect and copy"
+                >
+                  <rect x="78" y="304" width="40" height="40" rx="20" fill="white" stroke={focusedPaymentChannel === 'cash' ? '#3FC8E4' : '#E0E0E0'} strokeWidth={focusedPaymentChannel === 'cash' ? 2 : 1} />
+                  <text x="98" y="329" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="700" className="select-text">
                     60%
                   </text>
                 </g>
 
-                {/* Center Cutout Text */}
-                <text x="235" y="235" textAnchor="middle" fill="#5654D4" fontSize="28" fontWeight="800">
-                  +14%
-                </text>
-                <text x="235" y="258" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="600">
-                  vs last month
-                </text>
-                <text x="235" y="278" textAnchor="middle" fill="#888888" fontSize="11" fontWeight="500">
-                  Great results with
-                </text>
+                {/* Interactive Dynamic Center Cutout Display */}
+                {focusedPaymentChannel === 'sha' ? (
+                  <g
+                    className="cursor-pointer"
+                    onClick={() => handleCopy(`${formatNumber(shaSales)} sales`, 'SHA & Insurance Volume')}
+                    title="Click to copy sales volume"
+                  >
+                    <text x="235" y="228" textAnchor="middle" fill="#FB3B52" fontSize="22" fontWeight="800" className="select-text">
+                      {formatNumber(shaSales)}
+                    </text>
+                    <text x="235" y="252" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="600" className="select-text">
+                      SHA &amp; Insurance
+                    </text>
+                    <text x="235" y="272" textAnchor="middle" fill="#888888" fontSize="11" fontWeight="500" className="select-text">
+                      16% share • Click to copy
+                    </text>
+                  </g>
+                ) : focusedPaymentChannel === 'mpesa' ? (
+                  <g
+                    className="cursor-pointer"
+                    onClick={() => handleCopy(`${formatNumber(mpesaSales)} sales`, 'M-Pesa STK Till Volume')}
+                    title="Click to copy sales volume"
+                  >
+                    <text x="235" y="228" textAnchor="middle" fill="#5654D4" fontSize="22" fontWeight="800" className="select-text">
+                      {formatNumber(mpesaSales)}
+                    </text>
+                    <text x="235" y="252" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="600" className="select-text">
+                      M-Pesa STK Till
+                    </text>
+                    <text x="235" y="272" textAnchor="middle" fill="#888888" fontSize="11" fontWeight="500" className="select-text">
+                      24% share • Click to copy
+                    </text>
+                  </g>
+                ) : focusedPaymentChannel === 'cash' ? (
+                  <g
+                    className="cursor-pointer"
+                    onClick={() => handleCopy(`${formatNumber(cashSales)} sales`, 'Cash & Private Volume')}
+                    title="Click to copy sales volume"
+                  >
+                    <text x="235" y="228" textAnchor="middle" fill="#3FC8E4" fontSize="22" fontWeight="800" className="select-text">
+                      {formatNumber(cashSales)}
+                    </text>
+                    <text x="235" y="252" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="600" className="select-text">
+                      Cash &amp; Private Pay
+                    </text>
+                    <text x="235" y="272" textAnchor="middle" fill="#888888" fontSize="11" fontWeight="500" className="select-text">
+                      60% share • Click to copy
+                    </text>
+                  </g>
+                ) : (
+                  <g
+                    className="cursor-pointer"
+                    onClick={() => handleCopy('+14%', 'Monthly Channel Growth')}
+                    title="Click to copy growth rate"
+                  >
+                    <text x="235" y="235" textAnchor="middle" fill="#5654D4" fontSize="28" fontWeight="800" className="select-text">
+                      +14%
+                    </text>
+                    <text x="235" y="258" textAnchor="middle" fill="#080808" fontSize="13" fontWeight="600" className="select-text">
+                      vs last month
+                    </text>
+                    <text x="235" y="278" textAnchor="middle" fill="#888888" fontSize="11" fontWeight="500" className="select-text">
+                      Great results with
+                    </text>
+                  </g>
+                )}
 
-                {/* Right Channel Breakdown List */}
+                {/* Right Channel Breakdown List (Clickable Rows with Copy & Focus) */}
                 {/* Item 1: SHA & Insurance */}
-                <g>
-                  <rect x="475" y="129" width="4" height="26" rx="2" fill="#FB3B52" />
-                  <text x="490" y="141" fill="#080808" fontSize="14" fontWeight="600">
+                <g
+                  className="cursor-pointer group"
+                  onClick={() => {
+                    setFocusedPaymentChannel((p) => (p === 'sha' ? null : 'sha'));
+                    handleCopy(`${formatNumber(shaSales)} sales`, 'SHA & Insurance');
+                  }}
+                  title="Click to focus channel and copy sales"
+                >
+                  <rect
+                    x="475"
+                    y="126"
+                    width="190"
+                    height="42"
+                    rx="8"
+                    fill={focusedPaymentChannel === 'sha' ? '#FFF5F6' : 'transparent'}
+                    className="transition-colors"
+                  />
+                  <rect x="475" y="132" width="4" height="26" rx="2" fill="#FB3B52" />
+                  <text x="490" y="143" fill="#080808" fontSize="14" fontWeight="600" className="select-text">
                     SHA &amp; Insurance
                   </text>
-                  <text x="490" y="160" fill="#888888" fontSize="13" fontWeight="500">
+                  <text x="490" y="161" fill="#888888" fontSize="13" fontWeight="500" className="select-text">
                     <tspan fill="#080808" fontWeight="700">{formatNumber(shaSales)}</tspan> sales (16%)
                   </text>
                 </g>
 
                 {/* Item 2: M-Pesa STK Till */}
-                <g>
-                  <rect x="475" y="217" width="4" height="26" rx="2" fill="#5654D4" />
-                  <text x="490" y="229" fill="#080808" fontSize="14" fontWeight="600">
+                <g
+                  className="cursor-pointer group"
+                  onClick={() => {
+                    setFocusedPaymentChannel((p) => (p === 'mpesa' ? null : 'mpesa'));
+                    handleCopy(`${formatNumber(mpesaSales)} sales`, 'M-Pesa STK Till');
+                  }}
+                  title="Click to focus channel and copy sales"
+                >
+                  <rect
+                    x="475"
+                    y="214"
+                    width="190"
+                    height="42"
+                    rx="8"
+                    fill={focusedPaymentChannel === 'mpesa' ? '#F6F5FF' : 'transparent'}
+                    className="transition-colors"
+                  />
+                  <rect x="475" y="220" width="4" height="26" rx="2" fill="#5654D4" />
+                  <text x="490" y="231" fill="#080808" fontSize="14" fontWeight="600" className="select-text">
                     M-Pesa STK Till
                   </text>
-                  <text x="490" y="248" fill="#888888" fontSize="13" fontWeight="500">
+                  <text x="490" y="249" fill="#888888" fontSize="13" fontWeight="500" className="select-text">
                     <tspan fill="#080808" fontWeight="700">{formatNumber(mpesaSales)}</tspan> sales (24%)
                   </text>
                 </g>
 
                 {/* Item 3: Cash & Private Pay */}
-                <g>
-                  <rect x="475" y="305" width="4" height="26" rx="2" fill="#3FC8E4" />
-                  <text x="490" y="317" fill="#080808" fontSize="14" fontWeight="600">
+                <g
+                  className="cursor-pointer group"
+                  onClick={() => {
+                    setFocusedPaymentChannel((p) => (p === 'cash' ? null : 'cash'));
+                    handleCopy(`${formatNumber(cashSales)} sales`, 'Cash & Private Pay');
+                  }}
+                  title="Click to focus channel and copy sales"
+                >
+                  <rect
+                    x="475"
+                    y="302"
+                    width="190"
+                    height="42"
+                    rx="8"
+                    fill={focusedPaymentChannel === 'cash' ? '#F0FBFC' : 'transparent'}
+                    className="transition-colors"
+                  />
+                  <rect x="475" y="308" width="4" height="26" rx="2" fill="#3FC8E4" />
+                  <text x="490" y="319" fill="#080808" fontSize="14" fontWeight="600" className="select-text">
                     Cash &amp; Private Pay
                   </text>
-                  <text x="490" y="336" fill="#888888" fontSize="13" fontWeight="500">
+                  <text x="490" y="337" fill="#888888" fontSize="13" fontWeight="500" className="select-text">
                     <tspan fill="#080808" fontWeight="700">{formatNumber(cashSales)}</tspan> sales (60%)
                   </text>
                 </g>
@@ -1909,13 +2149,17 @@ export function DashboardView({ user }) {
 
             {/* Top Summaries Row (Matching Top Cards UI) */}
             <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
-                <span className="text-xs font-medium text-[#888888]">Active Practice Income</span>
+              <div
+                className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3 cursor-pointer hover:border-amber-300 hover:bg-amber-50/30 transition-all select-text group"
+                onClick={() => handleCopy(formatCurrency(totalIncomeVal), 'Active Practice Income')}
+                title="Click to copy active practice income"
+              >
+                <span className="text-xs font-medium text-[#888888] select-text">Active Practice Income</span>
                 <div className="mt-1 flex items-baseline gap-2">
-                  <span className="text-xl font-bold tracking-tight text-[#080808]">
+                  <span className="text-xl font-bold tracking-tight text-[#080808] group-hover:text-amber-600 transition-colors select-text">
                     {formatCurrency(totalIncomeVal)}
                   </span>
-                  <div className="flex items-center gap-0.5 rounded bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B]">
+                  <div className="flex items-center gap-0.5 rounded bg-[#FFFFFF] border border-slate-200 px-1.5 py-0.5 text-[10px] font-bold text-[#00C26B] select-text">
                     <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                       <path d="M6 2.5L9 6.5H3L6 2.5Z" fill="#00C26B" />
                     </svg>
@@ -1929,13 +2173,17 @@ export function DashboardView({ user }) {
                 </div>
               </div>
 
-              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3">
-                <span className="text-xs font-medium text-[#888888]">Channel Yield Status</span>
+              <div
+                className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-3 select-text cursor-pointer hover:border-slate-300 transition-all"
+                onClick={() => handleCopy('94% Optimal (3 active routes)', 'Channel Yield Status')}
+                title="Click to copy yield status"
+              >
+                <span className="text-xs font-medium text-[#888888] select-text">Channel Yield Status</span>
                 <div className="mt-1 flex items-baseline gap-2">
-                  <span className="text-xl font-bold tracking-tight text-[#080808]">Optimal</span>
-                  <span className="text-[10px] font-semibold text-[#00C26B]">94% score</span>
+                  <span className="text-xl font-bold tracking-tight text-[#080808] select-text">Optimal</span>
+                  <span className="text-[10px] font-semibold text-[#00C26B] select-text">94% score</span>
                 </div>
-                <span className="mt-2 text-[11px] font-medium text-[#888888] truncate">
+                <span className="mt-2 text-[11px] font-medium text-[#888888] truncate select-text">
                   3 active settlement routes
                 </span>
               </div>
@@ -1943,7 +2191,7 @@ export function DashboardView({ user }) {
 
             {/* Concentric Nested Radial Gauge Rings SVG */}
             <div className="relative flex items-center justify-center py-2">
-              <svg className="w-44 h-44 -rotate-90 select-none" viewBox="0 0 120 120">
+              <svg className="w-44 h-44 -rotate-90 select-text" viewBox="0 0 120 120">
                 {/* Outer Ring - Green (#00C26B) */}
                 <circle cx="60" cy="60" r="50" fill="none" stroke="#F1F5F9" strokeWidth="8" />
                 <circle
@@ -1956,6 +2204,11 @@ export function DashboardView({ user }) {
                   strokeDasharray="314"
                   strokeDashoffset="78"
                   strokeLinecap="round"
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={() => {
+                    setFocusedIncomeRoute((p) => (p === 'mpesa' ? null : 'mpesa'));
+                    handleCopy(formatCurrency(mpesaIncomeVal), 'M-Pesa STK Yield');
+                  }}
                 />
                 {/* Middle Ring - Orange (#FF9900) */}
                 <circle cx="60" cy="60" r="38" fill="none" stroke="#F1F5F9" strokeWidth="8" />
@@ -1969,6 +2222,11 @@ export function DashboardView({ user }) {
                   strokeDasharray="238"
                   strokeDashoffset="95"
                   strokeLinecap="round"
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={() => {
+                    setFocusedIncomeRoute((p) => (p === 'private' ? null : 'private'));
+                    handleCopy(formatCurrency(privateIncomeVal), 'Private Payers Yield');
+                  }}
                 />
                 {/* Inner Ring - Soft Yellow (#FFDC8E) */}
                 <circle cx="60" cy="60" r="26" fill="none" stroke="#F1F5F9" strokeWidth="8" />
@@ -1982,12 +2240,21 @@ export function DashboardView({ user }) {
                   strokeDasharray="163"
                   strokeDashoffset="65"
                   strokeLinecap="round"
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={() => {
+                    setFocusedIncomeRoute((p) => (p === 'claims' ? null : 'claims'));
+                    handleCopy(formatCurrency(claimsIncomeVal), 'SHA Claims Yield');
+                  }}
                 />
               </svg>
 
-              <div className="absolute flex flex-col items-center justify-center text-center">
-                <span className="text-lg font-bold text-[#080808] leading-tight">32.1%</span>
-                <span className="text-[10px] text-[#888888]">Growth rate</span>
+              <div
+                className="absolute flex flex-col items-center justify-center text-center cursor-pointer select-text"
+                onClick={() => handleCopy('32.1%', 'Income Growth Rate')}
+                title="Click to copy growth rate"
+              >
+                <span className="text-lg font-bold text-[#080808] leading-tight select-text">32.1%</span>
+                <span className="text-[10px] text-[#888888] select-text">Growth rate</span>
               </div>
             </div>
           </div>
@@ -1995,35 +2262,68 @@ export function DashboardView({ user }) {
           {/* Breakdown Mini Cards & Footer */}
           <div className="space-y-2 pt-3 border-t border-slate-100">
             <div className="grid grid-cols-3 gap-2">
-              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
+              <div
+                className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${
+                  focusedIncomeRoute === 'mpesa'
+                    ? 'border-emerald-400 bg-emerald-50/70 shadow-xs'
+                    : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
+                }`}
+                onClick={() => {
+                  setFocusedIncomeRoute((p) => (p === 'mpesa' ? null : 'mpesa'));
+                  handleCopy(formatCurrency(mpesaIncomeVal), 'M-Pesa STK Income');
+                }}
+                title="Click to copy M-Pesa STK income"
+              >
                 <div className="flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full bg-[#00C26B]" />
-                  <span className="text-[11px] font-medium text-[#888888] truncate">M-Pesa STK</span>
+                  <span className="text-[11px] font-medium text-[#888888] truncate select-text">M-Pesa STK</span>
                 </div>
-                <span className="mt-1 text-xs font-bold text-[#080808]">{formatCurrency(mpesaIncomeVal)}</span>
-                <span className="text-[10px] text-[#00C26B]">Direct Mobile</span>
+                <span className="mt-1 text-xs font-bold text-[#080808] select-text">{formatCurrency(mpesaIncomeVal)}</span>
+                <span className="text-[10px] text-[#00C26B] select-text">Direct Mobile</span>
               </div>
 
-              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
+              <div
+                className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${
+                  focusedIncomeRoute === 'private'
+                    ? 'border-orange-400 bg-orange-50/70 shadow-xs'
+                    : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
+                }`}
+                onClick={() => {
+                  setFocusedIncomeRoute((p) => (p === 'private' ? null : 'private'));
+                  handleCopy(formatCurrency(privateIncomeVal), 'Private Pay Income');
+                }}
+                title="Click to copy Private Pay income"
+              >
                 <div className="flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full bg-[#FF9900]" />
-                  <span className="text-[11px] font-medium text-[#888888] truncate">Private Pay</span>
+                  <span className="text-[11px] font-medium text-[#888888] truncate select-text">Private Pay</span>
                 </div>
-                <span className="mt-1 text-xs font-bold text-[#080808]">{formatCurrency(privateIncomeVal)}</span>
-                <span className="text-[10px] text-[#FF9900]">Self-funded</span>
+                <span className="mt-1 text-xs font-bold text-[#080808] select-text">{formatCurrency(privateIncomeVal)}</span>
+                <span className="text-[10px] text-[#FF9900] select-text">Self-funded</span>
               </div>
 
-              <div className="flex flex-col rounded border border-slate-100 bg-slate-50/50 p-2.5">
+              <div
+                className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${
+                  focusedIncomeRoute === 'claims'
+                    ? 'border-amber-400 bg-amber-50/70 shadow-xs'
+                    : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
+                }`}
+                onClick={() => {
+                  setFocusedIncomeRoute((p) => (p === 'claims' ? null : 'claims'));
+                  handleCopy(formatCurrency(claimsIncomeVal), 'SHA Claims Income');
+                }}
+                title="Click to copy SHA Claims income"
+              >
                 <div className="flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full bg-[#FFE88C]" />
-                  <span className="text-[11px] font-medium text-[#888888] truncate">SHA Claims</span>
+                  <span className="text-[11px] font-medium text-[#888888] truncate select-text">SHA Claims</span>
                 </div>
-                <span className="mt-1 text-xs font-bold text-[#080808]">{formatCurrency(claimsIncomeVal)}</span>
-                <span className="text-[10px] text-[#888888]">Institutional</span>
+                <span className="mt-1 text-xs font-bold text-[#080808] select-text">{formatCurrency(claimsIncomeVal)}</span>
+                <span className="text-[10px] text-[#888888] select-text">Institutional</span>
               </div>
             </div>
 
-            <p className="text-[11px] text-center text-[#888888] pt-1">
+            <p className="text-[11px] text-center text-[#888888] pt-1 select-text">
               Optimize again to get your best score
             </p>
           </div>
@@ -2072,21 +2372,33 @@ export function DashboardView({ user }) {
 
             {/* Practice Financial Balance SVG Visual (Exact Figma Vector Spec) */}
             <div className="w-full flex-1 flex items-center justify-center py-1 overflow-hidden">
-              <svg viewBox="20 100 510 315" fill="none" className="w-full h-auto block select-none">
+              <svg viewBox="20 100 510 315" fill="none" className="w-full h-auto block select-text">
                 {/* Total Settled Balance Metric */}
-                <text x="32" y="132" fill="#080808" fontSize="28" fontWeight="800">
-                  {formatCurrency(totalBalanceVal)}
-                </text>
+                <g
+                  className="cursor-pointer group"
+                  onClick={() => handleCopy(formatCurrency(totalBalanceVal), 'Settled Financial Balance')}
+                  title="Click to copy total settled balance"
+                >
+                  <text x="32" y="132" fill="#080808" fontSize="28" fontWeight="800" className="group-hover:fill-cyan-600 transition-colors select-text">
+                    {formatCurrency(totalBalanceVal)}
+                  </text>
+                </g>
 
                 {/* ▲ 12% vs last years pill badge */}
-                <rect x="32" y="146" width="62" height="24" rx="12" fill="#E8FFF4" stroke="#8FE7BE" />
-                <polygon points="43,160 48,154 53,160" fill="#1DBF73" />
-                <text x="58" y="163" fill="#1DBF73" fontSize="12" fontWeight="700">
-                  12%
-                </text>
-                <text x="104" y="163" fill="#888888" fontSize="12" fontWeight="500">
-                  vs last years
-                </text>
+                <g
+                  className="cursor-pointer"
+                  onClick={() => handleCopy('+12% vs last years', 'Annual Fiscal Pace')}
+                  title="Click to copy growth pace"
+                >
+                  <rect x="32" y="146" width="62" height="24" rx="12" fill="#E8FFF4" stroke="#8FE7BE" />
+                  <polygon points="43,160 48,154 53,160" fill="#1DBF73" />
+                  <text x="58" y="163" fill="#1DBF73" fontSize="12" fontWeight="700" className="select-text">
+                    12%
+                  </text>
+                  <text x="104" y="163" fill="#888888" fontSize="12" fontWeight="500" className="select-text">
+                    vs last years
+                  </text>
+                </g>
 
                 {/* 3 Dashed Vertical Grid Lines */}
                 <line x1="32" y1="195" x2="32" y2="335" stroke="#E5E7EB" strokeWidth="1.2" strokeDasharray="4 4" />
@@ -2094,52 +2406,136 @@ export function DashboardView({ user }) {
                 <line x1="376" y1="195" x2="376" y2="335" stroke="#E5E7EB" strokeWidth="1.2" strokeDasharray="4 4" />
 
                 {/* Column 1: Primary Care / Upwork */}
-                <text x="44" y="232" fill="#080808" fontSize="17" fontWeight="700">
-                  {formatCurrency(primaryCareVal)}
-                </text>
-                <text x="44" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500">
-                  Primary Care
-                </text>
-                <circle cx="52" cy="318" r="8" fill="#E8FFF4" />
-                <polygon points="49,320 52,316 55,320" fill="#1DBF73" />
-                <text x="65" y="322" fill="#1DBF73" fontSize="12.5" fontWeight="700">
-                  32.1%
-                </text>
+                <g
+                  className="cursor-pointer group"
+                  onClick={() => {
+                    setFocusedBalanceStream((p) => (p === 'primary' ? null : 'primary'));
+                    handleCopy(`${formatCurrency(primaryCareVal)} (32.1%)`, 'Primary Care Balance');
+                  }}
+                  title="Click to inspect and copy Primary Care"
+                >
+                  <rect
+                    x="38"
+                    y="210"
+                    width="140"
+                    height="120"
+                    rx="8"
+                    fill={focusedBalanceStream === 'primary' ? '#FFFBEB' : 'transparent'}
+                    className="transition-colors"
+                  />
+                  <text x="44" y="232" fill="#080808" fontSize="17" fontWeight="700" className="select-text">
+                    {formatCurrency(primaryCareVal)}
+                  </text>
+                  <text x="44" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500" className="select-text">
+                    Primary Care
+                  </text>
+                  <circle cx="52" cy="318" r="8" fill="#E8FFF4" />
+                  <polygon points="49,320 52,316 55,320" fill="#1DBF73" />
+                  <text x="65" y="322" fill="#1DBF73" fontSize="12.5" fontWeight="700" className="select-text">
+                    32.1%
+                  </text>
+                </g>
 
                 {/* Column 2: Speciality Care / Fiverr */}
-                <text x="202" y="232" fill="#080808" fontSize="17" fontWeight="700">
-                  {formatCurrency(specialityCareVal)}
-                </text>
-                <text x="202" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500">
-                  Speciality
-                </text>
-                <circle cx="210" cy="318" r="8" fill="#FFEFEF" />
-                <polygon points="207,316 210,320 213,316" fill="#FB3B52" />
-                <text x="223" y="322" fill="#FB3B52" fontSize="12.5" fontWeight="700">
-                  16.1%
-                </text>
+                <g
+                  className="cursor-pointer group"
+                  onClick={() => {
+                    setFocusedBalanceStream((p) => (p === 'speciality' ? null : 'speciality'));
+                    handleCopy(`${formatCurrency(specialityCareVal)} (16.1%)`, 'Speciality Care Balance');
+                  }}
+                  title="Click to inspect and copy Speciality Care"
+                >
+                  <rect
+                    x="196"
+                    y="210"
+                    width="165"
+                    height="120"
+                    rx="8"
+                    fill={focusedBalanceStream === 'speciality' ? '#F0FDF4' : 'transparent'}
+                    className="transition-colors"
+                  />
+                  <text x="202" y="232" fill="#080808" fontSize="17" fontWeight="700" className="select-text">
+                    {formatCurrency(specialityCareVal)}
+                  </text>
+                  <text x="202" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500" className="select-text">
+                    Speciality
+                  </text>
+                  <circle cx="210" cy="318" r="8" fill="#FFEFEF" />
+                  <polygon points="207,316 210,320 213,316" fill="#FB3B52" />
+                  <text x="223" y="322" fill="#FB3B52" fontSize="12.5" fontWeight="700" className="select-text">
+                    16.1%
+                  </text>
+                </g>
 
                 {/* Column 3: Full-time Retainer */}
-                <text x="388" y="232" fill="#080808" fontSize="17" fontWeight="700">
-                  {formatCurrency(fixedIncomeVal)}
-                </text>
-                <text x="388" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500">
-                  Full-time
-                </text>
-                <text x="388" y="322" fill="#888888" fontSize="12.5" fontWeight="500">
-                  Fixed income
-                </text>
+                <g
+                  className="cursor-pointer group"
+                  onClick={() => {
+                    setFocusedBalanceStream((p) => (p === 'fixed' ? null : 'fixed'));
+                    handleCopy(`${formatCurrency(fixedIncomeVal)} (Fixed)`, 'Full-time Retainer Balance');
+                  }}
+                  title="Click to inspect and copy Full-time Retainer"
+                >
+                  <rect
+                    x="382"
+                    y="210"
+                    width="135"
+                    height="120"
+                    rx="8"
+                    fill={focusedBalanceStream === 'fixed' ? '#F0FBFC' : 'transparent'}
+                    className="transition-colors"
+                  />
+                  <text x="388" y="232" fill="#080808" fontSize="17" fontWeight="700" className="select-text">
+                    {formatCurrency(fixedIncomeVal)}
+                  </text>
+                  <text x="388" y="255" fill="#AFAFAF" fontSize="12" fontWeight="500" className="select-text">
+                    Full-time
+                  </text>
+                  <text x="388" y="322" fill="#888888" fontSize="12.5" fontWeight="500" className="select-text">
+                    Fixed income
+                  </text>
+                </g>
 
                 {/* 3-Color Segmented Horizontal Progress Bar (Figma spec coordinates & colors) */}
-                <rect x="32" y="352" width="156" height="22" rx="4" fill="#FFC90A" />
-                <rect x="192" y="352" width="182" height="22" rx="4" fill="#1DBF73" />
-                <rect x="378" y="352" width="142" height="22" rx="4" fill="#3FC8E4" />
+                <rect
+                  x="32"
+                  y="352"
+                  width="156"
+                  height="22"
+                  rx="4"
+                  fill="#FFC90A"
+                  className="cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => handleCopy(`${formatCurrency(primaryCareVal)} (Primary)`, 'Segment Primary Bar')}
+                  title="Primary Care Segment (32%) • Click to copy"
+                />
+                <rect
+                  x="192"
+                  y="352"
+                  width="182"
+                  height="22"
+                  rx="4"
+                  fill="#1DBF73"
+                  className="cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => handleCopy(`${formatCurrency(specialityCareVal)} (Speciality)`, 'Segment Speciality Bar')}
+                  title="Speciality Care Segment (38%) • Click to copy"
+                />
+                <rect
+                  x="378"
+                  y="352"
+                  width="142"
+                  height="22"
+                  rx="4"
+                  fill="#3FC8E4"
+                  className="cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => handleCopy(`${formatCurrency(fixedIncomeVal)} (Fixed)`, 'Segment Fixed Retainer Bar')}
+                  title="Fixed Retainer Segment (30%) • Click to copy"
+                />
 
                 {/* Footer Date Timeline */}
-                <text x="32" y="400" fill="#080808" fontSize="13" fontWeight="600">
+                <text x="32" y="400" fill="#080808" fontSize="13" fontWeight="600" className="select-text">
                   Feb
                 </text>
-                <text x="520" y="400" textAnchor="end" fill="#080808" fontSize="13" fontWeight="600">
+                <text x="520" y="400" textAnchor="end" fill="#080808" fontSize="13" fontWeight="600" className="select-text">
                   1 - 28
                 </text>
               </svg>
