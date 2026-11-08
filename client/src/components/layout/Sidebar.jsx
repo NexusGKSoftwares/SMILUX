@@ -83,10 +83,10 @@ const NAV_GROUPS = [
   },
   {
     title: 'COMMUNICATION',
-    items: [ 
-      { label: 'Messages & Reminders', path: '/messages', icon: MessagesRemindersIcon }, 
+    items: [
+      { label: 'Messages & Reminders', path: '/messages', icon: MessagesRemindersIcon },
     ],
-  }, 
+  },
 ];
 
 export default function Sidebar({
@@ -94,7 +94,7 @@ export default function Sidebar({
   isCollapsed = false,
   onToggleCollapse,
   onCloseMobile,
-  onOpenHelp, 
+  onOpenHelp,
   onLogout,
 }) {
   const location = useLocation();
@@ -125,7 +125,7 @@ export default function Sidebar({
   const sidebarContent = (
     <aside
       className={`
-        flex h-full flex-col border-r border-slate-200 bg-white font-sans text-slate-800 shrink-0 transition-all duration-300 ease-in-out select-none
+        flex h-full flex-col border-r border-slate-200 bg-white font-sans text-slate-800 shrink-0 transition-all duration-300 ease-in-out 
         ${isCollapsed ? 'w-[68px]' : 'w-[264px]'}
       `.trim()}
     >
@@ -292,9 +292,8 @@ export default function Sidebar({
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <IconComponent
-                          className={`w-[20px] h-[20px] shrink-0 transition-colors ${
-                            isActive ? 'text-sky-600' : 'text-slate-400 group-hover:text-slate-600'
-                          }`}
+                          className={`w-[20px] h-[20px] shrink-0 transition-colors ${isActive ? 'text-sky-600' : 'text-slate-400 group-hover:text-slate-600'
+                            }`}
                         />
                         {!isCollapsed && <span className="truncate">{item.label}</span>}
                       </div>
@@ -309,9 +308,8 @@ export default function Sidebar({
 
                           {item.badge && !item.isNew && (
                             <span
-                              className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${
-                                isActive ? 'bg-sky-100 text-sky-800' : 'bg-slate-100 text-slate-600'
-                              }`}
+                              className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${isActive ? 'bg-sky-100 text-sky-800' : 'bg-slate-100 text-slate-600'
+                                }`}
                             >
                               {item.badge}
                             </span>

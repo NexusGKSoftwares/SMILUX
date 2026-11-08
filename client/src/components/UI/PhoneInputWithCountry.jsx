@@ -311,7 +311,7 @@ export async function fetchUserCountryCode() {
       if (data && data.country_code) {
         const code = String(data.country_code).toUpperCase();
         cachedUserCountryCode = code;
-        try { sessionStorage.setItem('smilux_user_country_code', code); } catch (e) {}
+        try { sessionStorage.setItem('smilux_user_country_code', code); } catch (e) { }
         return code;
       }
     }
@@ -330,7 +330,7 @@ export async function fetchUserCountryCode() {
       if (data && data.country) {
         const code = String(data.country).toUpperCase();
         cachedUserCountryCode = code;
-        try { sessionStorage.setItem('smilux_user_country_code', code); } catch (e) {}
+        try { sessionStorage.setItem('smilux_user_country_code', code); } catch (e) { }
         return code;
       }
     }
@@ -453,7 +453,7 @@ function SecondaryCountryPicker({ selectedCode, onSelect }) {
           if (!isOpen) calculatePosition();
           setIsOpen((prev) => !prev);
         }}
-        className="flex items-center gap-0.5 px-1.5 bg-slate-50/90 hover:bg-slate-100 border-r border-slate-200 rounded-l-md text-xs font-semibold text-slate-700 h-full transition-colors cursor-pointer select-none shrink-0"
+        className="flex items-center gap-0.5 px-1.5 bg-slate-50/90 hover:bg-slate-100 border-r border-slate-200 rounded-l-md text-xs font-semibold text-slate-700 h-full transition-colors cursor-pointer  shrink-0"
         title="Select country code"
       >
         <ReactFlag code={country.code} />
@@ -804,7 +804,7 @@ export default function PhoneInputWithCountry({
                   setSearch('');
                 }}
                 className={`
-                  w-full flex items-center justify-between px-3 py-2 text-xs transition-colors text-left cursor-pointer select-none font-sans
+                  w-full flex items-center justify-between px-3 py-2 text-xs transition-colors text-left cursor-pointer  font-sans
                   ${isSelected ? 'bg-brand-50 font-bold text-brand-700' : 'text-slate-700 hover:bg-slate-100/80 hover:text-slate-900'}
                 `.trim()}
               >
@@ -861,7 +861,7 @@ export default function PhoneInputWithCountry({
             }}
             className={`
               flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-50 border border-r-0 border-slate-300 rounded-l text-xs font-semibold text-slate-800
-              hover:bg-slate-100/90 focus:outline-none transition-colors cursor-pointer select-none h-[38px] font-sans
+              hover:bg-slate-100/90 focus:outline-none transition-colors cursor-pointer  h-[38px] font-sans
               ${disabled ? 'opacity-60 cursor-not-allowed bg-slate-100' : ''}
             `.trim()}
           >

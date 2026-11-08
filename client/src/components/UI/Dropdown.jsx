@@ -274,7 +274,7 @@ export default function Dropdown({
           onClick={handleToggleSelectAll}
           className={`
             ${itemHeightClass} border-b border-slate-100 font-semibold text-slate-800 flex items-center justify-between
-            cursor-pointer hover:bg-slate-100/80 transition-colors select-none bg-slate-50/50 font-sans
+            cursor-pointer hover:bg-slate-100/80 transition-colors  bg-slate-50/50 font-sans
           `.trim()}
         >
           <div className="flex items-center gap-2.5">
@@ -322,7 +322,7 @@ export default function Dropdown({
                     : handleSingleSelect(opt.value)
                 }
                 className={`
-                  ${itemHeightClass} font-medium flex items-center justify-between gap-2 cursor-pointer transition-colors select-none font-sans
+                  ${itemHeightClass} font-medium flex items-center justify-between gap-2 cursor-pointer transition-colors  font-sans
                   ${isSelected
                     ? "bg-brand-50 text-brand-700 font-semibold"
                     : "text-slate-700 hover:bg-slate-100/80 hover:text-slate-900"
@@ -401,7 +401,7 @@ export default function Dropdown({
             }
           }}
           className={`
-            w-full flex items-center justify-between gap-2 border rounded bg-white transition-all cursor-pointer select-none font-sans
+            w-full flex items-center justify-between gap-2 border rounded bg-white transition-all cursor-pointer  font-sans
             ${styleType === "fluid" ? "h-16 px-3.5 py-2.5 flex-col justify-center items-start" : `${heightClasses}`}
             ${error
               ? "border-rose-300 bg-rose-50/20 text-rose-900 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20"
@@ -456,7 +456,7 @@ export default function Dropdown({
             </div>
 
             <div className="flex items-center gap-1 shrink-0 ml-1">
-             
+
               <ChevronDownIcon
                 className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${isOpen ? "rotate-180 text-brand-600" : ""
                   }`}

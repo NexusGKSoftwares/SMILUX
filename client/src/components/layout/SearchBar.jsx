@@ -18,6 +18,7 @@ import {
   LockPasswordIcon,
   Notification01Icon,
 } from '@hugeicons/core-free-icons';
+import  Button  from '../UI/Button';
 
 const SEARCH_PAGES = [
   // Dashboard & Account
@@ -412,13 +413,14 @@ export default function SearchBar() {
                     </span>
                     <h3 className="text-sm font-bold text-slate-900">{activeItem.title || activeItem.label}</h3>
                     <p className="text-xs text-slate-500">{activeItem.subtitle || activeItem.description}</p>
-                    <button
+                    <Button
                       type="button"
+                      size="sm"
+                      variant="primary"
                       onClick={() => handleSelect(activeItem)}
-                      className="w-full py-2 px-3 bg-brand-blue hover:bg-blue-700 text-white rounded text-xs font-bold transition-colors cursor-pointer"
                     >
                       Open File →
-                    </button>
+                    </Button>
                   </div>
                 ) : (
                   <div className="h-full flex flex-col items-center justify-center text-center p-4 text-slate-400">

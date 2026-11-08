@@ -41,7 +41,7 @@ function FooterLink({ to, icon, children }) {
 }
 
 function Dot() {
-  return <span className="text-slate-300 select-none">·</span>;
+  return <span className="text-slate-300 ">·</span>;
 }
 
 export default function Footer() {
