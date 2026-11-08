@@ -1442,30 +1442,42 @@ export function DashboardView({ user }) {
               <>
                 {/* Payment Distribution KPI Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">Total Transactions</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">{formatNumber(totalTransactions)} sales</div>
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy(`${formatNumber(totalTransactions)} sales`, 'Total Transactions')}
+                    title="Click to copy total transactions"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Total Transactions</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatNumber(totalTransactions)} sales</div>
                   </div>
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">Monthly Growth</span>
-                    <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B]">
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy('+14% vs last mo', 'Monthly Growth')}
+                    title="Click to copy growth"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Monthly Growth</span>
+                    <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B] select-text">
                       <span>▲</span> +14% vs last mo
                     </div>
                   </div>
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">Dominant Channel</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">SHA &amp; Ins. (60%)</div>
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy('Cash & Private Pay (60%)', 'Dominant Channel')}
+                    title="Click to copy dominant channel"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Dominant Channel</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">Cash &amp; Private (60%)</div>
                   </div>
-                  <div className="rounded border border-cyan-100 bg-cyan-50/50 p-3">
-                    <span className="text-[11px] font-semibold text-[#00CBE8]">Active Filter</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">Year {paymentYear}</div>
+                  <div className="rounded border border-cyan-100 bg-cyan-50/50 p-3 select-text">
+                    <span className="text-[11px] font-semibold text-[#00CBE8] select-text">Active Filter</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">Year {paymentYear}</div>
                   </div>
                 </div>
 
                 {/* Donut Chart Visual & Channel Breakdown (Exact Figma SVG Spec) */}
                 <div className="rounded border border-[#EFEFEF] bg-white p-6">
                   <div className="w-full max-w-2xl mx-auto">
-                    <svg viewBox="65 60 625 345" fill="none" className="w-full h-auto block select-none">
+                    <svg viewBox="65 60 625 345" fill="none" className="w-full h-auto block select-text">
                       <defs>
                         <filter id="modalBadgeShadow_pie" x="0" y="0" width="200%" height="200%">
                           <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.08" />
@@ -1566,29 +1578,41 @@ export function DashboardView({ user }) {
               <>
                 {/* Income Summary KPI Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">Total Income</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(totalIncomeVal)}</div>
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy(formatCurrency(totalIncomeVal), 'Total Income')}
+                    title="Click to copy total income"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Total Income</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatCurrency(totalIncomeVal)}</div>
                   </div>
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">Growth Pace</span>
-                    <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B]">
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy('+32.1%', 'Growth Pace')}
+                    title="Click to copy growth pace"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Growth Pace</span>
+                    <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B] select-text">
                       <span>▲</span> 32.1%
                     </div>
                   </div>
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">Yield Score</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">94% Optimal</div>
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy('94% Optimal', 'Yield Score')}
+                    title="Click to copy yield score"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Yield Score</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">94% Optimal</div>
                   </div>
-                  <div className="rounded border border-orange-100 bg-orange-50/50 p-3">
-                    <span className="text-[11px] font-semibold text-[#FF9900]">Active Year</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">Year {incomeYear}</div>
+                  <div className="rounded border border-orange-100 bg-orange-50/50 p-3 select-text">
+                    <span className="text-[11px] font-semibold text-[#FF9900] select-text">Active Year</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">Year {incomeYear}</div>
                   </div>
                 </div>
 
                 <div className="rounded border border-[#EFEFEF] bg-white p-6 flex flex-col md:flex-row items-center justify-around gap-6">
                   <div className="relative flex items-center justify-center">
-                    <svg className="w-52 h-52 -rotate-90 select-none" viewBox="0 0 120 120">
+                    <svg className="w-52 h-52 -rotate-90 select-text" viewBox="0 0 120 120">
                       <circle cx="60" cy="60" r="50" fill="none" stroke="#EFEFEF" strokeWidth="8" />
                       <circle
                         cx="60"
@@ -1626,34 +1650,50 @@ export function DashboardView({ user }) {
                         strokeLinecap="round"
                       />
                     </svg>
-                    <div className="absolute flex flex-col items-center justify-center text-center">
-                      <span className="text-xl font-bold text-[#080808]">32.1%</span>
-                      <span className="text-xs text-[#888888]">Pacing yield</span>
+                    <div
+                      className="absolute flex flex-col items-center justify-center text-center cursor-pointer select-text"
+                      onClick={() => handleCopy('32.1%', 'Pacing Yield')}
+                      title="Click to copy pacing yield"
+                    >
+                      <span className="text-xl font-bold text-[#080808] select-text">32.1%</span>
+                      <span className="text-xs text-[#888888] select-text">Pacing yield</span>
                     </div>
                   </div>
 
                   <div className="space-y-3 w-full max-w-sm">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#888888]">Settlement Routes</h4>
-                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#888888] select-text">Settlement Routes</h4>
+                    <div
+                      className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                      onClick={() => handleCopy(formatCurrency(mpesaIncomeVal), 'M-Pesa STK Income')}
+                      title="Click to copy M-Pesa STK income"
+                    >
                       <div className="flex items-center gap-2">
                         <span className="h-3 w-3 rounded-full bg-[#00C26B]" />
-                        <span className="text-xs font-semibold text-slate-800">M-Pesa STK</span>
+                        <span className="text-xs font-semibold text-slate-800 select-text">M-Pesa STK</span>
                       </div>
-                      <span className="text-xs font-bold text-[#080808]">{formatCurrency(mpesaIncomeVal)}</span>
+                      <span className="text-xs font-bold text-[#080808] select-text">{formatCurrency(mpesaIncomeVal)}</span>
                     </div>
-                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                    <div
+                      className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                      onClick={() => handleCopy(formatCurrency(privateIncomeVal), 'Private Payers Income')}
+                      title="Click to copy Private Payers income"
+                    >
                       <div className="flex items-center gap-2">
                         <span className="h-3 w-3 rounded-full bg-[#FF9900]" />
-                        <span className="text-xs font-semibold text-slate-800">Private Payers</span>
+                        <span className="text-xs font-semibold text-slate-800 select-text">Private Payers</span>
                       </div>
-                      <span className="text-xs font-bold text-[#080808]">{formatCurrency(privateIncomeVal)}</span>
+                      <span className="text-xs font-bold text-[#080808] select-text">{formatCurrency(privateIncomeVal)}</span>
                     </div>
-                    <div className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                    <div
+                      className="rounded border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                      onClick={() => handleCopy(formatCurrency(claimsIncomeVal), 'Insurance Claims Income')}
+                      title="Click to copy Insurance Claims income"
+                    >
                       <div className="flex items-center gap-2">
                         <span className="h-3 w-3 rounded-full bg-[#FFE88C]" />
-                        <span className="text-xs font-semibold text-slate-800">Insurance Claims</span>
+                        <span className="text-xs font-semibold text-slate-800 select-text">Insurance Claims</span>
                       </div>
-                      <span className="text-xs font-bold text-[#080808]">{formatCurrency(claimsIncomeVal)}</span>
+                      <span className="text-xs font-bold text-[#080808] select-text">{formatCurrency(claimsIncomeVal)}</span>
                     </div>
                   </div>
                 </div>
@@ -1662,30 +1702,38 @@ export function DashboardView({ user }) {
               <>
                 {/* Balance KPI Summary Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">Settled Balance</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">{formatCurrency(totalBalanceVal)}</div>
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy(formatCurrency(totalBalanceVal), 'Settled Balance')}
+                    title="Click to copy settled balance"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Settled Balance</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatCurrency(totalBalanceVal)}</div>
                   </div>
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">Fiscal Pace</span>
-                    <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B]">
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy('+12% vs last yrs', 'Fiscal Pace')}
+                    title="Click to copy fiscal pace"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Fiscal Pace</span>
+                    <div className="mt-1 flex items-center gap-1 text-lg font-bold text-[#00C26B] select-text">
                       <span>▲</span> 12% vs last yrs
                     </div>
                   </div>
-                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3">
-                    <span className="text-[11px] font-medium text-[#888888]">Cycle Window</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">Feb 1 – 28</div>
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3 select-text">
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Cycle Window</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">Feb 1 – 28</div>
                   </div>
-                  <div className="rounded border border-emerald-100 bg-emerald-50/50 p-3">
-                    <span className="text-[11px] font-semibold text-[#00C26B]">Active Year</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808]">Year {balanceYear}</div>
+                  <div className="rounded border border-emerald-100 bg-emerald-50/50 p-3 select-text">
+                    <span className="text-[11px] font-semibold text-[#00C26B] select-text">Active Year</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">Year {balanceYear}</div>
                   </div>
                 </div>
 
                 {/* Financial Balance SVG Visual (Exact Figma Spec) */}
                 <div className="rounded border border-[#EFEFEF] bg-white p-6">
                   <div className="w-full max-w-xl mx-auto">
-                    <svg viewBox="20 100 510 315" fill="none" className="w-full h-auto block select-none">
+                    <svg viewBox="20 100 510 315" fill="none" className="w-full h-auto block select-text">
                       {/* Total Settled Balance Metric */}
                       <text x="32" y="132" fill="#080808" fontSize="28" fontWeight="800">
                         {formatCurrency(totalBalanceVal)}
@@ -2682,6 +2730,26 @@ export function DashboardView({ user }) {
           </div>
         </div>
       </div>
+
+      {/* Floating Copy Feedback Toast */}
+      {copiedText && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white shadow-xl">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            className="text-emerald-400 shrink-0"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          <span>
+            Copied <strong className="text-emerald-300 font-bold">{copiedText}</strong> to clipboard
+          </span>
+        </div>
+      )}
     </div>
   );
 }
