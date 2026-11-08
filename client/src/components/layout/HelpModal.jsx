@@ -120,7 +120,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
 
       {/* Centered Modal Card */}
       <div
-        className="relative w-full max-w-[960px] bg-white rounded shadow-2xl border border-slate-200 overflow-hidden z-10 animate-in zoom-in-100 fade-in duration-150 font-sans select-text"
+        className="relative w-full max-w-[960px] bg-white rounded shadow border border-slate-200 overflow-hidden z-10 animate-in zoom-in-100 fade-in duration-150 font-sans select-text"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header */}
@@ -134,7 +134,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+            className="p-1.5 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
             aria-label="Close Help & Support dialog"
           >
             <HugeiconsIcon icon={Cancel01Icon} size={18} />
@@ -142,9 +142,9 @@ export default function HelpModal({ isOpen, onClose, user }) {
         </div>
 
         {/* Modal Body */}
-        <div className="px-6 py-8 sm:px-10 sm:py-10">
+        <div className="px-3 py-8">
           {/* Greeting Hero Section */}
-          <div className="text-center mb-8 sm:mb-10">
+          <div className="text-center mb-8">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Hi {displayName}. How can we help?
             </h1>
@@ -156,7 +156,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
           {/* 4 Support Action Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {/* Card 1: Help Center */}
-            <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all group">
+            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-4 hover:border-slate-300 hover:shadow-sm transition-all group">
               <div>
                 <div className="mb-4">
                   <BookOpenIcon className="w-5 h-5 text-slate-800" />
@@ -171,7 +171,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
                 <button
                   type="button"
                   onClick={handleOpenHelpCenter}
-                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-2xs transition-colors cursor-pointer group-hover:border-slate-300"
+                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-2xs transition-colors cursor-pointer group-hover:border-slate-300"
                 >
                   <ClassicalPillarIcon className="w-3.5 h-3.5 text-slate-600 shrink-0" />
                   <span>Visit Help Center</span>
@@ -181,7 +181,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
             </div>
 
             {/* Card 2: Resource Center (formerly Fleetio Academy) */}
-            <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all group">
+            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all group">
               <div>
                 <div className="mb-4">
                   <ClassicalPillarIcon className="w-5 h-5 text-slate-800" />
@@ -196,7 +196,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
                 <button
                   type="button"
                   onClick={handleOpenResourceCenter}
-                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-2xs transition-colors cursor-pointer group-hover:border-slate-300"
+                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-2xs transition-colors cursor-pointer group-hover:border-slate-300"
                 >
                   <span>Visit Resource Center</span>
                   <ExternalArrowIcon className="w-3 h-3 text-slate-500 shrink-0" />
@@ -205,7 +205,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
             </div>
 
             {/* Card 3: Live Support */}
-            <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all group">
+            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all group">
               <div>
                 <div className="mb-4">
                   <ChatBubbleIcon className="w-5 h-5 text-slate-800" />
@@ -221,7 +221,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
                   type="button"
                   onClick={handleLiveSupport}
                   disabled={chatActive}
-                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200/80 text-xs font-semibold text-slate-600 transition-colors cursor-pointer disabled:opacity-60"
+                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded bg-slate-100 hover:bg-slate-200/80 text-xs font-semibold text-slate-600 transition-colors cursor-pointer disabled:opacity-60"
                 >
                   <ChatPillIcon className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                   <span>{chatActive ? 'Connecting...' : 'Chat Now'}</span>
@@ -230,7 +230,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
             </div>
 
             {/* Card 4: Email */}
-            <div className="flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all group">
+            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all group">
               <div>
                 <div className="mb-4">
                   <MailIcon className="w-5 h-5 text-slate-800" />
@@ -245,7 +245,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
                 <button
                   type="button"
                   onClick={handleEmailSupport}
-                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-2xs transition-colors cursor-pointer group-hover:border-slate-300"
+                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-2xs transition-colors cursor-pointer group-hover:border-slate-300"
                   title="Click to email support@smilux.co.ke"
                 >
                   <span>{copiedEmail ? 'Email Copied!' : 'Contact Support'}</span>
