@@ -6,6 +6,7 @@ import {
   PlusSignIcon,
   Upload01Icon,
 } from '@hugeicons/core-free-icons';
+import Button from '../UI/Button';
 
 /**
  * Enterprise PageHeader Component
@@ -120,7 +121,7 @@ export default function PageHeader({
   return (
     <header className={`w-full bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 ${className}`}>
       {/* Top Header Row */}
-      <div className="flex flex-wrap items-center justify-between gap-3 py-2 px-4">
+      <div className="flex flex-wrap items-center justify-between  py-1 px-4">
         {/* Left Side: Page Name & Learn Badge */}
         <div className="flex items-center gap-4 min-w-0">
           <div className="flex items-center gap-2">
@@ -136,7 +137,7 @@ export default function PageHeader({
               type="button"
               onClick={onLearn}
               title={learnTooltip}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200/80 dark:hover:bg-slate-700 active:bg-gray-200 transition-colors cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50"
+              className="inline-flex items-center gap-1.5 px-2.5  rounded-full text-xs font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200/80 dark:hover:bg-slate-700 active:bg-gray-200 transition-colors cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50"
             >
               <HugeiconsIcon
                 icon={Idea01Icon}
@@ -238,13 +239,13 @@ export default function PageHeader({
           {React.isValidElement(resolvedPrimaryAction) ? (
             resolvedPrimaryAction
           ) : resolvedPrimaryAction ? (
-            <button
+            <Button
               type="button"
               disabled={resolvedPrimaryAction.disabled || resolvedPrimaryAction.loading}
               onClick={resolvedPrimaryAction.onClick}
               className={
                 resolvedPrimaryAction.className ||
-                'inline-flex items-center justify-center gap-1.5 h-9 px-3.5 py-2 text-sm font-medium rounded text-white bg-brand-green hover:bg-brand-green-hover active:bg-[#03543a] shadow-xs transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2'
+                'inline-flex items-center justify-center gap-1.5 h-8 px-3.5 py-2 text-sm font-medium rounded text-white bg-brand-green hover:bg-brand-green-hover active:bg-[#03543a] shadow-xs transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2'
               }
             >
               <HugeiconsIcon
@@ -254,14 +255,14 @@ export default function PageHeader({
                 className="shrink-0"
               />
               <span>{resolvedPrimaryAction.label || defaultAddLabel}</span>
-            </button>
+            </Button>
           ) : null}
         </div>
       </div>
 
       {/* Optional Tabs Row (e.g. All, Users, No User Access, Archived) */}
       {tabs && tabs.length > 0 && (
-        <div className="flex items-center gap-6 px-4 sm:px-6 border-t border-gray-100 dark:border-slate-800/80 overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-4 px-4 border-t border-gray-100 dark:border-slate-800/80 overflow-x-auto no-scrollbar">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -269,9 +270,9 @@ export default function PageHeader({
                 key={tab.id}
                 type="button"
                 onClick={() => onTabChange?.(tab.id)}
-                className={`py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors cursor-pointer select-none flex items-center gap-1.5 ${isActive
-                    ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400 font-semibold'
-                    : 'border-transparent text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'
+                className={`pt-2 text-sm font-bold border-b-2 whitespace-nowrap transition-colors cursor-pointer select-none flex items-center gap-1.5 ${isActive
+                  ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400 font-semibold'
+                  : 'border-transparent text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'
                   }`}
               >
                 <span>{tab.label}</span>

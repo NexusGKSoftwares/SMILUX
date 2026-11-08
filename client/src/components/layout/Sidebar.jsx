@@ -101,7 +101,40 @@ export default function Sidebar({
   const navigate = useNavigate();
   const [clinicMenuOpen, setClinicMenuOpen] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState(null);
+  const [onboardingProgress, setOnboardingProgress] = useState(() => {
+    try {
+      const saved = localStorage.getItem('smilux_onboarding_tasks');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const done = Object.values(parsed).filter(Boolean).length;
+        return { completed: done, total: 8 };
+      }
+    } catch {}
+    return { completed: 1, total: 8 };
+  });
   const clinicMenuRef = useRef(null);
+
+  useEffect(() => {
+    const syncProgress = () => {
+      try {
+        const saved = localStorage.getItem('smilux_onboarding_tasks');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          const done = Object.values(parsed).filter(Boolean).length;
+          setOnboardingProgress({ completed: done, total: 8 });
+          return;
+        }
+      } catch {}
+      setOnboardingProgress({ completed: 1, total: 8 });
+    };
+
+    window.addEventListener('smilux_onboarding_updated', syncProgress);
+    window.addEventListener('storage', syncProgress);
+    return () => {
+      window.removeEventListener('smilux_onboarding_updated', syncProgress);
+      window.removeEventListener('storage', syncProgress);
+    };
+  }, []);
 
   useEffect(() => {
     setActiveTooltip(null);
@@ -303,7 +336,7 @@ export default function Sidebar({
             </span>
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-semibold text-slate-500 group-hover:text-slate-700" data-testid="fraction_complete">
-                1/2
+                {onboardingProgress.completed}/{onboardingProgress.total}
               </span>
               <svg
                 className="w-4 h-4 -rotate-90 shrink-0"
@@ -325,7 +358,7 @@ export default function Sidebar({
                   stroke="#2ec4b6"
                   strokeWidth="2.5"
                   strokeDasharray="56.5487"
-                  strokeDashoffset="28.2743"
+                  strokeDashoffset={(56.5487 * (1 - onboardingProgress.completed / onboardingProgress.total)).toFixed(4)}
                   strokeLinecap="round"
                 />
               </svg>
@@ -340,9 +373,9 @@ export default function Sidebar({
                 e.preventDefault();
                 navigate('/getting_started');
               }}
-              onMouseEnter={handleMouseEnter('Get Started', '1/2')}
+              onMouseEnter={handleMouseEnter('Get Started', `${onboardingProgress.completed}/${onboardingProgress.total}`)}
               onMouseLeave={handleMouseLeave}
-              aria-label="Get Started (1/2 complete)"
+              aria-label={`Get Started (${onboardingProgress.completed}/${onboardingProgress.total} complete)`}
               className="group flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-slate-50/80 hover:bg-slate-100 text-slate-600 hover:text-brand-green shadow-2xs transition-all cursor-pointer select-none"
             >
               <svg

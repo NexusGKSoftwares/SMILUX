@@ -125,20 +125,33 @@ export default function GettingStarted() {
   // Video modal state
   const [videoModalOpen, setVideoModalOpen] = useState(false);
 
-  // Completed tasks checklist state
-  const [completedTasks, setCompletedTasks] = useState({
-    overview: true,
-    account_settings: false,
-    appointments: false,
-    patients: false,
-    dentists: false,
-    charting: false,
-    billing: false,
-    inventory: false,
+  // Completed tasks checklist state with localStorage persistence
+  const [completedTasks, setCompletedTasks] = useState(() => {
+    try {
+      const saved = localStorage.getItem('smilux_onboarding_tasks');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return {
+      overview: true,
+      account_settings: false,
+      appointments: false,
+      patients: false,
+      dentists: false,
+      charting: false,
+      billing: false,
+      inventory: false,
+    };
   });
 
   const toggleTaskCompletion = (taskId) => {
-    setCompletedTasks((prev) => ({ ...prev, [taskId]: !prev[taskId] }));
+    setCompletedTasks((prev) => {
+      const next = { ...prev, [taskId]: !prev[taskId] };
+      try {
+        localStorage.setItem('smilux_onboarding_tasks', JSON.stringify(next));
+        window.dispatchEvent(new Event('smilux_onboarding_updated'));
+      } catch {}
+      return next;
+    });
   };
 
   // Full flat list of onboarding tasks (1, 2, 3... without collapsible dropdowns)
@@ -208,12 +221,12 @@ export default function GettingStarted() {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-6 font-sans">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
+
         {/* ── LEFT SIDE: Linear Task List (1, 2, 3... No dropdowns) ─────────── */}
         <div className="lg:col-span-4 space-y-4">
-          
+
           {/* Progress Summary Header Card */}
-          <div className="rounded-lg border border-slate-200/90 bg-white p-4 shadow-xs space-y-3">
+          <div className="rounded border border-slate-200/90 bg-white p-4 shadow-xs space-y-3">
             <div className="flex items-center justify-between text-xs">
               <span className="font-bold text-slate-900">Setup Progress</span>
               <span className="font-extrabold text-brand-green">
@@ -230,7 +243,7 @@ export default function GettingStarted() {
           </div>
 
           {/* Direct 1, 2, 3... List of Tasks (No Dropdown) */}
-          <div className="rounded-lg border border-slate-200/90 bg-white overflow-hidden shadow-xs divide-y divide-slate-100">
+          <div className="rounded border border-slate-200/90 bg-white overflow-hidden shadow-xs divide-y divide-slate-100">
             {ONBOARDING_TASKS.map((task, index) => {
               const isSelected = activeTaskId === task.id;
               const isDone = Boolean(completedTasks[task.id]);
@@ -296,7 +309,7 @@ export default function GettingStarted() {
           </div>
 
           {/* Need Help? Card */}
-          <div className="rounded-lg border border-slate-200/90 bg-white p-4 shadow-xs space-y-3">
+          <div className="rounded border border-slate-200/90 bg-white p-4 shadow-xs space-y-3">
             <div className="flex items-center gap-2">
               <HugeiconsIcon icon={Message01Icon} size={18} className="text-slate-700 shrink-0" />
               <h4 className="text-xs font-bold text-slate-900">Need Help?</h4>
@@ -362,8 +375,8 @@ export default function GettingStarted() {
         </div>
 
         {/* ── RIGHT SIDE: Active Task Content Pane (Brand Green Theme) ─────────── */}
-        <div className="lg:col-span-8 bg-white rounded-lg border border-slate-200/90 p-6 sm:p-8 shadow-xs space-y-6">
-          
+        <div className="lg:col-span-8 bg-white rounded border border-slate-200/90 p-6 sm:p-8 shadow-xs space-y-6">
+
           {/* 1. OVERVIEW VIEW */}
           {activeTaskId === 'overview' && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
@@ -403,7 +416,7 @@ export default function GettingStarted() {
                 />
 
                 {/* Dashboard Mock Card */}
-                <div className="relative rounded-lg border border-slate-200 bg-white p-4 shadow-sm space-y-3">
+                <div className="relative rounded border border-slate-200 bg-white p-4 shadow-sm space-y-3">
                   <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                     <span className="text-xs font-bold text-slate-800">
                       Utilization Summary &amp; Practice Health
@@ -529,7 +542,7 @@ export default function GettingStarted() {
                 </p>
               </div>
 
-              <div className="p-4 rounded-lg border border-slate-200 bg-slate-50/50 space-y-3">
+              <div className="p-4 rounded border border-slate-200 bg-slate-50/50 space-y-3">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-bold text-slate-800">Today's Appointment Slots</span>
                   <span className="text-brand-green font-bold">5 Confirmed Today</span>
@@ -576,7 +589,7 @@ export default function GettingStarted() {
                 </p>
               </div>
 
-              <div className="p-6 rounded-lg border border-slate-200 bg-slate-50/50 text-center space-y-3">
+              <div className="p-6 rounded border border-slate-200 bg-slate-50/50 text-center space-y-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-green/10 text-brand-green mx-auto">
                   <HugeiconsIcon
                     icon={ONBOARDING_TASKS.find((t) => t.id === activeTaskId)?.icon || CheckmarkCircle01Icon}
