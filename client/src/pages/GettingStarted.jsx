@@ -130,7 +130,7 @@ export default function GettingStarted() {
     try {
       const saved = localStorage.getItem('smilux_onboarding_tasks');
       if (saved) return JSON.parse(saved);
-    } catch {}
+    } catch { }
     return {
       overview: true,
       account_settings: false,
@@ -149,7 +149,7 @@ export default function GettingStarted() {
       try {
         localStorage.setItem('smilux_onboarding_tasks', JSON.stringify(next));
         window.dispatchEvent(new Event('smilux_onboarding_updated'));
-      } catch {}
+      } catch { }
       return next;
     });
   };
@@ -405,7 +405,7 @@ export default function GettingStarted() {
               </div>
 
               {/* Tour Preview Container with Brand-Green Grid Pattern Backdrop */}
-              <div className="relative rounded-xl border border-brand-green/20 bg-gradient-to-br from-[#2ec4b6]/8 via-teal-50/20 to-[#2ec4b6]/8 p-4 sm:p-6 overflow-hidden">
+              <div className="relative rounded border border-brand-green/20 bg-gradient-to-br from-[#2ec4b6]/8 via-teal-50/20 to-[#2ec4b6]/8 p-4 sm:p-6 overflow-hidden">
                 {/* Subtle grid pattern */}
                 <div
                   className="absolute inset-0 opacity-30 pointer-events-none"
@@ -460,7 +460,7 @@ export default function GettingStarted() {
                     <button
                       type="button"
                       onClick={() => setVideoModalOpen(true)}
-                      className="group flex h-14 w-18 items-center justify-center rounded-xl bg-brand-green hover:bg-[#25b5a7] text-white shadow-xl shadow-brand-green/30 transition-all hover:scale-105 cursor-pointer"
+                      className="group flex h-14 w-18 items-center justify-center rounded bg-brand-green hover:bg-[#25b5a7] text-white shadow-xl shadow-brand-green/30 transition-all hover:scale-105 cursor-pointer"
                       title="Play Walkthrough Tour"
                     >
                       <HugeiconsIcon icon={PlayIcon} size={28} className="fill-white translate-x-0.5" />
@@ -631,7 +631,7 @@ export default function GettingStarted() {
       {/* ── VIDEO TOUR MODAL ─────────────────────────────────────────────────── */}
       {videoModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden">
+          <div className="relative w-full max-w-2xl bg-white rounded shadow-2xl border border-slate-200 overflow-hidden">
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 bg-slate-50/70">
               <div className="flex items-center gap-2">

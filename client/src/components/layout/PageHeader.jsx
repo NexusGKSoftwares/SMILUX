@@ -137,7 +137,7 @@ export default function PageHeader({
               type="button"
               onClick={onLearn}
               title={learnTooltip}
-              className="inline-flex items-center gap-1.5 px-2.5  rounded-full text-xs font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200/80 dark:hover:bg-slate-700 active:bg-gray-200 transition-colors cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200/80 dark:hover:bg-slate-700 active:bg-gray-200 transition-colors cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50"
             >
               <HugeiconsIcon
                 icon={Idea01Icon}
@@ -241,6 +241,7 @@ export default function PageHeader({
           ) : resolvedPrimaryAction ? (
             <Button
               type="button"
+              size="sm"
               disabled={resolvedPrimaryAction.disabled || resolvedPrimaryAction.loading}
               onClick={resolvedPrimaryAction.onClick}
               className={

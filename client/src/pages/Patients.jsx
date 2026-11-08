@@ -408,8 +408,8 @@ export default function PatientsPage() {
         render: (val, row) => (
           <span
             className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-medium truncate max-w-[165px] ${row.insuranceType === 'insured'
-                ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-200/60'
-                : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200/60'
+              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-200/60'
+              : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200/60'
               }`}
           >
             {row.insurance}
@@ -465,8 +465,8 @@ export default function PatientsPage() {
         render: (val, row) => (
           <span
             className={`font-mono font-medium text-right block tabular-nums ${row.balance !== 'KES 0'
-                ? 'text-amber-600 dark:text-amber-400 font-semibold'
-                : 'text-slate-500'
+              ? 'text-amber-600 dark:text-amber-400 font-semibold'
+              : 'text-slate-500'
               }`}
           >
             {row.balance}
@@ -488,10 +488,10 @@ export default function PatientsPage() {
         render: (val, row) => (
           <span
             className={`inline-block px-1.5 py-0.2 rounded-full text-[10px] font-semibold ${row.status === 'Active'
-                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300'
-                : row.status === 'Follow Up'
-                  ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300'
-                  : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300'
+              : row.status === 'Follow Up'
+                ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300'
+                : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
               }`}
           >
             {row.status}
@@ -538,24 +538,23 @@ export default function PatientsPage() {
   );
 
   return (
-    <div className="space-y-3 mb-8">
-      {/* ─── PageHeader with Title, Learn, 3-Dots, & Add Button ─── */}
-      <div className="bg-white dark:bg-slate-900 rounded shadow-xs border border-slate-300 dark:border-slate-800 overflow-hidden">
-        <PageHeader
-          title="Patients"
-          badge={`${tabCounts.all} Files`}
-          showLearn={true}
-          learnLabel="Learn"
-          onLearn={() => setIsLearnModalOpen(true)}
-          learnTooltip="Learn how to manage dental patient files, charts & records"
-          moreActions={headerMoreActions}
-          addLabel="Add Patient"
-          onAdd={() => setIsAddModalOpen(true)}
-          tabs={tabs}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
-      </div>
+    <div>
+
+      <PageHeader
+        title="Patients"
+        badge={`${tabCounts.all} Files`}
+        showLearn={true}
+        learnLabel="Learn"
+        onLearn={() => setIsLearnModalOpen(true)}
+        learnTooltip="Learn how to manage dental patient files, charts & records"
+        moreActions={headerMoreActions}
+        addLabel="Add Patient"
+        onAdd={() => setIsAddModalOpen(true)}
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
+
 
       {/* ─── Spreadsheet-Dense DataTable ─── */}
       <DataTable
@@ -569,7 +568,7 @@ export default function PatientsPage() {
         stickyLastColumn={true}
         maxHeight="calc(100vh - 250px)"
         // Ultra-dense spreadsheet mode by default
-        initialDensity="compact"
+        initialDensity="normal"
         // Row multi-selection
         selectable={true}
         selectedRowKeys={selectedPatientIds}
@@ -592,7 +591,7 @@ export default function PatientsPage() {
       {/* ─── Add Patient Modal ─── */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
@@ -739,7 +738,7 @@ export default function PatientsPage() {
       {/* ─── Learn Drawer / Modal ─── */}
       {isLearnModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <span className="text-xl">💡</span>
