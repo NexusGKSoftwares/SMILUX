@@ -336,13 +336,14 @@ export function DashboardView({ user }) {
   const [expensesYear, setExpensesYear] = useState(currentYear);
   const [expensesPeriod, setExpensesPeriod] = useState('Last 6 months');
   const [paymentGrowthYear, setPaymentGrowthYear] = useState(currentYear);
+  const [incomeExpensePeriod, setIncomeExpensePeriod] = useState('Last 6 months');
   const [selectedSalesMonth, setSelectedSalesMonth] = useState(salesAreaChartData.defaultMonth);
   const [isSalesExpanded, setIsSalesExpanded] = useState(false);
   const [hoveredBarIndex, setHoveredBarIndex] = useState(null);
   const [selectedWebWeek, setSelectedWebWeek] = useState(webAnalyticsData.defaultMonth || 'Jun');
   const [isWebExpanded, setIsWebExpanded] = useState(false);
   const [hoveredPaymentGrowthIndex, setHoveredPaymentGrowthIndex] = useState(null);
-  const [selectedPaymentGrowthMonth, setSelectedPaymentGrowthMonth] = useState('Jun');
+  const [selectedPaymentGrowthMonth, setSelectedPaymentGrowthMonth] = useState('MAR');
   const [activeChartModal, setActiveChartModal] = useState(null); // 'sales' | 'patient-growth' | 'payment' | 'income' | 'balance' | 'expenses' | 'payment-growth' | null
 
   // Interactive Focus States for Charts & Deep Inspection
@@ -415,12 +416,44 @@ export function DashboardView({ user }) {
     expenseCategories[3], // Rental Cost
   ];
 
-  // Dynamic computations for Payment Growth Overview card
+  // Dynamic computations for Income & Expense comparison card (Matching reference UI spec)
   const currentPaymentGrowthData = getPatientGrowthDataByYear(paymentGrowthYear);
   const paymentGrowthFactor = paymentGrowthYear === 2026 ? 1 : paymentGrowthYear === 2025 ? 0.89 : paymentGrowthYear === 2024 ? 0.78 : 0.68;
-  const mpesaGrowthVal = Math.round(642500 * paymentGrowthFactor);
-  const shaClaimsGrowthVal = Math.round(485900 * paymentGrowthFactor);
-  const cashSettlementVal = Math.round(312400 * paymentGrowthFactor);
+  const incomeExpensePeriodScale = incomeExpensePeriod === 'Last 6 months' ? 1 : incomeExpensePeriod === 'H2 (Jul - Dec)' ? 1.12 : 1.94;
+  const ieScale = paymentGrowthFactor * incomeExpensePeriodScale;
+  const totalIncomeCompVal = Math.round(141200 * ieScale);
+  const totalExpenseCompVal = Math.round(61234 * ieScale);
+  const mpesaGrowthVal = totalIncomeCompVal;
+  const shaClaimsGrowthVal = totalExpenseCompVal;
+  const cashSettlementVal = Math.round((totalIncomeCompVal - totalExpenseCompVal));
+
+  const incomeExpenseMonths = (
+    incomeExpensePeriod === 'H2 (Jul - Dec)'
+      ? [
+        { month: 'JUL', incomeH: 94, expenseH: 40, incomeVal: Math.round(52000 * paymentGrowthFactor), expenseVal: Math.round(21000 * paymentGrowthFactor) },
+        { month: 'AUG', incomeH: 112, expenseH: 64, incomeVal: Math.round(61000 * paymentGrowthFactor), expenseVal: Math.round(34000 * paymentGrowthFactor) },
+        { month: 'SEP', incomeH: 175, expenseH: 68, incomeVal: Math.round(97000 * paymentGrowthFactor), expenseVal: Math.round(36000 * paymentGrowthFactor) },
+        { month: 'OCT', incomeH: 132, expenseH: 52, incomeVal: Math.round(73000 * paymentGrowthFactor), expenseVal: Math.round(28000 * paymentGrowthFactor) },
+        { month: 'NOV', incomeH: 118, expenseH: 88, incomeVal: Math.round(65000 * paymentGrowthFactor), expenseVal: Math.round(48000 * paymentGrowthFactor) },
+        { month: 'DEC', incomeH: 124, expenseH: 95, incomeVal: Math.round(68000 * paymentGrowthFactor), expenseVal: Math.round(52000 * paymentGrowthFactor) },
+      ]
+      : [
+        { month: 'JAN', incomeH: 88, expenseH: 34, incomeVal: Math.round(48500 * paymentGrowthFactor), expenseVal: Math.round(18700 * paymentGrowthFactor) },
+        { month: 'FEB', incomeH: 108, expenseH: 62, incomeVal: Math.round(59400 * paymentGrowthFactor), expenseVal: Math.round(34100 * paymentGrowthFactor) },
+        { month: 'MAR', incomeH: 175, expenseH: 66, incomeVal: Math.round(96800 * paymentGrowthFactor), expenseVal: Math.round(36300 * paymentGrowthFactor) },
+        { month: 'APR', incomeH: 128, expenseH: 50, incomeVal: Math.round(70400 * paymentGrowthFactor), expenseVal: Math.round(27500 * paymentGrowthFactor) },
+        { month: 'MAY', incomeH: 116, expenseH: 88, incomeVal: Math.round(63800 * paymentGrowthFactor), expenseVal: Math.round(48400 * paymentGrowthFactor) },
+        { month: 'JUN', incomeH: 116, expenseH: 94, incomeVal: Math.round(63800 * paymentGrowthFactor), expenseVal: Math.round(51700 * paymentGrowthFactor) },
+      ]
+  ).map((m, idx) => ({
+    ...m,
+    xGroup: 86 + idx * 78,
+  }));
+
+  const activeIncomeExpenseMonthObj =
+    incomeExpenseMonths.find((m) => m.month === selectedPaymentGrowthMonth) ||
+    incomeExpenseMonths[2];
+
   const activePaymentGrowthObj =
     currentPaymentGrowthData.bars.find((b) => b.month === selectedPaymentGrowthMonth) ||
     currentPaymentGrowthData.bars[5];
@@ -1091,7 +1124,7 @@ export function DashboardView({ user }) {
                             : activeChartModal === 'expenses'
                               ? `Practice Expenses Breakdown (${expensesYear})`
                               : activeChartModal === 'payment-growth'
-                                ? `Payment Growth Overview (${paymentGrowthYear})`
+                                ? `Income & Expense Comparison (${paymentGrowthYear})`
                                 : `Practice Financial Balance & Streams (${balanceYear})`}
                   </h2>
                   <p className="text-xs text-[#888888]">
@@ -1156,7 +1189,7 @@ export function DashboardView({ user }) {
                 { id: 'income', label: 'Income Summary' },
                 { id: 'balance', label: 'Financial Balance' },
                 { id: 'expenses', label: 'Expenses Overview' },
-                { id: 'payment-growth', label: 'Payment Growth' },
+                { id: 'payment-growth', label: 'Income & Expense' },
               ].map((tab) => {
                 const isActive = activeChartModal === tab.id;
                 return (
@@ -1811,7 +1844,7 @@ export function DashboardView({ user }) {
                       <div
                         key={cat.id}
                         onClick={() => handleCopy(`${formatCurrency(cat.amount)} (${cat.pct})`, `${cat.label} Expense`)}
-                        className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50/70 px-3.5 py-2.5 cursor-pointer hover:bg-slate-100 transition-all select-text"
+                        className="flex items-center justify-between rounded border border-slate-100 bg-slate-50/70 px-3.5 py-2.5 cursor-pointer hover:bg-slate-100 transition-all select-text"
                       >
                         <div className="flex items-center gap-2.5">
                           <span className="h-2 w-3.5 rounded-full" style={{ backgroundColor: cat.color }} />
@@ -1828,77 +1861,128 @@ export function DashboardView({ user }) {
               </>
             ) : activeChartModal === 'payment-growth' ? (
               <>
-                {/* Payment Growth KPI Summary Strip */}
+                {/* Income & Expense KPI Summary Strip */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <div
                     className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
-                    onClick={() => handleCopy(formatCurrency(mpesaGrowthVal), 'M-Pesa STK Growth')}
+                    onClick={() => handleCopy(formatCurrency(totalIncomeCompVal), 'Total Income')}
                   >
-                    <span className="text-[11px] font-medium text-[#888888] select-text">M-Pesa STK Growth</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatCurrency(mpesaGrowthVal)}</div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="h-1.5 w-3 rounded-full bg-[#6BCE85]" />
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8] select-text">TOTAL INCOME</span>
+                    </div>
+                    <div className="mt-1 flex items-baseline gap-1.5">
+                      <span className="text-lg font-extrabold text-[#1E293B] select-text">{formatCurrency(totalIncomeCompVal)}</span>
+                      <span className="text-[11px] font-bold text-[#10B981] select-text">▲ 4.51%</span>
+                    </div>
                   </div>
                   <div
                     className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
-                    onClick={() => handleCopy(formatCurrency(shaClaimsGrowthVal), 'SHA Claims Settled')}
+                    onClick={() => handleCopy(formatCurrency(totalExpenseCompVal), 'Total Expenses')}
                   >
-                    <span className="text-[11px] font-medium text-[#888888] select-text">SHA Claims Settled</span>
-                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatCurrency(shaClaimsGrowthVal)}</div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="h-1.5 w-3 rounded-full bg-[#FFB100]" />
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8] select-text">TOTAL EXPENSES</span>
+                    </div>
+                    <div className="mt-1 flex items-baseline gap-1.5">
+                      <span className="text-lg font-extrabold text-[#1E293B] select-text">{formatCurrency(totalExpenseCompVal)}</span>
+                      <span className="text-[11px] font-bold text-[#F43F5E] select-text">▼ 2.41%</span>
+                    </div>
                   </div>
                   <div
                     className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
-                    onClick={() => handleCopy(formatCurrency(cashSettlementVal), 'Private Collections')}
+                    onClick={() => handleCopy(formatCurrency(cashSettlementVal), 'Net Surplus')}
                   >
-                    <span className="text-[11px] font-medium text-[#888888] select-text">Private Collections</span>
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Net Surplus</span>
                     <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatCurrency(cashSettlementVal)}</div>
                   </div>
                   <div
                     className="rounded border border-emerald-200 bg-emerald-50/60 p-3 cursor-pointer hover:bg-emerald-100/60 transition-all select-text"
-                    onClick={() => handleCopy(formatCurrency(activePaymentGrowthObj.count * 1250), `${activePaymentGrowthObj.month} ${paymentGrowthYear} Volume`)}
+                    onClick={() => handleCopy(formatCurrency(activeIncomeExpenseMonthObj.incomeVal), `${activeIncomeExpenseMonthObj.month} ${paymentGrowthYear} Income`)}
                   >
                     <span className="text-[11px] font-semibold text-[#00A859] select-text">
-                      Selected ({activePaymentGrowthObj.month} {paymentGrowthYear})
+                      Highlighted ({activeIncomeExpenseMonthObj.month} {paymentGrowthYear})
                     </span>
                     <div className="mt-1 text-lg font-bold text-[#080808] select-text">
-                      {formatCurrency(activePaymentGrowthObj.count * 1250)}
+                      {formatCurrency(activeIncomeExpenseMonthObj.incomeVal)}
                     </div>
                   </div>
                 </div>
 
-                {/* Expanded 12-Month Payment Growth Bar Chart */}
-                <div className="rounded border border-[#EFEFEF] bg-white p-4">
-                  <svg viewBox="28 220 674 258" fill="none" className="w-full h-auto block select-text">
-                    {[234, 286, 338, 390].map((yPos) => (
-                      <line key={yPos} x1="78" y1={yPos} x2="700" y2={yPos} stroke="#E0E0E0" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="4 4" />
+                {/* Expanded Grouped Dual-Bar Income vs Expense Chart */}
+                <div className="rounded border border-[#EFEFEF] bg-white p-6">
+                  <svg viewBox="0 0 560 250" fill="none" className="w-full h-auto block select-text">
+                    {[
+                      { label: '10K', y: 34 },
+                      { label: '7K', y: 80 },
+                      { label: '5K', y: 126 },
+                      { label: '2K', y: 172 },
+                      { label: '0', y: 214 },
+                    ].map((tick, i) => (
+                      <g key={tick.label}>
+                        <text x="38" y={tick.y + 4} textAnchor="end" fill="#94A3B8" fontSize="12" fontWeight="600" className="select-text">
+                          {tick.label}
+                        </text>
+                        {i < 4 ? (
+                          <line x1="54" y1={tick.y} x2="536" y2={tick.y} stroke="#F1F5F9" strokeWidth="1.2" strokeDasharray="3 3" />
+                        ) : (
+                          <line x1="54" y1={tick.y} x2="536" y2={tick.y} stroke="#E2E8F0" strokeWidth="1.3" />
+                        )}
+                      </g>
                     ))}
-                    {currentPaymentGrowthData.yAxisLabels.map((item) => (
-                      <text key={item.label} x="61" y={item.y + 5} textAnchor="end" fill="#888888" fontSize="14" fontWeight="500" className="select-text">
-                        {item.label}
-                      </text>
-                    ))}
-                    {currentPaymentGrowthData.bars.map((bar, idx) => {
-                      const isSelected = selectedPaymentGrowthMonth === bar.month;
+                    <line
+                      x1="54"
+                      y1={214 - activeIncomeExpenseMonthObj.incomeH}
+                      x2="536"
+                      y2={214 - activeIncomeExpenseMonthObj.incomeH}
+                      stroke="#6BCE85"
+                      strokeWidth="1.3"
+                    />
+                    {incomeExpenseMonths.map((item) => {
+                      const isSelected = activeIncomeExpenseMonthObj.month === item.month;
+                      const incomeY = 214 - item.incomeH;
+                      const expenseY = 214 - item.expenseH;
+                      const greenBarX = item.xGroup;
+                      const amberBarX = item.xGroup + 21;
                       return (
-                        <g key={bar.month || idx} className="cursor-pointer" onClick={() => setSelectedPaymentGrowthMonth(bar.month)}>
-                          <rect x={bar.x} y={bar.y} width="26" height={bar.height} rx="8" fill={isSelected ? '#00A859' : '#00C26B'} />
+                        <g
+                          key={item.month}
+                          className="cursor-pointer"
+                          onClick={() => {
+                            setSelectedPaymentGrowthMonth(item.month);
+                            handleCopy(
+                              `Income: ${formatCurrency(item.incomeVal)} | Expense: ${formatCurrency(item.expenseVal)}`,
+                              `${item.month} ${paymentGrowthYear}`
+                            );
+                          }}
+                        >
                           {isSelected && (
-                            <g transform={`translate(${Math.min(Math.max(bar.xCenter - 46, 75), 605)}, ${bar.y - 28})`}>
-                              <rect width="92" height="22" rx="4" fill="#030303" />
-                              <text x="46" y="15" textAnchor="middle" fill="#FFFFFF" fontSize="11" fontWeight="600" className="select-text">
-                                {formatCurrency(bar.count * 1250)}
-                              </text>
-                            </g>
+                            <rect
+                              x={greenBarX - 5}
+                              y={incomeY - 8}
+                              width="26"
+                              height={item.incomeH + 8}
+                              rx="12"
+                              fill="#6BCE85"
+                              fillOpacity="0.16"
+                            />
                           )}
-                        </g>
-                      );
-                    })}
-                    <line x1="78" y1="441.5" x2="700" y2="441.5" stroke="#E9E9E9" strokeWidth="1" />
-                    {currentPaymentGrowthData.xAxisLabels.map((item) => {
-                      const isSelected = selectedPaymentGrowthMonth === item.label;
-                      return (
-                        <g key={item.label} className="cursor-pointer" onClick={() => setSelectedPaymentGrowthMonth(item.label)}>
-                          {isSelected && <rect x={item.x - 22} y="451" width="44" height="24" rx="12" fill="#F3F4F6" />}
-                          <text x={item.x} y="468" textAnchor="middle" fill={isSelected ? '#080808' : '#888888'} fontSize="12.5" fontWeight={isSelected ? '600' : '500'} className="select-text">
-                            {item.label}
+                          <rect x={greenBarX} y={incomeY} width="16" height={item.incomeH} rx="3" fill="#6BCE85" />
+                          <rect x={amberBarX} y={expenseY} width="16" height={item.expenseH} rx="3" fill="#FFB100" />
+                          {isSelected && (
+                            <circle cx={greenBarX + 8} cy={incomeY} r="5.5" fill="#6BCE85" stroke="#FFFFFF" strokeWidth="2.5" />
+                          )}
+                          <text
+                            x={item.xGroup + 18.5}
+                            y="238"
+                            textAnchor="middle"
+                            fill={isSelected ? '#1E293B' : '#94A3B8'}
+                            fontSize="11.5"
+                            fontWeight={isSelected ? '800' : '600'}
+                            letterSpacing="0.03em"
+                            className="select-text"
+                          >
+                            {item.month}
                           </text>
                         </g>
                       );
@@ -2519,11 +2603,10 @@ export function DashboardView({ user }) {
           <div className="space-y-2 pt-3 border-t border-slate-100">
             <div className="grid grid-cols-3 gap-2">
               <div
-                className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${
-                  focusedIncomeRoute === 'mpesa'
-                    ? 'border-emerald-400 bg-emerald-50/70 shadow-xs'
-                    : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
-                }`}
+                className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${focusedIncomeRoute === 'mpesa'
+                  ? 'border-emerald-400 bg-emerald-50/70 shadow-xs'
+                  : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
+                  }`}
                 onClick={() => {
                   setFocusedIncomeRoute((p) => (p === 'mpesa' ? null : 'mpesa'));
                   handleCopy(formatCurrency(mpesaIncomeVal), 'M-Pesa STK Income');
@@ -2539,11 +2622,10 @@ export function DashboardView({ user }) {
               </div>
 
               <div
-                className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${
-                  focusedIncomeRoute === 'private'
-                    ? 'border-orange-400 bg-orange-50/70 shadow-xs'
-                    : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
-                }`}
+                className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${focusedIncomeRoute === 'private'
+                  ? 'border-orange-400 bg-orange-50/70 shadow-xs'
+                  : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
+                  }`}
                 onClick={() => {
                   setFocusedIncomeRoute((p) => (p === 'private' ? null : 'private'));
                   handleCopy(formatCurrency(privateIncomeVal), 'Private Pay Income');
@@ -2559,11 +2641,10 @@ export function DashboardView({ user }) {
               </div>
 
               <div
-                className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${
-                  focusedIncomeRoute === 'claims'
-                    ? 'border-amber-400 bg-amber-50/70 shadow-xs'
-                    : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
-                }`}
+                className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${focusedIncomeRoute === 'claims'
+                  ? 'border-amber-400 bg-amber-50/70 shadow-xs'
+                  : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
+                  }`}
                 onClick={() => {
                   setFocusedIncomeRoute((p) => (p === 'claims' ? null : 'claims'));
                   handleCopy(formatCurrency(claimsIncomeVal), 'SHA Claims Income');
@@ -2839,7 +2920,7 @@ export function DashboardView({ user }) {
                 <select
                   value={expensesPeriod}
                   onChange={(e) => setExpensesPeriod(e.target.value)}
-                  className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-2xs hover:border-slate-300 focus:outline-none cursor-pointer"
+                  className="rounded border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-2xs hover:border-slate-300 focus:outline-none cursor-pointer"
                   aria-label="Select expense timeframe"
                 >
                   <option value="Last 6 months">Last 6 months</option>
@@ -2973,9 +3054,8 @@ export function DashboardView({ user }) {
                         handleCopy(`${formatCurrency(cat.amount)} (${cat.pct})`, `${cat.label} Expense`);
                       }}
                       title={`Click to copy ${cat.label}: ${formatCurrency(cat.amount)}`}
-                      className={`flex items-center justify-between rounded-lg px-2.5 py-1.5 cursor-pointer transition-all select-text ${
-                        isFocused ? 'bg-slate-100/90 shadow-2xs' : 'hover:bg-slate-50'
-                      }`}
+                      className={`flex items-center justify-between rounded px-2.5 py-1.5 cursor-pointer transition-all select-text ${isFocused ? 'bg-slate-100/90 shadow-2xs' : 'hover:bg-slate-50'
+                        }`}
                     >
                       <div className="flex items-center gap-2.5">
                         <span
@@ -3012,11 +3092,10 @@ export function DashboardView({ user }) {
                       handleCopy(formatCurrency(item.amount), `${item.shortLabel} Expense`);
                     }}
                     title={`Click to copy ${item.shortLabel} expense`}
-                    className={`rounded-xl border p-3 cursor-pointer transition-all select-text ${
-                      isFocused
-                        ? 'border-purple-300 bg-purple-50/40 shadow-2xs'
-                        : 'border-slate-100 bg-[#F8FAFC] hover:border-slate-200 hover:bg-slate-100/60'
-                    }`}
+                    className={`rounded border p-3 cursor-pointer transition-all select-text ${isFocused
+                      ? 'border-purple-300 bg-purple-50/40 shadow-2xs'
+                      : 'border-slate-100 bg-[#F8FAFC] hover:border-slate-200 hover:bg-slate-100/60'
+                      }`}
                   >
                     <div className="flex items-center gap-2">
                       <span
@@ -3037,225 +3116,258 @@ export function DashboardView({ user }) {
           </div>
         </div>
 
-        {/* Card 2: Payment Growth Overview (Matching Sales & Patient Growth Card UI) */}
+        {/* Card 2: Income & Expense Comparison Card (Exact Reference UI + Dashboard Card Chrome) */}
         <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             {/* Card Header */}
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                {/* Emerald Growth Trend Icon (#00C26B) */}
+                {/* Green/Amber Dual Bar Icon */}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0">
-                  <path
-                    d="M3 17l6-6 4 4 8-8"
-                    stroke="#00C26B"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M14 7h7v7"
-                    stroke="#00C26B"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                  <rect x="4" y="5" width="6" height="15" rx="2" fill="#6BCE85" />
+                  <rect x="13" y="10" width="6" height="10" rx="2" fill="#FFB100" />
                 </svg>
                 <h2 className="text-sm font-semibold text-[#080808] tracking-tight select-text">
-                  Payment Growth Overview ({paymentGrowthYear})
+                  Income &amp; Expense ({paymentGrowthYear})
                 </h2>
                 <InfoBadgeIcon
-                  title={`Payment Growth Overview (${paymentGrowthYear})`}
-                  subtitle="Monthly Collections & Settlement Velocity"
-                  accentColor="#00C26B"
+                  title={`Income & Expense (${paymentGrowthYear})`}
+                  subtitle={`Avicena Dental Practice — ${incomeExpensePeriod}`}
+                  accentColor="#6BCE85"
                   stats={[
-                    { label: 'M-Pesa Collections', value: formatCurrency(mpesaGrowthVal) },
-                    { label: 'SHA & Ins. Claims', value: formatCurrency(shaClaimsGrowthVal) },
-                    { label: 'Direct Cash / Card', value: formatCurrency(cashSettlementVal) },
-                    { label: `Selected (${activePaymentGrowthObj.month})`, value: formatCurrency(activePaymentGrowthObj.count * 1250) },
+                    { label: 'Total Income', value: formatCurrency(totalIncomeCompVal) },
+                    { label: 'Total Expenses', value: formatCurrency(totalExpenseCompVal) },
+                    { label: 'Net Surplus', value: formatCurrency(cashSettlementVal) },
+                    { label: `Highlighted (${activeIncomeExpenseMonthObj.month})`, value: formatCurrency(activeIncomeExpenseMonthObj.incomeVal) },
                   ]}
-                  items={currentPaymentGrowthData.bars.map((b) => ({
-                    label: b.month,
-                    value: formatCurrency(b.count * 1250),
+                  items={incomeExpenseMonths.map((m) => ({
+                    label: m.month,
+                    value: `${formatCurrency(m.incomeVal)} / ${formatCurrency(m.expenseVal)}`,
                   }))}
                   onOpenModal={() => setActiveChartModal('payment-growth')}
                 />
               </div>
 
-              <CardActionToolbar
-                onExpand={() => setActiveChartModal('payment-growth')}
-                selectedYear={paymentGrowthYear}
-                onSelectYear={(yr) => setPaymentGrowthYear(Number(yr))}
-              />
+              <div className="flex items-center gap-2">
+                {/* Period Filter Pill ("Last 6 months" dropdown matching reference screenshot) */}
+                <select
+                  value={incomeExpensePeriod}
+                  onChange={(e) => {
+                    const nextPeriod = e.target.value;
+                    setIncomeExpensePeriod(nextPeriod);
+                    setSelectedPaymentGrowthMonth(nextPeriod === 'H2 (Jul - Dec)' ? 'SEP' : 'MAR');
+                  }}
+                  className="rounded border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-2xs hover:border-slate-300 focus:outline-none cursor-pointer"
+                  aria-label="Select income vs expense timeframe"
+                >
+                  <option value="Last 6 months">Last 6 months</option>
+                  <option value="H2 (Jul - Dec)">H2 (Jul - Dec)</option>
+                  <option value="Full Year">Full Year</option>
+                </select>
+
+                <CardActionToolbar
+                  onExpand={() => setActiveChartModal('payment-growth')}
+                  selectedYear={paymentGrowthYear}
+                  onSelectYear={(yr) => setPaymentGrowthYear(Number(yr))}
+                />
+              </div>
             </div>
 
-            {/* 3 KPI Metrics Row (Matching Patient Growth Overview Top Strip) */}
-            <div className="grid grid-cols-3 gap-2 mb-3">
-              {[
-                {
-                  id: 'mpesa-growth',
-                  label: 'M-Pesa STK Growth',
-                  value: formatCurrency(mpesaGrowthVal),
-                  change: '18.4%',
-                  isPositive: true,
-                },
-                {
-                  id: 'sha-growth',
-                  label: 'SHA Claims Settled',
-                  value: formatCurrency(shaClaimsGrowthVal),
-                  change: '14.2%',
-                  isPositive: true,
-                },
-                {
-                  id: 'cash-growth',
-                  label: 'Private Collections',
-                  value: formatCurrency(cashSettlementVal),
-                  change: '9.6%',
-                  isPositive: true,
-                },
-              ].map((metric, idx) => (
-                <div
-                  key={metric.id}
-                  onClick={() => handleCopy(metric.value, metric.label)}
-                  title="Click to copy payment metric"
-                  className={`flex flex-col cursor-pointer rounded p-1.5 hover:bg-slate-50 transition-colors select-text ${
-                    idx > 0 ? 'border-l border-dashed border-[#E0E0E0] pl-3' : ''
-                  }`}
-                >
-                  <span className="text-[11px] font-medium text-[#888888] truncate select-text">
-                    {metric.label}
+            {/* Dual KPI Summary Strip: TOTAL INCOME vs TOTAL EXPENSES (Matching Reference Image) */}
+            <div className="grid grid-cols-2 gap-4 mb-4 px-1">
+              {/* TOTAL INCOME */}
+              <div
+                onClick={() => handleCopy(`${formatCurrency(totalIncomeCompVal)} (+4.51%)`, 'Total Income')}
+                title="Click to copy total income"
+                className="flex flex-col rounded p-2.5 hover:bg-slate-50/90 cursor-pointer transition-colors select-text"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-3.5 rounded-full bg-[#6BCE85] shrink-0" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8] select-text">
+                    TOTAL INCOME
                   </span>
-                  <div className="mt-1 flex items-center gap-1.5 flex-wrap">
-                    <span className="text-sm sm:text-base font-bold tracking-tight text-[#080808] leading-none select-text">
-                      {metric.value}
-                    </span>
-                    <span className="flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-bold bg-[#E8FFF4] border border-[#8FE7BE] text-[#1DBF73] select-text">
-                      <span>▲</span>
-                      <span>{metric.change}</span>
-                    </span>
-                  </div>
                 </div>
-              ))}
+                <div className="mt-1.5 pl-5 flex items-baseline gap-2 flex-wrap">
+                  <span className="text-lg sm:text-xl font-extrabold tracking-tight text-[#1E293B] select-text">
+                    {formatCurrency(totalIncomeCompVal)}
+                  </span>
+                  <span className="inline-flex items-center gap-0.5 text-xs font-bold text-[#10B981] select-text">
+                    <span>▲</span>
+                    <span>4.51%</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* TOTAL EXPENSES */}
+              <div
+                onClick={() => handleCopy(`${formatCurrency(totalExpenseCompVal)} (-2.41%)`, 'Total Expenses')}
+                title="Click to copy total expenses"
+                className="flex flex-col rounded p-2.5 hover:bg-slate-50/90 cursor-pointer transition-colors select-text"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-3.5 rounded-full bg-[#FFB100] shrink-0" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8] select-text">
+                    TOTAL EXPENSES
+                  </span>
+                </div>
+                <div className="mt-1.5 pl-5 flex items-baseline gap-2 flex-wrap">
+                  <span className="text-lg sm:text-xl font-extrabold tracking-tight text-[#1E293B] select-text">
+                    {formatCurrency(totalExpenseCompVal)}
+                  </span>
+                  <span className="inline-flex items-center gap-0.5 text-xs font-bold text-[#F43F5E] select-text">
+                    <span>▼</span>
+                    <span>2.41%</span>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* 12-Month Interactive Payment Growth Bar Chart */}
-          <div className="w-full overflow-hidden">
+          {/* Grouped Dual-Bar Chart (JAN..JUN with Green Income & Amber Expense Bars + Active Threshold Line) */}
+          <div className="w-full overflow-hidden pt-1">
             <svg
-              viewBox="28 220 674 258"
+              viewBox="0 0 560 250"
               fill="none"
               className="w-full h-auto block select-text"
             >
-              {/* Dashed Horizontal Grid Lines */}
-              {[234, 286, 338, 390].map((yPos) => (
-                <line
-                  key={yPos}
-                  x1="78"
-                  y1={yPos}
-                  x2="700"
-                  y2={yPos}
-                  stroke="#E0E0E0"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  strokeDasharray="4 4"
-                />
+              {/* Y-Axis Labels & Dashed Horizontal Grid Lines (10K, 7K, 5K, 2K, 0) */}
+              {[
+                { label: '10K', y: 34 },
+                { label: '7K', y: 80 },
+                { label: '5K', y: 126 },
+                { label: '2K', y: 172 },
+                { label: '0', y: 214 },
+              ].map((tick, i) => (
+                <g key={tick.label}>
+                  <text
+                    x="38"
+                    y={tick.y + 4}
+                    textAnchor="end"
+                    fill="#94A3B8"
+                    fontSize="12"
+                    fontWeight="600"
+                    className="select-text"
+                  >
+                    {tick.label}
+                  </text>
+                  {i < 4 ? (
+                    <line
+                      x1="54"
+                      y1={tick.y}
+                      x2="536"
+                      y2={tick.y}
+                      stroke="#F1F5F9"
+                      strokeWidth="1.2"
+                      strokeDasharray="3 3"
+                    />
+                  ) : (
+                    <line
+                      x1="54"
+                      y1={tick.y}
+                      x2="536"
+                      y2={tick.y}
+                      stroke="#E2E8F0"
+                      strokeWidth="1.3"
+                    />
+                  )}
+                </g>
               ))}
 
-              {/* Y-Axis Labels */}
-              {currentPaymentGrowthData.yAxisLabels.map((item) => (
-                <text
-                  key={item.label}
-                  x="61"
-                  y={item.y + 5}
-                  textAnchor="end"
-                  fill="#888888"
-                  fontSize="14"
-                  fontWeight="500"
-                  className="select-text"
-                >
-                  {item.label}
-                </text>
-              ))}
+              {/* Active Green Horizontal Threshold Line across chart at selected month's income top */}
+              <line
+                x1="54"
+                y1={214 - activeIncomeExpenseMonthObj.incomeH}
+                x2="536"
+                y2={214 - activeIncomeExpenseMonthObj.incomeH}
+                stroke="#6BCE85"
+                strokeWidth="1.3"
+              />
 
-              {/* 12 Monthly Interactive Emerald/Cyan Bars */}
-              {currentPaymentGrowthData.bars.map((bar, idx) => {
-                const isHovered =
-                  hoveredPaymentGrowthIndex === idx || selectedPaymentGrowthMonth === bar.month;
-                const barAmountFormatted = formatCurrency(bar.count * 1250);
+              {/* 6 Monthly Grouped Bars (Green = Income, Amber = Expense) */}
+              {incomeExpenseMonths.map((item, idx) => {
+                const isSelected = activeIncomeExpenseMonthObj.month === item.month;
+                const isHovered = hoveredPaymentGrowthIndex === idx || isSelected;
+                const incomeY = 214 - item.incomeH;
+                const expenseY = 214 - item.expenseH;
+                const greenBarX = item.xGroup;
+                const amberBarX = item.xGroup + 21;
+
                 return (
                   <g
-                    key={bar.month || idx}
+                    key={item.month}
                     className="cursor-pointer"
                     onMouseEnter={() => {
                       setHoveredPaymentGrowthIndex(idx);
-                      setSelectedPaymentGrowthMonth(bar.month);
+                      setSelectedPaymentGrowthMonth(item.month);
                     }}
                     onMouseLeave={() => setHoveredPaymentGrowthIndex(null)}
                     onClick={() => {
-                      setSelectedPaymentGrowthMonth(bar.month);
-                      handleCopy(barAmountFormatted, `${bar.month} ${paymentGrowthYear} Payment Volume`);
+                      setSelectedPaymentGrowthMonth(item.month);
+                      handleCopy(
+                        `Income: ${formatCurrency(item.incomeVal)} | Expense: ${formatCurrency(item.expenseVal)}`,
+                        `${item.month} ${paymentGrowthYear}`
+                      );
                     }}
-                    title="Click to select month and copy payment volume"
                   >
-                    <rect
-                      x={bar.x}
-                      y={bar.y}
-                      width="26"
-                      height={bar.height}
-                      rx="8"
-                      fill={isHovered ? '#00A859' : '#00C26B'}
-                    />
-                    {isHovered && (
-                      <g transform={`translate(${Math.min(Math.max(bar.xCenter - 46, 75), 605)}, ${bar.y - 28})`}>
-                        <rect width="92" height="22" rx="4" fill="#030303" />
-                        <text
-                          x="46"
-                          y="15"
-                          textAnchor="middle"
-                          fill="#FFFFFF"
-                          fontSize="11"
-                          fontWeight="600"
-                          className="select-text"
-                        >
-                          {barAmountFormatted}
-                        </text>
-                      </g>
-                    )}
-                  </g>
-                );
-              })}
+                    <title>{`${item.month}: Income ${formatCurrency(item.incomeVal)} vs Expense ${formatCurrency(item.expenseVal)} • Click to copy`}</title>
 
-              {/* Solid X-Axis Baseline */}
-              <line x1="78" y1="441.5" x2="700" y2="441.5" stroke="#E9E9E9" strokeWidth="1" />
-
-              {/* 12 Monthly X-Axis Labels (Jan .. Dec) */}
-              {currentPaymentGrowthData.xAxisLabels.map((item) => {
-                const isSelected = selectedPaymentGrowthMonth === item.label;
-                return (
-                  <g
-                    key={item.label}
-                    className="cursor-pointer"
-                    onClick={() => setSelectedPaymentGrowthMonth(item.label)}
-                  >
+                    {/* Soft Translucent Green Pill Halo around Selected Green Bar (Matching MAR in reference) */}
                     {isSelected && (
                       <rect
-                        x={item.x - 22}
-                        y="451"
-                        width="44"
-                        height="24"
+                        x={greenBarX - 5}
+                        y={incomeY - 8}
+                        width="26"
+                        height={item.incomeH + 8}
                         rx="12"
-                        fill="#F3F4F6"
+                        fill="#6BCE85"
+                        fillOpacity="0.16"
                       />
                     )}
+
+                    {/* Left Bar: Green Income Bar (#6BCE85) */}
+                    <rect
+                      x={greenBarX}
+                      y={incomeY}
+                      width="16"
+                      height={item.incomeH}
+                      rx="3"
+                      fill={isHovered ? '#58C074' : '#6BCE85'}
+                    />
+
+                    {/* Right Bar: Amber Expense Bar (#FFB100) */}
+                    <rect
+                      x={amberBarX}
+                      y={expenseY}
+                      width="16"
+                      height={item.expenseH}
+                      rx="3"
+                      fill={isHovered ? '#F0A200' : '#FFB100'}
+                    />
+
+                    {/* Active Green Dot with White Ring on Selected Green Bar Top */}
+                    {isSelected && (
+                      <circle
+                        cx={greenBarX + 8}
+                        cy={incomeY}
+                        r="5.5"
+                        fill="#6BCE85"
+                        stroke="#FFFFFF"
+                        strokeWidth="2.5"
+                      />
+                    )}
+
+                    {/* Month Label (JAN, FEB, MAR, APR, MAY, JUN) */}
                     <text
-                      x={item.x}
-                      y="468"
+                      x={item.xGroup + 18.5}
+                      y="238"
                       textAnchor="middle"
-                      fill={isSelected ? '#080808' : '#888888'}
-                      fontSize="12.5"
-                      fontWeight={isSelected ? '600' : '500'}
+                      fill={isSelected ? '#1E293B' : '#94A3B8'}
+                      fontSize="11.5"
+                      fontWeight={isSelected ? '800' : '600'}
+                      letterSpacing="0.03em"
                       className="select-text"
                     >
-                      {item.label}
+                      {item.month}
                     </text>
                   </g>
                 );
@@ -3270,7 +3382,7 @@ export function DashboardView({ user }) {
         {/* Appointments Queue Table */}
         <div className="lg:col-span-2 rounded border border-[#EFEFEF] bg-white p-6 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-            <div className="flex items-center gap-2"> 
+            <div className="flex items-center gap-2">
               <h3 className="text-sm font-bold text-slate-900">Today&apos;s Clinic Queue &amp; Appointments</h3>
             </div>
             <span className="text-xs font-bold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full border border-brand-200/60">
@@ -3406,7 +3518,7 @@ export function DashboardView({ user }) {
 
       {/* Floating Copy Feedback Toast */}
       {copiedText && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white shadow-xl">
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white shadow-xl">
           <svg
             width="14"
             height="14"
