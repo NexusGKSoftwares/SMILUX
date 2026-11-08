@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { PageHeader } from '../components/layout';
 import DataTable from '../components/UI/DataTable.jsx';
+import RowActionDropdown from '../components/UI/RowActionDropdown.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Upload01Icon,
@@ -9,6 +10,12 @@ import {
   MoreHorizontalIcon,
   Cancel01Icon,
   PlusSignIcon,
+  Doc01Icon,
+  Calendar01Icon,
+  Invoice01Icon,
+  BubbleChatIcon,
+  PencilEdit01Icon,
+  Delete02Icon,
 } from '@hugeicons/core-free-icons';
 
 // Initial mock dataset for patients (with more records to demonstrate paging & multi-sort)

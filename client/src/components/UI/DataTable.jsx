@@ -78,6 +78,79 @@ export default function DataTable({
     initialDensity === 'standard' ? 'normal' : initialDensity || 'normal'
   );
 
+  // Helper to parse width strings (e.g. '220px', '220', 220) to number
+  const parseWidth = useCallback((w, fallback = 150) => {
+    if (typeof w === 'number') return w;
+    if (typeof w === 'string') {
+      const parsed = parseInt(w, 10);
+      if (!isNaN(parsed)) return parsed;
+    }
+    return fallback;
+  }, []);
+
+  // ─── Column Widths & Resizing State (Spreadsheet-like Drag Expand/Contract) ─
+  const [columnWidths, setColumnWidths] = useState(() => {
+    const initial = {};
+    columns.forEach((col) => {
+      initial[col.key] = parseWidth(col.width || col.minWidth, 150);
+    });
+    return initial;
+  });
+
+  // Sync if column definitions change
+  useEffect(() => {
+    setColumnWidths((prev) => {
+      const updated = { ...prev };
+      let hasChanges = false;
+      columns.forEach((col) => {
+        if (updated[col.key] === undefined) {
+          updated[col.key] = parseWidth(col.width || col.minWidth, 150);
+          hasChanges = true;
+        }
+      });
+      return hasChanges ? updated : prev;
+    });
+  }, [columns, parseWidth]);
+
+  const isResizingRef = useRef(false);
+
+  const handleResizeStart = (e, colKey) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    isResizingRef.current = true;
+    const startX = e.clientX;
+    const colDef = columns.find((c) => c.key === colKey);
+    const startWidth = columnWidths[colKey] || parseWidth(colDef?.width || colDef?.minWidth, 150);
+    const minWidth = colDef?.minWidth ? parseWidth(colDef.minWidth, 40) : 40;
+    const maxWidth = colDef?.maxWidth ? parseWidth(colDef.maxWidth, 1200) : 1200;
+
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'col-resize';
+
+    const onMouseMove = (moveEvent) => {
+      const deltaX = moveEvent.clientX - startX;
+      const newWidth = Math.min(maxWidth, Math.max(minWidth, startWidth + deltaX));
+      setColumnWidths((prev) => ({
+        ...prev,
+        [colKey]: newWidth,
+      }));
+    };
+
+    const onMouseUp = () => {
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+      setTimeout(() => {
+        isResizingRef.current = false;
+      }, 100);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
+
   // ─── Column Visibility State ───────────────────────────────────────────────
   const [visibleColumns, setVisibleColumns] = useState(() => {
     const initial = {};
@@ -137,6 +210,7 @@ export default function DataTable({
 
   // ─── Multi-Column Sort Handler ─────────────────────────────────────────────
   const handleSort = (columnKey, event) => {
+    if (isResizingRef.current) return;
     const isMultiSort = event.shiftKey || event.metaKey || event.ctrlKey;
 
     setSortConfig((prevSort) => {
@@ -709,6 +783,7 @@ export default function DataTable({
         style={{ maxHeight }}
       >
         <table
+          style={{ tableLayout: 'fixed', minWidth: '100%' }}
           className={`w-full border-collapse border border-slate-200 dark:border-slate-800 text-left bg-white dark:bg-slate-900 ${tableClassName}`}
         >
           {/* ── Table Header (Fixed Sticky on vertical scroll) ── */}
@@ -739,15 +814,16 @@ export default function DataTable({
                 const isSorted = !!sortEntry;
                 const canSort = col.sortable !== false;
                 const stickyClass = getStickyClasses(idx, true);
+                const currentWidth = columnWidths[col.key] || parseWidth(col.width || col.minWidth, 150);
 
                 return (
                   <th
                     key={col.key}
                     scope="col"
                     style={{
-                      width: col.width,
-                      minWidth: col.minWidth || '80px',
-                      maxWidth: col.maxWidth,
+                      width: `${currentWidth}px`,
+                      minWidth: `${col.minWidth ? parseWidth(col.minWidth, 40) : 40}px`,
+                      maxWidth: col.maxWidth ? `${parseWidth(col.maxWidth, 1200)}px` : undefined,
                     }}
                     onClick={(e) => canSort && handleSort(col.key, e)}
                     title={
@@ -755,10 +831,10 @@ export default function DataTable({
                         ? 'Click to sort. Hold Shift + Click to multi-column sort'
                         : undefined
                     }
-                    className={`border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 tracking-tight whitespace-nowrap transition-colors ${canSort ? 'cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/60' : ''
+                    className={`relative border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 tracking-tight whitespace-nowrap transition-colors ${canSort ? 'cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/60' : ''
                       } ${densityStyles.header} ${stickyClass} ${col.headerClassName || ''}`}
                   >
-                    <div className="flex items-center justify-between gap-1.5">
+                    <div className="flex items-center justify-between gap-1.5 pr-1">
                       <span className="truncate">{col.title || col.key}</span>
 
                       {/* Sort Indicator & Multi-Sort Badge */}
@@ -784,6 +860,7 @@ export default function DataTable({
                             </span>
                           )}
 
+                          {/* Multi-column sort priority badge (1, 2, 3...) */}
                           {sortConfig.length > 1 && isSorted && (
                             <span className="inline-flex items-center justify-center h-3.5 w-3.5 rounded-full text-[9px] font-bold bg-emerald-600 text-white">
                               {sortOrder + 1}
@@ -792,6 +869,25 @@ export default function DataTable({
                         </div>
                       )}
                     </div>
+
+                    {/* Spreadsheet Column Resize Handle (Drag expand / contract) */}
+                    {col.resizable !== false && (
+                      <div
+                        role="separator"
+                        aria-orientation="vertical"
+                        onMouseDown={(e) => handleResizeStart(e, col.key)}
+                        onDoubleClick={(e) => {
+                          e.stopPropagation();
+                          const defaultW = parseWidth(col.width || col.minWidth, 150);
+                          setColumnWidths((prev) => ({ ...prev, [col.key]: defaultW }));
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="absolute right-0 top-0 bottom-0 w-2.5 cursor-col-resize select-none group/resizer hover:bg-emerald-500/25 active:bg-emerald-500 z-10 flex items-center justify-center transition-colors"
+                        title="Drag to resize column (Double-click to reset)"
+                      >
+                        <div className="w-[1.5px] h-3.5 bg-slate-300 dark:bg-slate-700 group-hover/resizer:bg-emerald-600 transition-colors" />
+                      </div>
+                    )}
                   </th>
                 );
               })}
@@ -811,10 +907,15 @@ export default function DataTable({
                   const filterValue = columnFilters[col.key] || '';
                   const stickyClass = getStickyClasses(idx, true);
                   const isFiltered = !!filterValue && filterValue !== 'all';
+                  const currentWidth = columnWidths[col.key] || parseWidth(col.width || col.minWidth, 150);
 
                   return (
                     <th
                       key={`filter-${col.key}`}
+                      style={{
+                        width: `${currentWidth}px`,
+                        minWidth: `${col.minWidth ? parseWidth(col.minWidth, 40) : 40}px`,
+                      }}
                       className={`p-1 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-normal ${stickyClass}`}
                     >
                       {col.filterable !== false ? (
@@ -968,14 +1069,15 @@ export default function DataTable({
                     {activeColumns.map((col, colIdx) => {
                       const stickyClass = getStickyClasses(colIdx, false);
                       const rawValue = row[col.key];
+                      const currentWidth = columnWidths[col.key] || parseWidth(col.width || col.minWidth, 150);
 
                       return (
                         <td
                           key={col.key}
                           style={{
-                            width: col.width,
-                            minWidth: col.minWidth,
-                            maxWidth: col.maxWidth,
+                            width: `${currentWidth}px`,
+                            minWidth: `${col.minWidth ? parseWidth(col.minWidth, 40) : 40}px`,
+                            maxWidth: col.maxWidth ? `${parseWidth(col.maxWidth, 1200)}px` : undefined,
                           }}
                           className={`border-r border-slate-200 dark:border-slate-800 truncate ${isSelected ? 'bg-emerald-50 dark:bg-emerald-950/50' : 'bg-white dark:bg-slate-900'
                             } ${densityStyles.cell} ${stickyClass} ${col.className || ''}`}
