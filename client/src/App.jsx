@@ -118,6 +118,36 @@ function AppRoutes({ loggedInUser, setLoggedInUser }) {
             }
           >
             <Route path="/dashboard" element={<DashboardView user={loggedInUser} />} />
+            <Route
+              path="/getting_started"
+              element={
+                <GenericFeatureView
+                  title="Getting Started Guide"
+                  description="Complete your clinic onboarding: setup workspace profile, invite clinic staff, and configure payment gateways."
+                  badge="Setup 50%"
+                />
+              }
+            />
+            <Route
+              path="/getting-started"
+              element={
+                <GenericFeatureView
+                  title="Getting Started Guide"
+                  description="Complete your clinic onboarding: setup workspace profile, invite clinic staff, and configure payment gateways."
+                  badge="Setup 50%"
+                />
+              }
+            />
+            <Route
+              path="/:workspaceId/getting_started"
+              element={
+                <GenericFeatureView
+                  title="Getting Started Guide"
+                  description="Complete your clinic onboarding: setup workspace profile, invite clinic staff, and configure payment gateways."
+                  badge="Setup 50%"
+                />
+              }
+            />
             <Route path="/patients" element={<PatientsView />} />
             <Route path="/appointments" element={<AppointmentsView />} />
             <Route

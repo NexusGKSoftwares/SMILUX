@@ -7,7 +7,8 @@ import HelpModal from './HelpModal.jsx';
 
 export default function AppLayout({ children, user, onLogout, onQuickAction }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [isHelpDrawerOpen, setIsHelpDrawerOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(() => {
     try {
       return localStorage.getItem('smilux_sidebar_collapsed') === 'true';
@@ -36,7 +37,7 @@ export default function AppLayout({ children, user, onLogout, onQuickAction }) {
         isCollapsed={isCollapsed}
         onToggleCollapse={handleToggleCollapse}
         onCloseMobile={() => setIsMobileOpen(false)}
-        onOpenHelp={() => setIsHelpOpen(true)}
+        onOpenHelp={() => setIsHelpModalOpen(true)}
         user={user}
         onLogout={onLogout}
       />
@@ -50,9 +51,9 @@ export default function AppLayout({ children, user, onLogout, onQuickAction }) {
           user={user}
           onLogout={onLogout}
           onQuickAction={onQuickAction}
-          isHelpOpen={isHelpOpen}
-          onOpenHelp={() => setIsHelpOpen(true)}
-          onCloseHelp={() => setIsHelpOpen(false)}
+          isHelpOpen={isHelpDrawerOpen}
+          onOpenHelp={() => setIsHelpDrawerOpen(true)}
+          onCloseHelp={() => setIsHelpDrawerOpen(false)}
         />
 
         {/* Dynamic Page Content Viewport */}
@@ -64,10 +65,10 @@ export default function AppLayout({ children, user, onLogout, onQuickAction }) {
         <Footer />
       </div>
 
-      {/* Help & Support Dialog Modal */}
+      {/* Help & Support Dialog Modal (Opened via Sidebar "Help & Support") */}
       <HelpModal
-        isOpen={isHelpOpen}
-        onClose={() => setIsHelpOpen(false)}
+        isOpen={isHelpModalOpen}
+        onClose={() => setIsHelpModalOpen(false)}
         user={user}
       />
     </div>

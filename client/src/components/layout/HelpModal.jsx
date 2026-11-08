@@ -107,20 +107,20 @@ export default function HelpModal({ isOpen, onClose, user }) {
 
   const modalContent = (
     <div
-      className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-[99999] flex items-start sm:items-center justify-center p-4 sm:p-6 overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby="help-support-title"
     >
       {/* Dimmed backdrop */}
       <div
-        className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+        className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
         onClick={onClose}
       />
 
       {/* Centered Modal Card */}
       <div
-        className="relative w-full max-w-[960px] bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-10 animate-in zoom-in-95 fade-in duration-150 font-sans select-text"
+        className="relative w-full max-w-[960px] my-auto bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-10 animate-in zoom-in-95 fade-in duration-150 font-sans select-text"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header */}

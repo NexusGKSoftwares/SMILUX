@@ -260,6 +260,122 @@ export default function Sidebar({
         )}
       </div>
 
+      {/* Getting Started Link */}
+      {!isCollapsed ? (
+        <a
+          className="overflow-hidden text-nowrap flex-none px-4 pt-4 pb-3 block group"
+          data-testid="left_nav_getting_started_link"
+          href="/90f3b272a8/getting_started"
+          style={{ maxHeight: '64px' }}
+          onClick={(e) => {
+            e.preventDefault();
+            navigate('/getting_started');
+            if (isMobileOpen && onCloseMobile) onCloseMobile();
+          }}
+        >
+          <div className="bg-green-600/50 focus:ring-none focus:text-white dark:bg-gray-800 border rounded-full px-5 py-3 border-white-alpha-975 shadow-[0_1px_6px_0_rgba(0,0,0,0.1)] hover:bg-green-600/60 transition-colors cursor-pointer">
+            <div className="flex w-full items-center">
+              <div className="ms-4 flex items-center first:ms-0 flex-1 min-w-0">
+                <div className="flex w-full items-center">
+                  <div className="flex items-center first:ms-0 flex-1 min-w-0">
+                    <span className="text-md font-semibold text-brand-on-bg-fill text-white">Get Started</span>
+                  </div>
+                  <div className="flex items-center first:ms-0">
+                    <div className="flex w-full items-center">
+                      <div className="ms-4 flex items-center first:ms-0">
+                        <span className="text-xs font-medium opacity-75 tracking-widest text-brand-on-bg-fill text-white" data-testid="fraction_complete">
+                          1/2
+                        </span>
+                      </div>
+                      <div className="ms-4 flex items-center first:ms-0 flex-none">
+                        <svg
+                          height="24"
+                          transform="rotate(-90)"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="-rotate-90"
+                        >
+                          <circle
+                            cx="12"
+                            cy="12"
+                            fillOpacity="0"
+                            r="9"
+                            strokeWidth="3"
+                            style={{ opacity: 0.19, stroke: 'var(--color-white)' }}
+                          />
+                          <circle
+                            cx="12"
+                            cy="12"
+                            fillOpacity="0"
+                            r="9"
+                            strokeWidth="3"
+                            style={{
+                              stroke: 'var(--color-gray-100)',
+                              strokeDasharray: '56.5487',
+                              strokeDashoffset: '28.2743',
+                            }}
+                          />
+                          <text transform="rotate(90)" x="12" y="12" className="sr-only" fill="transparent">
+                            50
+                          </text>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      ) : (
+        <div className="flex justify-center px-1 py-3 flex-none">
+          <a
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-green-600/50 hover:bg-green-600/70 border border-white-alpha-975 shadow-[0_1px_6px_0_rgba(0,0,0,0.1)] transition-colors cursor-pointer"
+            data-testid="left_nav_getting_started_link"
+            href="/90f3b272a8/getting_started"
+            title="Get Started (1/2 complete)"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/getting_started');
+            }}
+          >
+            <svg
+              height="22"
+              transform="rotate(-90)"
+              viewBox="0 0 24 24"
+              width="22"
+              xmlns="http://www.w3.org/2000/svg"
+              className="-rotate-90"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                fillOpacity="0"
+                r="9"
+                strokeWidth="3"
+                style={{ opacity: 0.19, stroke: 'var(--color-white)' }}
+              />
+              <circle
+                cx="12"
+                cy="12"
+                fillOpacity="0"
+                r="9"
+                strokeWidth="3"
+                style={{
+                  stroke: 'var(--color-gray-100)',
+                  strokeDasharray: '56.5487',
+                  strokeDashoffset: '28.2743',
+                }}
+              />
+              <text transform="rotate(90)" x="12" y="12" className="sr-only" fill="transparent">
+                50
+              </text>
+            </svg>
+          </a>
+        </div>
+      )}
+
       {/* Navigation Links Grouped */}
       <nav className={`flex-1 overflow-y-auto py-1 space-y-2 sidebar-scrollbar ${isCollapsed ? 'px-1' : 'px-3'}`}>
         {NAV_GROUPS.map((group) => (

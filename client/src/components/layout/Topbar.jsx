@@ -172,7 +172,7 @@ export default function Topbar({
                   className="w-full flex items-center justify-start gap-2.5 px-4 py-2 h-auto text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer text-left"
                 >
                   <HugeiconsIcon icon={HelpCircleIcon} size={16} className="text-slate-400" />
-                  <span>Help &amp; Support</span>
+                  <span>Documentation &amp; Status</span>
                 </button>
 
                 <div className="my-1 h-px bg-slate-100" />

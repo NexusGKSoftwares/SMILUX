@@ -14,6 +14,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import Button from '../components/UI/Button.jsx';
 import { RefreshIcon, ChartIcon } from '../components/UI/tableIcons.jsx';
+import { DashboardWireframeSkeleton } from '../components/UI/DashboardShimmer.jsx';
 import {
   kpiCardsData,
   webAnalyticsData,
@@ -24,6 +25,8 @@ import {
   getPatientGrowthDataByYear,
 } from './data.js';
 import { formatCurrency, formatNumber } from '../utils/formatter.js';
+
+export { DashboardWireframeSkeleton };
 
 // ─── Shared Card Info Icon & Interactive Data Popover (From SVG Spec) ───────
 export function InfoBadgeIcon({
@@ -486,10 +489,36 @@ export function DashboardView({ user }) {
   const greeting = getTimeBasedGreeting();
   const doctorName = user?.name || 'Dr. Darrell Steward';
 
+  const [isLoadingDashboard, setIsLoadingDashboard] = useState(true);
+  const [isHoldingShimmer, setIsHoldingShimmer] = useState(false);
+
+  useEffect(() => {
+    if (!isLoadingDashboard || isHoldingShimmer) return undefined;
+    const timer = setTimeout(() => {
+      setIsLoadingDashboard(false);
+      setIsRefreshing(false);
+    }, 1150);
+    return () => clearTimeout(timer);
+  }, [isLoadingDashboard, isHoldingShimmer]);
+
   const handleRefresh = () => {
     setIsRefreshing(true);
-    setTimeout(() => setIsRefreshing(false), 700);
+    setIsLoadingDashboard(true);
   };
+
+  if (isLoadingDashboard) {
+    return (
+      <DashboardWireframeSkeleton
+        isHolding={isHoldingShimmer}
+        onToggleHold={() => setIsHoldingShimmer((prev) => !prev)}
+        onSkipToLive={() => {
+          setIsHoldingShimmer(false);
+          setIsLoadingDashboard(false);
+          setIsRefreshing(false);
+        }}
+      />
+    );
+  }
 
   return (
     <div className="space-y-2 font-sans text-slate-900 mb-8">
