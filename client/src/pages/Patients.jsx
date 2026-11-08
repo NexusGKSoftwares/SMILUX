@@ -1,23 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import { PageHeader } from '../components/layout';
+import DataTable from '../components/UI/DataTable.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
-  Search01Icon,
-  FilterIcon,
   Upload01Icon,
   Download01Icon,
-  CallIcon,
-  Mail01Icon,
-  Calendar01Icon,
   DentalToothIcon,
   MoreHorizontalIcon,
-  CheckmarkCircle01Icon,
   Cancel01Icon,
   PlusSignIcon,
-  UserIcon,
 } from '@hugeicons/core-free-icons';
 
-// Initial mock dataset for patients
+// Initial mock dataset for patients (with more records to demonstrate paging & multi-sort)
 const INITIAL_PATIENTS = [
   {
     id: 'PAT-1082',
@@ -131,21 +125,96 @@ const INITIAL_PATIENTS = [
     balance: 'KES 0',
     status: 'Archived',
   },
+  {
+    id: 'PAT-1075',
+    name: 'Faith Mwangi',
+    phone: '+254 711 223 344',
+    email: 'faith.mwangi@gmail.com',
+    age: 23,
+    gender: 'Female',
+    insurance: 'Jubilee Allianz',
+    insuranceType: 'insured',
+    lastVisit: '14 Oct 2026',
+    nextAppointment: '28 Nov 2026',
+    treatment: 'Ceramic Veneers Fitting',
+    dentalAlert: 'None',
+    balance: 'KES 15,000',
+    status: 'Active',
+  },
+  {
+    id: 'PAT-1074',
+    name: 'Hassan Abdi',
+    phone: '+254 723 445 566',
+    email: 'hassan.abdi@gmail.com',
+    age: 45,
+    gender: 'Male',
+    insurance: 'CIC Dental Care',
+    insuranceType: 'insured',
+    lastVisit: '22 Aug 2026',
+    nextAppointment: 'None scheduled',
+    treatment: 'Full Mouth Scaling',
+    dentalAlert: 'Asthmatic',
+    balance: 'KES 0',
+    status: 'Active',
+  },
+  {
+    id: 'PAT-1073',
+    name: 'Yvonne Wambui',
+    phone: '+254 799 887 766',
+    email: 'yvonne.w@yahoo.com',
+    age: 33,
+    gender: 'Female',
+    insurance: 'Self Pay (M-Pesa)',
+    insuranceType: 'self-pay',
+    lastVisit: '19 Sep 2026',
+    nextAppointment: '05 Dec 2026',
+    treatment: 'Gingival Grafting',
+    dentalAlert: 'Sulfa Allergy',
+    balance: 'KES 2,500',
+    status: 'Follow Up',
+  },
+  {
+    id: 'PAT-1072',
+    name: 'Peter Njoroge',
+    phone: '+254 700 112 233',
+    email: 'peter.njoroge@gmail.com',
+    age: 62,
+    gender: 'Male',
+    insurance: 'SHA / NHIF Senior',
+    insuranceType: 'insured',
+    lastVisit: '02 Jun 2026',
+    nextAppointment: 'None scheduled',
+    treatment: 'Dentures Fabrication',
+    dentalAlert: 'Cardiac Pacemaker',
+    balance: 'KES 0',
+    status: 'Archived',
+  },
+  {
+    id: 'PAT-1071',
+    name: 'Sharon Akoth',
+    phone: '+254 740 556 677',
+    email: 'sharon.akoth@med.co.ke',
+    age: 28,
+    gender: 'Female',
+    insurance: 'AAR Healthcare',
+    insuranceType: 'insured',
+    lastVisit: '03 Nov 2026',
+    nextAppointment: '15 Nov 2026',
+    treatment: 'Invisalign Scan #4',
+    dentalAlert: 'None',
+    balance: 'KES 0',
+    status: 'Active',
+  },
 ];
 
 export default function PatientsPage() {
   const [patients, setPatients] = useState(INITIAL_PATIENTS);
   const [activeTab, setActiveTab] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedGender, setSelectedGender] = useState('all');
-  const [selectedInsurance, setSelectedInsurance] = useState('all');
-  const [selectedStatus, setSelectedStatus] = useState('all');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isLearnModalOpen, setIsLearnModalOpen] = useState(false);
   const [selectedPatientIds, setSelectedPatientIds] = useState([]);
-  const [activeMenuId, setActiveMenuId] = useState(null);
 
-  // New patient form state
+  // New patient modal state
   const [newPatient, setNewPatient] = useState({
     name: '',
     phone: '',
@@ -174,43 +243,13 @@ export default function PatientsPage() {
     { id: 'archived', label: 'Archived', count: tabCounts.archived },
   ];
 
-  // Filtered patients
-  const filteredPatients = useMemo(() => {
-    return patients.filter((patient) => {
-      // Tab filter
-      if (activeTab === 'active' && patient.status !== 'Active') return false;
-      if (activeTab === 'follow-up' && patient.status !== 'Follow Up') return false;
-      if (activeTab === 'archived' && patient.status !== 'Archived') return false;
-
-      // Status dropdown filter
-      if (selectedStatus !== 'all' && patient.status.toLowerCase() !== selectedStatus.toLowerCase()) {
-        return false;
-      }
-
-      // Gender filter
-      if (selectedGender !== 'all' && patient.gender.toLowerCase() !== selectedGender.toLowerCase()) {
-        return false;
-      }
-
-      // Insurance filter
-      if (selectedInsurance !== 'all') {
-        if (selectedInsurance === 'insured' && patient.insuranceType !== 'insured') return false;
-        if (selectedInsurance === 'self-pay' && patient.insuranceType !== 'self-pay') return false;
-      }
-
-      // Search query
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchesName = patient.name.toLowerCase().includes(q);
-        const matchesId = patient.id.toLowerCase().includes(q);
-        const matchesPhone = patient.phone.includes(q);
-        const matchesEmail = patient.email.toLowerCase().includes(q);
-        if (!matchesName && !matchesId && !matchesPhone && !matchesEmail) return false;
-      }
-
-      return true;
-    });
-  }, [patients, activeTab, selectedStatus, selectedGender, selectedInsurance, searchQuery]);
+  // Tab filter
+  const tabFilteredPatients = useMemo(() => {
+    if (activeTab === 'active') return patients.filter((p) => p.status === 'Active');
+    if (activeTab === 'follow-up') return patients.filter((p) => p.status === 'Follow Up');
+    if (activeTab === 'archived') return patients.filter((p) => p.status === 'Archived');
+    return patients;
+  }, [patients, activeTab]);
 
   // Handle Add Patient submit
   const handleAddPatient = (e) => {
@@ -248,21 +287,6 @@ export default function PatientsPage() {
     });
   };
 
-  // Select all checkbox handler
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedPatientIds(filteredPatients.map((p) => p.id));
-    } else {
-      setSelectedPatientIds([]);
-    }
-  };
-
-  const handleToggleSelect = (id) => {
-    setSelectedPatientIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
-
   // Header Dropdown more actions
   const headerMoreActions = [
     {
@@ -277,9 +301,7 @@ export default function PatientsPage() {
       label: 'Export Patient List',
       icon: Download01Icon,
       iconPosition: 'right',
-      onClick: () => {
-        alert(`Exporting ${filteredPatients.length} patient records to CSV...`);
-      },
+      onClick: () => alert(`Exporting ${tabFilteredPatients.length} patient records to CSV...`),
     },
     {
       id: 'add-multiple',
@@ -297,10 +319,231 @@ export default function PatientsPage() {
     },
   ];
 
+  // ─── DataTable Columns Configuration ───────────────────────────────────────
+  const columns = useMemo(
+    () => [
+      {
+        key: 'name',
+        title: 'Patient Name & File ID',
+        minWidth: '220px',
+        sortable: true,
+        filterable: true,
+        filterPlaceholder: 'Filter by name or ID...',
+        render: (val, row) => {
+          const initials = row.name
+            .split(' ')
+            .map((n) => n[0])
+            .join('')
+            .substring(0, 2);
+
+          return (
+            <div className="flex items-center gap-2">
+              <div className="h-6 w-6 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold flex items-center justify-center text-[10px] shrink-0 border border-emerald-300">
+                {initials}
+              </div>
+              <div className="truncate min-w-0">
+                <div className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5 leading-tight">
+                  <span className="truncate">{row.name}</span>
+                  {row.dentalAlert !== 'None' && (
+                    <span
+                      title={`Allergy / Medical Alert: ${row.dentalAlert}`}
+                      className="px-1 py-0.2 rounded text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 shrink-0"
+                    >
+                      {row.dentalAlert}
+                    </span>
+                  )}
+                </div>
+                <div className="text-[10px] text-slate-500 font-mono leading-none mt-0.5">
+                  {row.id}
+                </div>
+              </div>
+            </div>
+          );
+        },
+      },
+      {
+        key: 'phone',
+        title: 'Phone Number',
+        minWidth: '135px',
+        sortable: true,
+        filterable: true,
+        render: (val, row) => (
+          <span className="font-mono text-slate-700 dark:text-slate-300 tabular-nums">
+            {row.phone}
+          </span>
+        ),
+      },
+      {
+        key: 'email',
+        title: 'Email Address',
+        minWidth: '170px',
+        sortable: true,
+        filterable: true,
+        render: (val, row) => (
+          <span className="text-slate-600 dark:text-slate-400 truncate block max-w-[160px]">
+            {row.email}
+          </span>
+        ),
+      },
+      {
+        key: 'age',
+        title: 'Age / Sex',
+        minWidth: '95px',
+        sortable: true,
+        filterable: true,
+        filterType: 'number',
+        render: (val, row) => (
+          <span className="text-slate-700 dark:text-slate-300 font-medium">
+            {row.age} yrs <span className="text-slate-400 font-normal">({row.gender[0]})</span>
+          </span>
+        ),
+      },
+      {
+        key: 'insurance',
+        title: 'Insurance Scheme',
+        minWidth: '175px',
+        sortable: true,
+        filterable: true,
+        filterType: 'select',
+        render: (val, row) => (
+          <span
+            className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-medium truncate max-w-[165px] ${
+              row.insuranceType === 'insured'
+                ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-200/60'
+                : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200/60'
+            }`}
+          >
+            {row.insurance}
+          </span>
+        ),
+      },
+      {
+        key: 'treatment',
+        title: 'Procedure / Care',
+        minWidth: '185px',
+        sortable: true,
+        filterable: true,
+        render: (val, row) => (
+          <span
+            className="text-slate-700 dark:text-slate-300 truncate block max-w-[175px]"
+            title={row.treatment}
+          >
+            {row.treatment}
+          </span>
+        ),
+      },
+      {
+        key: 'lastVisit',
+        title: 'Last Visit',
+        minWidth: '95px',
+        sortable: true,
+        filterable: true,
+        render: (val, row) => (
+          <span className="text-slate-500 dark:text-slate-400 font-mono text-[10px]">
+            {row.lastVisit}
+          </span>
+        ),
+      },
+      {
+        key: 'nextAppointment',
+        title: 'Next Visit',
+        minWidth: '135px',
+        sortable: true,
+        filterable: true,
+        render: (val, row) => (
+          <span className="text-slate-600 dark:text-slate-300 text-[10px] truncate block">
+            {row.nextAppointment}
+          </span>
+        ),
+      },
+      {
+        key: 'balance',
+        title: 'Balance',
+        minWidth: '95px',
+        sortable: true,
+        filterable: true,
+        align: 'right',
+        render: (val, row) => (
+          <span
+            className={`font-mono font-medium text-right block tabular-nums ${
+              row.balance !== 'KES 0'
+                ? 'text-amber-600 dark:text-amber-400 font-semibold'
+                : 'text-slate-500'
+            }`}
+          >
+            {row.balance}
+          </span>
+        ),
+      },
+      {
+        key: 'status',
+        title: 'Status',
+        minWidth: '95px',
+        sortable: true,
+        filterable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'Active', label: 'Active' },
+          { value: 'Follow Up', label: 'Follow Up' },
+          { value: 'Archived', label: 'Archived' },
+        ],
+        render: (val, row) => (
+          <span
+            className={`inline-block px-1.5 py-0.2 rounded-full text-[10px] font-semibold ${
+              row.status === 'Active'
+                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300'
+                : row.status === 'Follow Up'
+                ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300'
+                : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+            }`}
+          >
+            {row.status}
+          </span>
+        ),
+      },
+      {
+        key: 'actions',
+        title: 'Actions',
+        width: '90px',
+        minWidth: '90px',
+        sortable: false,
+        filterable: false,
+        align: 'right',
+        render: (val, row) => (
+          <div className="flex items-center justify-end gap-1">
+            <button
+              type="button"
+              title="Open FDI Dental Chart"
+              onClick={(e) => {
+                e.stopPropagation();
+                alert(`Opening Dental Chart for ${row.name} (${row.id})`);
+              }}
+              className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 text-emerald-700 dark:text-emerald-400 transition-colors cursor-pointer"
+            >
+              <HugeiconsIcon icon={DentalToothIcon} size={14} />
+            </button>
+            <button
+              type="button"
+              title="Patient File Options"
+              onClick={(e) => {
+                e.stopPropagation();
+                alert(`Options menu for ${row.name}`);
+              }}
+              className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
+            >
+              <HugeiconsIcon icon={MoreHorizontalIcon} size={14} />
+            </button>
+          </div>
+        ),
+      },
+    ],
+    []
+  );
+
   return (
-    <div className="space-y-2 mb-8">
+    <div className="space-y-3 mb-8">
       {/* ─── PageHeader with Title, Learn, 3-Dots, & Add Button ─── */}
-      <div className="bg-white dark:bg-slate-900 rounded shadow-xs border border-slate-200/80 dark:border-slate-800 overflow-hidden">
+      <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xs border border-slate-300 dark:border-slate-800 overflow-hidden">
         <PageHeader
           title="Patients"
           badge={`${tabCounts.all} Files`}
@@ -314,353 +557,48 @@ export default function PatientsPage() {
           tabs={tabs}
           activeTab={activeTab}
           onTabChange={setActiveTab}
-        >
-          {/* Sub-header Filter Toolbar (Inspired by screenshot) */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-3">
-            <div className="flex flex-wrap items-center gap-2.5 flex-1 min-w-[280px]">
-              {/* Search bar */}
-              <div className="relative min-w-[240px] flex-1 max-w-md">
-                <HugeiconsIcon
-                  icon={Search01Icon}
-                  size={16}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-                />
-                <input
-                  type="text"
-                  placeholder="Search by name, ID, phone, or email..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-8 py-1.5 text-xs rounded border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:bg-white dark:focus:bg-slate-900 transition-all"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs"
-                  >
-                    ×
-                  </button>
-                )}
-              </div>
-
-              {/* Status Filter */}
-              <select
-                value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
-                className="py-1.5 px-3 text-xs font-medium rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none focus:border-emerald-600 cursor-pointer"
-              >
-                <option value="all">Patient Status: All</option>
-                <option value="active">Active</option>
-                <option value="follow up">Follow Up</option>
-                <option value="archived">Archived</option>
-              </select>
-
-              {/* Insurance Filter */}
-              <select
-                value={selectedInsurance}
-                onChange={(e) => setSelectedInsurance(e.target.value)}
-                className="py-1.5 px-3 text-xs font-medium rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none focus:border-emerald-600 cursor-pointer"
-              >
-                <option value="all">Insurance: All</option>
-                <option value="insured">Insurance Cover (SHA/Private)</option>
-                <option value="self-pay">Self Pay (M-Pesa/Cash)</option>
-              </select>
-
-              {/* Gender Filter */}
-              <select
-                value={selectedGender}
-                onChange={(e) => setSelectedGender(e.target.value)}
-                className="py-1.5 px-3 text-xs font-medium rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none focus:border-emerald-600 cursor-pointer"
-              >
-                <option value="all">Gender: All</option>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-              </select>
-
-              {/* Reset filter button if active */}
-              {(searchQuery || selectedStatus !== 'all' || selectedInsurance !== 'all' || selectedGender !== 'all') && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSearchQuery('');
-                    setSelectedStatus('all');
-                    setSelectedInsurance('all');
-                    setSelectedGender('all');
-                  }}
-                  className="text-xs text-emerald-700 dark:text-emerald-400 hover:underline font-medium px-2 py-1"
-                >
-                  Clear Filters
-                </button>
-              )}
-            </div>
-
-            <div className="text-xs text-slate-500 dark:text-slate-400">
-              Showing <span className="font-semibold text-slate-800 dark:text-slate-200">{filteredPatients.length}</span> of {patients.length} patients
-            </div>
-          </div>
-        </PageHeader>
+        />
       </div>
 
-      {/* ─── Patients Data Table Card ─── */}
-      <div className="bg-white dark:bg-slate-900 rounded shadow-xs border border-slate-200/80 dark:border-slate-800 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50/80 dark:bg-slate-800/60 border-b border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-400 uppercase tracking-wider font-semibold">
-              <tr>
-                <th className="py-3 px-4 w-10">
-                  <input
-                    type="checkbox"
-                    checked={
-                      filteredPatients.length > 0 &&
-                      selectedPatientIds.length === filteredPatients.length
-                    }
-                    onChange={handleSelectAll}
-                    className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
-                  />
-                </th>
-                <th className="py-3 px-4">Patient Name & ID</th>
-                <th className="py-3 px-4">Contact Info</th>
-                <th className="py-3 px-4">Age / Sex</th>
-                <th className="py-3 px-4">Insurance / Scheme</th>
-                <th className="py-3 px-4">Ongoing Care / Procedure</th>
-                <th className="py-3 px-4">Next Visit</th>
-                <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80 font-normal">
-              {filteredPatients.length === 0 ? (
-                <tr>
-                  <td colSpan="9" className="py-12 text-center text-slate-500 dark:text-slate-400">
-                    <div className="max-w-xs mx-auto space-y-2">
-                      <div className="h-10 w-10 mx-auto rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
-                        <HugeiconsIcon icon={UserIcon} size={20} />
-                      </div>
-                      <p className="font-semibold text-slate-700 dark:text-slate-300">No patients found</p>
-                      <p className="text-xs">No records matched your search query or filters.</p>
-                    </div>
-                  </td>
-                </tr>
-              ) : (
-                filteredPatients.map((patient) => {
-                  const isSelected = selectedPatientIds.includes(patient.id);
-                  const initials = patient.name
-                    .split(' ')
-                    .map((n) => n[0])
-                    .join('')
-                    .substring(0, 2);
-
-                  return (
-                    <tr
-                      key={patient.id}
-                      className={`hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors ${isSelected ? 'bg-emerald-50/40 dark:bg-emerald-950/20' : ''
-                        }`}
-                    >
-                      {/* Checkbox */}
-                      <td className="py-3 px-4">
-                        <input
-                          type="checkbox"
-                          checked={isSelected}
-                          onChange={() => handleToggleSelect(patient.id)}
-                          className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
-                        />
-                      </td>
-
-                      {/* Patient Name & Avatar */}
-                      <td className="py-3 px-4">
-                        <div className="flex items-center gap-3">
-                          <div className="h-9 w-9 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold flex items-center justify-center text-xs shrink-0 border border-emerald-200 dark:border-emerald-800">
-                            {initials}
-                          </div>
-                          <div>
-                            <div className="font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
-                              <span>{patient.name}</span>
-                              {patient.dentalAlert !== 'None' && (
-                                <span
-                                  title={`Medical Alert: ${patient.dentalAlert}`}
-                                  className="inline-block px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300"
-                                >
-                                  {patient.dentalAlert}
-                                </span>
-                              )}
-                            </div>
-                            <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
-                              {patient.id}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Contact Info */}
-                      <td className="py-3 px-4">
-                        <div className="space-y-0.5">
-                          <div className="flex items-center gap-1 text-slate-700 dark:text-slate-300">
-                            <HugeiconsIcon icon={CallIcon} size={12} className="text-slate-400" />
-                            <span>{patient.phone}</span>
-                          </div>
-                          <div className="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-[11px]">
-                            <HugeiconsIcon icon={Mail01Icon} size={12} className="text-slate-400" />
-                            <span className="truncate max-w-[150px]">{patient.email}</span>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Age / Sex */}
-                      <td className="py-3 px-4">
-                        <span className="text-slate-700 dark:text-slate-300 font-medium">
-                          {patient.age} yrs
-                        </span>
-                        <span className="text-slate-400 text-[11px] block">{patient.gender}</span>
-                      </td>
-
-                      {/* Insurance Scheme */}
-                      <td className="py-3 px-4">
-                        <span
-                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium ${patient.insuranceType === 'insured'
-                            ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/50'
-                            : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/50'
-                            }`}
-                        >
-                          {patient.insurance}
-                        </span>
-                      </td>
-
-                      {/* Ongoing Treatment */}
-                      <td className="py-3 px-4">
-                        <span className="text-slate-700 dark:text-slate-300 font-medium block">
-                          {patient.treatment}
-                        </span>
-                        <span className="text-slate-400 text-[11px]">Last: {patient.lastVisit}</span>
-                      </td>
-
-                      {/* Next Appointment */}
-                      <td className="py-3 px-4">
-                        <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
-                          <HugeiconsIcon icon={Calendar01Icon} size={13} className="text-slate-400" />
-                          <span>{patient.nextAppointment}</span>
-                        </div>
-                      </td>
-
-                      {/* Status */}
-                      <td className="py-3 px-4">
-                        <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${patient.status === 'Active'
-                            ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300'
-                            : patient.status === 'Follow Up'
-                              ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300'
-                              : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
-                            }`}
-                        >
-                          {patient.status}
-                        </span>
-                      </td>
-
-                      {/* Row Action buttons */}
-                      <td className="py-3 px-4 text-right">
-                        <div className="flex items-center justify-end gap-1.5">
-                          {/* Dental Chart Shortcut */}
-                          <button
-                            title="Open Dental Chart"
-                            onClick={() => alert(`Opening Dental Chart for ${patient.name} (${patient.id})`)}
-                            className="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-emerald-700 dark:text-emerald-400 transition-colors cursor-pointer"
-                          >
-                            <HugeiconsIcon icon={DentalToothIcon} size={16} />
-                          </button>
-
-                          {/* Options dropdown */}
-                          <div className="relative">
-                            <button
-                              onClick={() =>
-                                setActiveMenuId(activeMenuId === patient.id ? null : patient.id)
-                              }
-                              className="p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
-                            >
-                              <HugeiconsIcon icon={MoreHorizontalIcon} size={15} />
-                            </button>
-
-                            {activeMenuId === patient.id && (
-                              <div className="absolute right-0 top-full mt-1 w-44 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded shadow-lg py-1 z-30 text-left">
-                                <button
-                                  onClick={() => {
-                                    setActiveMenuId(null);
-                                    alert(`View Profile: ${patient.name}`);
-                                  }}
-                                  className="w-full px-3 py-1.5 text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2"
-                                >
-                                  View Clinical File
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    setActiveMenuId(null);
-                                    alert(`Schedule Appointment for ${patient.name}`);
-                                  }}
-                                  className="w-full px-3 py-1.5 text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2"
-                                >
-                                  Book Appointment
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    setActiveMenuId(null);
-                                    alert(`Generate Invoice for ${patient.name}`);
-                                  }}
-                                  className="w-full px-3 py-1.5 text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2"
-                                >
-                                  Create Invoice
-                                </button>
-                                <div className="border-t border-slate-100 dark:border-slate-800 my-1" />
-                                <button
-                                  onClick={() => {
-                                    setActiveMenuId(null);
-                                    setPatients(patients.filter((p) => p.id !== patient.id));
-                                  }}
-                                  className="w-full px-3 py-1.5 text-xs text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 flex items-center gap-2"
-                                >
-                                  Archive Patient
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Footer pagination info */}
-        <div className="flex items-center justify-between px-4 py-3 bg-slate-50/50 dark:bg-slate-800/40 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
-          <div>
-            Showing <span className="font-medium text-slate-700 dark:text-slate-300">1</span> to{' '}
-            <span className="font-medium text-slate-700 dark:text-slate-300">{filteredPatients.length}</span> of{' '}
-            <span className="font-medium text-slate-700 dark:text-slate-300">{patients.length}</span> patients
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              disabled
-              className="px-2.5 py-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-400 opacity-50 cursor-not-allowed"
-            >
-              Previous
-            </button>
-            <span className="px-2 font-semibold text-slate-800 dark:text-slate-200">1</span>
-            <button
-              disabled
-              className="px-2.5 py-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-400 opacity-50 cursor-not-allowed"
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      </div>
+      {/* ─── Spreadsheet-Dense DataTable ─── */}
+      <DataTable
+        title="Patients"
+        data={tabFilteredPatients}
+        columns={columns}
+        rowKey="id"
+        // Sticky Header & Sticky Columns
+        stickyHeader={true}
+        stickyFirstColumn={true}
+        stickyLastColumn={true}
+        maxHeight="calc(100vh - 250px)"
+        // Ultra-dense spreadsheet mode by default
+        initialDensity="compact"
+        // Row multi-selection
+        selectable={true}
+        selectedRowKeys={selectedPatientIds}
+        onSelectionChange={setSelectedPatientIds}
+        // Multi-column sorting
+        initialSort={[{ key: 'name', direction: 'asc' }]}
+        // Paging
+        pageSizeOptions={[10, 25, 50, 100, 'All']}
+        initialPageSize={25}
+        showPagination={true}
+        // Per-column filters enabled by default
+        showColumnFiltersDefault={true}
+        enableGlobalSearch={true}
+        // Row click opens chart or file
+        onRowClick={(row) => {
+          // row click handler
+        }}
+      />
 
       {/* ─── Add Patient Modal ─── */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-1.5 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={PlusSignIcon} size={16} />
                 </div>
                 <div>
@@ -674,7 +612,7 @@ export default function PatientsPage() {
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded-lg"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
@@ -692,7 +630,7 @@ export default function PatientsPage() {
                     placeholder="e.g. Samuel Waweru"
                     value={newPatient.name}
                     onChange={(e) => setNewPatient({ ...newPatient, name: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -706,7 +644,7 @@ export default function PatientsPage() {
                     placeholder="+254 7XX XXX XXX"
                     value={newPatient.phone}
                     onChange={(e) => setNewPatient({ ...newPatient, phone: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -719,7 +657,7 @@ export default function PatientsPage() {
                     placeholder="patient@example.com"
                     value={newPatient.email}
                     onChange={(e) => setNewPatient({ ...newPatient, email: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -733,12 +671,12 @@ export default function PatientsPage() {
                       placeholder="Age"
                       value={newPatient.age}
                       onChange={(e) => setNewPatient({ ...newPatient, age: e.target.value })}
-                      className="w-20 px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                      className="w-20 px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                     />
                     <select
                       value={newPatient.gender}
                       onChange={(e) => setNewPatient({ ...newPatient, gender: e.target.value })}
-                      className="flex-1 px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                      className="flex-1 px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                     >
                       <option value="Female">Female</option>
                       <option value="Male">Male</option>
@@ -754,7 +692,7 @@ export default function PatientsPage() {
                   <select
                     value={newPatient.insurance}
                     onChange={(e) => setNewPatient({ ...newPatient, insurance: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   >
                     <option value="Self Pay (M-Pesa)">Self Pay (M-Pesa)</option>
                     <option value="Self Pay (Cash)">Self Pay (Cash)</option>
@@ -775,7 +713,7 @@ export default function PatientsPage() {
                     placeholder="e.g. Penicillin allergy, diabetic, pregnant, none"
                     value={newPatient.dentalAlert}
                     onChange={(e) => setNewPatient({ ...newPatient, dentalAlert: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
               </div>
@@ -784,13 +722,13 @@ export default function PatientsPage() {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 rounded text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="px-4 py-2 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded text-xs font-medium text-white bg-[#057a55] hover:bg-[#046c4b] shadow-xs transition-colors flex items-center gap-1.5"
+                  className="px-4 py-2 rounded-lg text-xs font-medium text-white bg-[#057a55] hover:bg-[#046c4b] shadow-xs transition-colors flex items-center gap-1.5"
                 >
                   <HugeiconsIcon icon={PlusSignIcon} size={15} />
                   <span>Register Patient</span>
@@ -804,7 +742,7 @@ export default function PatientsPage() {
       {/* ─── Learn Drawer / Modal ─── */}
       {isLearnModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <span className="text-xl">💡</span>
@@ -814,36 +752,36 @@ export default function PatientsPage() {
               </div>
               <button
                 onClick={() => setIsLearnModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded-lg"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
             </div>
 
             <div className="p-5 space-y-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-800/50 rounded">
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-800/50 rounded-lg">
                 <p className="font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
-                  Patient Records & Clinical Compliance
+                  Spreadsheet Power & Compliance
                 </p>
                 <p>
-                  Every patient registered in Smilux receives a unique Kenya Medical Practitioners and Dentists Board (KMPDC)-compliant file identifier with complete audit trails.
+                  This table is built for high-throughput dental staff. You can filter every column individually, sort multiple columns at once by holding Shift, and toggle row densities.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-bold text-slate-900 dark:text-white text-sm">Key Capabilities</h4>
+                <h4 className="font-bold text-slate-900 dark:text-white text-sm">Key Table Features</h4>
                 <ul className="space-y-1.5 list-disc pl-4">
                   <li>
-                    <strong>Interactive Dental Charting:</strong> Click the tooth icon on any row to open the FDI 2-digit dental charting canvas.
+                    <strong>Multi-Column Sorting:</strong> Click any header to sort. Hold <kbd className="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-800 font-mono text-[10px]">Shift</kbd> + click to sort by multiple columns with precedence numbers (1, 2, 3).
                   </li>
                   <li>
-                    <strong>SHA & Insurance Claims:</strong> Pre-validate insurance status directly from the patient record before booking procedures.
+                    <strong>Per-Column Filters:</strong> Enter text or pick from dropdowns in the filter row to narrow down columns directly.
                   </li>
                   <li>
-                    <strong>Batch Operations:</strong> Use the three-dots button at the top header to import existing Excel/CSV files or export patient contact lists.
+                    <strong>Fixed Header & Pinned Columns:</strong> The header row stays fixed when scrolling vertically. Patient Name/ID (first column) and Actions (last column) stay pinned when scrolling horizontally.
                   </li>
                   <li>
-                    <strong>M-Pesa STK Push:</strong> Send payment reminders and direct M-Pesa billing prompts directly from the patient profile.
+                    <strong>Spreadsheet Density:</strong> Use the "Dense" / "Normal" / "Cozy" buttons in the toolbar to adjust row heights to your preference.
                   </li>
                 </ul>
               </div>
@@ -852,7 +790,7 @@ export default function PatientsPage() {
                 <button
                   type="button"
                   onClick={() => setIsLearnModalOpen(false)}
-                  className="px-4 py-2 rounded text-xs font-medium text-white bg-emerald-700 hover:bg-emerald-800 transition-colors"
+                  className="px-4 py-2 rounded-lg text-xs font-medium text-white bg-emerald-700 hover:bg-emerald-800 transition-colors"
                 >
                   Got It
                 </button>
@@ -864,4 +802,3 @@ export default function PatientsPage() {
     </div>
   );
 }
-
