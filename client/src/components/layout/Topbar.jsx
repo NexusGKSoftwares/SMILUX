@@ -80,12 +80,9 @@ export default function Topbar({
             className="h-8 w-8 object-contain transition-transform group-hover:scale-105 drop-shadow-xs"
           />
           <div className="hidden sm:flex flex-col leading-none">
-            <span className="font-extrabold text-slate-900 text-sm sm:text-base leading-tight group-hover:text-brand-blue transition-colors tracking-tight">
+            <span className="font-extrabold  text-sm sm:text-base leading-tight group-hover:text-brand-blue transition-colors tracking-tight">
               Smilux <span className="text-brand-pink">Dental</span>
-            </span>
-            <span className="text-slate-400 text-[10px] font-bold tracking-wide uppercase mt-0.5">
-              Practice Management System
-            </span>
+            </span> 
           </div>
         </Link>
       </div>
@@ -104,7 +101,7 @@ export default function Topbar({
         <NotificationDropdown />
 
         {/* Help & Support Center */}
-        <HelpSidebar isOpen={isHelpOpen} onOpen={onOpenHelp} onClose={onCloseHelp} />
+        <HelpSidebar isOpen={isHelpOpen} onOpen={onOpenHelp} onClose={onCloseHelp} user={user} />
 
         {/* User Menu Dropdown */}
         <div className="relative" ref={userMenuRef}>

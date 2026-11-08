@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar.jsx';
 import Topbar from './Topbar.jsx';
 import Footer from './Footer.jsx';
+import HelpModal from './HelpModal.jsx';
 
 export default function AppLayout({ children, user, onLogout, onQuickAction }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -62,6 +63,13 @@ export default function AppLayout({ children, user, onLogout, onQuickAction }) {
         {/* Thin App Footer */}
         <Footer />
       </div>
+
+      {/* Help & Support Dialog Modal */}
+      <HelpModal
+        isOpen={isHelpOpen}
+        onClose={() => setIsHelpOpen(false)}
+        user={user}
+      />
     </div>
   );
 }
