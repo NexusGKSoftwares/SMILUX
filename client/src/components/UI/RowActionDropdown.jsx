@@ -109,11 +109,10 @@ export default function RowActionDropdown({
               e.stopPropagation();
               setIsOpen((prev) => !prev);
             }}
-            className={`p-1 rounded transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-emerald-500 ${
-              isOpen
+            className={`p-1 rounded transition-colors cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-emerald-500 ${isOpen
                 ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white'
                 : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800'
-            }`}
+              }`}
           >
             <HugeiconsIcon icon={MoreHorizontalIcon} size={15} />
           </button>
@@ -135,7 +134,7 @@ export default function RowActionDropdown({
               zIndex: 9999,
             }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl py-1 text-xs animate-in fade-in-0 zoom-in-95 duration-100 text-left select-none"
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded shadow-xl py-1 text-xs animate-in fade-in-0 zoom-in-95 duration-100 text-left select-none"
           >
             {items.map((item, idx) => {
               if (item.divider) {
@@ -160,17 +159,16 @@ export default function RowActionDropdown({
                     setIsOpen(false);
                     if (item.onClick) item.onClick(e);
                   }}
-                  className={`w-full flex items-center gap-2.5 px-3 py-1.5 transition-colors cursor-pointer text-left disabled:opacity-50 disabled:pointer-events-none ${
-                    item.danger
+                  className={`w-full flex items-center gap-2.5 px-3 py-1.5 transition-colors cursor-pointer text-left disabled:opacity-50 disabled:pointer-events-none ${item.danger
                       ? 'text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30'
                       : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/80 hover:text-slate-900 dark:hover:text-white'
-                  }`}
+                    }`}
                 >
                   {IconComponent && (
                     <HugeiconsIcon
                       icon={IconComponent}
                       size={14}
-                      className={item.danger ? 'text-rose-600 shrink-0' : 'text-slate-400 shrink-0'}
+                      className={item.danger ? 'text-rose-600 shrink-0' : 'text-slate-600 shrink-0'}
                     />
                   )}
                   <span className="font-normal truncate">{item.label}</span>
@@ -183,3 +181,4 @@ export default function RowActionDropdown({
     </>
   );
 }
+

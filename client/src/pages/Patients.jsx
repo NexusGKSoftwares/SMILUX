@@ -1133,21 +1133,65 @@ export default function PatientsPage() {
                 e.stopPropagation();
                 alert(`Opening Dental Chart for ${row.name} (${row.id})`);
               }}
-              className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 text-emerald-700 dark:text-emerald-400 transition-colors cursor-pointer"
+              className="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-emerald-700 dark:text-emerald-400 transition-colors cursor-pointer"
             >
               <HugeiconsIcon icon={DentalToothIcon} size={14} />
             </button>
-            <button
-              type="button"
-              title="Patient File Options"
-              onClick={(e) => {
-                e.stopPropagation();
-                alert(`Options menu for ${row.name}`);
-              }}
-              className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
-            >
-              <HugeiconsIcon icon={MoreHorizontalIcon} size={14} />
-            </button>
+
+            {/* Three Dots Interactive Action Dropdown */}
+            <RowActionDropdown
+              title={`Actions for ${row.name}`}
+              items={[
+                {
+                  id: 'view',
+                  label: 'View Clinical File',
+                  icon: Doc01Icon,
+                  onClick: () => alert(`Opening Clinical File for ${row.name} (${row.id})`),
+                },
+                {
+                  id: 'chart',
+                  label: 'Open Dental Chart',
+                  icon: DentalToothIcon,
+                  onClick: () => alert(`Opening Dental Chart for ${row.name} (${row.id})`),
+                },
+                {
+                  id: 'book',
+                  label: 'Book Appointment',
+                  icon: Calendar01Icon,
+                  onClick: () => alert(`Scheduling appointment for ${row.name}`),
+                },
+                {
+                  id: 'invoice',
+                  label: 'Create Invoice / Bill',
+                  icon: Invoice01Icon,
+                  onClick: () => alert(`Generating new invoice for ${row.name}`),
+                },
+                {
+                  id: 'sms',
+                  label: 'Send SMS / Reminder',
+                  icon: BubbleChatIcon,
+                  onClick: () => alert(`Composing SMS reminder to ${row.phone}`),
+                },
+                { divider: true },
+                {
+                  id: 'edit',
+                  label: 'Edit Patient Details',
+                  icon: PencilEdit01Icon,
+                  onClick: () => alert(`Editing profile for ${row.name}`),
+                },
+                {
+                  id: 'archive',
+                  label: 'Archive Patient Record',
+                  icon: Delete02Icon,
+                  danger: true,
+                  onClick: () => {
+                    setPatients((prev) =>
+                      prev.map((p) => (p.id === row.id ? { ...p, status: 'Archived' } : p))
+                    );
+                  },
+                },
+              ]}
+            />
           </div>
         ),
       },
