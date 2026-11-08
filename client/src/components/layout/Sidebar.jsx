@@ -322,7 +322,7 @@ export default function Sidebar({
                   cx="12"
                   cy="12"
                   r="9"
-                  stroke="#059669"
+                  stroke="#2ec4b6"
                   strokeWidth="2.5"
                   strokeDasharray="56.5487"
                   strokeDashoffset="28.2743"
@@ -343,7 +343,7 @@ export default function Sidebar({
               onMouseEnter={handleMouseEnter('Get Started', '1/2')}
               onMouseLeave={handleMouseLeave}
               aria-label="Get Started (1/2 complete)"
-              className="group flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-slate-50/80 hover:bg-slate-100 text-slate-600 hover:text-emerald-600 shadow-2xs transition-all cursor-pointer select-none"
+              className="group flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-slate-50/80 hover:bg-slate-100 text-slate-600 hover:text-brand-green shadow-2xs transition-all cursor-pointer select-none"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -351,7 +351,7 @@ export default function Sidebar({
                 height="18"
                 fill="currentColor"
                 viewBox="0 0 24 24"
-                className="opacity-100 spark-icon text-slate-600 group-hover:text-emerald-600 transition-colors shrink-0"
+                className="opacity-100 spark-icon text-slate-600 group-hover:text-brand-green transition-colors shrink-0"
                 data-iname="rocket-fill"
               >
                 <path

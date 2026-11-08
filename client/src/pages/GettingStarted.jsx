@@ -5,7 +5,6 @@ import {
   CheckmarkCircle01Icon,
   Cancel01Icon,
   PlayIcon,
-  HelpCircleIcon,
   ArrowRight01Icon,
   Settings01Icon,
   UserGroupIcon,
@@ -16,9 +15,11 @@ import {
   Message01Icon,
   ChevronDownIcon,
   InformationCircleIcon,
+  StethoscopeIcon,
+  Money01Icon,
 } from '@hugeicons/core-free-icons';
 
-// ─── SVG Mock Chart Icons for the Video Tour Preview Container ──────────────
+// ─── SVG Mock Chart Components for the Video Tour Preview Container ──────────
 function MiniBarChart() {
   return (
     <div className="flex items-end gap-1.5 h-36 w-full pt-4 px-2 border-b border-l border-slate-200">
@@ -26,10 +27,10 @@ function MiniBarChart() {
       <div className="w-1/8 bg-rose-500 h-[40%] rounded-t-xs" />
       <div className="w-1/8 bg-slate-300 h-[15%] rounded-t-xs" />
       <div className="w-1/8 bg-slate-400 h-[30%] rounded-t-xs" />
-      <div className="w-1/8 bg-slate-300 h-[55%] rounded-t-xs" />
+      <div className="w-1/8 bg-brand-green h-[55%] rounded-t-xs" />
       <div className="w-1/8 bg-slate-400 h-[20%] rounded-t-xs" />
       <div className="w-1/8 bg-slate-500 h-[92%] rounded-t-xs" />
-      <div className="w-1/8 bg-slate-300 h-[35%] rounded-t-xs" />
+      <div className="w-1/8 bg-brand-green h-[35%] rounded-t-xs" />
     </div>
   );
 }
@@ -37,24 +38,23 @@ function MiniBarChart() {
 function MiniScatterPlot() {
   return (
     <div className="relative h-36 w-full p-2 border-b border-l border-slate-200 bg-slate-50/50">
-      {/* Dots mimicking scatter plot */}
       <span className="absolute top-6 left-8 h-1.5 w-1.5 rounded-full bg-slate-400" />
       <span className="absolute top-10 left-12 h-1.5 w-1.5 rounded-full bg-slate-500" />
-      <span className="absolute top-8 left-16 h-1.5 w-1.5 rounded-full bg-slate-400" />
+      <span className="absolute top-8 left-16 h-1.5 w-1.5 rounded-full bg-brand-green" />
       <span className="absolute top-14 left-20 h-1.5 w-1.5 rounded-full bg-rose-500" />
       <span className="absolute top-16 left-10 h-1.5 w-1.5 rounded-full bg-slate-400" />
-      <span className="absolute top-20 left-14 h-1.5 w-1.5 rounded-full bg-slate-500" />
+      <span className="absolute top-20 left-14 h-1.5 w-1.5 rounded-full bg-brand-green" />
       <span className="absolute top-24 left-22 h-1.5 w-1.5 rounded-full bg-amber-500" />
       <span className="absolute top-12 left-26 h-1.5 w-1.5 rounded-full bg-slate-400" />
       <span className="absolute top-18 left-30 h-1.5 w-1.5 rounded-full bg-slate-600" />
       <span className="absolute top-28 left-28 h-1.5 w-1.5 rounded-full bg-slate-400" />
-      <span className="absolute top-8 left-34 h-1.5 w-1.5 rounded-full bg-slate-500" />
+      <span className="absolute top-8 left-34 h-1.5 w-1.5 rounded-full bg-brand-green" />
       <span className="absolute top-22 left-38 h-1.5 w-1.5 rounded-full bg-rose-400" />
       <span className="absolute top-14 left-42 h-1.5 w-1.5 rounded-full bg-slate-400" />
       <span className="absolute top-20 left-48 h-1.5 w-1.5 rounded-full bg-slate-500" />
       <span className="absolute top-16 left-52 h-1.5 w-1.5 rounded-full bg-slate-600" />
       <span className="absolute top-26 left-56 h-1.5 w-1.5 rounded-full bg-slate-400" />
-      <span className="absolute top-10 left-60 h-1.5 w-1.5 rounded-full bg-slate-400" />
+      <span className="absolute top-10 left-60 h-1.5 w-1.5 rounded-full bg-brand-green" />
       <span className="absolute top-18 left-64 h-1.5 w-1.5 rounded-full bg-slate-500" />
     </div>
   );
@@ -65,50 +65,47 @@ function MiniPieChart() {
     <div className="flex flex-col items-center justify-center h-36 w-full p-2">
       <div className="relative h-24 w-24">
         <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-          {/* Main Slice (Slate 85%) */}
           <circle
             cx="18"
             cy="18"
             r="15.915"
             fill="transparent"
-            stroke="#64748b"
+            stroke="#2ec4b6"
             strokeWidth="31.8"
-            strokeDasharray="85 15"
+            strokeDasharray="60 40"
             strokeDashoffset="0"
           />
-          {/* Secondary Slice (Amber 10%) */}
           <circle
             cx="18"
             cy="18"
             r="15.915"
             fill="transparent"
-            stroke="#f59e0b"
+            stroke="#3a5bff"
+            strokeWidth="31.8"
+            strokeDasharray="30 70"
+            strokeDashoffset="-60"
+          />
+          <circle
+            cx="18"
+            cy="18"
+            r="15.915"
+            fill="transparent"
+            stroke="#e8368f"
             strokeWidth="31.8"
             strokeDasharray="10 90"
-            strokeDashoffset="-85"
-          />
-          {/* Third Slice (Rose 5%) */}
-          <circle
-            cx="18"
-            cy="18"
-            r="15.915"
-            fill="transparent"
-            stroke="#ef4444"
-            strokeWidth="31.8"
-            strokeDasharray="5 95"
-            strokeDashoffset="-95"
+            strokeDashoffset="-90"
           />
         </svg>
       </div>
       <div className="flex items-center gap-2 mt-2 text-[9px] text-slate-500 font-medium">
         <span className="flex items-center gap-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-slate-600" /> 12+ months (85%)
+          <span className="h-1.5 w-1.5 rounded-full bg-brand-green" /> M-Pesa (60%)
         </span>
         <span className="flex items-center gap-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-amber-500" /> 6-12 mos
+          <span className="h-1.5 w-1.5 rounded-full bg-brand-blue" /> SHA (30%)
         </span>
         <span className="flex items-center gap-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-rose-500" /> Past due
+          <span className="h-1.5 w-1.5 rounded-full bg-brand-pink" /> Cash (10%)
         </span>
       </div>
     </div>
@@ -119,9 +116,8 @@ function MiniPieChart() {
 export default function GettingStarted() {
   const navigate = useNavigate();
 
-  // Active section & sub-item
-  const [activeGroup, setActiveGroup] = useState('setup');
-  const [activeItem, setActiveItem] = useState('overview');
+  // Active task selection
+  const [activeTaskId, setActiveTaskId] = useState('overview');
 
   // Help dropdown state
   const [helpDropdownOpen, setHelpDropdownOpen] = useState(false);
@@ -133,150 +129,174 @@ export default function GettingStarted() {
   const [completedTasks, setCompletedTasks] = useState({
     overview: true,
     account_settings: false,
-    clinic_operations: false,
-    team: false,
-    records: false,
+    appointments: false,
+    patients: false,
+    dentists: false,
+    charting: false,
     billing: false,
     inventory: false,
   });
 
-  const toggleTaskCompletion = (key) => {
-    setCompletedTasks((prev) => ({ ...prev, [key]: !prev[key] }));
+  const toggleTaskCompletion = (taskId) => {
+    setCompletedTasks((prev) => ({ ...prev, [taskId]: !prev[taskId] }));
   };
 
-  // Onboarding groups & items
-  const ONBOARDING_GROUPS = [
+  // Full flat list of onboarding tasks (1, 2, 3... without collapsible dropdowns)
+  const ONBOARDING_TASKS = [
     {
-      id: 'setup',
-      title: 'Setup',
-      items: [
-        { id: 'overview', label: 'Overview', icon: InformationCircleIcon },
-        { id: 'account_settings', label: 'Account settings', icon: Settings01Icon },
-      ],
+      id: 'overview',
+      title: 'Platform Overview',
+      subtitle: 'App tour & practice essentials',
+      category: 'Setup',
+      icon: InformationCircleIcon,
     },
     {
-      id: 'operations',
-      title: 'Clinic operations',
-      items: [
-        { id: 'appointments', label: 'Appointments & Scheduling', icon: Calendar01Icon },
-        { id: 'patients', label: 'Patient Directory & History', icon: UserGroupIcon },
-      ],
+      id: 'account_settings',
+      title: 'Clinic Settings',
+      subtitle: 'Practice profile, license & currency',
+      category: 'Setup',
+      icon: Settings01Icon,
     },
     {
-      id: 'team',
-      title: 'Team',
-      items: [
-        { id: 'dentists', label: 'Dentists & Hygienists', icon: UserGroupIcon },
-        { id: 'roles', label: 'Roles & Staff Permissions', icon: Settings01Icon },
-      ],
+      id: 'appointments',
+      title: 'Appointments & Scheduling',
+      subtitle: 'Dental chair slots & automated SMS',
+      category: 'Operations',
+      icon: Calendar01Icon,
     },
     {
-      id: 'records',
+      id: 'patients',
+      title: 'Patient Registry',
+      subtitle: 'Digital medical files & allergies',
+      category: 'Operations',
+      icon: UserGroupIcon,
+    },
+    {
+      id: 'dentists',
+      title: 'Dentists & Team Roles',
+      subtitle: 'Practitioners, staff & permissions',
+      category: 'Team',
+      icon: UserGroupIcon,
+    },
+    {
+      id: 'charting',
       title: 'Dental Charting',
-      items: [
-        { id: 'charting', label: 'Interactive Odontogram', icon: CheckmarkCircle01Icon },
-        { id: 'treatment_plans', label: 'Treatment Plans & SOPs', icon: Settings01Icon },
-      ],
+      subtitle: 'Interactive odontogram & treatment plans',
+      category: 'Clinical',
+      icon: StethoscopeIcon,
     },
     {
       id: 'billing',
-      title: 'Billing & Claims',
-      items: [
-        { id: 'invoices', label: 'Invoices & Fee Schedule', icon: Invoice01Icon },
-        { id: 'mpesa_sha', label: 'M-Pesa STK & SHA Kenya', icon: Invoice01Icon },
-      ],
+      title: 'Billing & Payments',
+      subtitle: 'Invoices, M-Pesa STK & SHA claims',
+      category: 'Finance',
+      icon: Invoice01Icon,
     },
     {
       id: 'inventory',
-      title: 'Maintenance & Inventory',
-      items: [
-        { id: 'supplies', label: 'Dental Consumables & Stock', icon: PackageIcon },
-      ],
+      title: 'Inventory & Supplies',
+      subtitle: 'Dental stock levels & expiry tracking',
+      category: 'Inventory',
+      icon: PackageIcon,
     },
   ];
+
+  const totalTasks = ONBOARDING_TASKS.length;
+  const completedCount = Object.values(completedTasks).filter(Boolean).length;
+  const progressPercent = Math.round((completedCount / totalTasks) * 100);
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-6 font-sans">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-
-        {/* ── LEFT SIDE: Onboarding Navigation Sidebar (Matching Screenshot) ──── */}
+        
+        {/* ── LEFT SIDE: Linear Task List (1, 2, 3... No dropdowns) ─────────── */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="rounded border border-slate-200/90 bg-white overflow-hidden shadow-xs divide-y divide-slate-100">
-            {ONBOARDING_GROUPS.map((group) => {
-              const isGroupActive = activeGroup === group.id;
+          
+          {/* Progress Summary Header Card */}
+          <div className="rounded-lg border border-slate-200/90 bg-white p-4 shadow-xs space-y-3">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-bold text-slate-900">Setup Progress</span>
+              <span className="font-extrabold text-brand-green">
+                {completedCount} of {totalTasks} done ({progressPercent}%)
+              </span>
+            </div>
+            {/* Brand Green Progress Bar */}
+            <div className="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
+              <div
+                className="h-full bg-brand-green rounded-full transition-all duration-300"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Direct 1, 2, 3... List of Tasks (No Dropdown) */}
+          <div className="rounded-lg border border-slate-200/90 bg-white overflow-hidden shadow-xs divide-y divide-slate-100">
+            {ONBOARDING_TASKS.map((task, index) => {
+              const isSelected = activeTaskId === task.id;
+              const isDone = Boolean(completedTasks[task.id]);
+              const stepNumber = index + 1;
 
               return (
-                <div key={group.id} className="text-sm">
-                  {/* Group Header */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setActiveGroup(group.id);
-                      if (group.items.length > 0) {
-                        setActiveItem(group.items[0].id);
-                      }
-                    }}
-                    className={`
-                      w-full flex items-center justify-between px-4 py-3 text-left font-bold transition-colors cursor-pointer
-                      ${isGroupActive
-                        ? 'bg-sky-50/70 text-slate-900 border-b border-sky-100'
-                        : 'bg-white text-slate-800 hover:bg-slate-50'
-                      }
-                    `}
-                  >
-                    <span>{group.title}</span>
-                    <HugeiconsIcon
-                      icon={ChevronDownIcon}
-                      size={16}
-                      className={`text-slate-400 transition-transform ${isGroupActive ? 'rotate-180 text-sky-600' : ''}`}
-                    />
-                  </button>
+                <button
+                  key={task.id}
+                  type="button"
+                  onClick={() => setActiveTaskId(task.id)}
+                  className={`
+                    w-full flex items-center gap-3 px-3.5 py-3 text-left transition-all cursor-pointer
+                    ${isSelected
+                      ? 'bg-brand-green/8 text-slate-900 border-l-3 border-l-brand-green pl-[11px]'
+                      : 'bg-white hover:bg-slate-50 text-slate-700'
+                    }
+                  `}
+                >
+                  {/* Status Indicator Icon: Brand-Green Done Checkmark vs Not Done Number Badge */}
+                  <div className="shrink-0">
+                    {isDone ? (
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green text-white shadow-2xs">
+                        <HugeiconsIcon icon={CheckmarkCircle01Icon} size={15} />
+                      </div>
+                    ) : (
+                      <div
+                        className={`
+                          flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold transition-colors
+                          ${isSelected
+                            ? 'border-2 border-brand-green bg-brand-green/10 text-brand-green'
+                            : 'border border-slate-300 bg-slate-100/80 text-slate-500'
+                          }
+                        `}
+                      >
+                        {stepNumber}
+                      </div>
+                    )}
+                  </div>
 
-                  {/* Sub-items (expanded for active group) */}
-                  {isGroupActive && (
-                    <div className="bg-white py-1">
-                      {group.items.map((subItem) => {
-                        const isSubActive = activeItem === subItem.id;
-                        const SubIcon = subItem.icon;
-                        const isDone = completedTasks[subItem.id];
-
-                        return (
-                          <button
-                            key={subItem.id}
-                            type="button"
-                            onClick={() => setActiveItem(subItem.id)}
-                            className={`
-                              w-full flex items-center gap-2.5 px-4 py-2 text-left text-xs font-semibold transition-all cursor-pointer
-                              ${isSubActive
-                                ? 'border-l-3 border-sky-600 text-sky-700 bg-sky-50/40 font-bold pl-[13px]'
-                                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                              }
-                            `}
-                          >
-                            <SubIcon
-                              size={16}
-                              className={`shrink-0 ${isSubActive ? 'text-sky-600' : 'text-slate-400'}`}
-                            />
-                            <span className="flex-1 truncate">{subItem.label}</span>
-                            {isDone && (
-                              <HugeiconsIcon
-                                icon={CheckmarkCircle01Icon}
-                                size={14}
-                                className="text-emerald-600 shrink-0"
-                              />
-                            )}
-                          </button>
-                        );
-                      })}
+                  {/* Task Labels */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-1">
+                      <span className={`text-xs truncate ${isSelected ? 'font-bold text-slate-900' : 'font-semibold text-slate-800'}`}>
+                        {task.title}
+                      </span>
+                      {isDone ? (
+                        <span className="text-[10px] font-bold text-brand-green bg-brand-green/10 px-1.5 py-0.2 rounded shrink-0">
+                          Done
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-medium text-slate-400 bg-slate-100 px-1.5 py-0.2 rounded shrink-0">
+                          To Do
+                        </span>
+                      )}
                     </div>
-                  )}
-                </div>
+                    <span className="text-[10px] text-slate-400 font-medium block truncate">
+                      {task.category} • {task.subtitle}
+                    </span>
+                  </div>
+                </button>
               );
             })}
           </div>
 
-          {/* Need Help? Card (Matching Screenshot) */}
-          <div className="rounded border border-slate-200/90 bg-white p-4 shadow-xs space-y-3">
+          {/* Need Help? Card */}
+          <div className="rounded-lg border border-slate-200/90 bg-white p-4 shadow-xs space-y-3">
             <div className="flex items-center gap-2">
               <HugeiconsIcon icon={Message01Icon} size={18} className="text-slate-700 shrink-0" />
               <h4 className="text-xs font-bold text-slate-900">Need Help?</h4>
@@ -321,7 +341,7 @@ export default function GettingStarted() {
                       setHelpDropdownOpen(false);
                       setVideoModalOpen(true);
                     }}
-                    className="w-full text-left rounded px-2 py-1.5 text-brand-600 hover:bg-brand-50 font-bold cursor-pointer"
+                    className="w-full text-left rounded px-2 py-1.5 text-brand-green hover:bg-brand-green/10 font-bold cursor-pointer"
                   >
                     Watch Video Tour
                   </button>
@@ -330,7 +350,7 @@ export default function GettingStarted() {
             </div>
           </div>
 
-          {/* Hide Onboarding Tasks Button (Matching Screenshot) */}
+          {/* Hide Onboarding Tasks Button */}
           <button
             type="button"
             onClick={() => navigate('/dashboard')}
@@ -341,11 +361,11 @@ export default function GettingStarted() {
           </button>
         </div>
 
-        {/* ── RIGHT SIDE: Active Task Content Pane (Matching Screenshot) ───────── */}
-        <div className="lg:col-span-8 bg-white rounded border border-slate-200/90 p-6 sm:p-8 shadow-xs space-y-6">
-
-          {/* 1. OVERVIEW VIEW (Exact match to screenshot) */}
-          {activeItem === 'overview' && (
+        {/* ── RIGHT SIDE: Active Task Content Pane (Brand Green Theme) ─────────── */}
+        <div className="lg:col-span-8 bg-white rounded-lg border border-slate-200/90 p-6 sm:p-8 shadow-xs space-y-6">
+          
+          {/* 1. OVERVIEW VIEW */}
+          {activeTaskId === 'overview' && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
               <div className="space-y-3">
                 <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
@@ -359,31 +379,31 @@ export default function GettingStarted() {
                 </p>
               </div>
 
-              {/* Action Button: Get started > (Green button matching screenshot) */}
+              {/* Action Button: Get started > in Brand Green */}
               <div>
                 <button
                   type="button"
-                  onClick={() => setActiveItem('account_settings')}
-                  className="inline-flex items-center gap-2 rounded bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-4 py-2.5 shadow-xs transition-colors cursor-pointer"
+                  onClick={() => setActiveTaskId('account_settings')}
+                  className="inline-flex items-center gap-2 rounded bg-brand-green hover:bg-[#25b5a7] text-white font-bold text-xs px-4 py-2.5 shadow-xs transition-colors cursor-pointer"
                 >
                   <span>Get started</span>
                   <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
                 </button>
               </div>
 
-              {/* Video Tour Preview Card Container with Grid Background (Matching Screenshot) */}
-              <div className="relative rounded border border-emerald-200/80 bg-gradient-to-br from-emerald-50/60 via-teal-50/30 to-emerald-50/60 p-4 sm:p-6 overflow-hidden">
-                {/* Subtle background grid pattern */}
+              {/* Tour Preview Container with Brand-Green Grid Pattern Backdrop */}
+              <div className="relative rounded-xl border border-brand-green/20 bg-gradient-to-br from-[#2ec4b6]/8 via-teal-50/20 to-[#2ec4b6]/8 p-4 sm:p-6 overflow-hidden">
+                {/* Subtle grid pattern */}
                 <div
-                  className="absolute inset-0 opacity-40 pointer-events-none"
+                  className="absolute inset-0 opacity-30 pointer-events-none"
                   style={{
-                    backgroundImage: `linear-gradient(#10b981 1px, transparent 1px), linear-gradient(90deg, #10b981 1px, transparent 1px)`,
+                    backgroundImage: `linear-gradient(#2ec4b6 1px, transparent 1px), linear-gradient(90deg, #2ec4b6 1px, transparent 1px)`,
                     backgroundSize: '24px 24px',
                   }}
                 />
 
                 {/* Dashboard Mock Card */}
-                <div className="relative rounded border border-slate-200 bg-white p-4 shadow-sm space-y-3">
+                <div className="relative rounded-lg border border-slate-200 bg-white p-4 shadow-sm space-y-3">
                   <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                     <span className="text-xs font-bold text-slate-800">
                       Utilization Summary &amp; Practice Health
@@ -400,7 +420,6 @@ export default function GettingStarted() {
 
                   {/* 3 mini chart panels */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
-                    {/* Panel 1: Bar chart */}
                     <div className="space-y-1">
                       <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                         Count by Dental Procedure
@@ -408,7 +427,6 @@ export default function GettingStarted() {
                       <MiniBarChart />
                     </div>
 
-                    {/* Panel 2: Scatter plot */}
                     <div className="space-y-1">
                       <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                         Utilization Rate by Chair
@@ -416,7 +434,6 @@ export default function GettingStarted() {
                       <MiniScatterPlot />
                     </div>
 
-                    {/* Panel 3: Pie chart */}
                     <div className="space-y-1">
                       <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                         Revenue Source (M-Pesa / SHA / Cash)
@@ -425,12 +442,12 @@ export default function GettingStarted() {
                     </div>
                   </div>
 
-                  {/* Center Green Play Button (Matching Screenshot) */}
+                  {/* Center Brand-Green Play Button */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <button
                       type="button"
                       onClick={() => setVideoModalOpen(true)}
-                      className="group flex h-14 w-18 items-center justify-center rounded bg-emerald-700 hover:bg-emerald-800 text-white shadow-xl shadow-emerald-900/30 transition-all hover:scale-105 cursor-pointer"
+                      className="group flex h-14 w-18 items-center justify-center rounded-xl bg-brand-green hover:bg-[#25b5a7] text-white shadow-xl shadow-brand-green/30 transition-all hover:scale-105 cursor-pointer"
                       title="Play Walkthrough Tour"
                     >
                       <HugeiconsIcon icon={PlayIcon} size={28} className="fill-white translate-x-0.5" />
@@ -442,11 +459,11 @@ export default function GettingStarted() {
           )}
 
           {/* 2. ACCOUNT SETTINGS VIEW */}
-          {activeItem === 'account_settings' && (
+          {activeTaskId === 'account_settings' && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
               <div className="space-y-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-sky-600">
-                  Step 2 of 6 • Setup
+                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-green">
+                  Step 2 of {totalTasks} • Setup
                 </span>
                 <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
                   Account &amp; Clinic Practice Settings
@@ -480,10 +497,9 @@ export default function GettingStarted() {
                   type="button"
                   onClick={() => {
                     toggleTaskCompletion('account_settings');
-                    setActiveItem('appointments');
-                    setActiveGroup('operations');
+                    setActiveTaskId('appointments');
                   }}
-                  className="rounded bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-4 py-2 transition-colors cursor-pointer"
+                  className="rounded bg-brand-green hover:bg-[#25b5a7] text-white font-bold text-xs px-4 py-2 transition-colors cursor-pointer"
                 >
                   Mark as Done &amp; Continue &gt;
                 </button>
@@ -499,11 +515,11 @@ export default function GettingStarted() {
           )}
 
           {/* 3. APPOINTMENTS VIEW */}
-          {activeItem === 'appointments' && (
+          {activeTaskId === 'appointments' && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
               <div className="space-y-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-sky-600">
-                  Step 3 of 6 • Operations
+                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-green">
+                  Step 3 of {totalTasks} • Operations
                 </span>
                 <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
                   Appointments &amp; Chair Scheduling
@@ -513,13 +529,13 @@ export default function GettingStarted() {
                 </p>
               </div>
 
-              <div className="p-4 rounded border border-slate-200 bg-slate-50/50 space-y-3">
+              <div className="p-4 rounded-lg border border-slate-200 bg-slate-50/50 space-y-3">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-bold text-slate-800">Today's Appointment Slots</span>
-                  <span className="text-emerald-700 font-bold">5 Confirmed Today</span>
+                  <span className="text-brand-green font-bold">5 Confirmed Today</span>
                 </div>
                 <div className="h-2 rounded-full bg-slate-200 overflow-hidden">
-                  <div className="h-full bg-emerald-600 rounded-full w-3/5" />
+                  <div className="h-full bg-brand-green rounded-full w-3/5" />
                 </div>
               </div>
 
@@ -527,13 +543,12 @@ export default function GettingStarted() {
                 <button
                   type="button"
                   onClick={() => {
-                    toggleTaskCompletion('clinic_operations');
-                    setActiveItem('dentists');
-                    setActiveGroup('team');
+                    toggleTaskCompletion('appointments');
+                    setActiveTaskId('patients');
                   }}
-                  className="rounded bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-4 py-2 transition-colors cursor-pointer"
+                  className="rounded bg-brand-green hover:bg-[#25b5a7] text-white font-bold text-xs px-4 py-2 transition-colors cursor-pointer"
                 >
-                  Continue to Team &gt;
+                  Continue to Patients &gt;
                 </button>
                 <button
                   type="button"
@@ -546,36 +561,45 @@ export default function GettingStarted() {
             </div>
           )}
 
-          {/* 4. OTHER STEPS FALLBACK CONTAINER */}
-          {activeItem !== 'overview' && activeItem !== 'account_settings' && activeItem !== 'appointments' && (
+          {/* 4. OTHER TASKS GENERAL VIEW */}
+          {activeTaskId !== 'overview' && activeTaskId !== 'account_settings' && activeTaskId !== 'appointments' && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
               <div className="space-y-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-sky-600">
-                  Clinic Setup Checklist
+                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-green">
+                  Step {ONBOARDING_TASKS.findIndex((t) => t.id === activeTaskId) + 1} of {totalTasks}
                 </span>
-                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight capitalize">
-                  {activeItem.replace(/_/g, ' ')}
+                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                  {ONBOARDING_TASKS.find((t) => t.id === activeTaskId)?.title}
                 </h2>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Complete this module to get your clinic operating smoothly. You can configure practitioner accounts, fee schedules, dental odontograms, and M-Pesa STK push.
+                  {ONBOARDING_TASKS.find((t) => t.id === activeTaskId)?.subtitle}. Complete this setup item to unlock full practice automation across Avicena Dental.
                 </p>
               </div>
 
-              <div className="p-6 rounded border border-slate-200 bg-slate-50/50 text-center space-y-3">
-                <HugeiconsIcon icon={CheckmarkCircle01Icon} size={32} className="mx-auto text-sky-600" />
-                <h4 className="text-xs font-bold text-slate-800">Ready to configure this feature?</h4>
+              <div className="p-6 rounded-lg border border-slate-200 bg-slate-50/50 text-center space-y-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-green/10 text-brand-green mx-auto">
+                  <HugeiconsIcon
+                    icon={ONBOARDING_TASKS.find((t) => t.id === activeTaskId)?.icon || CheckmarkCircle01Icon}
+                    size={24}
+                  />
+                </div>
+                <h4 className="text-xs font-bold text-slate-800">
+                  {completedTasks[activeTaskId] ? 'Task Marked as Complete!' : 'Ready to configure this feature?'}
+                </h4>
                 <p className="text-xs text-slate-500 max-w-md mx-auto">
-                  Click below to open the dedicated workspace for this section or mark it as complete.
+                  {completedTasks[activeTaskId]
+                    ? 'This step is completed. You can revisit and edit settings at any time.'
+                    : 'Click below to mark this step as complete and proceed through your onboarding checklist.'}
                 </p>
               </div>
 
               <div className="flex items-center gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={() => toggleTaskCompletion(activeItem)}
-                  className="rounded bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-4 py-2 transition-colors cursor-pointer"
+                  onClick={() => toggleTaskCompletion(activeTaskId)}
+                  className="rounded bg-brand-green hover:bg-[#25b5a7] text-white font-bold text-xs px-4 py-2 transition-colors cursor-pointer"
                 >
-                  {completedTasks[activeItem] ? 'Completed ✓' : 'Mark Task as Completed'}
+                  {completedTasks[activeTaskId] ? 'Completed ✓ (Click to Undo)' : 'Mark as Done & Complete'}
                 </button>
                 <button
                   type="button"
@@ -594,11 +618,11 @@ export default function GettingStarted() {
       {/* ── VIDEO TOUR MODAL ─────────────────────────────────────────────────── */}
       {videoModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl bg-white rounded shadow-2xl border border-slate-200 overflow-hidden">
+          <div className="relative w-full max-w-2xl bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden">
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 bg-slate-50/70">
               <div className="flex items-center gap-2">
-                <HugeiconsIcon icon={PlayIcon} size={18} className="text-emerald-700" />
+                <HugeiconsIcon icon={PlayIcon} size={18} className="text-brand-green" />
                 <h3 className="text-xs font-bold text-slate-900">Smilux Dental Platform Walkthrough</h3>
               </div>
               <button
@@ -610,16 +634,16 @@ export default function GettingStarted() {
               </button>
             </div>
 
-            {/* Video Player Mockup / Interactive Canvas */}
+            {/* Video Player Canvas */}
             <div className="relative aspect-video bg-slate-900 flex flex-col items-center justify-center text-white p-6 text-center">
-              <div className="h-16 w-16 rounded-full bg-emerald-600/80 flex items-center justify-center mb-4 ring-8 ring-emerald-500/20">
+              <div className="h-16 w-16 rounded-full bg-brand-green flex items-center justify-center mb-4 ring-8 ring-brand-green/20">
                 <HugeiconsIcon icon={PlayIcon} size={32} className="fill-white translate-x-0.5" />
               </div>
               <h4 className="text-base font-bold">Welcome to Smilux Dental SaaS</h4>
               <p className="text-xs text-slate-300 max-w-md mt-1">
                 Explore how to schedule patient visits, perform interactive 3D dental charting, and reconcile M-Pesa STK push receipts in seconds.
               </p>
-              <span className="mt-4 inline-block px-2.5 py-1 rounded bg-slate-800 text-[10px] text-emerald-400 font-semibold border border-slate-700">
+              <span className="mt-4 inline-block px-2.5 py-1 rounded bg-slate-800 text-[10px] text-brand-green font-semibold border border-slate-700">
                 Duration: 3 mins 45 secs • HD 1080p
               </span>
             </div>
