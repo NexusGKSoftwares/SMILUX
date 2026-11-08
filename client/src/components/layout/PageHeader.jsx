@@ -162,8 +162,8 @@ export default function PageHeader({
                 aria-label="More actions"
                 onClick={() => setIsMenuOpen((prev) => !prev)}
                 className={`flex items-center justify-center h-9 w-9 rounded border transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 ${isMenuOpen
-                    ? 'border-gray-300 bg-gray-100 text-gray-900 dark:border-slate-600 dark:bg-slate-800 dark:text-white'
-                    : 'border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white shadow-2xs'
+                  ? 'border-gray-300 bg-gray-100 text-gray-900 dark:border-slate-600 dark:bg-slate-800 dark:text-white'
+                  : 'border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white shadow-2xs'
                   }`}
               >
                 <HugeiconsIcon icon={MoreHorizontalIcon} size={18} strokeWidth={2.2} />
@@ -202,8 +202,8 @@ export default function PageHeader({
                             if (action.onClick) action.onClick(e);
                           }}
                           className={`w-full flex items-center justify-between gap-3 px-3.5 py-2 text-sm text-left transition-colors cursor-pointer select-none disabled:opacity-50 disabled:pointer-events-none ${action.danger
-                              ? 'text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30'
-                              : 'text-gray-700 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800/80 hover:text-gray-900 dark:hover:text-white'
+                            ? 'text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                            : 'text-gray-700 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800/80 hover:text-gray-900 dark:hover:text-white'
                             }`}
                         >
                           <span className="flex items-center gap-2">
@@ -261,7 +261,7 @@ export default function PageHeader({
         </div>
       </div>
 
-      {/* Optional Tabs Row (e.g. All, Users, No User Access, Archived) */}
+      {/* Optional Tabs Row (e.g. All, Users, No User Access, Completed) */}
       {tabs && tabs.length > 0 && (
         <div className="flex items-center gap-4 px-4 border-t border-gray-100 dark:border-slate-800/80 overflow-x-auto no-scrollbar">
           {tabs.map((tab) => {
@@ -280,8 +280,8 @@ export default function PageHeader({
                 {tab.count !== undefined && (
                   <span
                     className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-normal ${isActive
-                        ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'
-                        : 'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-slate-400'
+                      ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'
+                      : 'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-slate-400'
                       }`}
                   >
                     {tab.count}

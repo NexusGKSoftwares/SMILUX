@@ -29,7 +29,7 @@ const patientSchema = new mongoose.Schema({
     shaNumber: { type: String, default: '' },
     status: { type: String, enum: ['Active', 'Inactive', 'Pending'], default: 'Active' }
   },
-  isArchived: { type: Boolean, default: false }
+  isCompleted: { type: Boolean, default: false }
 }, { timestamps: true });
 
 patientSchema.index({ clinicId: 1, patientNumber: 1 }, { unique: true });

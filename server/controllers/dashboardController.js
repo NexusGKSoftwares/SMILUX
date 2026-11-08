@@ -18,10 +18,10 @@ exports.getDashboardStats = async (req, res) => {
       expenses,
       products
     ] = await Promise.all([
-      Patient.countDocuments({ clinicId, isArchived: false }),
+      Patient.countDocuments({ clinicId, isCompleted: false }),
       Patient.countDocuments({
         clinicId,
-        isArchived: false,
+        isCompleted: false,
         createdAt: { $gte: new Date(new Date().setDate(1)) }
       }),
       Appointment.countDocuments({

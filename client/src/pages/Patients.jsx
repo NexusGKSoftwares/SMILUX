@@ -75,7 +75,7 @@ const INITIAL_PATIENTS = [
     insurance: 'Self Pay (Cash)', insuranceType: 'self-pay',
     lastVisit: '05 May 2026', nextAppointment: 'None scheduled',
     treatment: 'Pediatric Consultation', dentalAlert: 'None',
-    balance: 'KES 0', status: 'Archived',
+    balance: 'KES 0', status: 'Completed',
   },
   {
     id: 'PAT-1075', name: 'Faith Mwangi', phone: '+254 711 223 344',
@@ -107,7 +107,7 @@ const INITIAL_PATIENTS = [
     insurance: 'SHA / NHIF Senior', insuranceType: 'insured',
     lastVisit: '02 Jun 2026', nextAppointment: 'None scheduled',
     treatment: 'Dentures Fabrication', dentalAlert: 'Cardiac Pacemaker',
-    balance: 'KES 0', status: 'Archived',
+    balance: 'KES 0', status: 'Completed',
   },
   {
     id: 'PAT-1071', name: 'Sharon Akoth', phone: '+254 740 556 677',
@@ -188,7 +188,7 @@ const INITIAL_PATIENTS = [
     insurance: 'CIC Dental Care', insuranceType: 'insured',
     lastVisit: '17 Jul 2026', nextAppointment: 'None scheduled',
     treatment: 'Periodontal Treatment', dentalAlert: 'Latex Sensitivity',
-    balance: 'KES 4,000', status: 'Archived',
+    balance: 'KES 4,000', status: 'Completed',
   },
   {
     id: 'PAT-1061', name: 'Beatrice Nyambura', phone: '+254 733 667 788',
@@ -220,7 +220,7 @@ const INITIAL_PATIENTS = [
     insurance: 'SHA / NHIF Senior', insuranceType: 'insured',
     lastVisit: '14 Jun 2026', nextAppointment: 'None scheduled',
     treatment: 'Full Dentures', dentalAlert: 'Cardiac Condition',
-    balance: 'KES 0', status: 'Archived',
+    balance: 'KES 0', status: 'Completed',
   },
   {
     id: 'PAT-1057', name: 'Ruth Muthoni', phone: '+254 734 111 222',
@@ -284,7 +284,7 @@ const INITIAL_PATIENTS = [
     insurance: 'Old Mutual Health', insuranceType: 'insured',
     lastVisit: '12 May 2026', nextAppointment: 'None scheduled',
     treatment: 'Tooth Extraction', dentalAlert: 'Hypertension',
-    balance: 'KES 0', status: 'Archived',
+    balance: 'KES 0', status: 'Completed',
   },
   {
     id: 'PAT-1049', name: 'Susan Wambui', phone: '+254 721 123 456',
@@ -348,7 +348,7 @@ const INITIAL_PATIENTS = [
     insurance: 'SHA / NHIF Senior', insuranceType: 'insured',
     lastVisit: '11 Jun 2026', nextAppointment: 'None scheduled',
     treatment: 'Complete Dentures', dentalAlert: 'Cardiac Pacemaker',
-    balance: 'KES 0', status: 'Archived',
+    balance: 'KES 0', status: 'Completed',
   },
   {
     id: 'PAT-1041', name: 'Vivian Wairimu', phone: '+254 710 901 234',
@@ -428,7 +428,7 @@ const INITIAL_PATIENTS = [
     insurance: 'Self Pay (Cash)', insuranceType: 'self-pay',
     lastVisit: '18 Jul 2026', nextAppointment: 'None scheduled',
     treatment: 'Dental Crown', dentalAlert: 'Hypertension',
-    balance: 'KES 0', status: 'Archived',
+    balance: 'KES 0', status: 'Completed',
   },
   {
     id: 'PAT-1031', name: 'Lydia Wanjiru', phone: '+254 721 901 234',
@@ -460,7 +460,7 @@ const INITIAL_PATIENTS = [
     insurance: 'SHA / NHIF Senior', insuranceType: 'insured',
     lastVisit: '01 Jul 2026', nextAppointment: 'None scheduled',
     treatment: 'Partial Dentures', dentalAlert: 'Cardiac Condition',
-    balance: 'KES 4,500', status: 'Archived',
+    balance: 'KES 4,500', status: 'Completed',
   },
   {
     id: 'PAT-1027', name: 'Joyce Muthoni', phone: '+254 720 345 678',
@@ -548,7 +548,7 @@ const INITIAL_PATIENTS = [
     insurance: 'Old Mutual Health', insuranceType: 'insured',
     lastVisit: '10 Jun 2026', nextAppointment: 'None scheduled',
     treatment: 'Dental Bridge', dentalAlert: 'Hypertension',
-    balance: 'KES 0', status: 'Archived',
+    balance: 'KES 0', status: 'Completed',
   },
   {
     id: 'PAT-1016', name: 'Dennis Kiptoo', phone: '+254 733 456 789',
@@ -588,7 +588,7 @@ const INITIAL_PATIENTS = [
     insurance: 'SHA / NHIF Senior', insuranceType: 'insured',
     lastVisit: '02 Jul 2026', nextAppointment: 'None scheduled',
     treatment: 'Complete Dentures', dentalAlert: 'Cardiac Condition',
-    balance: 'KES 5,000', status: 'Archived',
+    balance: 'KES 5,000', status: 'Completed',
   },
   {
     id: 'PAT-1011', name: 'Millicent Wambui', phone: '+254 701 901 234',
@@ -668,7 +668,7 @@ const INITIAL_PATIENTS = [
     insurance: 'SHA / NHIF Senior', insuranceType: 'insured',
     lastVisit: '17 Jun 2026', nextAppointment: 'None scheduled',
     treatment: 'Full Dentures', dentalAlert: 'Cardiac Pacemaker',
-    balance: 'KES 0', status: 'Archived',
+    balance: 'KES 0', status: 'Completed',
   },
   {
     id: 'PAT-1001', name: 'Monica Naliaka', phone: '+254 711 901 234',
@@ -732,7 +732,7 @@ const INITIAL_PATIENTS = [
     insurance: 'Old Mutual Health', insuranceType: 'insured',
     lastVisit: '13 Jul 2026', nextAppointment: 'None scheduled',
     treatment: 'Dental Extraction', dentalAlert: 'Asthmatic',
-    balance: 'KES 0', status: 'Archived',
+    balance: 'KES 0', status: 'Completed',
   },
   {
     id: 'PAT-0993', name: 'Beatrice Muli', phone: '+254 701 789 012',
@@ -796,7 +796,7 @@ const INITIAL_PATIENTS = [
     insurance: 'SHA / NHIF Senior', insuranceType: 'insured',
     lastVisit: '09 Jun 2026', nextAppointment: 'None scheduled',
     treatment: 'Complete Dentures', dentalAlert: 'Cardiac Condition',
-    balance: 'KES 0', status: 'Archived',
+    balance: 'KES 0', status: 'Completed',
   },
   {
     id: 'PAT-0985', name: 'Cynthia Nyambura', phone: '+254 734 567 890',
@@ -850,7 +850,7 @@ export default function PatientsPage() {
       all: patients.length,
       active: patients.filter((p) => p.status === 'Active').length,
       followUp: patients.filter((p) => p.status === 'Follow Up').length,
-      archived: patients.filter((p) => p.status === 'Archived').length,
+      Completed: patients.filter((p) => p.status === 'Completed').length,
     };
   }, [patients]);
 
@@ -858,14 +858,14 @@ export default function PatientsPage() {
     { id: 'all', label: 'All Patients', count: tabCounts.all },
     { id: 'active', label: 'Active', count: tabCounts.active },
     { id: 'follow-up', label: 'Follow Up', count: tabCounts.followUp },
-    { id: 'archived', label: 'Archived', count: tabCounts.archived },
+    { id: 'Completed', label: 'Completed', count: tabCounts.Completed },
   ];
 
   // Tab filter
   const tabFilteredPatients = useMemo(() => {
     if (activeTab === 'active') return patients.filter((p) => p.status === 'Active');
     if (activeTab === 'follow-up') return patients.filter((p) => p.status === 'Follow Up');
-    if (activeTab === 'archived') return patients.filter((p) => p.status === 'Archived');
+    if (activeTab === 'Completed') return patients.filter((p) => p.status === 'Completed');
     return patients;
   }, [patients, activeTab]);
 
@@ -1101,7 +1101,7 @@ export default function PatientsPage() {
         filterOptions: [
           { value: 'Active', label: 'Active' },
           { value: 'Follow Up', label: 'Follow Up' },
-          { value: 'Archived', label: 'Archived' },
+          { value: 'Completed', label: 'Completed' },
         ],
         render: (val, row) => (
           <span
@@ -1186,7 +1186,7 @@ export default function PatientsPage() {
                   danger: true,
                   onClick: () => {
                     setPatients((prev) =>
-                      prev.map((p) => (p.id === row.id ? { ...p, status: 'Archived' } : p))
+                      prev.map((p) => (p.id === row.id ? { ...p, status: 'Completed' } : p))
                     );
                   },
                 },

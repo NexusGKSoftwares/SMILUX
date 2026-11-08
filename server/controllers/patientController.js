@@ -7,7 +7,7 @@ const TreatmentPlan = require('../models/TreatmentPlan');
 exports.getPatients = async (req, res) => {
   try {
     const { search, page = 1, limit = 20 } = req.query;
-    const query = { clinicId: req.clinicId, isArchived: false };
+    const query = { clinicId: req.clinicId, isCompleted: false };
 
     if (search) {
       query.$or = [
@@ -104,11 +104,11 @@ exports.archivePatient = async (req, res) => {
   try {
     const patient = await Patient.findOneAndUpdate(
       { _id: req.params.id, clinicId: req.clinicId },
-      { isArchived: true },
+      { isCompleted: true },
       { new: true }
     );
     if (!patient) return res.status(404).json({ message: 'Patient not found' });
-    res.json({ message: 'Patient archived successfully' });
+    res.json({ message: 'Patient Completed successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
