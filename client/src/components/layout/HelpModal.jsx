@@ -107,7 +107,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
 
   const modalContent = (
     <div
-      className="fixed inset-0 z-[99999] flex items-start sm:items-center justify-center p-4 sm:p-6 overflow-y-auto"
+      className="fixed inset-0 z-[99999] flex items-start justify-center pt-16 sm:pt-20 px-4 sm:px-6 overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby="help-support-title"
@@ -120,11 +120,11 @@ export default function HelpModal({ isOpen, onClose, user }) {
 
       {/* Centered Modal Card */}
       <div
-        className="relative w-full max-w-[960px] my-auto bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-10 animate-in zoom-in-95 fade-in duration-150 font-sans select-text"
+        className="relative w-full max-w-[960px] bg-white rounded shadow-2xl border border-slate-200 overflow-hidden z-10 animate-in zoom-in-100 fade-in duration-150 font-sans select-text"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div className="flex items-center justify-between px-4 py-2 border-b border-slate-100">
           <h2
             id="help-support-title"
             className="text-base font-bold text-slate-900 tracking-tight"
