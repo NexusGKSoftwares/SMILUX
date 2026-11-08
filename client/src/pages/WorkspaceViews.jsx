@@ -333,17 +333,23 @@ export function DashboardView({ user }) {
   const [paymentYear, setPaymentYear] = useState(currentYear);
   const [incomeYear, setIncomeYear] = useState(currentYear);
   const [balanceYear, setBalanceYear] = useState(currentYear);
+  const [expensesYear, setExpensesYear] = useState(currentYear);
+  const [expensesPeriod, setExpensesPeriod] = useState('Last 6 months');
+  const [paymentGrowthYear, setPaymentGrowthYear] = useState(currentYear);
   const [selectedSalesMonth, setSelectedSalesMonth] = useState(salesAreaChartData.defaultMonth);
   const [isSalesExpanded, setIsSalesExpanded] = useState(false);
   const [hoveredBarIndex, setHoveredBarIndex] = useState(null);
   const [selectedWebWeek, setSelectedWebWeek] = useState(webAnalyticsData.defaultMonth || 'Jun');
   const [isWebExpanded, setIsWebExpanded] = useState(false);
-  const [activeChartModal, setActiveChartModal] = useState(null); // 'sales' | 'patient-growth' | 'payment' | 'income' | 'balance' | null
+  const [hoveredPaymentGrowthIndex, setHoveredPaymentGrowthIndex] = useState(null);
+  const [selectedPaymentGrowthMonth, setSelectedPaymentGrowthMonth] = useState('Jun');
+  const [activeChartModal, setActiveChartModal] = useState(null); // 'sales' | 'patient-growth' | 'payment' | 'income' | 'balance' | 'expenses' | 'payment-growth' | null
 
   // Interactive Focus States for Charts & Deep Inspection
   const [focusedPaymentChannel, setFocusedPaymentChannel] = useState(null); // 'sha' | 'mpesa' | 'cash' | null
   const [focusedBalanceStream, setFocusedBalanceStream] = useState(null); // 'primary' | 'speciality' | 'fixed' | null
   const [focusedIncomeRoute, setFocusedIncomeRoute] = useState(null); // 'mpesa' | 'private' | 'claims' | null
+  const [focusedExpenseCategory, setFocusedExpenseCategory] = useState(null); // 'internet' | 'electricity' | 'transactions' | 'rental' | 'foods' | 'other' | null
 
   // Instant Click-to-Copy Feedback System
   const [copiedText, setCopiedText] = useState(null);
@@ -387,6 +393,37 @@ export function DashboardView({ user }) {
   const primaryCareVal = Math.round(52000 * balanceFactor);
   const specialityCareVal = Math.round(32000 * balanceFactor);
   const fixedIncomeVal = Math.round(12500 * balanceFactor);
+
+  // Dynamic computations for Expenses Overview card (Matching reference UI spec)
+  const expenseYearFactor = expensesYear === 2026 ? 1 : expensesYear === 2025 ? 0.91 : expensesYear === 2024 ? 0.83 : 0.75;
+  const expensePeriodFactor = expensesPeriod === 'Last 6 months' ? 1 : expensesPeriod === 'Last 12 months' ? 1.85 : 0.48;
+  const expenseScale = expenseYearFactor * expensePeriodFactor;
+  const totalExpenseVal = Math.round(132340 * expenseScale);
+  const expenseCategories = [
+    { id: 'internet', label: 'Internet', shortLabel: 'Internet', pct: '45%', share: 0.42, color: '#9353D3', amount: Math.round(59553 * expenseScale) },
+    { id: 'electricity', label: 'Electricity', shortLabel: 'Electricity', pct: '26%', share: 0.25, color: '#8CE95A', amount: Math.round(34408 * expenseScale) },
+    { id: 'transactions', label: 'Transactions', shortLabel: 'Transaction', pct: '22%', share: 0.20, color: '#29B6F6', amount: Math.round(29115 * expenseScale) },
+    { id: 'rental', label: 'Rental Cost', shortLabel: 'Rental Cost', pct: '8%', share: 0.075, color: '#EC006C', amount: Math.round(10587 * expenseScale) },
+    { id: 'foods', label: 'Foods', shortLabel: 'Foods', pct: '3%', share: 0.032, color: '#FF6B00', amount: Math.round(3970 * expenseScale) },
+    { id: 'other', label: 'Other', shortLabel: 'Other', pct: '2%', share: 0.023, color: '#FFC107', amount: Math.round(2647 * expenseScale) },
+  ];
+  const focusedExpenseObj = expenseCategories.find((c) => c.id === focusedExpenseCategory) || null;
+  const topExpenseCards = [
+    expenseCategories[0], // Internet
+    expenseCategories[2], // Transaction
+    expenseCategories[1], // Electricity
+    expenseCategories[3], // Rental Cost
+  ];
+
+  // Dynamic computations for Payment Growth Overview card
+  const currentPaymentGrowthData = getPatientGrowthDataByYear(paymentGrowthYear);
+  const paymentGrowthFactor = paymentGrowthYear === 2026 ? 1 : paymentGrowthYear === 2025 ? 0.89 : paymentGrowthYear === 2024 ? 0.78 : 0.68;
+  const mpesaGrowthVal = Math.round(642500 * paymentGrowthFactor);
+  const shaClaimsGrowthVal = Math.round(485900 * paymentGrowthFactor);
+  const cashSettlementVal = Math.round(312400 * paymentGrowthFactor);
+  const activePaymentGrowthObj =
+    currentPaymentGrowthData.bars.find((b) => b.month === selectedPaymentGrowthMonth) ||
+    currentPaymentGrowthData.bars[5];
 
   useEffect(() => {
     if (!activeChartModal) return undefined;
@@ -1051,7 +1088,11 @@ export function DashboardView({ user }) {
                           ? `Payment Distribution Overview (${paymentYear})`
                           : activeChartModal === 'income'
                             ? `Asset Distribution & Income Summary (${incomeYear})`
-                            : `Practice Financial Balance & Streams (${balanceYear})`}
+                            : activeChartModal === 'expenses'
+                              ? `Practice Expenses Breakdown (${expensesYear})`
+                              : activeChartModal === 'payment-growth'
+                                ? `Payment Growth Overview (${paymentGrowthYear})`
+                                : `Practice Financial Balance & Streams (${balanceYear})`}
                   </h2>
                   <p className="text-xs text-[#888888]">
                     Interactive practice analytics display • Select tabs to review complete departmental metrics
@@ -1070,7 +1111,11 @@ export function DashboardView({ user }) {
                           ? paymentYear
                           : activeChartModal === 'income'
                             ? incomeYear
-                            : balanceYear
+                            : activeChartModal === 'expenses'
+                              ? expensesYear
+                              : activeChartModal === 'payment-growth'
+                                ? paymentGrowthYear
+                                : balanceYear
                   }
                   onChange={(e) => {
                     const yr = Number(e.target.value);
@@ -1078,6 +1123,8 @@ export function DashboardView({ user }) {
                     else if (activeChartModal === 'patient-growth') setPatientGrowthYear(yr);
                     else if (activeChartModal === 'payment') setPaymentYear(yr);
                     else if (activeChartModal === 'income') setIncomeYear(yr);
+                    else if (activeChartModal === 'expenses') setExpensesYear(yr);
+                    else if (activeChartModal === 'payment-growth') setPaymentGrowthYear(yr);
                     else setBalanceYear(yr);
                   }}
                   className="rounded border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs cursor-pointer"
@@ -1108,6 +1155,8 @@ export function DashboardView({ user }) {
                 { id: 'payment', label: 'Payment Distribution' },
                 { id: 'income', label: 'Income Summary' },
                 { id: 'balance', label: 'Financial Balance' },
+                { id: 'expenses', label: 'Expenses Overview' },
+                { id: 'payment-growth', label: 'Payment Growth' },
               ].map((tab) => {
                 const isActive = activeChartModal === tab.id;
                 return (
@@ -1696,6 +1745,165 @@ export function DashboardView({ user }) {
                       <span className="text-xs font-bold text-[#080808] select-text">{formatCurrency(claimsIncomeVal)}</span>
                     </div>
                   </div>
+                </div>
+              </>
+            ) : activeChartModal === 'expenses' ? (
+              <>
+                {/* Expenses KPI Summary Strip */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy(formatCurrency(totalExpenseVal), 'Total Practice Expense')}
+                    title="Click to copy total expense"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Total Expense</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatCurrency(totalExpenseVal)}</div>
+                  </div>
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy(`${formatCurrency(expenseCategories[0].amount)} (45%)`, 'Top Expense (Internet)')}
+                    title="Click to copy top expense"
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Top Category</span>
+                    <div className="mt-1 text-lg font-bold text-[#9353D3] select-text">Internet (45%)</div>
+                  </div>
+                  <div className="rounded border border-slate-100 bg-slate-50/70 p-3 select-text">
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Period Window</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{expensesPeriod}</div>
+                  </div>
+                  <div className="rounded border border-purple-100 bg-purple-50/50 p-3 select-text">
+                    <span className="text-[11px] font-semibold text-[#9353D3] select-text">Active Year</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">Year {expensesYear}</div>
+                  </div>
+                </div>
+
+                {/* Expanded Expenses Donut + Full Breakdown */}
+                <div className="rounded border border-[#EFEFEF] bg-white p-6 grid grid-cols-1 md:grid-cols-2 items-center gap-6">
+                  <div className="flex items-center justify-center">
+                    <svg viewBox="0 0 220 220" className="w-60 h-60 block select-text">
+                      <circle cx="110" cy="110" r="80" fill="none" stroke="#F8FAFC" strokeWidth="14" />
+                      <circle cx="110" cy="110" r="65" fill="none" stroke="#F1F5F9" strokeWidth="5" />
+                      <circle cx="110" cy="110" r="57" fill="none" stroke="#E2E8F0" strokeWidth="4" strokeDasharray="1.5 3.6" />
+                      {[
+                        { id: 'internet', color: '#9353D3', rot: -82, len: 196 },
+                        { id: 'electricity', color: '#8CE95A', rot: 72, len: 112 },
+                        { id: 'transactions', color: '#29B6F6', rot: 162, len: 88 },
+                        { id: 'rental', color: '#EC006C', rot: 233, len: 28 },
+                        { id: 'foods', color: '#FF6B00', rot: 259, len: 10 },
+                        { id: 'other', color: '#FFC107', rot: 271, len: 5 },
+                      ].map((seg) => (
+                        <g key={seg.id} transform={`rotate(${seg.rot} 110 110)`}>
+                          <circle cx="110" cy="110" r="80" fill="none" stroke="#FFFFFF" strokeWidth="18" strokeDasharray={`${seg.len} 502.65`} strokeLinecap="round" />
+                          <circle cx="110" cy="110" r="80" fill="none" stroke={seg.color} strokeWidth="13.5" strokeDasharray={`${seg.len} 502.65`} strokeLinecap="round" />
+                        </g>
+                      ))}
+                      <text x="110" y="99" textAnchor="middle" fill="#888888" fontSize="11.5" fontWeight="500" className="select-text">
+                        Total Expense
+                      </text>
+                      <text x="110" y="122" textAnchor="middle" fill="#1E293B" fontSize="17.5" fontWeight="800" className="select-text">
+                        {formatCurrency(totalExpenseVal)}
+                      </text>
+                    </svg>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    {expenseCategories.map((cat) => (
+                      <div
+                        key={cat.id}
+                        onClick={() => handleCopy(`${formatCurrency(cat.amount)} (${cat.pct})`, `${cat.label} Expense`)}
+                        className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50/70 px-3.5 py-2.5 cursor-pointer hover:bg-slate-100 transition-all select-text"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <span className="h-2 w-3.5 rounded-full" style={{ backgroundColor: cat.color }} />
+                          <span className="text-xs font-semibold text-slate-800 select-text">{cat.label}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs font-bold text-[#0F172A] select-text">{formatCurrency(cat.amount)}</span>
+                          <span className="text-xs font-extrabold text-slate-500 select-text">{cat.pct}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : activeChartModal === 'payment-growth' ? (
+              <>
+                {/* Payment Growth KPI Summary Strip */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy(formatCurrency(mpesaGrowthVal), 'M-Pesa STK Growth')}
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">M-Pesa STK Growth</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatCurrency(mpesaGrowthVal)}</div>
+                  </div>
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy(formatCurrency(shaClaimsGrowthVal), 'SHA Claims Settled')}
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">SHA Claims Settled</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatCurrency(shaClaimsGrowthVal)}</div>
+                  </div>
+                  <div
+                    className="rounded border border-slate-100 bg-slate-50/70 p-3 cursor-pointer hover:bg-slate-100/70 transition-all select-text"
+                    onClick={() => handleCopy(formatCurrency(cashSettlementVal), 'Private Collections')}
+                  >
+                    <span className="text-[11px] font-medium text-[#888888] select-text">Private Collections</span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">{formatCurrency(cashSettlementVal)}</div>
+                  </div>
+                  <div
+                    className="rounded border border-emerald-200 bg-emerald-50/60 p-3 cursor-pointer hover:bg-emerald-100/60 transition-all select-text"
+                    onClick={() => handleCopy(formatCurrency(activePaymentGrowthObj.count * 1250), `${activePaymentGrowthObj.month} ${paymentGrowthYear} Volume`)}
+                  >
+                    <span className="text-[11px] font-semibold text-[#00A859] select-text">
+                      Selected ({activePaymentGrowthObj.month} {paymentGrowthYear})
+                    </span>
+                    <div className="mt-1 text-lg font-bold text-[#080808] select-text">
+                      {formatCurrency(activePaymentGrowthObj.count * 1250)}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Expanded 12-Month Payment Growth Bar Chart */}
+                <div className="rounded border border-[#EFEFEF] bg-white p-4">
+                  <svg viewBox="28 220 674 258" fill="none" className="w-full h-auto block select-text">
+                    {[234, 286, 338, 390].map((yPos) => (
+                      <line key={yPos} x1="78" y1={yPos} x2="700" y2={yPos} stroke="#E0E0E0" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="4 4" />
+                    ))}
+                    {currentPaymentGrowthData.yAxisLabels.map((item) => (
+                      <text key={item.label} x="61" y={item.y + 5} textAnchor="end" fill="#888888" fontSize="14" fontWeight="500" className="select-text">
+                        {item.label}
+                      </text>
+                    ))}
+                    {currentPaymentGrowthData.bars.map((bar, idx) => {
+                      const isSelected = selectedPaymentGrowthMonth === bar.month;
+                      return (
+                        <g key={bar.month || idx} className="cursor-pointer" onClick={() => setSelectedPaymentGrowthMonth(bar.month)}>
+                          <rect x={bar.x} y={bar.y} width="26" height={bar.height} rx="8" fill={isSelected ? '#00A859' : '#00C26B'} />
+                          {isSelected && (
+                            <g transform={`translate(${Math.min(Math.max(bar.xCenter - 46, 75), 605)}, ${bar.y - 28})`}>
+                              <rect width="92" height="22" rx="4" fill="#030303" />
+                              <text x="46" y="15" textAnchor="middle" fill="#FFFFFF" fontSize="11" fontWeight="600" className="select-text">
+                                {formatCurrency(bar.count * 1250)}
+                              </text>
+                            </g>
+                          )}
+                        </g>
+                      );
+                    })}
+                    <line x1="78" y1="441.5" x2="700" y2="441.5" stroke="#E9E9E9" strokeWidth="1" />
+                    {currentPaymentGrowthData.xAxisLabels.map((item) => {
+                      const isSelected = selectedPaymentGrowthMonth === item.label;
+                      return (
+                        <g key={item.label} className="cursor-pointer" onClick={() => setSelectedPaymentGrowthMonth(item.label)}>
+                          {isSelected && <rect x={item.x - 22} y="451" width="44" height="24" rx="12" fill="#F3F4F6" />}
+                          <text x={item.x} y="468" textAnchor="middle" fill={isSelected ? '#080808' : '#888888'} fontSize="12.5" fontWeight={isSelected ? '600' : '500'} className="select-text">
+                            {item.label}
+                          </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
                 </div>
               </>
             ) : (
@@ -2588,6 +2796,471 @@ export function DashboardView({ user }) {
                 </text>
               </svg>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Section 3.5: Expenses Overview & Payment Growth Overview (2-Card Row Matching Sales & Patient Growth UI) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
+        {/* Card 1: Expenses Overview (Exact Reference UI + Dashboard Card Chrome) */}
+        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+          <div>
+            {/* Card Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                {/* Purple/Pink Expense Wallet Icon */}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                  <circle cx="12" cy="12" r="9" stroke="#9353D3" strokeWidth="2" />
+                  <path d="M12 7v10M9.5 9.5c0-1.1 1.12-2 2.5-2s2.5.9 2.5 2-1.12 2-2.5 2-2.5.9-2.5 2 1.12 2 2.5 2 2.5-.9 2.5-2" stroke="#9353D3" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+                <h2 className="text-sm font-semibold text-[#080808] tracking-tight select-text">
+                  Expenses ({expensesYear})
+                </h2>
+                <InfoBadgeIcon
+                  title={`Expenses Breakdown (${expensesYear})`}
+                  subtitle={`Avicena Dental Practice — ${expensesPeriod}`}
+                  accentColor="#9353D3"
+                  stats={[
+                    { label: 'Total Expense', value: formatCurrency(totalExpenseVal) },
+                    { label: 'Top Category', value: 'Internet (45%)' },
+                    { label: 'Active Window', value: expensesPeriod },
+                    { label: 'Categories', value: '6 Tracked Heads' },
+                  ]}
+                  items={expenseCategories.map((c) => ({
+                    label: `${c.label} (${c.pct})`,
+                    value: formatCurrency(c.amount),
+                  }))}
+                  onOpenModal={() => setActiveChartModal('expenses')}
+                />
+              </div>
+
+              <div className="flex items-center gap-2">
+                {/* Period Filter Pill ("Last 6 months" dropdown matching reference screenshot) */}
+                <select
+                  value={expensesPeriod}
+                  onChange={(e) => setExpensesPeriod(e.target.value)}
+                  className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-2xs hover:border-slate-300 focus:outline-none cursor-pointer"
+                  aria-label="Select expense timeframe"
+                >
+                  <option value="Last 6 months">Last 6 months</option>
+                  <option value="Last 12 months">Last 12 months</option>
+                  <option value="This Quarter">This Quarter</option>
+                </select>
+
+                <CardActionToolbar
+                  onExpand={() => setActiveChartModal('expenses')}
+                  selectedYear={expensesYear}
+                  onSelectYear={(yr) => setExpensesYear(Number(yr))}
+                />
+              </div>
+            </div>
+
+            {/* Middle Section: Multi-Segment Rounded Donut Ring + Right Category Legend */}
+            <div className="grid grid-cols-1 sm:grid-cols-12 items-center gap-4 py-2">
+              {/* Left Donut Chart with Inner Dashed Tick Ring */}
+              <div className="sm:col-span-6 flex items-center justify-center">
+                <svg viewBox="0 0 220 220" className="w-52 h-52 block select-text">
+                  {/* Subtle Outer Halo Track */}
+                  <circle cx="110" cy="110" r="80" fill="none" stroke="#F8FAFC" strokeWidth="14" />
+
+                  {/* Inner Soft Circle & Radial Tick Ring (Matching Reference Image) */}
+                  <circle cx="110" cy="110" r="65" fill="none" stroke="#F1F5F9" strokeWidth="5" />
+                  <circle
+                    cx="110"
+                    cy="110"
+                    r="57"
+                    fill="none"
+                    stroke="#E2E8F0"
+                    strokeWidth="4"
+                    strokeDasharray="1.5 3.6"
+                  />
+
+                  {/* 6 Rounded-Cap Donut Segments (Rotated around 110,110 with clean white border separation) */}
+                  {[
+                    { id: 'internet', color: '#9353D3', rot: -82, len: 196, label: 'Internet (45%)' },
+                    { id: 'electricity', color: '#8CE95A', rot: 72, len: 112, label: 'Electricity (26%)' },
+                    { id: 'transactions', color: '#29B6F6', rot: 162, len: 88, label: 'Transactions (22%)' },
+                    { id: 'rental', color: '#EC006C', rot: 233, len: 28, label: 'Rental Cost (8%)' },
+                    { id: 'foods', color: '#FF6B00', rot: 259, len: 10, label: 'Foods (3%)' },
+                    { id: 'other', color: '#FFC107', rot: 271, len: 5, label: 'Other (2%)' },
+                  ].map((seg) => {
+                    const catObj = expenseCategories.find((c) => c.id === seg.id);
+                    const isFocused = focusedExpenseCategory === seg.id;
+                    return (
+                      <g
+                        key={seg.id}
+                        transform={`rotate(${seg.rot} 110 110)`}
+                        className="cursor-pointer transition-opacity hover:opacity-90"
+                        onClick={() => {
+                          setFocusedExpenseCategory((p) => (p === seg.id ? null : seg.id));
+                          if (catObj) {
+                            handleCopy(`${formatCurrency(catObj.amount)} (${catObj.pct})`, `${catObj.label} Expense`);
+                          }
+                        }}
+                      >
+                        <title>{`${seg.label} • Click to inspect and copy`}</title>
+                        {/* White separator under-stroke for crisp overlap cap */}
+                        <circle
+                          cx="110"
+                          cy="110"
+                          r="80"
+                          fill="none"
+                          stroke="#FFFFFF"
+                          strokeWidth={isFocused ? 20 : 18}
+                          strokeDasharray={`${seg.len} 502.65`}
+                          strokeLinecap="round"
+                        />
+                        {/* Colored segment stroke */}
+                        <circle
+                          cx="110"
+                          cy="110"
+                          r="80"
+                          fill="none"
+                          stroke={seg.color}
+                          strokeWidth={isFocused ? 16 : 13.5}
+                          strokeDasharray={`${seg.len} 502.65`}
+                          strokeLinecap="round"
+                        />
+                      </g>
+                    );
+                  })}
+
+                  {/* Center Total Expense Label & Value */}
+                  <g
+                    className="cursor-pointer"
+                    onClick={() =>
+                      focusedExpenseObj
+                        ? handleCopy(formatCurrency(focusedExpenseObj.amount), `${focusedExpenseObj.label} Expense`)
+                        : handleCopy(formatCurrency(totalExpenseVal), 'Total Expense')
+                    }
+                    title="Click to copy expense amount"
+                  >
+                    <text
+                      x="110"
+                      y="99"
+                      textAnchor="middle"
+                      fill="#888888"
+                      fontSize="11.5"
+                      fontWeight="500"
+                      className="select-text"
+                    >
+                      {focusedExpenseObj ? focusedExpenseObj.label : 'Total Expense'}
+                    </text>
+                    <text
+                      x="110"
+                      y="122"
+                      textAnchor="middle"
+                      fill="#1E293B"
+                      fontSize="17.5"
+                      fontWeight="800"
+                      className="select-text"
+                    >
+                      {formatCurrency(focusedExpenseObj ? focusedExpenseObj.amount : totalExpenseVal)}
+                    </text>
+                  </g>
+                </svg>
+              </div>
+
+              {/* Right Category Breakdown Legend List (6 Items) */}
+              <div className="sm:col-span-6 space-y-2.5 pr-2">
+                {expenseCategories.map((cat) => {
+                  const isFocused = focusedExpenseCategory === cat.id;
+                  return (
+                    <div
+                      key={cat.id}
+                      onClick={() => {
+                        setFocusedExpenseCategory((p) => (p === cat.id ? null : cat.id));
+                        handleCopy(`${formatCurrency(cat.amount)} (${cat.pct})`, `${cat.label} Expense`);
+                      }}
+                      title={`Click to copy ${cat.label}: ${formatCurrency(cat.amount)}`}
+                      className={`flex items-center justify-between rounded-lg px-2.5 py-1.5 cursor-pointer transition-all select-text ${
+                        isFocused ? 'bg-slate-100/90 shadow-2xs' : 'hover:bg-slate-50'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span
+                          className="h-1.5 w-3 rounded-full shrink-0"
+                          style={{ backgroundColor: cat.color }}
+                        />
+                        <span className="text-xs font-medium text-[#334155] select-text">
+                          {cat.label}
+                        </span>
+                      </div>
+                      <span className="text-xs font-bold text-[#0F172A] select-text">
+                        {cat.pct}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Section: TOP EXPENSE 2x2 Grid (Matching Reference Image) */}
+          <div className="mt-3 pt-3 border-t border-slate-100">
+            <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#888888] mb-2.5 select-text">
+              TOP EXPENSE
+            </h4>
+            <div className="grid grid-cols-2 gap-2.5">
+              {topExpenseCards.map((item) => {
+                const isFocused = focusedExpenseCategory === item.id;
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => {
+                      setFocusedExpenseCategory((p) => (p === item.id ? null : item.id));
+                      handleCopy(formatCurrency(item.amount), `${item.shortLabel} Expense`);
+                    }}
+                    title={`Click to copy ${item.shortLabel} expense`}
+                    className={`rounded-xl border p-3 cursor-pointer transition-all select-text ${
+                      isFocused
+                        ? 'border-purple-300 bg-purple-50/40 shadow-2xs'
+                        : 'border-slate-100 bg-[#F8FAFC] hover:border-slate-200 hover:bg-slate-100/60'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="h-1.5 w-2.5 rounded-full shrink-0"
+                        style={{ backgroundColor: item.color }}
+                      />
+                      <span className="text-xs font-medium text-[#888888] select-text">
+                        {item.shortLabel}
+                      </span>
+                    </div>
+                    <div className="mt-1.5 pl-4 text-sm font-bold text-[#0F172A] select-text">
+                      {formatCurrency(item.amount)}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Payment Growth Overview (Matching Sales & Patient Growth Card UI) */}
+        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+          <div>
+            {/* Card Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                {/* Emerald Growth Trend Icon (#00C26B) */}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                  <path
+                    d="M3 17l6-6 4 4 8-8"
+                    stroke="#00C26B"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M14 7h7v7"
+                    stroke="#00C26B"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <h2 className="text-sm font-semibold text-[#080808] tracking-tight select-text">
+                  Payment Growth Overview ({paymentGrowthYear})
+                </h2>
+                <InfoBadgeIcon
+                  title={`Payment Growth Overview (${paymentGrowthYear})`}
+                  subtitle="Monthly Collections & Settlement Velocity"
+                  accentColor="#00C26B"
+                  stats={[
+                    { label: 'M-Pesa Collections', value: formatCurrency(mpesaGrowthVal) },
+                    { label: 'SHA & Ins. Claims', value: formatCurrency(shaClaimsGrowthVal) },
+                    { label: 'Direct Cash / Card', value: formatCurrency(cashSettlementVal) },
+                    { label: `Selected (${activePaymentGrowthObj.month})`, value: formatCurrency(activePaymentGrowthObj.count * 1250) },
+                  ]}
+                  items={currentPaymentGrowthData.bars.map((b) => ({
+                    label: b.month,
+                    value: formatCurrency(b.count * 1250),
+                  }))}
+                  onOpenModal={() => setActiveChartModal('payment-growth')}
+                />
+              </div>
+
+              <CardActionToolbar
+                onExpand={() => setActiveChartModal('payment-growth')}
+                selectedYear={paymentGrowthYear}
+                onSelectYear={(yr) => setPaymentGrowthYear(Number(yr))}
+              />
+            </div>
+
+            {/* 3 KPI Metrics Row (Matching Patient Growth Overview Top Strip) */}
+            <div className="grid grid-cols-3 gap-2 mb-3">
+              {[
+                {
+                  id: 'mpesa-growth',
+                  label: 'M-Pesa STK Growth',
+                  value: formatCurrency(mpesaGrowthVal),
+                  change: '18.4%',
+                  isPositive: true,
+                },
+                {
+                  id: 'sha-growth',
+                  label: 'SHA Claims Settled',
+                  value: formatCurrency(shaClaimsGrowthVal),
+                  change: '14.2%',
+                  isPositive: true,
+                },
+                {
+                  id: 'cash-growth',
+                  label: 'Private Collections',
+                  value: formatCurrency(cashSettlementVal),
+                  change: '9.6%',
+                  isPositive: true,
+                },
+              ].map((metric, idx) => (
+                <div
+                  key={metric.id}
+                  onClick={() => handleCopy(metric.value, metric.label)}
+                  title="Click to copy payment metric"
+                  className={`flex flex-col cursor-pointer rounded p-1.5 hover:bg-slate-50 transition-colors select-text ${
+                    idx > 0 ? 'border-l border-dashed border-[#E0E0E0] pl-3' : ''
+                  }`}
+                >
+                  <span className="text-[11px] font-medium text-[#888888] truncate select-text">
+                    {metric.label}
+                  </span>
+                  <div className="mt-1 flex items-center gap-1.5 flex-wrap">
+                    <span className="text-sm sm:text-base font-bold tracking-tight text-[#080808] leading-none select-text">
+                      {metric.value}
+                    </span>
+                    <span className="flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-bold bg-[#E8FFF4] border border-[#8FE7BE] text-[#1DBF73] select-text">
+                      <span>▲</span>
+                      <span>{metric.change}</span>
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 12-Month Interactive Payment Growth Bar Chart */}
+          <div className="w-full overflow-hidden">
+            <svg
+              viewBox="28 220 674 258"
+              fill="none"
+              className="w-full h-auto block select-text"
+            >
+              {/* Dashed Horizontal Grid Lines */}
+              {[234, 286, 338, 390].map((yPos) => (
+                <line
+                  key={yPos}
+                  x1="78"
+                  y1={yPos}
+                  x2="700"
+                  y2={yPos}
+                  stroke="#E0E0E0"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  strokeDasharray="4 4"
+                />
+              ))}
+
+              {/* Y-Axis Labels */}
+              {currentPaymentGrowthData.yAxisLabels.map((item) => (
+                <text
+                  key={item.label}
+                  x="61"
+                  y={item.y + 5}
+                  textAnchor="end"
+                  fill="#888888"
+                  fontSize="14"
+                  fontWeight="500"
+                  className="select-text"
+                >
+                  {item.label}
+                </text>
+              ))}
+
+              {/* 12 Monthly Interactive Emerald/Cyan Bars */}
+              {currentPaymentGrowthData.bars.map((bar, idx) => {
+                const isHovered =
+                  hoveredPaymentGrowthIndex === idx || selectedPaymentGrowthMonth === bar.month;
+                const barAmountFormatted = formatCurrency(bar.count * 1250);
+                return (
+                  <g
+                    key={bar.month || idx}
+                    className="cursor-pointer"
+                    onMouseEnter={() => {
+                      setHoveredPaymentGrowthIndex(idx);
+                      setSelectedPaymentGrowthMonth(bar.month);
+                    }}
+                    onMouseLeave={() => setHoveredPaymentGrowthIndex(null)}
+                    onClick={() => {
+                      setSelectedPaymentGrowthMonth(bar.month);
+                      handleCopy(barAmountFormatted, `${bar.month} ${paymentGrowthYear} Payment Volume`);
+                    }}
+                    title="Click to select month and copy payment volume"
+                  >
+                    <rect
+                      x={bar.x}
+                      y={bar.y}
+                      width="26"
+                      height={bar.height}
+                      rx="8"
+                      fill={isHovered ? '#00A859' : '#00C26B'}
+                    />
+                    {isHovered && (
+                      <g transform={`translate(${Math.min(Math.max(bar.xCenter - 46, 75), 605)}, ${bar.y - 28})`}>
+                        <rect width="92" height="22" rx="4" fill="#030303" />
+                        <text
+                          x="46"
+                          y="15"
+                          textAnchor="middle"
+                          fill="#FFFFFF"
+                          fontSize="11"
+                          fontWeight="600"
+                          className="select-text"
+                        >
+                          {barAmountFormatted}
+                        </text>
+                      </g>
+                    )}
+                  </g>
+                );
+              })}
+
+              {/* Solid X-Axis Baseline */}
+              <line x1="78" y1="441.5" x2="700" y2="441.5" stroke="#E9E9E9" strokeWidth="1" />
+
+              {/* 12 Monthly X-Axis Labels (Jan .. Dec) */}
+              {currentPaymentGrowthData.xAxisLabels.map((item) => {
+                const isSelected = selectedPaymentGrowthMonth === item.label;
+                return (
+                  <g
+                    key={item.label}
+                    className="cursor-pointer"
+                    onClick={() => setSelectedPaymentGrowthMonth(item.label)}
+                  >
+                    {isSelected && (
+                      <rect
+                        x={item.x - 22}
+                        y="451"
+                        width="44"
+                        height="24"
+                        rx="12"
+                        fill="#F3F4F6"
+                      />
+                    )}
+                    <text
+                      x={item.x}
+                      y="468"
+                      textAnchor="middle"
+                      fill={isSelected ? '#080808' : '#888888'}
+                      fontSize="12.5"
+                      fontWeight={isSelected ? '600' : '500'}
+                      className="select-text"
+                    >
+                      {item.label}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
           </div>
         </div>
       </div>
