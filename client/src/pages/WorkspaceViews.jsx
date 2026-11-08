@@ -25,6 +25,7 @@ import {
   getPatientGrowthDataByYear,
 } from './data.js';
 import { formatCurrency, formatNumber } from '../utils/formatter.js';
+import PatientsPage from './Patients.jsx';
 
 export { DashboardWireframeSkeleton };
 
@@ -3534,89 +3535,7 @@ export function DashboardView({ user }) {
 
 // ─── 2. Patients View ───────────────────────────────────────────────────────
 export function PatientsView() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const patients = [
-    { id: 'PAT-1082', name: 'Wanjiku Kamau', phone: '+254 712 345 678', age: 34, gender: 'Female', insurance: 'SHA / Jubilee Insurance', lastVisit: 'Today', status: 'Active' },
-    { id: 'PAT-1081', name: 'Brian Omondi', phone: '+254 722 987 654', age: 29, gender: 'Male', insurance: 'AAR Healthcare', lastVisit: '10 Nov 2026', status: 'Active' },
-    { id: 'PAT-1080', name: 'Mercy Njeri', phone: '+254 733 112 233', age: 42, gender: 'Female', insurance: 'Self Pay (M-Pesa)', lastVisit: '04 Oct 2026', status: 'Active' },
-    { id: 'PAT-1079', name: 'Kevin Mutua', phone: '+254 701 445 566', age: 26, gender: 'Male', insurance: 'Britam Dental', lastVisit: '15 Sep 2026', status: 'Active' },
-    { id: 'PAT-1078', name: 'Grace Chebet', phone: '+254 718 778 899', age: 38, gender: 'Female', insurance: 'SHA Direct', lastVisit: '01 Aug 2026', status: 'Follow Up' },
-  ];
-
-  const filtered = patients.filter(
-    (p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.id.toLowerCase().includes(searchTerm.toLowerCase()) || p.phone.includes(searchTerm)
-  );
-
-  return (
-    <div className="space-y-6">
-      <ViewHeader
-        title="Patients Directory"
-        subtitle="Manage patient clinical files, medical histories, and contact profiles"
-        actions={
-          <button
-            onClick={() => alert('Registering New Patient...')}
-            className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
-          >
-            <HugeiconsIcon icon={PlusSignIcon} size={16} />
-            <span>Add New Patient</span>
-          </button>
-        }
-      />
-
-      <div className="flex items-center gap-3 bg-white p-3 rounded border border-slate-200/80 shadow-2xs">
-        <div className="relative flex-1">
-          <HugeiconsIcon icon={Search01Icon} size={16} className="absolute left-3 top-2.5 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search patients by name, file number, or phone..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 text-xs rounded border border-slate-200 focus:outline-none focus:border-blue-600"
-          />
-        </div>
-        <button className="flex items-center gap-1.5 rounded border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 cursor-pointer">
-          <HugeiconsIcon icon={FilterIcon} size={14} />
-          <span>Filter</span>
-        </button>
-      </div>
-
-      <div className="rounded border border-slate-200/90 bg-white overflow-hidden shadow-2xs">
-        <table className="w-full text-left text-xs">
-          <thead className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase">
-            <tr>
-              <th className="p-3">File ID</th>
-              <th className="p-3">Patient Name</th>
-              <th className="p-3">Phone</th>
-              <th className="p-3">Age / Gender</th>
-              <th className="p-3">Insurance / Billing</th>
-              <th className="p-3">Last Visit</th>
-              <th className="p-3">Action</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100 text-slate-700">
-            {filtered.map((p) => (
-              <tr key={p.id} className="hover:bg-slate-50/70">
-                <td className="p-3 font-bold text-blue-600">{p.id}</td>
-                <td className="p-3 font-bold text-slate-900">{p.name}</td>
-                <td className="p-3 font-medium text-slate-600">{p.phone}</td>
-                <td className="p-3">{p.age} yrs / {p.gender}</td>
-                <td className="p-3"><span className="rounded bg-blue-50 text-blue-800 px-2 py-0.5 text-[11px] font-semibold">{p.insurance}</span></td>
-                <td className="p-3 text-slate-500">{p.lastVisit}</td>
-                <td className="p-3">
-                  <button
-                    onClick={() => alert(`Opening Patient Profile: ${p.name}`)}
-                    className="rounded border border-slate-200 bg-white px-2 py-1 text-[11px] font-semibold text-slate-700 hover:bg-slate-100 cursor-pointer"
-                  >
-                    View Chart
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+  return <PatientsPage />;
 }
 
 // ─── 3. Appointments View ───────────────────────────────────────────────────

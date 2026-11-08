@@ -88,26 +88,26 @@ export default function PageHeader({
     moreActions !== undefined
       ? moreActions
       : [
-          {
-            id: 'import',
-            label: `Import ${typeof title === 'string' ? title : 'Data'}`,
-            icon: Upload01Icon,
-            iconPosition: 'right',
-            onClick: () => {
-              // placeholder handler
-            },
+        {
+          id: 'import',
+          label: `Import ${typeof title === 'string' ? title : 'Data'}`,
+          icon: Upload01Icon,
+          iconPosition: 'right',
+          onClick: () => {
+            // placeholder handler
           },
-          {
-            id: 'add-multiple',
-            label: `Add Multiple ${typeof title === 'string' ? title : 'Items'}`,
-            onClick: () => {},
-          },
-          {
-            id: 'manage-roles',
-            label: 'Manage User Roles',
-            onClick: () => {},
-          },
-        ];
+        },
+        {
+          id: 'add-multiple',
+          label: `Add Multiple ${typeof title === 'string' ? title : 'Items'}`,
+          onClick: () => { },
+        },
+        {
+          id: 'manage-roles',
+          label: 'Manage User Roles',
+          onClick: () => { },
+        },
+      ];
 
   // Resolve addition button configuration
   const defaultAddLabel = addLabel || (typeof title === 'string' ? `Add ${title.replace(/s$/, '')}` : 'Add');
@@ -120,18 +120,14 @@ export default function PageHeader({
   return (
     <header className={`w-full bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 ${className}`}>
       {/* Top Header Row */}
-      <div className="flex flex-wrap items-center justify-between gap-4 py-4 px-4 sm:px-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 py-4 px-4">
         {/* Left Side: Page Name & Learn Badge */}
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center gap-4 min-w-0">
           <div className="flex items-center gap-2">
             <h1 className="text-2xl sm:text-[26px] font-bold tracking-tight text-gray-900 dark:text-white truncate">
               {title}
             </h1>
-            {badge && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 dark:bg-slate-800 dark:text-slate-300">
-                {badge}
-              </span>
-            )}
+
           </div>
 
           {/* Learn Pill Button */}
@@ -164,11 +160,10 @@ export default function PageHeader({
                 aria-expanded={isMenuOpen}
                 aria-label="More actions"
                 onClick={() => setIsMenuOpen((prev) => !prev)}
-                className={`flex items-center justify-center h-9 w-9 rounded-lg border transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 ${
-                  isMenuOpen
-                    ? 'border-gray-300 bg-gray-100 text-gray-900 dark:border-slate-600 dark:bg-slate-800 dark:text-white'
-                    : 'border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white shadow-2xs'
-                }`}
+                className={`flex items-center justify-center h-9 w-9 rounded border transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 ${isMenuOpen
+                  ? 'border-gray-300 bg-gray-100 text-gray-900 dark:border-slate-600 dark:bg-slate-800 dark:text-white'
+                  : 'border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white shadow-2xs'
+                  }`}
               >
                 <HugeiconsIcon icon={MoreHorizontalIcon} size={18} strokeWidth={2.2} />
               </button>
@@ -179,7 +174,7 @@ export default function PageHeader({
                   ref={menuRef}
                   role="menu"
                   aria-orientation="vertical"
-                  className="absolute right-0 top-full mt-1.5 min-w-[210px] w-max bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-xl shadow-lg dark:shadow-2xl py-1.5 z-50 animate-in fade-in-0 zoom-in-95 duration-100"
+                  className="absolute right-0 top-full mt-1.5 min-w-[210px] w-max bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded shadow-lg dark:shadow-2xl py-1.5 z-50 animate-in fade-in-0 zoom-in-95 duration-100"
                 >
                   {Array.isArray(resolvedMoreActions) ? (
                     resolvedMoreActions.map((action, index) => {
@@ -205,11 +200,10 @@ export default function PageHeader({
                             setIsMenuOpen(false);
                             if (action.onClick) action.onClick(e);
                           }}
-                          className={`w-full flex items-center justify-between gap-3 px-3.5 py-2 text-sm text-left transition-colors cursor-pointer select-none disabled:opacity-50 disabled:pointer-events-none ${
-                            action.danger
-                              ? 'text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30'
-                              : 'text-gray-700 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800/80 hover:text-gray-900 dark:hover:text-white'
-                          }`}
+                          className={`w-full flex items-center justify-between gap-3 px-3.5 py-2 text-sm text-left transition-colors cursor-pointer select-none disabled:opacity-50 disabled:pointer-events-none ${action.danger
+                            ? 'text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                            : 'text-gray-700 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800/80 hover:text-gray-900 dark:hover:text-white'
+                            }`}
                         >
                           <span className="flex items-center gap-2">
                             {IconComponent && iconPos === 'left' && (
@@ -250,7 +244,7 @@ export default function PageHeader({
               onClick={resolvedPrimaryAction.onClick}
               className={
                 resolvedPrimaryAction.className ||
-                'inline-flex items-center justify-center gap-1.5 h-9 px-3.5 py-2 text-sm font-medium rounded-lg text-white bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] shadow-xs transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2'
+                'inline-flex items-center justify-center gap-1.5 h-9 px-3.5 py-2 text-sm font-medium rounded text-white bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] shadow-xs transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2'
               }
             >
               <HugeiconsIcon
@@ -275,20 +269,18 @@ export default function PageHeader({
                 key={tab.id}
                 type="button"
                 onClick={() => onTabChange?.(tab.id)}
-                className={`py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors cursor-pointer select-none flex items-center gap-1.5 ${
-                  isActive
-                    ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400 font-semibold'
-                    : 'border-transparent text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'
-                }`}
+                className={`py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors cursor-pointer select-none flex items-center gap-1.5 ${isActive
+                  ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400 font-semibold'
+                  : 'border-transparent text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'
+                  }`}
               >
                 <span>{tab.label}</span>
                 {tab.count !== undefined && (
                   <span
-                    className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-normal ${
-                      isActive
-                        ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'
-                        : 'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-slate-400'
-                    }`}
+                    className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-normal ${isActive
+                      ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'
+                      : 'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-slate-400'
+                      }`}
                   >
                     {tab.count}
                   </span>
