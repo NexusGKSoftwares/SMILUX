@@ -427,27 +427,22 @@ export function DashboardView({ user }) {
   const shaClaimsGrowthVal = totalExpenseCompVal;
   const cashSettlementVal = Math.round((totalIncomeCompVal - totalExpenseCompVal));
 
-  const incomeExpenseMonths = (
-    incomeExpensePeriod === 'H2 (Jul - Dec)'
-      ? [
-        { month: 'JUL', incomeH: 94, expenseH: 40, incomeVal: Math.round(52000 * paymentGrowthFactor), expenseVal: Math.round(21000 * paymentGrowthFactor) },
-        { month: 'AUG', incomeH: 112, expenseH: 64, incomeVal: Math.round(61000 * paymentGrowthFactor), expenseVal: Math.round(34000 * paymentGrowthFactor) },
-        { month: 'SEP', incomeH: 175, expenseH: 68, incomeVal: Math.round(97000 * paymentGrowthFactor), expenseVal: Math.round(36000 * paymentGrowthFactor) },
-        { month: 'OCT', incomeH: 132, expenseH: 52, incomeVal: Math.round(73000 * paymentGrowthFactor), expenseVal: Math.round(28000 * paymentGrowthFactor) },
-        { month: 'NOV', incomeH: 118, expenseH: 88, incomeVal: Math.round(65000 * paymentGrowthFactor), expenseVal: Math.round(48000 * paymentGrowthFactor) },
-        { month: 'DEC', incomeH: 124, expenseH: 95, incomeVal: Math.round(68000 * paymentGrowthFactor), expenseVal: Math.round(52000 * paymentGrowthFactor) },
-      ]
-      : [
-        { month: 'JAN', incomeH: 88, expenseH: 34, incomeVal: Math.round(48500 * paymentGrowthFactor), expenseVal: Math.round(18700 * paymentGrowthFactor) },
-        { month: 'FEB', incomeH: 108, expenseH: 62, incomeVal: Math.round(59400 * paymentGrowthFactor), expenseVal: Math.round(34100 * paymentGrowthFactor) },
-        { month: 'MAR', incomeH: 175, expenseH: 66, incomeVal: Math.round(96800 * paymentGrowthFactor), expenseVal: Math.round(36300 * paymentGrowthFactor) },
-        { month: 'APR', incomeH: 128, expenseH: 50, incomeVal: Math.round(70400 * paymentGrowthFactor), expenseVal: Math.round(27500 * paymentGrowthFactor) },
-        { month: 'MAY', incomeH: 116, expenseH: 88, incomeVal: Math.round(63800 * paymentGrowthFactor), expenseVal: Math.round(48400 * paymentGrowthFactor) },
-        { month: 'JUN', incomeH: 116, expenseH: 94, incomeVal: Math.round(63800 * paymentGrowthFactor), expenseVal: Math.round(51700 * paymentGrowthFactor) },
-      ]
-  ).map((m, idx) => ({
+  const incomeExpenseMonths = [
+    { month: 'JAN', incomeH: 88, expenseH: 34, incomeVal: Math.round(48500 * paymentGrowthFactor), expenseVal: Math.round(18700 * paymentGrowthFactor) },
+    { month: 'FEB', incomeH: 108, expenseH: 62, incomeVal: Math.round(59400 * paymentGrowthFactor), expenseVal: Math.round(34100 * paymentGrowthFactor) },
+    { month: 'MAR', incomeH: 175, expenseH: 66, incomeVal: Math.round(96800 * paymentGrowthFactor), expenseVal: Math.round(36300 * paymentGrowthFactor) },
+    { month: 'APR', incomeH: 128, expenseH: 50, incomeVal: Math.round(70400 * paymentGrowthFactor), expenseVal: Math.round(27500 * paymentGrowthFactor) },
+    { month: 'MAY', incomeH: 116, expenseH: 88, incomeVal: Math.round(63800 * paymentGrowthFactor), expenseVal: Math.round(48400 * paymentGrowthFactor) },
+    { month: 'JUN', incomeH: 116, expenseH: 94, incomeVal: Math.round(63800 * paymentGrowthFactor), expenseVal: Math.round(51700 * paymentGrowthFactor) },
+    { month: 'JUL', incomeH: 98, expenseH: 44, incomeVal: Math.round(54200 * paymentGrowthFactor), expenseVal: Math.round(24100 * paymentGrowthFactor) },
+    { month: 'AUG', incomeH: 122, expenseH: 68, incomeVal: Math.round(67100 * paymentGrowthFactor), expenseVal: Math.round(37400 * paymentGrowthFactor) },
+    { month: 'SEP', incomeH: 156, expenseH: 72, incomeVal: Math.round(85800 * paymentGrowthFactor), expenseVal: Math.round(39600 * paymentGrowthFactor) },
+    { month: 'OCT', incomeH: 136, expenseH: 56, incomeVal: Math.round(74800 * paymentGrowthFactor), expenseVal: Math.round(30800 * paymentGrowthFactor) },
+    { month: 'NOV', incomeH: 124, expenseH: 82, incomeVal: Math.round(68200 * paymentGrowthFactor), expenseVal: Math.round(45100 * paymentGrowthFactor) },
+    { month: 'DEC', incomeH: 148, expenseH: 90, incomeVal: Math.round(81400 * paymentGrowthFactor), expenseVal: Math.round(49500 * paymentGrowthFactor) },
+  ].map((m, idx) => ({
     ...m,
-    xGroup: 86 + idx * 78,
+    xGroup: 64 + idx * 50,
   }));
 
   const activeIncomeExpenseMonthObj =
@@ -1909,9 +1904,9 @@ export function DashboardView({ user }) {
                   </div>
                 </div>
 
-                {/* Expanded Grouped Dual-Bar Income vs Expense Chart */}
+                {/* Expanded Grouped Dual-Bar Income vs Expense Chart (12 Months) */}
                 <div className="rounded border border-[#EFEFEF] bg-white p-6">
-                  <svg viewBox="0 0 560 250" fill="none" className="w-full h-auto block select-text">
+                  <svg viewBox="0 0 680 250" fill="none" className="w-full h-auto block select-text">
                     {[
                       { label: '10K', y: 34 },
                       { label: '7K', y: 80 },
@@ -1924,16 +1919,16 @@ export function DashboardView({ user }) {
                           {tick.label}
                         </text>
                         {i < 4 ? (
-                          <line x1="54" y1={tick.y} x2="536" y2={tick.y} stroke="#F1F5F9" strokeWidth="1.2" strokeDasharray="3 3" />
+                          <line x1="54" y1={tick.y} x2="664" y2={tick.y} stroke="#F1F5F9" strokeWidth="1.2" strokeDasharray="3 3" />
                         ) : (
-                          <line x1="54" y1={tick.y} x2="536" y2={tick.y} stroke="#E2E8F0" strokeWidth="1.3" />
+                          <line x1="54" y1={tick.y} x2="664" y2={tick.y} stroke="#E2E8F0" strokeWidth="1.3" />
                         )}
                       </g>
                     ))}
                     <line
                       x1="54"
                       y1={214 - activeIncomeExpenseMonthObj.incomeH}
-                      x2="536"
+                      x2="664"
                       y2={214 - activeIncomeExpenseMonthObj.incomeH}
                       stroke="#6BCE85"
                       strokeWidth="1.3"
@@ -1943,7 +1938,7 @@ export function DashboardView({ user }) {
                       const incomeY = 214 - item.incomeH;
                       const expenseY = 214 - item.expenseH;
                       const greenBarX = item.xGroup;
-                      const amberBarX = item.xGroup + 21;
+                      const amberBarX = item.xGroup + 14;
                       return (
                         <g
                           key={item.month}
@@ -1958,28 +1953,28 @@ export function DashboardView({ user }) {
                         >
                           {isSelected && (
                             <rect
-                              x={greenBarX - 5}
-                              y={incomeY - 8}
-                              width="26"
-                              height={item.incomeH + 8}
-                              rx="12"
+                              x={greenBarX - 4}
+                              y={incomeY - 7}
+                              width="19"
+                              height={item.incomeH + 7}
+                              rx="9.5"
                               fill="#6BCE85"
                               fillOpacity="0.16"
                             />
                           )}
-                          <rect x={greenBarX} y={incomeY} width="16" height={item.incomeH} rx="3" fill="#6BCE85" />
-                          <rect x={amberBarX} y={expenseY} width="16" height={item.expenseH} rx="3" fill="#FFB100" />
+                          <rect x={greenBarX} y={incomeY} width="11" height={item.incomeH} rx="2.5" fill="#6BCE85" />
+                          <rect x={amberBarX} y={expenseY} width="11" height={item.expenseH} rx="2.5" fill="#FFB100" />
                           {isSelected && (
-                            <circle cx={greenBarX + 8} cy={incomeY} r="5.5" fill="#6BCE85" stroke="#FFFFFF" strokeWidth="2.5" />
+                            <circle cx={greenBarX + 5.5} cy={incomeY} r="4.8" fill="#6BCE85" stroke="#FFFFFF" strokeWidth="2.2" />
                           )}
                           <text
-                            x={item.xGroup + 18.5}
+                            x={item.xGroup + 12.5}
                             y="238"
                             textAnchor="middle"
                             fill={isSelected ? '#1E293B' : '#94A3B8'}
-                            fontSize="11.5"
+                            fontSize="11"
                             fontWeight={isSelected ? '800' : '600'}
-                            letterSpacing="0.03em"
+                            letterSpacing="0.02em"
                             className="select-text"
                           >
                             {item.month}
