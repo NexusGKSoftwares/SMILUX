@@ -678,7 +678,7 @@ export default function ClinicalRecords() {
               align="right"
               triggerIcon={MoreHorizontalIcon}
               triggerClassName="h-7 w-7 rounded hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center shadow-2xs transition-colors cursor-pointer"
-              actions={[
+              items={[
                 {
                   id: 'view',
                   label: 'View Complete Clinical Note',
@@ -781,7 +781,7 @@ export default function ClinicalRecords() {
       />
 
       {/* ─── 2. Spreadsheet-Dense DataTable ─────────────────────────────────── */}
-      <div className="px-4 sm:px-6 pt-4">
+      <div className="">
         <DataTable
           title="Clinical Records"
           data={tabFilteredRecords}
@@ -808,10 +808,10 @@ export default function ClinicalRecords() {
       {/* ─── 3. Add Clinical Record Modal ───────────────────────────────────── */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900 z-10">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={PlusSignIcon} size={18} />
                 </div>
                 <div>
@@ -826,7 +826,7 @@ export default function ClinicalRecords() {
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
@@ -846,7 +846,7 @@ export default function ClinicalRecords() {
                     onChange={(e) =>
                       setNewRecordForm({ ...newRecordForm, patientName: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -861,7 +861,7 @@ export default function ClinicalRecords() {
                     onChange={(e) =>
                       setNewRecordForm({ ...newRecordForm, patientId: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -876,7 +876,7 @@ export default function ClinicalRecords() {
                     onChange={(e) =>
                       setNewRecordForm({ ...newRecordForm, tooth: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -889,7 +889,7 @@ export default function ClinicalRecords() {
                     onChange={(e) =>
                       setNewRecordForm({ ...newRecordForm, category: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   >
                     <option value="Restorative">Restorative</option>
                     <option value="Endodontics">Endodontics</option>
@@ -914,7 +914,7 @@ export default function ClinicalRecords() {
                   onChange={(e) =>
                     setNewRecordForm({ ...newRecordForm, procedure: e.target.value })
                   }
-                  className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
               </div>
 
@@ -929,7 +929,7 @@ export default function ClinicalRecords() {
                   onChange={(e) =>
                     setNewRecordForm({ ...newRecordForm, diagnosis: e.target.value })
                   }
-                  className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
               </div>
 
@@ -951,7 +951,7 @@ export default function ClinicalRecords() {
                       onChange={(e) =>
                         setNewRecordForm({ ...newRecordForm, soapS: e.target.value })
                       }
-                      className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 p-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 p-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                   </div>
 
@@ -966,7 +966,7 @@ export default function ClinicalRecords() {
                       onChange={(e) =>
                         setNewRecordForm({ ...newRecordForm, soapO: e.target.value })
                       }
-                      className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 p-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 p-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                   </div>
 
@@ -981,7 +981,7 @@ export default function ClinicalRecords() {
                       onChange={(e) =>
                         setNewRecordForm({ ...newRecordForm, soapA: e.target.value })
                       }
-                      className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 p-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 p-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                   </div>
 
@@ -996,7 +996,7 @@ export default function ClinicalRecords() {
                       onChange={(e) =>
                         setNewRecordForm({ ...newRecordForm, soapP: e.target.value })
                       }
-                      className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 p-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 p-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                   </div>
                 </div>
@@ -1014,7 +1014,7 @@ export default function ClinicalRecords() {
                     onChange={(e) =>
                       setNewRecordForm({ ...newRecordForm, anesthetic: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -1027,7 +1027,7 @@ export default function ClinicalRecords() {
                     onChange={(e) =>
                       setNewRecordForm({ ...newRecordForm, status: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   >
                     <option value="Completed">Completed</option>
                     <option value="In Progress">In Progress</option>
@@ -1040,13 +1040,13 @@ export default function ClinicalRecords() {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold rounded-lg text-white bg-[#027A48] hover:bg-[#02683E] shadow-xs transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[#027A48] hover:bg-[#02683E] shadow-xs transition-colors cursor-pointer"
                 >
                   Save Clinical Record
                 </button>
@@ -1059,10 +1059,10 @@ export default function ClinicalRecords() {
       {/* ─── 4. View Record Detail Modal ────────────────────────────────────── */}
       {viewingRecord && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-xl max-h-[85vh] overflow-y-auto animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-xl max-h-[85vh] overflow-y-auto animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={Doc01Icon} size={18} />
                 </div>
                 <div>
@@ -1075,14 +1075,14 @@ export default function ClinicalRecords() {
               <button
                 type="button"
                 onClick={() => setViewingRecord(null)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
             </div>
 
             <div className="p-6 space-y-4 text-xs">
-              <div className="grid grid-cols-2 gap-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
+              <div className="grid grid-cols-2 gap-3 p-3 rounded bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Patient</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5">{viewingRecord.patientName}</p>
@@ -1147,7 +1147,7 @@ export default function ClinicalRecords() {
               <button
                 type="button"
                 onClick={() => setViewingRecord(null)}
-                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 hover:bg-slate-300 cursor-pointer"
+                className="px-3.5 py-1.5 rounded text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 hover:bg-slate-300 cursor-pointer"
               >
                 Close Note
               </button>
@@ -1159,10 +1159,10 @@ export default function ClinicalRecords() {
       {/* ─── 5. Learn Modal ─────────────────────────────────────────────────── */}
       {isLearnModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                <div className="p-2 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
                   <HugeiconsIcon icon={Idea01Icon} size={18} />
                 </div>
                 <div>
@@ -1177,14 +1177,14 @@ export default function ClinicalRecords() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
             </div>
 
             <div className="p-6 space-y-3.5 text-xs text-slate-600 dark:text-slate-300">
-              <div className="p-3 rounded-lg bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
+              <div className="p-3 rounded bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
                 <h4 className="font-bold text-emerald-900 dark:text-emerald-300 mb-1">
                   SOAP Progress Note Structure
                 </h4>
@@ -1221,7 +1221,7 @@ export default function ClinicalRecords() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>
@@ -1232,3 +1232,4 @@ export default function ClinicalRecords() {
     </div>
   );
 }
+
