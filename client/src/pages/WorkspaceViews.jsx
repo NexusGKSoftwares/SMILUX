@@ -26,6 +26,7 @@ import {
 } from './data.js';
 import { formatCurrency, formatNumber } from '../utils/formatter.js';
 import PatientsPage from './Patients.jsx';
+import DateRangePicker from '../components/UI/DateRangePicker.jsx';
 
 export { DashboardWireframeSkeleton };
 
@@ -329,6 +330,10 @@ function getTimeBasedGreeting() {
 export function DashboardView({ user }) {
   const navigate = useNavigate();
   const [selectedTimeframe, setSelectedTimeframe] = useState('This Month');
+  const [dashboardDateRange, setDashboardDateRange] = useState({
+    start: new Date(2026, 10, 1),
+    end: new Date(2026, 10, 30),
+  });
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Interactive states for Charts
@@ -528,22 +533,15 @@ export function DashboardView({ user }) {
         title={`${greeting.text} ${greeting.emoji} , ${doctorName}`}
         subtitle="Avicena Dental Practice — Nairobi Main Branch  Overview"
         actions={
-          <div className="flex items-center gap-2">
-            {/* Date Filter Pill */}
-            <div className="flex items-center rounded border border-slate-200 bg-white p-0.5 shadow-2xs">
-              {['Today', 'This Week', 'This Month', 'Year 2026'].map((tf) => (
-                <button
-                  key={tf}
-                  onClick={() => setSelectedTimeframe(tf)}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded transition-all cursor-pointer ${selectedTimeframe === tf
-                    ? 'bg-slate-900 text-white shadow-2xs font-bold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
-                    }`}
-                >
-                  {tf}
-                </button>
-              ))}
-            </div>
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Interactive Date Range Picker */}
+            <DateRangePicker
+              value={dashboardDateRange}
+              onChange={(newRange) => {
+                setDashboardDateRange(newRange);
+                handleRefresh();
+              }}
+            />
 
             {/* Refresh Button */}
             <Button
