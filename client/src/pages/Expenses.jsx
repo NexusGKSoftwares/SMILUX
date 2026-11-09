@@ -562,7 +562,7 @@ export default function Expenses() {
       />
 
       {/* ─── 2. Spreadsheet-Dense DataTable ─────────────────────────────────── */}
-      <div className="px-4 sm:px-6 pt-4">
+      <div >
         <DataTable
           title="Clinic Expenses"
           data={filteredExpenses}
@@ -893,3 +893,4 @@ export default function Expenses() {
     </div>
   );
 }
+

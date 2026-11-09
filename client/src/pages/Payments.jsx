@@ -463,8 +463,8 @@ export default function Payments() {
         render: (val, row) => (
           <span
             className={`text-xs font-bold font-mono ${row.status === 'Refunded'
-                ? 'text-rose-600 line-through'
-                : 'text-emerald-700 dark:text-emerald-400'
+              ? 'text-rose-600 line-through'
+              : 'text-emerald-700 dark:text-emerald-400'
               }`}
           >
             KES {val.toLocaleString()}
@@ -503,12 +503,12 @@ export default function Payments() {
             <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold border ${style}`}>
               <span
                 className={`w-1.5 h-1.5 rounded-full ${val === 'Verified'
-                    ? 'bg-emerald-500'
-                    : val === 'Reconciled'
-                      ? 'bg-blue-500'
-                      : val === 'Pending Verification'
-                        ? 'bg-amber-500'
-                        : 'bg-rose-500'
+                  ? 'bg-emerald-500'
+                  : val === 'Reconciled'
+                    ? 'bg-blue-500'
+                    : val === 'Pending Verification'
+                      ? 'bg-amber-500'
+                      : 'bg-rose-500'
                   }`}
               />
               {val}
@@ -629,7 +629,7 @@ export default function Payments() {
       />
 
       {/* ─── 2. Spreadsheet-Dense DataTable ─────────────────────────────────── */}
-      <div className="px-4 sm:px-6 pt-4">
+      <div >
         <DataTable
           title="Payments"
           data={filteredPayments}
@@ -960,3 +960,4 @@ export default function Payments() {
     </div>
   );
 }
+

@@ -401,8 +401,8 @@ export default function Insurance() {
         render: (val, row) => (
           <span
             className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold border ${row.schemeType === 'SHA'
-                ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300'
-                : 'bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300'
+              ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300'
+              : 'bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300'
               }`}
           >
             {val}
@@ -508,12 +508,12 @@ export default function Insurance() {
             <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold border ${style}`}>
               <span
                 className={`w-1.5 h-1.5 rounded-full ${val === 'Approved & Paid'
-                    ? 'bg-emerald-500'
-                    : val === 'Pre-Authorized'
-                      ? 'bg-blue-500'
-                      : val === 'Under Review'
-                        ? 'bg-amber-500'
-                        : 'bg-rose-500'
+                  ? 'bg-emerald-500'
+                  : val === 'Pre-Authorized'
+                    ? 'bg-blue-500'
+                    : val === 'Under Review'
+                      ? 'bg-amber-500'
+                      : 'bg-rose-500'
                   }`}
               />
               {val}
@@ -632,7 +632,7 @@ export default function Insurance() {
       />
 
       {/* ─── 2. Spreadsheet-Dense DataTable ─────────────────────────────────── */}
-      <div className="px-4 sm:px-6 pt-4">
+      <div >
         <DataTable
           title="Insurance & SHA Claims"
           data={filteredClaims}
@@ -982,3 +982,4 @@ export default function Insurance() {
     </div>
   );
 }
+
