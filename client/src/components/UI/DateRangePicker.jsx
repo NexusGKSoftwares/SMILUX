@@ -61,8 +61,8 @@ const clampDate = (date, min, max) =>
   min && dayDiff(date, min) < 0
     ? startOfDay(min)
     : max && dayDiff(date, max) > 0
-    ? startOfDay(max)
-    : date;
+      ? startOfDay(max)
+      : date;
 
 // ─── Preset Ranges ───────────────────────────────────────────────────────────
 export const defaultDateRangePresets = [
@@ -118,6 +118,7 @@ function CalendarMonthView({
   formatters,
   onPick,
   onHover,
+  showHeader = true,
 }) {
   const firstDay = useMemo(
     () => addDays(month, -((month.getDay() - weekStartsOn + 7) % 7)),
@@ -137,10 +138,12 @@ function CalendarMonthView({
   const hi = range?.end;
 
   return (
-    <div className="flex flex-col select-none">
-      <h3 className="text-xs font-semibold text-slate-800 dark:text-slate-100 text-center py-1 mb-2">
-        {formatters.title.format(month)}
-      </h3>
+    <div className="flex flex-col select-none w-full">
+      {showHeader && (
+        <h3 className="text-xs font-semibold text-slate-800 dark:text-slate-100 text-center py-1 mb-2">
+          {formatters.title.format(month)}
+        </h3>
+      )}
 
       {/* Weekdays Header */}
       <div className="grid grid-cols-7 text-center text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">
@@ -181,23 +184,21 @@ function CalendarMonthView({
                   <div
                     key={key}
                     onMouseEnter={() => !disabled && onHover && onHover(date)}
-                    className={`relative h-8 flex items-center justify-center ${
-                      inRange
+                    className={`relative h-8 flex items-center justify-center ${inRange
                         ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200'
                         : ''
-                    } ${isStart ? 'rounded-l-lg' : ''} ${isEnd ? 'rounded-r-lg' : ''}`}
+                      } ${isStart ? 'rounded-l-lg' : ''} ${isEnd ? 'rounded-r-lg' : ''}`}
                   >
                     <button
                       type="button"
                       disabled={disabled}
                       onClick={() => onPick(date)}
-                      className={`h-7 w-7 rounded-lg text-xs font-medium flex items-center justify-center transition-all cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed ${
-                        isStart || isEnd
-                          ? 'bg-emerald-700 text-white font-bold shadow-xs hover:bg-emerald-800'
+                      className={`h-7 w-7 rounded-lg text-xs font-medium flex items-center justify-center transition-all cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed ${isStart || isEnd
+                          ? 'bg-[#027A48] text-white font-bold shadow-xs hover:bg-[#02683E]'
                           : inRange
-                          ? 'text-emerald-900 dark:text-emerald-200 hover:bg-emerald-100/70 dark:hover:bg-emerald-900/50'
-                          : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
-                      } ${isToday && !isStart && !isEnd ? 'ring-1 ring-emerald-600 font-bold' : ''}`}
+                            ? 'text-emerald-900 dark:text-emerald-200 hover:bg-emerald-100/70 dark:hover:bg-emerald-900/50'
+                            : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+                        } ${isToday && !isStart && !isEnd ? 'ring-1 ring-emerald-600 font-bold' : ''}`}
                     >
                       <span>{date.getDate()}</span>
                     </button>
@@ -224,6 +225,8 @@ export default function DateRangePicker({
   maxDate,
   weekStartsOn = 0,
   locale = 'en-US',
+  months = 1, // 'auto' | 1 | 2 (defaults to 1 for compact dropdown that fits neatly)
+  align = 'auto', // 'auto' | 'end' | 'start'
   className = '',
 }) {
   const uid = useId();
@@ -234,6 +237,15 @@ export default function DateRangePicker({
   const [draftRange, setDraftRange] = useState(committed);
   const [anchorDate, setAnchorDate] = useState(null);
   const [hoverDate, setHoverDate] = useState(null);
+
+  // Month count state (allows 1 or 2 months)
+  const initialMonths = months === 2 ? 2 : 1;
+  const [monthCount, setMonthCount] = useState(initialMonths);
+
+  // Alignment detection state
+  const [effectiveAlign, setEffectiveAlign] = useState(
+    align === 'start' ? 'start' : 'end'
+  );
 
   // Today reference
   const today = useMemo(() => startOfDay(new Date()), []);
@@ -301,11 +313,40 @@ export default function DateRangePicker({
 
   // Active preset index
   const activePresetIdx = useMemo(() => {
-    if (!activeRange || anchorDate) return -1;
-    return presets.findIndex((preset) => sameRange(preset.range(today), activeRange));
-  }, [presets, today, activeRange, anchorDate]);
+    if (!activeRange?.start || !activeRange?.end) return -1;
+    return presets.findIndex((preset) => {
+      const pRange = preset.range(today);
+      return sameRange(pRange, activeRange);
+    });
+  }, [activeRange, presets, today]);
 
-  // Close on outside click or Escape key
+  // Calculate alignment to ensure it never overflows viewport
+  useEffect(() => {
+    if (!isOpen || !triggerRef.current) return;
+
+    if (align === 'start') {
+      setEffectiveAlign('start');
+      return;
+    }
+    if (align === 'end') {
+      setEffectiveAlign('end');
+      return;
+    }
+
+    // Auto alignment check based on viewport position
+    const rect = triggerRef.current.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    const estimatedWidth = monthCount === 2 ? 650 : 330;
+
+    // If aligning to left (start) would overflow screen on the right, use 'end'
+    if (rect.left + estimatedWidth > windowWidth - 16) {
+      setEffectiveAlign('end');
+    } else {
+      setEffectiveAlign('start');
+    }
+  }, [isOpen, align, monthCount]);
+
+  // Close when clicked outside or Esc key pressed
   useEffect(() => {
     if (!isOpen) return;
 
@@ -332,10 +373,12 @@ export default function DateRangePicker({
     };
 
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
     document.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen]);
@@ -346,9 +389,9 @@ export default function DateRangePicker({
     setAnchorDate(null);
     setHoverDate(null);
     if (committed?.end) {
-      setViewMonth(addMonths(monthStart(committed.end), -1));
+      setViewMonth(monthStart(committed.end));
     } else {
-      setViewMonth(addMonths(monthStart(today), -1));
+      setViewMonth(monthStart(today));
     }
     setIsOpen(true);
   };
@@ -359,7 +402,7 @@ export default function DateRangePicker({
     setDraftRange(next);
     setAnchorDate(null);
     setHoverDate(null);
-    setViewMonth(addMonths(monthStart(next.end), -1));
+    setViewMonth(monthStart(next.end));
   };
 
   // Day click handler
@@ -396,7 +439,7 @@ export default function DateRangePicker({
     setHoverDate(null);
   };
 
-  // Navigation
+  // Month navigation
   const handlePrevMonth = () => {
     setViewMonth((prev) => addMonths(prev, -1));
   };
@@ -429,9 +472,8 @@ export default function DateRangePicker({
         <HugeiconsIcon
           icon={ArrowDown01Icon}
           size={13}
-          className={`text-slate-400 dark:text-slate-500 shrink-0 ml-1 transition-transform ${
-            isOpen ? 'rotate-180' : ''
-          }`}
+          className={`text-slate-400 dark:text-slate-500 shrink-0 ml-1 transition-transform ${isOpen ? 'rotate-180' : ''
+            }`}
         />
       </button>
 
@@ -441,61 +483,72 @@ export default function DateRangePicker({
           ref={panelRef}
           role="dialog"
           aria-label={label}
-          className="absolute left-0 top-full mt-1.5 z-50 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-100 min-w-[320px] sm:min-w-[620px]"
+          className={`absolute top-full mt-1.5 z-50 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-100 max-w-[calc(100vw-24px)] ${effectiveAlign === 'end' ? 'right-0 left-auto' : 'left-0 right-auto'
+            } ${monthCount === 2 ? 'w-[640px]' : 'w-[330px]'}`}
         >
-          {/* Main Body (Presets Rail + Calendars) */}
-          <div className="flex flex-col sm:flex-row">
-            {/* Presets Sidebar Rail */}
-            <div className="sm:w-36 border-b sm:border-b-0 sm:border-r border-slate-100 dark:border-slate-800 p-2.5 sm:p-3 flex sm:flex-col gap-1 overflow-x-auto sm:overflow-x-visible shrink-0 bg-slate-50/50 dark:bg-slate-850/50">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 py-1 hidden sm:block">
-                Presets
-              </span>
-              {presets.map((preset, idx) => {
-                const isActive = activePresetIdx === idx;
-                return (
-                  <button
-                    key={preset.label}
-                    type="button"
-                    onClick={() => handleSelectPreset(preset)}
-                    className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap cursor-pointer ${
-                      isActive
-                        ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300 font-semibold'
-                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+          {/* ─── 1. Presets Header (Compact horizontal chips row) ─── */}
+          <div className="flex items-center gap-1.5 px-3 py-2 border-b border-slate-100 dark:border-slate-800 overflow-x-auto no-scrollbar bg-slate-50/70 dark:bg-slate-850/60 shrink-0">
+            {presets.map((preset, idx) => {
+              const isActive = activePresetIdx === idx;
+              return (
+                <button
+                  key={preset.label}
+                  type="button"
+                  onClick={() => handleSelectPreset(preset)}
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-colors cursor-pointer select-none shrink-0 ${isActive
+                      ? 'bg-[#027A48] text-white shadow-2xs'
+                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-750 hover:text-slate-900 dark:hover:text-white'
                     }`}
+                >
+                  {preset.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* ─── 2. Calendar Month Navigation & Month View ─── */}
+          <div className="p-3.5">
+            {monthCount === 1 ? (
+              // Single Month View (Compact, fits neatly right below trigger)
+              <div>
+                {/* Month Switcher Header */}
+                <div className="flex items-center justify-between mb-2.5 px-1">
+                  <button
+                    type="button"
+                    aria-label="Previous month"
+                    onClick={handlePrevMonth}
+                    disabled={Boolean(minDate && monthDiff(viewMonth, minDate) <= 0)}
+                    className="h-7 w-7 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25"
                   >
-                    {preset.label}
+                    <HugeiconsIcon icon={ArrowLeft01Icon} size={13} />
                   </button>
-                );
-              })}
-            </div>
 
-            {/* Calendars Container */}
-            <div className="flex-1 p-4 relative">
-              {/* Navigation Arrows */}
-              <button
-                type="button"
-                aria-label="Previous month"
-                onClick={handlePrevMonth}
-                disabled={Boolean(minDate && monthDiff(viewMonth, minDate) <= 0)}
-                className="absolute left-4 top-4 h-7 w-7 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors z-10 cursor-pointer disabled:opacity-25"
-              >
-                <HugeiconsIcon icon={ArrowLeft01Icon} size={13} />
-              </button>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
+                      {formatters.title.format(viewMonth)}
+                    </span>
+                    {/* View mode toggle */}
+                    <button
+                      type="button"
+                      title="Switch to 2-month view"
+                      onClick={() => setMonthCount(2)}
+                      className="text-[10px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 cursor-pointer font-medium"
+                    >
+                      2M
+                    </button>
+                  </div>
 
-              <button
-                type="button"
-                aria-label="Next month"
-                onClick={handleNextMonth}
-                disabled={Boolean(
-                  maxDate && monthDiff(addMonths(viewMonth, 1), maxDate) >= 0
-                )}
-                className="absolute right-4 top-4 h-7 w-7 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors z-10 cursor-pointer disabled:opacity-25"
-              >
-                <HugeiconsIcon icon={ArrowRight01Icon} size={13} />
-              </button>
+                  <button
+                    type="button"
+                    aria-label="Next month"
+                    onClick={handleNextMonth}
+                    disabled={Boolean(maxDate && monthDiff(viewMonth, maxDate) >= 0)}
+                    className="h-7 w-7 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25"
+                  >
+                    <HugeiconsIcon icon={ArrowRight01Icon} size={13} />
+                  </button>
+                </div>
 
-              {/* Side-by-side Dual Months */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-1">
                 <CalendarMonthView
                   month={viewMonth}
                   range={activeRange}
@@ -507,41 +560,95 @@ export default function DateRangePicker({
                   formatters={formatters}
                   onPick={handlePickDate}
                   onHover={setHoverDate}
-                />
-                <CalendarMonthView
-                  month={addMonths(viewMonth, 1)}
-                  range={activeRange}
-                  hoverDate={hoverDate}
-                  today={today}
-                  minDate={minDate}
-                  maxDate={maxDate}
-                  weekStartsOn={weekStartsOn}
-                  formatters={formatters}
-                  onPick={handlePickDate}
-                  onHover={setHoverDate}
+                  showHeader={false}
                 />
               </div>
-            </div>
+            ) : (
+              // Dual Month View (Side-by-side with toggle to 1M)
+              <div className="relative">
+                <div className="flex items-center justify-between mb-2 px-1">
+                  <button
+                    type="button"
+                    aria-label="Previous month"
+                    onClick={handlePrevMonth}
+                    disabled={Boolean(minDate && monthDiff(viewMonth, minDate) <= 0)}
+                    className="h-7 w-7 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25 z-10"
+                  >
+                    <HugeiconsIcon icon={ArrowLeft01Icon} size={13} />
+                  </button>
+
+                  <button
+                    type="button"
+                    title="Switch to compact 1-month view"
+                    onClick={() => setMonthCount(1)}
+                    className="text-[10px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 cursor-pointer font-medium"
+                  >
+                    1M compact
+                  </button>
+
+                  <button
+                    type="button"
+                    aria-label="Next month"
+                    onClick={handleNextMonth}
+                    disabled={Boolean(
+                      maxDate && monthDiff(addMonths(viewMonth, 1), maxDate) >= 0
+                    )}
+                    className="h-7 w-7 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25 z-10"
+                  >
+                    <HugeiconsIcon icon={ArrowRight01Icon} size={13} />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-5">
+                  <CalendarMonthView
+                    month={viewMonth}
+                    range={activeRange}
+                    hoverDate={hoverDate}
+                    today={today}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    weekStartsOn={weekStartsOn}
+                    formatters={formatters}
+                    onPick={handlePickDate}
+                    onHover={setHoverDate}
+                    showHeader={true}
+                  />
+                  <CalendarMonthView
+                    month={addMonths(viewMonth, 1)}
+                    range={activeRange}
+                    hoverDate={hoverDate}
+                    today={today}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    weekStartsOn={weekStartsOn}
+                    formatters={formatters}
+                    onPick={handlePickDate}
+                    onHover={setHoverDate}
+                    showHeader={true}
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* ─── Footer with Range Summary and Apply Actions ─── */}
-          <div className="border-t border-slate-100 dark:border-slate-800 px-4 py-3 flex flex-wrap items-center justify-between gap-3 bg-slate-50/50 dark:bg-slate-850/50">
-            <div className="flex items-center gap-2 min-w-0">
+          {/* ─── 3. Footer with Range Summary and Apply Actions ─── */}
+          <div className="border-t border-slate-100 dark:border-slate-800 px-3.5 py-2.5 flex items-center justify-between gap-2 bg-slate-50/70 dark:bg-slate-850/60">
+            <div className="flex items-center gap-1.5 min-w-0">
               <span className="text-xs font-semibold text-slate-900 dark:text-white truncate">
                 {summaryDisplay}
               </span>
               {daysCount > 0 && (
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300 shrink-0">
-                  {daysCount} {daysCount === 1 ? 'day' : 'days'}
+                <span className="px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300 shrink-0">
+                  {daysCount}d
                 </span>
               )}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 shrink-0">
               <button
                 type="button"
                 onClick={handleCancel}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                className="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
@@ -549,7 +656,7 @@ export default function DateRangePicker({
                 type="button"
                 disabled={!activeRange}
                 onClick={handleApply}
-                className="px-4 py-1.5 rounded-lg text-xs font-medium text-white bg-[#057a55] hover:bg-[#046c4b] disabled:opacity-40 shadow-xs transition-colors cursor-pointer"
+                className="px-3.5 py-1 rounded-lg text-xs font-semibold text-white bg-[#027A48] hover:bg-[#02683E] disabled:opacity-40 shadow-xs transition-colors cursor-pointer"
               >
                 Apply
               </button>
@@ -560,5 +667,3 @@ export default function DateRangePicker({
     </div>
   );
 }
-
-
