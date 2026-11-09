@@ -27,6 +27,10 @@ import {
 import { formatCurrency, formatNumber } from '../utils/formatter.js';
 import PatientsPage from './Patients.jsx';
 import ClinicalRecordsPage from './ClinicalRecords.jsx';
+import InvoicesPage from './Invoices.jsx';
+import PaymentsPage from './Payments.jsx';
+import InsurancePage from './Insurance.jsx';
+import ExpensesPage from './Expenses.jsx';
 import DateRangePicker from '../components/UI/DateRangePicker.jsx';
 
 export { DashboardWireframeSkeleton };
@@ -3737,112 +3741,21 @@ export function DentalChartingView() {
   );
 }
 
-// ─── 5. Invoices & M-Pesa STK Push Billing View ──────────────────────────────
+// ─── 5. Financial Management Views ──────────────────────────────────────────
 export function InvoicesView() {
-  const [stkPhone, setStkPhone] = useState('0712345678');
-  const [stkAmount, setStkAmount] = useState('6500');
-  const [loadingStk, setLoadingStk] = useState(false);
+  return <InvoicesPage />;
+}
 
-  const handleSendStk = (e) => {
-    e.preventDefault();
-    setLoadingStk(true);
-    setTimeout(() => {
-      setLoadingStk(false);
-      alert(`M-Pesa STK Push sent successfully to ${stkPhone} for KES ${stkAmount}!`);
-    }, 1000);
-  };
+export function PaymentsView() {
+  return <PaymentsPage />;
+}
 
-  return (
-    <div className="space-y-6">
-      <ViewHeader
-        title="Invoices & Safaricom M-Pesa Billing"
-        subtitle="Manage billing, create patient invoices, and trigger instant M-Pesa STK Push prompts"
-        actions={
-          <button
-            onClick={() => alert('Creating New Invoice...')}
-            className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
-          >
-            <HugeiconsIcon icon={PlusSignIcon} size={16} />
-            <span>Create Invoice</span>
-          </button>
-        }
-      />
+export function InsuranceView() {
+  return <InsurancePage />;
+}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Invoices List */}
-        <div className="lg:col-span-2 rounded border border-slate-200/90 bg-white p-5 shadow-2xs space-y-4">
-          <h2 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">Recent Patient Invoices</h2>
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase">
-              <tr>
-                <th className="p-2.5">Invoice #</th>
-                <th className="p-2.5">Patient</th>
-                <th className="p-2.5">Amount (KES)</th>
-                <th className="p-2.5">Status</th>
-                <th className="p-2.5">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700">
-              <tr>
-                <td className="p-2.5 font-bold text-blue-600">INV-2026-091</td>
-                <td className="p-2.5 font-bold text-slate-900">Wanjiku Kamau</td>
-                <td className="p-2.5 font-extrabold text-slate-900">6,500</td>
-                <td className="p-2.5"><span className="bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded text-[10px]">Pending Payment</span></td>
-                <td className="p-2.5">
-                  <button onClick={() => alert('Triggering STK Push...')} className="bg-emerald-600 text-white px-2 py-1 rounded text-[10px] font-bold cursor-pointer">STK Push</button>
-                </td>
-              </tr>
-              <tr>
-                <td className="p-2.5 font-bold text-blue-600">INV-2026-090</td>
-                <td className="p-2.5 font-bold text-slate-900">Brian Omondi</td>
-                <td className="p-2.5 font-extrabold text-slate-900">12,000</td>
-                <td className="p-2.5"><span className="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px]">Paid via M-Pesa</span></td>
-                <td className="p-2.5">
-                  <button onClick={() => alert('Printing Receipt...')} className="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[10px] font-bold hover:bg-slate-200 cursor-pointer">Receipt</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {/* M-Pesa STK Push Box */}
-        <div className="rounded border border-emerald-200 bg-emerald-50/50 p-5 shadow-2xs space-y-4">
-          <div className="flex items-center gap-2 text-emerald-900 border-b border-emerald-200/80 pb-2">
-            <HugeiconsIcon icon={Money01Icon} size={20} className="text-emerald-600" />
-            <h3 className="text-sm font-bold">Safaricom M-Pesa STK Push</h3>
-          </div>
-          <form onSubmit={handleSendStk} className="space-y-3 text-xs">
-            <div>
-              <label className="font-semibold text-slate-700 block mb-1">M-Pesa Phone Number</label>
-              <input
-                type="text"
-                value={stkPhone}
-                onChange={(e) => setStkPhone(e.target.value)}
-                placeholder="07XX XXX XXX"
-                className="w-full rounded border border-slate-300 bg-white p-2 text-xs focus:outline-none focus:border-emerald-600"
-              />
-            </div>
-            <div>
-              <label className="font-semibold text-slate-700 block mb-1">Amount (KES)</label>
-              <input
-                type="number"
-                value={stkAmount}
-                onChange={(e) => setStkAmount(e.target.value)}
-                className="w-full rounded border border-slate-300 bg-white p-2 text-xs font-bold focus:outline-none focus:border-emerald-600"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loadingStk}
-              className="w-full rounded bg-emerald-600 py-2 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 cursor-pointer disabled:opacity-50"
-            >
-              {loadingStk ? 'Sending Prompt to Phone…' : 'Trigger M-Pesa Prompt'}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
+export function ExpensesView() {
+  return <ExpensesPage />;
 }
 
 // ─── 6. Generic Feature View (for all remaining routes) ──────────────────────

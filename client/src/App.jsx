@@ -20,6 +20,9 @@ import {
   AppointmentsView,
   DentalChartingView,
   InvoicesView,
+  PaymentsView,
+  InsuranceView,
+  ExpensesView,
   GenericFeatureView,
 } from './pages/WorkspaceViews.jsx';
 
@@ -146,33 +149,9 @@ function AppRoutes({ loggedInUser, setLoggedInUser }) {
               }
             />
             <Route path="/invoices" element={<InvoicesView />} />
-            <Route
-              path="/payments"
-              element={
-                <GenericFeatureView
-                  title="Payment Transactions"
-                  description="Safaricom M-Pesa STK Push receipts, cash receipts, and payment reconciliations."
-                />
-              }
-            />
-            <Route
-              path="/insurance"
-              element={
-                <GenericFeatureView
-                  title="Kenya SHA & Insurance Claims"
-                  description="Social Health Authority (SHA) claims management, member validation, and pre-authorizations."
-                />
-              }
-            />
-            <Route
-              path="/expenses"
-              element={
-                <GenericFeatureView
-                  title="Clinic Expenses"
-                  description="Operational outflows, dental material acquisitions, lab fees, and utility tracking."
-                />
-              }
-            />
+            <Route path="/payments" element={<PaymentsView />} />
+            <Route path="/insurance" element={<InsuranceView />} />
+            <Route path="/expenses" element={<ExpensesView />} />
             <Route
               path="/inventory"
               element={
