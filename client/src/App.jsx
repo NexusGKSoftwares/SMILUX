@@ -23,6 +23,9 @@ import {
   PaymentsView,
   InsuranceView,
   ExpensesView,
+  InventoryView,
+  SuppliersView,
+  PurchaseOrdersView,
   GenericFeatureView,
 } from './pages/WorkspaceViews.jsx';
 
@@ -152,33 +155,9 @@ function AppRoutes({ loggedInUser, setLoggedInUser }) {
             <Route path="/payments" element={<PaymentsView />} />
             <Route path="/insurance" element={<InsuranceView />} />
             <Route path="/expenses" element={<ExpensesView />} />
-            <Route
-              path="/inventory"
-              element={
-                <GenericFeatureView
-                  title="Dental Inventory & Supplies"
-                  description="Consumables stock level tracking, expiry notifications, and minimum reorder alerts."
-                />
-              }
-            />
-            <Route
-              path="/suppliers"
-              element={
-                <GenericFeatureView
-                  title="Suppliers Directory"
-                  description="Dental equipment and material vendor contacts, contracts, and pricelists."
-                />
-              }
-            />
-            <Route
-              path="/purchase-orders"
-              element={
-                <GenericFeatureView
-                  title="Purchase Orders"
-                  description="Reorder requests, purchase order approvals, and delivery receipts."
-                />
-              }
-            />
+            <Route path="/inventory" element={<InventoryView />} />
+            <Route path="/suppliers" element={<SuppliersView />} />
+            <Route path="/purchase-orders" element={<PurchaseOrdersView />} />
             <Route
               path="/staff"
               element={

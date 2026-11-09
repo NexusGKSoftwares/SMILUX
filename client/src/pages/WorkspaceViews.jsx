@@ -31,6 +31,9 @@ import InvoicesPage from './Invoices.jsx';
 import PaymentsPage from './Payments.jsx';
 import InsurancePage from './Insurance.jsx';
 import ExpensesPage from './Expenses.jsx';
+import InventoryPage from './Inventory.jsx';
+import SuppliersPage from './Suppliers.jsx';
+import PurchaseOrdersPage from './PurchaseOrders.jsx';
 import DateRangePicker from '../components/UI/DateRangePicker.jsx';
 
 export { DashboardWireframeSkeleton };
@@ -3758,7 +3761,20 @@ export function ExpensesView() {
   return <ExpensesPage />;
 }
 
-// ─── 6. Generic Feature View (for all remaining routes) ──────────────────────
+// ─── 6. Inventory & Resources Views ──────────────────────────────────────────
+export function InventoryView() {
+  return <InventoryPage />;
+}
+
+export function SuppliersView() {
+  return <SuppliersPage />;
+}
+
+export function PurchaseOrdersView() {
+  return <PurchaseOrdersPage />;
+}
+
+// ─── 7. Generic Feature View (for all remaining routes) ──────────────────────
 export function GenericFeatureView({ title, description, badge = 'Active Module' }) {
   return (
     <div className="space-y-6">
