@@ -151,10 +151,10 @@ function MoneyBagGraphic() {
   return (
     <div className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 flex items-center justify-center">
       {/* Floating blue diamonds */}
-      <div className="absolute top-1 left-2 h-4 h-4 bg-blue-600 rotate-45 rounded-xs" />
-      <div className="absolute top-0 right-3 w-3 h-3 bg-blue-600 rotate-45 rounded-xs" />
-      <div className="absolute top-8 left-0 w-3.5 h-3.5 bg-blue-600 rotate-45 rounded-xs" />
-      <div className="absolute top-12 right-1 h-4 h-4 bg-blue-600 rotate-45 rounded-xs" />
+      <div className="absolute top-1 left-2 h-4 h-4 bg-blue-600 rotate-45 rounded" />
+      <div className="absolute top-0 right-3 w-3 h-3 bg-blue-600 rotate-45 rounded" />
+      <div className="absolute top-8 left-0 w-3.5 h-3.5 bg-blue-600 rotate-45 rounded" />
+      <div className="absolute top-12 right-1 h-4 h-4 bg-blue-600 rotate-45 rounded" />
 
       {/* Money Bag & Pedestal SVG */}
       <svg className="w-22 h-22 sm:w-24 sm:h-24 drop-shadow-md" viewBox="0 0 100 100" fill="none">

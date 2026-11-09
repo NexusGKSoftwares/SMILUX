@@ -185,19 +185,19 @@ function CalendarMonthView({
                     key={key}
                     onMouseEnter={() => !disabled && onHover && onHover(date)}
                     className={`relative h-8 flex items-center justify-center ${inRange
-                        ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200'
-                        : ''
+                      ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200'
+                      : ''
                       } ${isStart ? 'rounded-l-lg' : ''} ${isEnd ? 'rounded-r-lg' : ''}`}
                   >
                     <button
                       type="button"
                       disabled={disabled}
                       onClick={() => onPick(date)}
-                      className={`h-7 w-7 rounded-lg text-xs font-medium flex items-center justify-center transition-all cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed ${isStart || isEnd
-                          ? 'bg-[#027A48] text-white font-bold shadow-xs hover:bg-[#02683E]'
-                          : inRange
-                            ? 'text-emerald-900 dark:text-emerald-200 hover:bg-emerald-100/70 dark:hover:bg-emerald-900/50'
-                            : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+                      className={`h-7 w-7 rounded text-xs font-medium flex items-center justify-center transition-all cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed ${isStart || isEnd
+                        ? 'bg-[#027A48] text-white font-bold shadow-xs hover:bg-[#02683E]'
+                        : inRange
+                          ? 'text-emerald-900 dark:text-emerald-200 hover:bg-emerald-100/70 dark:hover:bg-emerald-900/50'
+                          : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
                         } ${isToday && !isStart && !isEnd ? 'ring-1 ring-emerald-600 font-bold' : ''}`}
                     >
                       <span>{date.getDate()}</span>
@@ -461,7 +461,7 @@ export default function DateRangePicker({
         aria-expanded={isOpen}
         aria-label={`${label}: ${formattedDisplay}`}
         onClick={() => (isOpen ? setIsOpen(false) : handleOpen())}
-        className="inline-flex items-center gap-2 h-9 px-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-medium text-slate-800 dark:text-slate-100 shadow-2xs hover:border-slate-300 dark:hover:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 transition-all cursor-pointer"
+        className="inline-flex items-center gap-2 h-9 px-3.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-medium text-slate-800 dark:text-slate-100 shadow-2xs hover:border-slate-300 dark:hover:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 transition-all cursor-pointer"
       >
         <HugeiconsIcon
           icon={Calendar01Icon}
@@ -483,7 +483,7 @@ export default function DateRangePicker({
           ref={panelRef}
           role="dialog"
           aria-label={label}
-          className={`absolute top-full mt-1.5 z-50 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-100 max-w-[calc(100vw-24px)] ${effectiveAlign === 'end' ? 'right-0 left-auto' : 'left-0 right-auto'
+          className={`absolute top-full mt-1.5 z-50 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded shadow-xl overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-100 max-w-[calc(100vw-24px)] ${effectiveAlign === 'end' ? 'right-0 left-auto' : 'left-0 right-auto'
             } ${monthCount === 2 ? 'w-[640px]' : 'w-[330px]'}`}
         >
           {/* ─── 1. Presets Header (Compact horizontal chips row) ─── */}
@@ -496,8 +496,8 @@ export default function DateRangePicker({
                   type="button"
                   onClick={() => handleSelectPreset(preset)}
                   className={`px-2.5 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-colors cursor-pointer select-none shrink-0 ${isActive
-                      ? 'bg-[#027A48] text-white shadow-2xs'
-                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-750 hover:text-slate-900 dark:hover:text-white'
+                    ? 'bg-[#027A48] text-white shadow-2xs'
+                    : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-750 hover:text-slate-900 dark:hover:text-white'
                     }`}
                 >
                   {preset.label}
@@ -518,7 +518,7 @@ export default function DateRangePicker({
                     aria-label="Previous month"
                     onClick={handlePrevMonth}
                     disabled={Boolean(minDate && monthDiff(viewMonth, minDate) <= 0)}
-                    className="h-7 w-7 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25"
+                    className="h-7 w-7 rounded border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25"
                   >
                     <HugeiconsIcon icon={ArrowLeft01Icon} size={13} />
                   </button>
@@ -543,7 +543,7 @@ export default function DateRangePicker({
                     aria-label="Next month"
                     onClick={handleNextMonth}
                     disabled={Boolean(maxDate && monthDiff(viewMonth, maxDate) >= 0)}
-                    className="h-7 w-7 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25"
+                    className="h-7 w-7 rounded border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25"
                   >
                     <HugeiconsIcon icon={ArrowRight01Icon} size={13} />
                   </button>
@@ -572,7 +572,7 @@ export default function DateRangePicker({
                     aria-label="Previous month"
                     onClick={handlePrevMonth}
                     disabled={Boolean(minDate && monthDiff(viewMonth, minDate) <= 0)}
-                    className="h-7 w-7 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25 z-10"
+                    className="h-7 w-7 rounded border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25 z-10"
                   >
                     <HugeiconsIcon icon={ArrowLeft01Icon} size={13} />
                   </button>
@@ -593,7 +593,7 @@ export default function DateRangePicker({
                     disabled={Boolean(
                       maxDate && monthDiff(addMonths(viewMonth, 1), maxDate) >= 0
                     )}
-                    className="h-7 w-7 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25 z-10"
+                    className="h-7 w-7 rounded border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-25 z-10"
                   >
                     <HugeiconsIcon icon={ArrowRight01Icon} size={13} />
                   </button>
@@ -648,7 +648,7 @@ export default function DateRangePicker({
               <button
                 type="button"
                 onClick={handleCancel}
-                className="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                className="px-2.5 py-1 rounded text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
@@ -656,7 +656,7 @@ export default function DateRangePicker({
                 type="button"
                 disabled={!activeRange}
                 onClick={handleApply}
-                className="px-3.5 py-1 rounded-lg text-xs font-semibold text-white bg-[#027A48] hover:bg-[#02683E] disabled:opacity-40 shadow-xs transition-colors cursor-pointer"
+                className="px-3.5 py-1 rounded text-xs font-semibold text-white bg-[#027A48] hover:bg-[#02683E] disabled:opacity-40 shadow-xs transition-colors cursor-pointer"
               >
                 Apply
               </button>

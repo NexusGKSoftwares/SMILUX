@@ -22,7 +22,7 @@ function CardHeaderWireframe({
 
       {/* CardActionToolbar Wireframe (Expand + Divider + Menu Dots) */}
       <div className="inline-flex h-7 items-center gap-2 rounded border border-[#E0E0E0] bg-white px-2.5 shadow-[0px_1px_2px_rgba(0,0,0,0.05)]">
-        <div className="h-3 w-3 rounded-xs animate-shimmer" />
+        <div className="h-3 w-3 rounded animate-shimmer" />
         <span className="h-3.5 w-px bg-[#EFEFEF]" />
         <div className="flex items-center gap-0.5">
           <span className="h-1 w-1 rounded-full bg-slate-300 animate-pulse" />
@@ -82,7 +82,7 @@ export function DashboardWireframeSkeleton({
         <div>
           <div className="flex items-center gap-2.5">
             <div className="h-6 w-64 sm:w-72 rounded animate-shimmer" />
-             
+
           </div>
           <div className="h-3.5 w-80 max-w-full rounded animate-shimmer mt-1.5" />
         </div>
@@ -104,7 +104,7 @@ export function DashboardWireframeSkeleton({
 
           {/* Reports Primary Button Wireframe */}
           <div className="inline-flex h-8 items-center gap-1.5 rounded bg-gradient-primary-vertical px-3.5 py-1.5 opacity-85">
-            <div className="h-3.5 w-3.5 rounded-xs bg-white/40 animate-pulse" />
+            <div className="h-3.5 w-3.5 rounded bg-white/40 animate-pulse" />
             <div className="h-3.5 w-12 rounded bg-white/50 animate-pulse" />
           </div>
         </div>
@@ -163,7 +163,7 @@ export function DashboardWireframeSkeleton({
               <div
                 className={`flex h-8 w-8 items-center justify-center rounded border ${kpi.iconBox}`}
               >
-                <div className={`h-4 w-4 rounded-xs ${kpi.iconShimmer}`} />
+                <div className={`h-4 w-4 rounded ${kpi.iconShimmer}`} />
               </div>
             </div>
             <div className="mt-3 flex items-baseline justify-between">
@@ -449,11 +449,10 @@ export function DashboardWireframeSkeleton({
                   <div className="mt-1.5 flex items-center gap-1.5">
                     <div className="h-6 w-14 rounded animate-shimmer" />
                     <div
-                      className={`h-4 w-11 rounded-full border ${
-                        m.positive
+                      className={`h-4 w-11 rounded-full border ${m.positive
                           ? 'bg-[#E8FFF4]/80 border-[#8FE7BE]/60 animate-shimmer-emerald'
                           : 'bg-[#FFEAEA]/80 border-[#FF9F9D]/60 animate-shimmer-rose'
-                      }`}
+                        }`}
                     />
                   </div>
                 </div>
