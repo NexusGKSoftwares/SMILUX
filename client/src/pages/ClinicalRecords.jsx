@@ -728,7 +728,7 @@ export default function ClinicalRecords() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50/40 dark:bg-slate-950 font-sans pb-12">
+    <div className="min-h-screen bg-slate-50/40 dark:bg-slate-950 font-sans pb-6">
       {/* ─── 1. Page Header (Exact composition matching Patients page) ────── */}
       <PageHeader
         title="Clinical Records"
