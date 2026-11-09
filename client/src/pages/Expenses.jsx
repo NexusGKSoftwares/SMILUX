@@ -510,7 +510,7 @@ export default function Expenses() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50/40 dark:bg-slate-950 font-sans mb-6">
+    <div className=" bg-slate-50/40 dark:bg-slate-950 font-sans mb-6">
       {/* ─── 1. Page Header ─────────────────────────────────────────────────── */}
       <PageHeader
         title="Expenses"
