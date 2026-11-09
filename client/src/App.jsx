@@ -16,6 +16,7 @@ import { AppLayout } from './components/layout';
 import {
   DashboardView,
   PatientsView,
+  ClinicalRecordsView,
   AppointmentsView,
   DentalChartingView,
   InvoicesView,
@@ -124,15 +125,7 @@ function AppRoutes({ loggedInUser, setLoggedInUser }) {
             <Route path="/:workspaceId/getting_started" element={<GettingStarted />} />
             <Route path="/patients" element={<PatientsView />} />
             <Route path="/appointments" element={<AppointmentsView />} />
-            <Route
-              path="/clinical-records"
-              element={
-                <GenericFeatureView
-                  title="Clinical Records"
-                  description="Patient medical histories, SOAP notes, allergies, and digital X-ray diagnostic attachments."
-                />
-              }
-            />
+            <Route path="/clinical-records" element={<ClinicalRecordsView />} />
             <Route path="/charting" element={<DentalChartingView />} />
             <Route
               path="/treatment-plans"
