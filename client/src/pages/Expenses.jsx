@@ -589,10 +589,10 @@ export default function Expenses() {
       {/* ─── 3. Record Expense Modal ────────────────────────────────────────── */}
       {isRecordModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={PlusSignIcon} size={18} />
                 </div>
                 <div>
@@ -607,7 +607,7 @@ export default function Expenses() {
               <button
                 type="button"
                 onClick={() => setIsRecordModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="text-slate-400 hover:text-slate-600 p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
@@ -627,7 +627,7 @@ export default function Expenses() {
                     onChange={(e) =>
                       setExpenseForm({ ...expenseForm, vendor: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -642,7 +642,7 @@ export default function Expenses() {
                     onChange={(e) =>
                       setExpenseForm({ ...expenseForm, vendorPin: e.target.value.toUpperCase() })
                     }
-                    className="w-full text-xs font-mono rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs font-mono rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
               </div>
@@ -659,7 +659,7 @@ export default function Expenses() {
                   onChange={(e) =>
                     setExpenseForm({ ...expenseForm, description: e.target.value })
                   }
-                  className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
               </div>
 
@@ -673,7 +673,7 @@ export default function Expenses() {
                     onChange={(e) =>
                       setExpenseForm({ ...expenseForm, category: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   >
                     <option value="Dental Supplies">Dental Supplies</option>
                     <option value="Dental Lab Fees">Dental Lab Fees</option>
@@ -695,7 +695,7 @@ export default function Expenses() {
                     onChange={(e) =>
                       setExpenseForm({ ...expenseForm, amount: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -708,7 +708,7 @@ export default function Expenses() {
                     onChange={(e) =>
                       setExpenseForm({ ...expenseForm, paymentMethod: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   >
                     <option value="M-Pesa Paybill">M-Pesa Paybill</option>
                     <option value="Bank EFT">Bank EFT</option>
@@ -726,7 +726,7 @@ export default function Expenses() {
                     onChange={(e) =>
                       setExpenseForm({ ...expenseForm, taxStatus: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   >
                     <option value="eTIMS Verified (16% VAT)">eTIMS Verified (16% VAT)</option>
                     <option value="VAT Exempt (Medical)">VAT Exempt (Medical)</option>
@@ -739,13 +739,13 @@ export default function Expenses() {
                 <button
                   type="button"
                   onClick={() => setIsRecordModalOpen(false)}
-                  className="px-4 py-2 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold rounded-lg text-white bg-[#027A48] hover:bg-[#02683E] shadow-xs transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[#027A48] hover:bg-[#02683E] shadow-xs transition-colors cursor-pointer"
                 >
                   Save Expense Voucher
                 </button>
@@ -758,10 +758,10 @@ export default function Expenses() {
       {/* ─── 4. View Expense Voucher Modal ──────────────────────────────────── */}
       {viewingExpense && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-md overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-md overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={Invoice01Icon} size={18} />
                 </div>
                 <div>
@@ -774,14 +774,14 @@ export default function Expenses() {
               <button
                 type="button"
                 onClick={() => setViewingExpense(null)}
-                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100"
+                className="text-slate-400 hover:text-slate-600 p-1.5 rounded hover:bg-slate-100"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
             </div>
 
             <div className="p-6 space-y-4 text-xs">
-              <div className="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
+              <div className="p-3.5 rounded bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
                 <span className="text-[10px] text-slate-400 uppercase font-semibold">Paid To Vendor</span>
                 <p className="font-bold text-slate-900 dark:text-white text-sm mt-0.5">{viewingExpense.vendor}</p>
                 <p className="text-[10px] text-slate-500 font-mono">KRA PIN: {viewingExpense.vendorPin}</p>
@@ -822,7 +822,7 @@ export default function Expenses() {
               <button
                 type="button"
                 onClick={() => setViewingExpense(null)}
-                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Close Voucher
               </button>
@@ -834,10 +834,10 @@ export default function Expenses() {
       {/* ─── 5. Learn Modal ─────────────────────────────────────────────────── */}
       {isLearnModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                <div className="p-2 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
                   <HugeiconsIcon icon={Idea01Icon} size={18} />
                 </div>
                 <div>
@@ -852,14 +852,14 @@ export default function Expenses() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100"
+                className="text-slate-400 hover:text-slate-600 p-1.5 rounded hover:bg-slate-100"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
             </div>
 
             <div className="p-6 space-y-3.5 text-xs text-slate-600 dark:text-slate-300">
-              <div className="p-3 rounded-lg bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
+              <div className="p-3 rounded bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
                 <h4 className="font-bold text-emerald-900 dark:text-emerald-300 mb-1">
                   KRA eTIMS Purchase Invoice Requirement
                 </h4>
@@ -882,7 +882,7 @@ export default function Expenses() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>

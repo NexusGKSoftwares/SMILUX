@@ -21,7 +21,7 @@ export function ReactFlag({ code, className = "" }) {
       src={`https://flagcdn.com/w40/${codeLower}.png`}
       srcSet={`https://flagcdn.com/w80/${codeLower}.png 2x`}
       alt={code}
-      className={`w-5 h-3.5 object-cover rounded-2xs border border-slate-200/90 shadow-2xs shrink-0 ${className}`}
+      className={`w-5 h-3.5 object-cover rounded border border-slate-200/90 shadow-2xs shrink-0 ${className}`}
       loading="lazy"
     />
   );

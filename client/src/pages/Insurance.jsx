@@ -659,10 +659,10 @@ export default function Insurance() {
       {/* ─── 3. New Claim / Pre-Authorization Modal ─────────────────────────── */}
       {isNewClaimModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={PlusSignIcon} size={18} />
                 </div>
                 <div>
@@ -677,7 +677,7 @@ export default function Insurance() {
               <button
                 type="button"
                 onClick={() => setIsNewClaimModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="text-slate-400 hover:text-slate-600 p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
@@ -697,7 +697,7 @@ export default function Insurance() {
                     onChange={(e) =>
                       setClaimForm({ ...claimForm, patientName: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -713,7 +713,7 @@ export default function Insurance() {
                     onChange={(e) =>
                       setClaimForm({ ...claimForm, memberNo: e.target.value })
                     }
-                    className="w-full text-xs font-mono rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs font-mono rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -726,7 +726,7 @@ export default function Insurance() {
                     onChange={(e) =>
                       setClaimForm({ ...claimForm, payer: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   >
                     <option value="Kenya SHA Direct">Kenya SHA Direct</option>
                     <option value="Kenya SHA (Civil Servants)">Kenya SHA (Civil Servants)</option>
@@ -749,7 +749,7 @@ export default function Insurance() {
                     onChange={(e) =>
                       setClaimForm({ ...claimForm, preAuthCode: e.target.value })
                     }
-                    className="w-full text-xs font-mono rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs font-mono rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
               </div>
@@ -766,7 +766,7 @@ export default function Insurance() {
                   onChange={(e) =>
                     setClaimForm({ ...claimForm, procedure: e.target.value })
                   }
-                  className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
               </div>
 
@@ -779,7 +779,7 @@ export default function Insurance() {
                   onChange={(e) =>
                     setClaimForm({ ...claimForm, icd10: e.target.value })
                   }
-                  className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 >
                   <option value="K02.1 (Dentin Caries)">K02.1 — Caries of Dentin</option>
                   <option value="K04.0 (Irreversible Pulpitis)">K04.0 — Pulpitis (Root Canal)</option>
@@ -803,7 +803,7 @@ export default function Insurance() {
                     onChange={(e) =>
                       setClaimForm({ ...claimForm, claimedAmount: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -818,7 +818,7 @@ export default function Insurance() {
                     onChange={(e) =>
                       setClaimForm({ ...claimForm, coPay: e.target.value })
                     }
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
               </div>
@@ -827,13 +827,13 @@ export default function Insurance() {
                 <button
                   type="button"
                   onClick={() => setIsNewClaimModalOpen(false)}
-                  className="px-4 py-2 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold rounded-lg text-white bg-[#027A48] hover:bg-[#02683E] shadow-xs transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[#027A48] hover:bg-[#02683E] shadow-xs transition-colors cursor-pointer"
                 >
                   Submit Electronic Claim
                 </button>
@@ -846,10 +846,10 @@ export default function Insurance() {
       {/* ─── 4. View Claim Dossier Modal ────────────────────────────────────── */}
       {viewingClaim && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={Doc01Icon} size={18} />
                 </div>
                 <div>
@@ -862,14 +862,14 @@ export default function Insurance() {
               <button
                 type="button"
                 onClick={() => setViewingClaim(null)}
-                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100"
+                className="text-slate-400 hover:text-slate-600 p-1.5 rounded hover:bg-slate-100"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
             </div>
 
             <div className="p-6 space-y-4 text-xs">
-              <div className="grid grid-cols-2 gap-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
+              <div className="grid grid-cols-2 gap-3 p-3 rounded bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Beneficiary</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5">{viewingClaim.patientName}</p>
@@ -911,7 +911,7 @@ export default function Insurance() {
               <button
                 type="button"
                 onClick={() => setViewingClaim(null)}
-                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-3.5 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Close Dossier
               </button>
@@ -923,10 +923,10 @@ export default function Insurance() {
       {/* ─── 5. Learn Modal ─────────────────────────────────────────────────── */}
       {isLearnModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                <div className="p-2 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
                   <HugeiconsIcon icon={Idea01Icon} size={18} />
                 </div>
                 <div>
@@ -941,14 +941,14 @@ export default function Insurance() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100"
+                className="text-slate-400 hover:text-slate-600 p-1.5 rounded hover:bg-slate-100"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
             </div>
 
             <div className="p-6 space-y-3.5 text-xs text-slate-600 dark:text-slate-300">
-              <div className="p-3 rounded-lg bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
+              <div className="p-3 rounded bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
                 <h4 className="font-bold text-emerald-900 dark:text-emerald-300 mb-1">
                   Kenya Social Health Authority (SHA) e-Claims
                 </h4>
@@ -971,7 +971,7 @@ export default function Insurance() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>
