@@ -26,6 +26,7 @@ import {
 } from './data.js';
 import { formatCurrency, formatNumber } from '../utils/formatter.js';
 import PatientsPage from './Patients.jsx';
+import ClinicalRecordsPage from './ClinicalRecords.jsx';
 import DateRangePicker from '../components/UI/DateRangePicker.jsx';
 
 export { DashboardWireframeSkeleton };
@@ -3534,6 +3535,11 @@ export function DashboardView({ user }) {
 // ─── 2. Patients View ───────────────────────────────────────────────────────
 export function PatientsView() {
   return <PatientsPage />;
+}
+
+// ─── 2b. Clinical Records View ───────────────────────────────────────────────
+export function ClinicalRecordsView() {
+  return <ClinicalRecordsPage />;
 }
 
 // ─── 3. Appointments View ───────────────────────────────────────────────────
