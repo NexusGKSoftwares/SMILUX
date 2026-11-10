@@ -181,15 +181,9 @@ NODE_ENV=development
 
 ### 3. Install Dependencies
 
-Install packages for both the client and server:
+Install all dependencies across both client and server from the workspace root:
 
 ```bash
-# Install server dependencies
-cd ../server
-pnpm install
-
-# Install client dependencies
-cd ../client
 pnpm install
 ```
 
@@ -200,8 +194,7 @@ pnpm install
 Populate your database with a sample clinic (**Avicena Dental Clinic**), dental chairs, users, patient records, treatment plans, and inventory items:
 
 ```bash
-cd ../server
-node seed.js
+pnpm seed
 ```
 
 *(You will see confirmation logs as the seed script loads the database).*
@@ -210,22 +203,26 @@ node seed.js
 
 ### 5. Run the Application
 
-Start both the backend server and frontend client in separate terminal sessions:
-
-#### Terminal 1 — Backend:
+You can start both client and server concurrently from the workspace root:
 
 ```bash
-cd server
 pnpm dev
-# Running on http://localhost:5000 (API Health: http://localhost:5000/api/health)
 ```
 
-#### Terminal 2 — Frontend:
+Or run them individually:
 
 ```bash
-cd client
-pnpm dev
-# Serving on http://localhost:5173
+# Start backend server (http://localhost:5000)
+pnpm dev:server
+
+# Start frontend web client (http://localhost:5173)
+pnpm dev:client
+```
+
+To create a production build of the frontend client:
+
+```bash
+pnpm build
 ```
 
 Open your browser and navigate to `http://localhost:5173`.
