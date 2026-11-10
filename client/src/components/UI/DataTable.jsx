@@ -31,7 +31,8 @@ import {
 export default function DataTable({
   data = [],
   columns = [],
-  rowKey = 'id',
+  rowKey: rawRowKey = 'id',
+  keyField,
   title = '',
   // Sticky Options
   stickyHeader = true,
@@ -40,6 +41,7 @@ export default function DataTable({
   maxHeight = '650px',
   // Density: 'normal' (default ~36px) | 'compact' (~28px) | 'relaxed' (~44px)
   initialDensity = 'normal',
+  density: controlledDensity,
   // Multi-column sorting
   initialSort = [], // e.g. [{ key: 'name', direction: 'asc' }]
   // Paging Options
@@ -73,10 +75,20 @@ export default function DataTable({
   emptyMessage = 'No matching records found',
   loading = false,
 }) {
+  const rowKey = keyField || rawRowKey || 'id';
+
   // ─── Density State (Normal by default) ──────────────────────────────────────
   const [density, setDensity] = useState(
-    initialDensity === 'standard' ? 'normal' : initialDensity || 'normal'
+    controlledDensity
+      ? (controlledDensity === 'standard' ? 'normal' : controlledDensity)
+      : (initialDensity === 'standard' ? 'normal' : initialDensity || 'normal')
   );
+
+  useEffect(() => {
+    if (controlledDensity) {
+      setDensity(controlledDensity === 'standard' ? 'normal' : controlledDensity);
+    }
+  }, [controlledDensity]);
 
   // Helper to parse width strings (e.g. '220px', '220', 220) to number
   const parseWidth = useCallback((w, fallback = 150) => {
@@ -582,7 +594,7 @@ export default function DataTable({
                         }
                         className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                       />
-                      <span className="truncate">{col.title || col.key}</span>
+                      <span className="truncate">{col.title || (typeof col.header === 'string' ? col.header : col.key)}</span>
                     </label>
                   ))}
                 </div>
@@ -836,7 +848,7 @@ export default function DataTable({
                       } ${densityStyles.header} ${stickyClass} ${col.headerClassName || ''}`}
                   >
                     <div className="flex items-center justify-between gap-1.5 pr-1">
-                      <span className="truncate">{col.title || col.key}</span>
+                      <span className="truncate">{col.header !== undefined ? col.header : (col.title || col.key)}</span>
 
                       {/* Sort Indicator & Multi-Sort Badge */}
                       {canSort && (
@@ -958,7 +970,7 @@ export default function DataTable({
                           <div className="relative flex items-center">
                             <input
                               type={col.filterType === 'number' ? 'number' : 'text'}
-                              placeholder={col.filterPlaceholder || `Filter ${col.title || ''}...`}
+                              placeholder={col.filterPlaceholder || `Filter ${typeof col.title === 'string' ? col.title : (typeof col.header === 'string' ? col.header : '')}...`}
                               value={filterValue}
                               onChange={(e) => {
                                 setColumnFilters({
@@ -1072,6 +1084,23 @@ export default function DataTable({
                       const rawValue = row[col.key];
                       const currentWidth = columnWidths[col.key] || parseWidth(col.width || col.minWidth, 150);
 
+                      let cellContent = null;
+                      if (col.render) {
+                        try {
+                          cellContent = col.render(rawValue, row, rowIndex);
+                        } catch (err) {
+                          if (rawValue === undefined && row) {
+                            try {
+                              cellContent = col.render(row, rowIndex);
+                            } catch {
+                              cellContent = '—';
+                            }
+                          } else {
+                            cellContent = '—';
+                          }
+                        }
+                      }
+
                       return (
                         <td
                           key={col.key}
@@ -1084,7 +1113,7 @@ export default function DataTable({
                             } ${densityStyles.cell} ${stickyClass} ${col.className || ''}`}
                         >
                           {col.render ? (
-                            col.render(rawValue, row, rowIndex)
+                            cellContent
                           ) : (
                             <span className={col.align === 'right' ? 'text-right block' : ''}>
                               {rawValue !== null && rawValue !== undefined ? String(rawValue) : '—'}

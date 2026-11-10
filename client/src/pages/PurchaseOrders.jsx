@@ -383,6 +383,7 @@ export default function PurchaseOrders() {
   const columns = [
     {
       key: 'select',
+      title: 'Select',
       header: (
         <input
           type="checkbox"
@@ -396,11 +397,11 @@ export default function PurchaseOrders() {
       ),
       width: '44px',
       align: 'center',
-      render: (row) => (
+      render: (_, row) => (
         <input
           type="checkbox"
-          checked={selectedIds.includes(row.id)}
-          onChange={() => handleToggleSelectOne(row.id)}
+          checked={selectedIds.includes(row?.id)}
+          onChange={() => handleToggleSelectOne(row?.id)}
           onClick={(e) => e.stopPropagation()}
           className="rounded border-slate-300 dark:border-slate-600 text-[#027A48] focus:ring-0 cursor-pointer"
         />
@@ -408,141 +409,159 @@ export default function PurchaseOrders() {
     },
     {
       key: 'id',
+      title: 'LPO # & Date',
       header: 'LPO # & Date',
       sortable: true,
       width: '140px',
-      render: (row) => (
+      render: (val, row) => (
         <div className="flex flex-col">
           <span className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-100 hover:text-[#027A48] transition-colors cursor-pointer" onClick={() => handleViewLPO(row)}>
-            {row.id}
+            {val || row?.id}
           </span>
           <span className="text-[10px] text-slate-500">
-            {row.issueDate}
+            {row?.issueDate}
           </span>
         </div>
       ),
     },
     {
       key: 'supplier',
+      title: 'Supplier / Vendor',
       header: 'Supplier / Vendor',
       sortable: true,
-      render: (row) => (
+      render: (_, row) => (
         <div className="flex flex-col max-w-[240px]">
           <span className="font-medium text-slate-900 dark:text-slate-100 truncate">
-            {row.supplierName}
+            {row?.supplierName}
           </span>
           <span className="text-[10px] text-slate-400 font-mono">
-            ID: {row.supplierId}
+            ID: {row?.supplierId}
           </span>
         </div>
       ),
     },
     {
       key: 'itemsSummary',
+      title: 'Requisition Items Summary',
       header: 'Requisition Items Summary',
-      render: (row) => (
+      render: (val, row) => (
         <div className="flex items-center gap-2 max-w-[280px]">
           <span className="text-xs text-slate-600 dark:text-slate-300 truncate">
-            {row.itemsSummary}
+            {val || row?.itemsSummary}
           </span>
           <span className="shrink-0 px-1.5 py-0.5 rounded text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 font-mono">
-            {row.itemsCount} lines
+            {row?.itemsCount} lines
           </span>
         </div>
       ),
     },
     {
       key: 'totalAmount',
+      title: 'Total Value',
       header: 'Total Value',
       sortable: true,
       align: 'right',
-      render: (row) => (
-        <span className="font-mono text-xs font-bold text-slate-900 dark:text-slate-100">
-          KES {row.totalAmount.toLocaleString()}
-        </span>
-      ),
+      render: (val, row) => {
+        const amount = typeof val === 'number' ? val : (row?.totalAmount || 0);
+        return (
+          <span className="font-mono text-xs font-bold text-slate-900 dark:text-slate-100">
+            KES {amount.toLocaleString()}
+          </span>
+        );
+      },
     },
     {
       key: 'expectedDelivery',
+      title: 'Expected Delivery',
       header: 'Expected Delivery',
       sortable: true,
-      render: (row) => (
+      render: (val, row) => (
         <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400">
           <HugeiconsIcon icon={DeliveryTruck01Icon} className="w-3.5 h-3.5 text-slate-400" />
-          <span>{row.expectedDelivery}</span>
+          <span>{val || row?.expectedDelivery}</span>
         </div>
       ),
     },
     {
       key: 'grnRef',
+      title: 'GRN Receipt',
       header: 'GRN Receipt',
-      render: (row) => (
-        <span className={`text-xs font-mono font-medium ${row.grnRef.startsWith('GRN') ? 'text-[#027A48]' : 'text-slate-400'}`}>
-          {row.grnRef}
-        </span>
-      ),
+      render: (val, row) => {
+        const grn = val || row?.grnRef || '';
+        return (
+          <span className={`text-xs font-mono font-medium ${grn.startsWith('GRN') ? 'text-[#027A48]' : 'text-slate-400'}`}>
+            {grn}
+          </span>
+        );
+      },
     },
     {
       key: 'priority',
+      title: 'Priority',
       header: 'Priority',
       sortable: true,
-      render: (row) => {
+      render: (val, row) => {
+        const priority = val || row?.priority;
         let badgeCls = 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300';
-        if (row.priority === 'Urgent / Chairside') {
+        if (priority === 'Urgent / Chairside') {
           badgeCls = 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/30 dark:text-rose-300';
-        } else if (row.priority === 'Equipment Reorder') {
+        } else if (priority === 'Equipment Reorder') {
           badgeCls = 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300';
         }
 
         return (
           <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium border ${badgeCls}`}>
-            {row.priority}
+            {priority}
           </span>
         );
       },
     },
     {
       key: 'approvedBy',
+      title: 'Approved By',
       header: 'Approved By',
-      render: (row) => (
+      render: (val, row) => (
         <span className="text-xs text-slate-700 dark:text-slate-300 truncate max-w-[150px]">
-          {row.approvedBy}
+          {val || row?.approvedBy}
         </span>
       ),
     },
     {
       key: 'status',
+      title: 'Status',
       header: 'Status',
       sortable: true,
-      render: (row) => {
+      render: (val, row) => {
+        const status = val || row?.status;
         let badgeCls = 'bg-slate-100 text-slate-700 border-slate-200';
-        if (row.status === 'Received') {
+        if (status === 'Received') {
           badgeCls = 'bg-[#ECFDF3] text-[#027A48] border-[#A6F4C5] dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800';
-        } else if (row.status === 'In Transit') {
+        } else if (status === 'In Transit') {
           badgeCls = 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300';
-        } else if (row.status === 'Issued to Vendor') {
+        } else if (status === 'Issued to Vendor') {
           badgeCls = 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300';
-        } else if (row.status === 'Pending Approval') {
+        } else if (status === 'Pending Approval') {
           badgeCls = 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300';
-        } else if (row.status === 'Cancelled') {
+        } else if (status === 'Cancelled') {
           badgeCls = 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/30 dark:text-rose-300';
         }
 
         return (
           <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium border ${badgeCls}`}>
-            {row.status === 'Received' && <HugeiconsIcon icon={CheckmarkCircle01Icon} className="w-3 h-3" />}
-            {row.status === 'In Transit' && <HugeiconsIcon icon={DeliveryTruck01Icon} className="w-3 h-3" />}
-            {row.status}
+            {status === 'Received' && <HugeiconsIcon icon={CheckmarkCircle01Icon} className="w-3 h-3" />}
+            {status === 'In Transit' && <HugeiconsIcon icon={DeliveryTruck01Icon} className="w-3 h-3" />}
+            {status}
           </span>
         );
       },
     },
     {
       key: 'actions',
+      title: 'Actions',
       header: 'Actions',
       align: 'center',
       width: '60px',
-      render: (row) => (
+      render: (_, row) => (
         <RowActionDropdown
           items={[
             {
@@ -550,7 +569,7 @@ export default function PurchaseOrders() {
               icon: EyeIcon,
               onClick: () => handleViewLPO(row),
             },
-            ...(row.status !== 'Received' && row.status !== 'Cancelled'
+            ...(row?.status !== 'Received' && row?.status !== 'Cancelled'
               ? [
                 {
                   label: 'Receive Goods & Generate GRN',
@@ -562,20 +581,20 @@ export default function PurchaseOrders() {
             {
               label: 'Email LPO to Supplier',
               icon: Mail01Icon,
-              onClick: () => alert(`Sending purchase order ${row.id} via email to ${row.supplierName}...`),
+              onClick: () => alert(`Sending purchase order ${row?.id} via email to ${row?.supplierName}...`),
             },
             {
               label: 'Print Official LPO',
               icon: PrinterIcon,
-              onClick: () => alert(`Printing official LPO voucher ${row.id}...`),
+              onClick: () => alert(`Printing official LPO voucher ${row?.id}...`),
             },
-            ...(row.status !== 'Cancelled'
+            ...(row?.status !== 'Cancelled'
               ? [
                 {
                   label: 'Cancel Purchase Order',
                   icon: Cancel01Icon,
                   isDestructive: true,
-                  onClick: () => handleCancelLPO(row.id),
+                  onClick: () => handleCancelLPO(row?.id),
                 },
               ]
               : []),
@@ -586,7 +605,7 @@ export default function PurchaseOrders() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-900">
+    <div >
       {/* Page Header */}
       <PageHeader
         title="Purchase Orders"
@@ -649,39 +668,37 @@ export default function PurchaseOrders() {
       />
 
       {/* Main Table Content */}
-      <div className="flex-1 p-6">
-        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-          <DataTable
-            columns={columns}
-            data={filteredOrders}
-            density={tableDensity}
-            keyField="id"
-            onRowClick={(row) => handleViewLPO(row)}
-            emptyMessage={
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 mb-3">
-                  <HugeiconsIcon icon={Invoice01Icon} className="w-6 h-6" />
-                </div>
-                <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">
-                  No purchase orders found
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mb-4">
-                  {searchQuery
-                    ? `No purchase orders matching "${searchQuery}". Try modifying your filter criteria.`
-                    : 'Generate Local Purchase Orders (LPO) to restock clinic materials or commission prosthetic lab work.'}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setIsCreateModalOpen(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#027A48] rounded-lg hover:bg-[#02683E] transition-colors cursor-pointer"
-                >
-                  <HugeiconsIcon icon={PlusSignIcon} className="w-4 h-4" />
-                  Create First LPO
-                </button>
+      <div>
+        <DataTable
+          columns={columns}
+          data={filteredOrders}
+          density={tableDensity}
+          keyField="id"
+          onRowClick={(row) => handleViewLPO(row)}
+          emptyMessage={
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 mb-3">
+                <HugeiconsIcon icon={Invoice01Icon} className="w-6 h-6" />
               </div>
-            }
-          />
-        </div>
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">
+                No purchase orders found
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mb-4">
+                {searchQuery
+                  ? `No purchase orders matching "${searchQuery}". Try modifying your filter criteria.`
+                  : 'Generate Local Purchase Orders (LPO) to restock clinic materials or commission prosthetic lab work.'}
+              </p>
+              <button
+                type="button"
+                onClick={() => setIsCreateModalOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#027A48] rounded-lg hover:bg-[#02683E] transition-colors cursor-pointer"
+              >
+                <HugeiconsIcon icon={PlusSignIcon} className="w-4 h-4" />
+                Create First LPO
+              </button>
+            </div>
+          }
+        />
       </div>
 
       {/* ─── Create Purchase Order Modal ──────────────────────────────────── */}

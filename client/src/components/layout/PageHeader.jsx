@@ -134,9 +134,9 @@ export default function PageHeader({
   };
 
   return (
-    <header className={`w-full bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 ${className}`}>
+    <header className={`w-full bg-white dark:bg-slate-900   ${className}`}>
       {/* Top Header Row */}
-      <div className="flex flex-wrap items-center justify-between  py-1 px-4">
+      <div className="flex flex-wrap items-center justify-between  py-1 px-2">
         {/* Left Side: Page Name & Learn Badge */}
         <div className="flex items-center gap-4 min-w-0">
           <div className="flex items-center gap-2">

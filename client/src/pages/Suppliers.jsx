@@ -340,6 +340,7 @@ export default function Suppliers() {
   const columns = [
     {
       key: 'select',
+      title: 'Select',
       header: (
         <input
           type="checkbox"
@@ -353,11 +354,11 @@ export default function Suppliers() {
       ),
       width: '44px',
       align: 'center',
-      render: (row) => (
+      render: (_, row) => (
         <input
           type="checkbox"
-          checked={selectedIds.includes(row.id)}
-          onChange={() => handleToggleSelectOne(row.id)}
+          checked={selectedIds.includes(row?.id)}
+          onChange={() => handleToggleSelectOne(row?.id)}
           onClick={(e) => e.stopPropagation()}
           className="rounded border-slate-300 dark:border-slate-600 text-[#027A48] focus:ring-0 cursor-pointer"
         />
@@ -365,144 +366,159 @@ export default function Suppliers() {
     },
     {
       key: 'code',
+      title: 'Vendor ID & Tax PIN',
       header: 'Vendor ID & Tax PIN',
       sortable: true,
       width: '150px',
-      render: (row) => (
+      render: (_, row) => (
         <div className="flex flex-col">
           <span className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-100">
-            {row.id}
+            {row?.id}
           </span>
           <span className="text-[10px] text-slate-500 font-mono">
-            PIN: {row.kraPin}
+            PIN: {row?.kraPin}
           </span>
         </div>
       ),
     },
     {
       key: 'name',
+      title: 'Company & Facility',
       header: 'Company & Facility',
       sortable: true,
-      render: (row) => (
+      render: (_, row) => (
         <div className="flex flex-col max-w-[280px]">
           <span className="font-medium text-slate-900 dark:text-slate-100 truncate hover:text-[#027A48] transition-colors cursor-pointer" onClick={() => handleViewSupplier(row)}>
-            {row.name}
+            {row?.name}
           </span>
           <span className="text-[11px] text-slate-400 dark:text-slate-500 truncate flex items-center gap-1">
             <HugeiconsIcon icon={Location01Icon} className="w-3 h-3 shrink-0" />
-            {row.location}
+            {row?.location}
           </span>
         </div>
       ),
     },
     {
       key: 'category',
+      title: 'Category',
       header: 'Category',
       sortable: true,
-      render: (row) => {
+      render: (val, row) => {
+        const category = val || row?.category;
         let badgeStyle = 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-200 dark:border-blue-800';
-        if (row.category === 'Prosthetic & Crown Labs') {
+        if (category === 'Prosthetic & Crown Labs') {
           badgeStyle = 'bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 border-purple-200 dark:border-purple-800';
-        } else if (row.category === 'Equipment & Implants') {
+        } else if (category === 'Equipment & Implants') {
           badgeStyle = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800';
-        } else if (row.category === 'Pharmaceutical & Anesthetics') {
+        } else if (category === 'Pharmaceutical & Anesthetics') {
           badgeStyle = 'bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300 border-rose-200 dark:border-rose-800';
-        } else if (row.category === 'Sterilization & PPE') {
+        } else if (category === 'Sterilization & PPE') {
           badgeStyle = 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 border-amber-200 dark:border-amber-800';
         }
 
         return (
           <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium border ${badgeStyle}`}>
-            {row.category}
+            {category}
           </span>
         );
       },
     },
     {
       key: 'contact',
+      title: 'Primary Contact & Phone',
       header: 'Primary Contact & Phone',
-      render: (row) => (
+      render: (_, row) => (
         <div className="flex flex-col">
           <span className="text-xs font-medium text-slate-700 dark:text-slate-200">
-            {row.contactPerson}
+            {row?.contactPerson}
           </span>
           <span className="text-[11px] text-slate-500 flex items-center gap-1">
             <HugeiconsIcon icon={CallIcon} className="w-3 h-3 text-slate-400" />
-            {row.phone}
+            {row?.phone}
           </span>
         </div>
       ),
     },
     {
       key: 'email',
+      title: 'Email / Orders Desk',
       header: 'Email / Orders Desk',
-      render: (row) => (
+      render: (val, row) => (
         <span className="text-xs text-slate-600 dark:text-slate-300 font-mono truncate max-w-[200px]">
-          {row.email}
+          {val || row?.email}
         </span>
       ),
     },
     {
       key: 'paymentTerms',
+      title: 'Payment Terms',
       header: 'Payment Terms',
       sortable: true,
-      render: (row) => (
+      render: (val, row) => (
         <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
-          {row.paymentTerms}
+          {val || row?.paymentTerms}
         </span>
       ),
     },
     {
       key: 'leadTime',
+      title: 'Lead Time',
       header: 'Lead Time',
       sortable: true,
-      render: (row) => (
+      render: (val, row) => (
         <span className="text-xs text-slate-600 dark:text-slate-400">
-          {row.leadTime}
+          {val || row?.leadTime}
         </span>
       ),
     },
     {
       key: 'openPayables',
+      title: 'Open Balance',
       header: 'Open Balance',
       sortable: true,
       align: 'right',
-      render: (row) => (
-        <span className={`font-mono text-xs font-semibold ${row.openPayables > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-400'}`}>
-          {row.openPayables > 0 ? `KES ${row.openPayables.toLocaleString()}` : 'KES 0'}
-        </span>
-      ),
+      render: (val, row) => {
+        const amount = typeof val === 'number' ? val : (row?.openPayables || 0);
+        return (
+          <span className={`font-mono text-xs font-semibold ${amount > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-400'}`}>
+            {amount > 0 ? `KES ${amount.toLocaleString()}` : 'KES 0'}
+          </span>
+        );
+      },
     },
     {
       key: 'status',
+      title: 'Status',
       header: 'Status',
       sortable: true,
-      render: (row) => {
+      render: (val, row) => {
+        const status = val || row?.status;
         let badgeCls = 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300';
-        if (row.status === 'Preferred Partner') {
+        if (status === 'Preferred Partner') {
           badgeCls = 'bg-[#ECFDF3] text-[#027A48] border-[#A6F4C5] dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800';
-        } else if (row.status === 'Active') {
+        } else if (status === 'Active') {
           badgeCls = 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300';
-        } else if (row.status === 'Under Review') {
+        } else if (status === 'Under Review') {
           badgeCls = 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300';
-        } else if (row.status === 'On Hold') {
+        } else if (status === 'On Hold') {
           badgeCls = 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/30 dark:text-rose-300';
         }
 
         return (
           <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium border ${badgeCls}`}>
-            {row.status === 'Preferred Partner' && '★ '}
-            {row.status}
+            {status === 'Preferred Partner' && '★ '}
+            {status}
           </span>
         );
       },
     },
     {
       key: 'actions',
+      title: 'Actions',
       header: 'Actions',
       align: 'center',
       width: '60px',
-      render: (row) => (
+      render: (_, row) => (
         <RowActionDropdown
           items={[
             {
@@ -513,17 +529,17 @@ export default function Suppliers() {
             {
               label: 'Send Email / Order Request',
               icon: Mail01Icon,
-              onClick: () => alert(`Opening email client to ${row.email}...`),
+              onClick: () => alert(`Opening email client to ${row?.email}...`),
             },
             {
               label: 'Call Representative',
               icon: CallIcon,
-              onClick: () => alert(`Calling ${row.contactPerson} at ${row.phone}...`),
+              onClick: () => alert(`Calling ${row?.contactPerson} at ${row?.phone}...`),
             },
             {
               label: 'Print Vendor Sheet',
               icon: PrinterIcon,
-              onClick: () => alert(`Printing vendor sheet for ${row.name}...`),
+              onClick: () => alert(`Printing vendor sheet for ${row?.name}...`),
             },
             {
               label: 'Edit Supplier Info',
@@ -531,18 +547,18 @@ export default function Suppliers() {
               onClick: () => {
                 setActiveSupplier(row);
                 setFormData({
-                  name: row.name,
-                  code: row.code,
-                  kraPin: row.kraPin,
-                  category: row.category,
-                  contactPerson: row.contactPerson,
-                  phone: row.phone,
-                  email: row.email,
-                  location: row.location,
-                  paymentTerms: row.paymentTerms,
-                  leadTime: row.leadTime,
-                  bankDetails: row.bankDetails,
-                  status: row.status,
+                  name: row?.name || '',
+                  code: row?.code || '',
+                  kraPin: row?.kraPin || '',
+                  category: row?.category || 'Dental Consumables',
+                  contactPerson: row?.contactPerson || '',
+                  phone: row?.phone || '',
+                  email: row?.email || '',
+                  location: row?.location || '',
+                  paymentTerms: row?.paymentTerms || 'Net 30 Days',
+                  leadTime: row?.leadTime || '24-48 Hours',
+                  bankDetails: row?.bankDetails || '',
+                  status: row?.status || 'Active',
                 });
                 setIsAddModalOpen(true);
               },
@@ -551,7 +567,7 @@ export default function Suppliers() {
               label: 'Remove from Directory',
               icon: Delete02Icon,
               isDestructive: true,
-              onClick: () => handleDeleteSupplier(row.id),
+              onClick: () => handleDeleteSupplier(row?.id),
             },
           ]}
         />
@@ -560,7 +576,7 @@ export default function Suppliers() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-900">
+    <div >
       {/* Page Header */}
       <PageHeader
         title="Suppliers"
@@ -639,39 +655,37 @@ export default function Suppliers() {
       />
 
       {/* Main Table Content */}
-      <div className="flex-1 p-6">
-        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-          <DataTable
-            columns={columns}
-            data={filteredSuppliers}
-            density={tableDensity}
-            keyField="id"
-            onRowClick={(row) => handleViewSupplier(row)}
-            emptyMessage={
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 mb-3">
-                  <HugeiconsIcon icon={Building01Icon} className="w-6 h-6" />
-                </div>
-                <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">
-                  No suppliers found
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mb-4">
-                  {searchQuery
-                    ? `No suppliers matching "${searchQuery}". Try clearing search filters.`
-                    : 'Get started by adding your clinic’s verified dental suppliers and dental laboratories.'}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setIsAddModalOpen(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#027A48] rounded-lg hover:bg-[#02683E] transition-colors cursor-pointer"
-                >
-                  <HugeiconsIcon icon={PlusSignIcon} className="w-4 h-4" />
-                  Add First Supplier
-                </button>
+      <div>
+        <DataTable
+          columns={columns}
+          data={filteredSuppliers}
+          density={tableDensity}
+          keyField="id"
+          onRowClick={(row) => handleViewSupplier(row)}
+          emptyMessage={
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 mb-3">
+                <HugeiconsIcon icon={Building01Icon} className="w-6 h-6" />
               </div>
-            }
-          />
-        </div>
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">
+                No suppliers found
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mb-4">
+                {searchQuery
+                  ? `No suppliers matching "${searchQuery}". Try clearing search filters.`
+                  : 'Get started by adding your clinic’s verified dental suppliers and dental laboratories.'}
+              </p>
+              <button
+                type="button"
+                onClick={() => setIsAddModalOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#027A48] rounded-lg hover:bg-[#02683E] transition-colors cursor-pointer"
+              >
+                <HugeiconsIcon icon={PlusSignIcon} className="w-4 h-4" />
+                Add First Supplier
+              </button>
+            </div>
+          }
+        />
       </div>
 
       {/* ─── Add / Edit Supplier Modal ────────────────────────────────────── */}
