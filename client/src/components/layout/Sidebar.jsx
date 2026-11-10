@@ -96,6 +96,7 @@ export default function Sidebar({
   onToggleCollapse,
   onCloseMobile,
   onOpenHelp,
+  onOpenUpgrade,
   onLogout,
 }) {
   const location = useLocation();
@@ -475,7 +476,7 @@ export default function Sidebar({
           size="sm"
           onClick={() => {
             if (isMobileOpen && onCloseMobile) onCloseMobile();
-            alert('Opening Smilux Upgrade & Subscription Plans...');
+            if (onOpenUpgrade) onOpenUpgrade();
           }}
           onMouseEnter={handleMouseEnter('Upgrade Plan')}
           onMouseLeave={handleMouseLeave}

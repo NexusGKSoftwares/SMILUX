@@ -4,11 +4,13 @@ import Sidebar from './Sidebar.jsx';
 import Topbar from './Topbar.jsx';
 import Footer from './Footer.jsx';
 import HelpModal from './HelpModal.jsx';
+import PlansModal from './PlansModal.jsx';
 
 export default function AppLayout({ children, user, onLogout, onQuickAction }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [isHelpDrawerOpen, setIsHelpDrawerOpen] = useState(false);
+  const [isPlansModalOpen, setIsPlansModalOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(() => {
     try {
       return localStorage.getItem('smilux_sidebar_collapsed') === 'true';
@@ -38,6 +40,7 @@ export default function AppLayout({ children, user, onLogout, onQuickAction }) {
         onToggleCollapse={handleToggleCollapse}
         onCloseMobile={() => setIsMobileOpen(false)}
         onOpenHelp={() => setIsHelpModalOpen(true)}
+        onOpenUpgrade={() => setIsPlansModalOpen(true)}
         user={user}
         onLogout={onLogout}
       />
@@ -54,6 +57,7 @@ export default function AppLayout({ children, user, onLogout, onQuickAction }) {
           isHelpOpen={isHelpDrawerOpen}
           onOpenHelp={() => setIsHelpDrawerOpen(true)}
           onCloseHelp={() => setIsHelpDrawerOpen(false)}
+          onOpenUpgrade={() => setIsPlansModalOpen(true)}
         />
 
         {/* Dynamic Page Content Viewport */}
@@ -70,6 +74,12 @@ export default function AppLayout({ children, user, onLogout, onQuickAction }) {
         isOpen={isHelpModalOpen}
         onClose={() => setIsHelpModalOpen(false)}
         user={user}
+      />
+
+      {/* Plans & Pricing Dialog Modal (Opened via Topbar & Sidebar "Upgrade") */}
+      <PlansModal
+        isOpen={isPlansModalOpen}
+        onClose={() => setIsPlansModalOpen(false)}
       />
     </div>
   );

@@ -26,6 +26,7 @@ export default function Topbar({
   isHelpOpen,
   onOpenHelp,
   onCloseHelp,
+  onOpenUpgrade,
 }) {
   const navigate = useNavigate();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -97,7 +98,7 @@ export default function Topbar({
           variant="upgrade"
           size="sm"
           onClick={() => {
-            alert('Opening Smilux Upgrade & Subscription Plans...');
+            if (onOpenUpgrade) onOpenUpgrade();
           }}
           className="gap-1.5 px-3 h-8 cursor-pointer"
           aria-label="Upgrade Subscription"
