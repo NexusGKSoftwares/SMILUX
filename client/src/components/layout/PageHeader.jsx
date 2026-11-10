@@ -297,7 +297,7 @@ export default function PageHeader({
                   role="tab"
                   aria-selected={isActive}
                   className={`box-border h-10 flex items-center pl-4 pr-2 rounded-t-[8px] cursor-pointer transition-all duration-150 relative ${isActive
-                    ? 'bg-white dark:bg-slate-900 shadow-[0px_8px_12px_rgba(0,0,0,0.15)] dark:shadow-[0px_8px_12px_rgba(0,0,0,0.4)] z-10'
+                    ? 'bg-white dark:bg-slate-900 shadow-[0px_8px_12px_rgba(0,0,0,0.15)] dark:shadow-[0px_8px_12px_rgba(0,0,0,0.4)] z-10 border-t'
                     : 'bg-transparent hover:bg-gray-50/70 dark:hover:bg-slate-800/40 text-[#767676] dark:text-slate-400 hover:text-[#222323] dark:hover:text-white'
                     }`}
                 >

@@ -776,7 +776,7 @@ export default function DataTable({
   };
 
   return (
-    <div className={`w-full flex flex-col font-sans bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800/70  overflow-hidden ${className}`}>
+    <div className={`w-full flex flex-col font-sans bg-white dark:bg-slate-900 overflow-hidden ${className}`}>
       {/* ─── Top Placement Toolbar (Clean White Background) ─────────────── */}
       {renderTopToolbar ? (
         renderTopToolbar({
