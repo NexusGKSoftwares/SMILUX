@@ -168,7 +168,6 @@ export default function Topbar({
                 </Link>
 
                 <button
-                  variant="ghost"
                   onClick={() => {
                     setUserMenuOpen(false);
                     if (onOpenHelp) onOpenHelp();
@@ -182,7 +181,6 @@ export default function Topbar({
                 <div className="my-1 h-px bg-slate-100" />
 
                 <button
-                  variant="ghost"
                   onClick={handleLogout}
                   className="w-full flex items-center justify-start gap-2.5 px-4 py-2 h-auto text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer text-left"
                 >

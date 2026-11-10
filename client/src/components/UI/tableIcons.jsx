@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import React from 'react';
 // High quality free Hugeicons exports for DataTable and across the PMS application
 import { HugeiconsIcon } from '@hugeicons/react';

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { salesAreaChartData, webAnalyticsData } from '../../pages/data.js';
 
 // ─── Shared Card Header Wireframe Chrome ───────────────────────────────────
