@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "build": "echo \"Server is ready (no build step needed)\"",
+    "seed": "node seed.js",
     "lint": "eslint . --ext .js --report-unused-disable-directives"
   },
   "dependencies": {

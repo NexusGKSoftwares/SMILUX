@@ -1,0 +1,20 @@
+{
+  "name": "smilux",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Smilux - Dental Practice Management System by Tekvora Systems",
+  "scripts": {
+    "install:all": "pnpm install",
+    "dev": "pnpm --parallel --filter smilux-web --filter smilux-server dev",
+    "dev:client": "pnpm --filter smilux-web dev",
+    "dev:server": "pnpm --filter smilux-server dev",
+    "build": "pnpm --filter smilux-web build",
+    "build:all": "pnpm -r run build",
+    "start": "pnpm --filter smilux-server start",
+    "seed": "pnpm --filter smilux-server seed",
+    "lint": "pnpm -r run lint",
+    "lint:client": "pnpm --filter smilux-web lint",
+    "lint:server": "pnpm --filter smilux-server lint"
+  },
+  "packageManager": "pnpm@11.9.0"
+}
