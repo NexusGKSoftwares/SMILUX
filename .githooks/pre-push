@@ -1,8 +1,8 @@
 #!/bin/sh
 # pre-push hook — runs lint on client and server before every push.
-# Install once with: git config core.hooksPath .githooks
+# Installed via: git config core.hooksPath .githooks
 #
-# Exit 1 to abort the push if lint fails.
+# REQUIREMENT: Run `pnpm install` in client/ and server/ at least once before pushing.
 
 set -e
 
@@ -16,10 +16,9 @@ echo "────────────────────────�
 echo "▶  Client (React/Vite)..."
 cd "$REPO_ROOT/client"
 
-# Install deps silently if node_modules is missing
 if [ ! -d "node_modules" ]; then
-  echo "   Installing client deps..."
-  pnpm install --no-frozen-lockfile --silent
+  echo "❌  client/node_modules not found. Run 'pnpm install' in client/ first."
+  exit 1
 fi
 
 if ! pnpm lint; then
@@ -34,8 +33,8 @@ echo "▶  Server (Express/Node)..."
 cd "$REPO_ROOT/server"
 
 if [ ! -d "node_modules" ]; then
-  echo "   Installing server deps..."
-  pnpm install --no-frozen-lockfile --silent
+  echo "❌  server/node_modules not found. Run 'pnpm install' in server/ first."
+  exit 1
 fi
 
 if ! pnpm lint; then
