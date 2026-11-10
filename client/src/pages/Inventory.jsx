@@ -653,7 +653,7 @@ export default function Inventory() {
       />
 
       {/* ─── 2. Spreadsheet-Dense DataTable ─────────────────────────────────── */}
-      <div className="px-4 sm:px-6 pt-4">
+      <div  >
         <DataTable
           title="Dental Inventory & Consumables"
           data={filteredItems}
