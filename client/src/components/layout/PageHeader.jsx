@@ -27,6 +27,10 @@ import Button from '../UI/Button';
  * @param {Array<Object>} tabs - Optional tabs below header (e.g. All, Users, etc.)
  * @param {string} activeTab - Currently active tab id
  * @param {Function} onTabChange - Callback when a tab is selected
+ * @param {boolean} showAddTab - Whether to show the "Add Tab" button (default: true)
+ * @param {string} addTabLabel - Label for the add tab button (default: "Add Tab")
+ * @param {Function} onAddTab - Callback when "Add Tab" button is clicked
+ * @param {Function} onTabAction - Callback when a tab's action is triggered
  * @param {React.ReactNode} children - Additional content below header (e.g. search, filters)
  * @param {string} className - Additional CSS classes
  */
@@ -44,16 +48,22 @@ export default function PageHeader({
   tabs = null,
   activeTab = null,
   onTabChange,
+  showAddTab = true,
+  addTabLabel = 'Add Tab',
+  onAddTab,
+  onTabAction,
   children,
   className = '',
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openTabActionId, setOpenTabActionId] = useState(null);
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
+  const tabMenuRef = useRef(null);
 
   // Close dropdown on click outside or Escape key
   useEffect(() => {
-    if (!isMenuOpen) return;
+    if (!isMenuOpen && !openTabActionId) return;
 
     const handleClickOutside = (event) => {
       if (
@@ -64,11 +74,16 @@ export default function PageHeader({
       ) {
         setIsMenuOpen(false);
       }
+
+      if (tabMenuRef.current && !tabMenuRef.current.contains(event.target)) {
+        setOpenTabActionId(null);
+      }
     };
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
         setIsMenuOpen(false);
+        setOpenTabActionId(null);
         buttonRef.current?.focus();
       }
     };
@@ -82,7 +97,7 @@ export default function PageHeader({
       document.removeEventListener('touchstart', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, openTabActionId]);
 
   // Default more actions matching the design if none provided
   const resolvedMoreActions =
@@ -261,35 +276,140 @@ export default function PageHeader({
         </div>
       </div>
 
-      {/* Optional Tabs Row (e.g. All, Users, No User Access, Completed) */}
+      {/* Optional Tabs Row (matching Figma specs: All, Assigned, Unassigned, Archived + Add Tab) */}
       {tabs && tabs.length > 0 && (
-        <div className="flex items-center gap-4 px-4 border-t border-gray-100 dark:border-slate-800/80 overflow-x-auto no-scrollbar">
-          {tabs.map((tab) => {
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => onTabChange?.(tab.id)}
-                className={`pt-2 text-sm font-bold border-b-2 whitespace-nowrap transition-colors cursor-pointer select-none flex items-center gap-1.5 ${isActive
-                  ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400 font-semibold'
-                  : 'border-transparent text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200'
-                  }`}
-              >
-                <span>{tab.label}</span>
-                {tab.count !== undefined && (
+        <div
+          ref={tabMenuRef}
+          className="relative w-full h-10 flex items-center px-4 overflow-x-auto no-scrollbar bg-transparent shadow-[inset_0_-1px_0_#E7E7E7] dark:shadow-[inset_0_-1px_0_#334155] select-none"
+        >
+          {/* Tab List */}
+          <div className="flex items-center h-10 shrink-0">
+            {tabs.map((tab, index) => {
+              const isActive = activeTab === tab.id;
+              const isActionMenuOpen = openTabActionId === tab.id;
+
+              return (
+                <div
+                  key={tab.id || index}
+                  onClick={() => onTabChange?.(tab.id)}
+                  role="tab"
+                  aria-selected={isActive}
+                  className={`box-border h-10 flex items-center pl-4 pr-2 rounded-t-[8px] cursor-pointer transition-all duration-150 relative ${isActive
+                    ? 'bg-white dark:bg-slate-900 shadow-[0px_8px_12px_rgba(0,0,0,0.15)] dark:shadow-[0px_8px_12px_rgba(0,0,0,0.4)] z-10'
+                    : 'bg-transparent hover:bg-gray-50/70 dark:hover:bg-slate-800/40 text-[#767676] dark:text-slate-400 hover:text-[#222323] dark:hover:text-white'
+                    }`}
+                >
+                  {/* Label */}
                   <span
-                    className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-normal ${isActive
-                      ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'
-                      : 'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-slate-400'
+                    className={`font-['Inter'] font-medium text-[14px] leading-5 whitespace-nowrap ${isActive
+                      ? 'text-[#222323] dark:text-white'
+                      : 'text-[#767676] dark:text-slate-400'
                       }`}
                   >
-                    {tab.count}
+                    {tab.label}
                   </span>
-                )}
-              </button>
-            );
-          })}
+
+                  {/* Optional Count Badge */}
+                  {tab.count !== undefined && (
+                    <span
+                      className={`ml-1.5 px-1.5 py-0.5 rounded-full text-xs font-normal tabular-nums ${isActive
+                        ? 'bg-gray-100 text-[#222323] dark:bg-slate-800 dark:text-slate-200'
+                        : 'bg-gray-100 text-[#767676] dark:bg-slate-800 dark:text-slate-400'
+                        }`}
+                    >
+                      {tab.count}
+                    </span>
+                  )}
+
+                  {/* Tab Actions Button (visible on active tab) */}
+                  {isActive ? (
+                    <div className="relative pl-2 shrink-0">
+                      <button
+                        type="button"
+                        aria-label="Tab actions"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenTabActionId((prev) => (prev === tab.id ? null : tab.id));
+                        }}
+                        className="box-border flex items-center justify-center w-[26px] h-7 px-1 rounded-[6px] text-[#767676] hover:text-[#222323] hover:bg-gray-100 dark:hover:bg-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer focus:outline-none"
+                      >
+                        <HugeiconsIcon icon={MoreHorizontalIcon} size={16} strokeWidth={2.2} />
+                      </button>
+
+                      {/* Dropdown Menu */}
+                      {isActionMenuOpen && (
+                        <div
+                          role="menu"
+                          aria-orientation="vertical"
+                          className="absolute left-0 top-full mt-1.5 min-w-[160px] bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-md shadow-lg py-1 z-50 animate-in fade-in-0 zoom-in-95 duration-100 text-left font-normal"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {Array.isArray(tab.actions) && tab.actions.length > 0 ? (
+                            tab.actions.map((act, aIdx) => (
+                              <button
+                                key={act.id || aIdx}
+                                type="button"
+                                onClick={(e) => {
+                                  setOpenTabActionId(null);
+                                  if (act.onClick) act.onClick(tab, e);
+                                  onTabAction?.(act.id, tab);
+                                }}
+                                className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800 ${act.danger
+                                  ? 'text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                                  : 'text-gray-700 dark:text-slate-200'
+                                  }`}
+                              >
+                                {act.label}
+                              </button>
+                            ))
+                          ) : (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setOpenTabActionId(null);
+                                  onTabAction?.('duplicate', tab);
+                                }}
+                                className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left text-gray-700 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800 cursor-pointer"
+                              >
+                                Duplicate View
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setOpenTabActionId(null);
+                                  onTabAction?.('rename', tab);
+                                }}
+                                className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left text-gray-700 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800 cursor-pointer"
+                              >
+                                Rename
+                              </button>
+                              {tab.id !== 'all' && (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setOpenTabActionId(null);
+                                    onTabAction?.('close', tab);
+                                  }}
+                                  className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 cursor-pointer border-t border-gray-100 dark:border-slate-800"
+                                >
+                                  Close Tab
+                                </button>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    /* Spacer matching Figma inactive tab's 10px container */
+                    <div className="w-2.5 h-7 shrink-0" />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+ 
         </div>
       )}
 
