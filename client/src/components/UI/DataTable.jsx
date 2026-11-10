@@ -465,7 +465,7 @@ export default function DataTable({
                 setGlobalSearch(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full pl-8 pr-7 py-1 text-xs rounded border border-slate-200/80 dark:border-slate-700/80 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-500 "
+              className="w-full pl-8 pr-7 py-2 text-xs rounded-full border border-slate-200/80 dark:border-slate-700/80 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-500 "
             />
             {globalSearch && (
               <button
