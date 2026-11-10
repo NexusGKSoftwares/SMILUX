@@ -37,12 +37,12 @@ function CardHeaderWireframe({
 
 // ─── 1:1 Dashboard Wireframe Shimmer Loader ─────────────────────────────────
 export function DashboardWireframeSkeleton({
-  isHolding = false,
-  onToggleHold,
-  onSkipToLive,
+  isHolding: _isHolding = false,
+  onToggleHold: _onToggleHold,
+  onSkipToLive: _onSkipToLive,
 }) {
   const activeSalesPt = salesAreaChartData.months[5]; // Jun
-  const activePatientBar = webAnalyticsData.bars[5]; // Jun
+  void webAnalyticsData.bars[5]; // Jun - reserved for future patient bar chart
 
   const incomeExpenseWireframeMonths = [
     { month: 'JAN', incomeH: 88, expenseH: 34 },
@@ -1286,3 +1286,27 @@ export function DashboardWireframeSkeleton({
 }
 
 export default DashboardWireframeSkeleton;
+
+CardHeaderWireframe.propTypes = {
+  iconTint: PropTypes.string,
+  titleWidth: PropTypes.string,
+  iconSvg: PropTypes.node,
+};
+
+DashboardWireframeSkeleton.propTypes = {
+  isHolding: PropTypes.bool,
+  onToggleHold: PropTypes.func,
+  onSkipToLive: PropTypes.func,
+};
+
+CardHeaderWireframe.propTypes = {
+  iconTint: PropTypes.string,
+  titleWidth: PropTypes.string,
+  iconSvg: PropTypes.node,
+};
+
+DashboardWireframeSkeleton.propTypes = {
+  isHolding: PropTypes.bool,
+  onToggleHold: PropTypes.func,
+  onSkipToLive: PropTypes.func,
+};
