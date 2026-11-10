@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Button from '../UI/Button.jsx';
 
@@ -75,6 +75,8 @@ function CartIcon({ className = 'w-4 h-4 text-[#7B4DFF] shrink-0' }) {
  * - Dental Practice Plans: Essential ($29), Professional ($59 - Most Popular), Premium ($99)
  */
 export default function PlansModal({ isOpen, onClose }) {
+  const [billingCycle, setBillingCycle] = useState('annual');
+
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e) => {
@@ -157,18 +159,56 @@ export default function PlansModal({ isOpen, onClose }) {
 
         {/* Modal Main Content Container with Brand Purple Gradient */}
         <div className="w-full p-4 flex flex-col gap-3 bg-[linear-gradient(180deg,#F6F3FF_0%,#DED0FF_100%)] overflow-y-auto">
-          {/* Subheader: Select a Plan & Comparison link */}
-          <div className="w-full flex flex-row items-center justify-between">
+          {/* Subheader: Select a Plan, Billing Toggle & Comparison link */}
+          <div className="w-full flex flex-row items-center justify-between gap-4 flex-wrap">
             <h3 className="text-[18px] leading-[28px] font-semibold text-[#222323]">
               Select a Dental Clinic Plan
             </h3>
-            <button
-              type="button"
-              onClick={() => alert('Opening Full Dental Feature Comparison matrix...')}
-              className="text-[13px] leading-[20px] font-semibold text-[#7B4DFF] hover:underline cursor-pointer bg-transparent border-0 p-0"
-            >
-              See Full Plan Comparison
-            </button>
+
+            <div className="flex items-center gap-4">
+              {/* Annual / Monthly Billing Toggle */}
+              <div className="inline-flex items-center p-0.5 rounded-full bg-white/90 border border-purple-200/90 shadow-[0px_1px_2px_rgba(0,0,0,0.05)] select-none">
+                <button
+                  type="button"
+                  onClick={() => setBillingCycle('monthly')}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    billingCycle === 'monthly'
+                      ? 'bg-[#7B4DFF] text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900 bg-transparent'
+                  }`}
+                >
+                  Monthly
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBillingCycle('annual')}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    billingCycle === 'annual'
+                      ? 'bg-[#7B4DFF] text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900 bg-transparent'
+                  }`}
+                >
+                  <span>Annual</span>
+                  <span
+                    className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none transition-colors ${
+                      billingCycle === 'annual'
+                        ? 'bg-white/25 text-white'
+                        : 'bg-emerald-100 text-emerald-700'
+                    }`}
+                  >
+                    Save 20%
+                  </span>
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => alert('Opening Full Dental Feature Comparison matrix...')}
+                className="text-[13px] leading-[20px] font-semibold text-[#7B4DFF] hover:underline cursor-pointer bg-transparent border-0 p-0"
+              >
+                See Full Plan Comparison
+              </button>
+            </div>
           </div>
 
           {/* 3 Pricing Cards Grid */}
@@ -201,11 +241,11 @@ export default function PlansModal({ isOpen, onClose }) {
                 <div className="flex flex-col gap-2">
                   <div className="flex items-baseline">
                     <span className="text-[32px] leading-[40px] font-bold text-[#5733be]">
-                      $29
+                      {billingCycle === 'annual' ? '$29' : '$36'}
                     </span>
                   </div>
                   <p className="text-[13px] leading-[20px] font-normal text-[#595959]">
-                    Per dental chair, per month, billed annually 
+                    Per dental chair, per month, {billingCycle === 'annual' ? 'billed annually' : 'billed monthly'}
                   </p>
                 </div>
 
@@ -266,11 +306,11 @@ export default function PlansModal({ isOpen, onClose }) {
                 <div className="flex flex-col gap-2">
                   <div className="flex items-baseline">
                     <span className="text-[32px] leading-[40px] font-bold text-[#5733be]">
-                      $59
+                      {billingCycle === 'annual' ? '$59' : '$74'}
                     </span>
                   </div>
                   <p className="text-[13px] leading-[20px] font-normal text-[#595959]">
-                    Per dental chair, per month, billed annually only*
+                    Per dental chair, per month, {billingCycle === 'annual' ? 'billed annually only*' : 'billed monthly*'}
                   </p>
                 </div>
 
@@ -331,11 +371,11 @@ export default function PlansModal({ isOpen, onClose }) {
                 <div className="flex flex-col gap-2">
                   <div className="flex items-baseline">
                     <span className="text-[32px] leading-[40px] font-bold text-[#5733be]">
-                      $99
+                      {billingCycle === 'annual' ? '$99' : '$124'}
                     </span>
                   </div>
                   <p className="text-[13px] leading-[20px] font-normal text-[#595959]">
-                    Per dental chair, per month, billed annually only*
+                    Per dental chair, per month, {billingCycle === 'annual' ? 'billed annually only*' : 'billed monthly*'}
                   </p>
                 </div>
 
