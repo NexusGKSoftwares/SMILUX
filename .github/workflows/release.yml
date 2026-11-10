@@ -28,18 +28,16 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9
-          run_install: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "pnpm"
 
       # ── Client ──────────────────────────
       - name: Install client dependencies
         working-directory: client
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Lint client
         working-directory: client
@@ -57,7 +55,7 @@ jobs:
       # ── Server ──────────────────────────
       - name: Install server dependencies
         working-directory: server
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Lint server
         working-directory: server

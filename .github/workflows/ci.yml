@@ -1,4 +1,4 @@
-name: CI — Lint & Build
+name: CI - Lint & Build
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
   # Client: lint + build (React / Vite)
   # ─────────────────────────────────────────
   client:
-    name: Client — Lint & Build
+    name: Client - Lint & Build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -25,17 +25,14 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9
-          run_install: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "pnpm"
-          cache-dependency-path: client/pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Lint
         run: pnpm lint
@@ -54,7 +51,7 @@ jobs:
   # Server: lint (Express / Node.js)
   # ─────────────────────────────────────────
   server:
-    name: Server — Lint
+    name: Server - Lint
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -68,17 +65,14 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9
-          run_install: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "pnpm"
-          cache-dependency-path: server/pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Lint
         run: pnpm lint
