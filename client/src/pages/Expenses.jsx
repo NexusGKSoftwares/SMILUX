@@ -864,7 +864,7 @@ export default function Expenses() {
                   KRA eTIMS Purchase Invoice Requirement
                 </h4>
                 <p className="leading-relaxed">
-                  Under Kenya Finance Act regulations, all clinic operating expenses must be backed by a valid supplier eTIMS invoice linked to the clinic's KRA PIN to qualify as tax-deductible business expenditure.
+                  Under Kenya Finance Act regulations, all clinic operating expenses must be backed by a valid supplier eTIMS invoice linked to the clinic&apos;s KRA PIN to qualify as tax-deductible business expenditure.
                 </p>
               </div>
 

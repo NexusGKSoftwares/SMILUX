@@ -130,7 +130,7 @@ export default function GettingStarted() {
     try {
       const saved = localStorage.getItem('smilux_onboarding_tasks');
       if (saved) return JSON.parse(saved);
-    } catch { }
+    } catch { /* ignore */ }
     return {
       overview: true,
       account_settings: false,
@@ -149,7 +149,7 @@ export default function GettingStarted() {
       try {
         localStorage.setItem('smilux_onboarding_tasks', JSON.stringify(next));
         window.dispatchEvent(new Event('smilux_onboarding_updated'));
-      } catch { }
+      } catch { /* ignore */ }
       return next;
     });
   };
@@ -316,7 +316,7 @@ export default function GettingStarted() {
             </div>
 
             <p className="text-xs text-slate-600 leading-relaxed">
-              Let's get you set up and efficiently managing your clinic as quickly as possible. If you need support or wish to provide feedback, please don't hesitate to reach out.
+              Let&apos;s get you set up and efficiently managing your clinic as quickly as possible. If you need support or wish to provide feedback, please don&apos;t hesitate to reach out.
             </p>
 
             <div className="relative">
@@ -544,7 +544,7 @@ export default function GettingStarted() {
 
               <div className="p-4 rounded border border-slate-200 bg-slate-50/50 space-y-3">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-slate-800">Today's Appointment Slots</span>
+                  <span className="font-bold text-slate-800">Today&apos;s Appointment Slots</span>
                   <span className="text-brand-green font-bold">5 Confirmed Today</span>
                 </div>
                 <div className="h-2 rounded-full bg-slate-200 overflow-hidden">

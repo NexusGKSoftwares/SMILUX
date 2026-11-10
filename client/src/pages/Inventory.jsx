@@ -941,7 +941,7 @@ export default function Inventory() {
                   Implant & Biomaterial Lot Traceability
                 </h4>
                 <p className="leading-relaxed">
-                  Every titanium implant and bone graft vial carries a Lot/Batch number linked directly to the patient's surgical record for medical-legal compliance.
+                  Every titanium implant and bone graft vial carries a Lot/Batch number linked directly to the patient&apos;s surgical record for medical-legal compliance.
                 </p>
               </div>
             </div>

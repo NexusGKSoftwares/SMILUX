@@ -1,0 +1,50 @@
+#!/bin/sh
+# pre-push hook — runs lint on client and server before every push.
+# Install once with: git config core.hooksPath .githooks
+#
+# Exit 1 to abort the push if lint fails.
+
+set -e
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+echo ""
+echo "🔍  Running lint checks before push..."
+echo "────────────────────────────────────────"
+
+# ── Client lint ──────────────────────────────────────────────────────────────
+echo "▶  Client (React/Vite)..."
+cd "$REPO_ROOT/client"
+
+# Install deps silently if node_modules is missing
+if [ ! -d "node_modules" ]; then
+  echo "   Installing client deps..."
+  pnpm install --no-frozen-lockfile --silent
+fi
+
+if ! pnpm lint; then
+  echo ""
+  echo "❌  Client lint failed. Fix the errors above before pushing."
+  exit 1
+fi
+echo "✅  Client lint passed."
+
+# ── Server lint ──────────────────────────────────────────────────────────────
+echo "▶  Server (Express/Node)..."
+cd "$REPO_ROOT/server"
+
+if [ ! -d "node_modules" ]; then
+  echo "   Installing server deps..."
+  pnpm install --no-frozen-lockfile --silent
+fi
+
+if ! pnpm lint; then
+  echo ""
+  echo "❌  Server lint failed. Fix the errors above before pushing."
+  exit 1
+fi
+echo "✅  Server lint passed."
+
+echo "────────────────────────────────────────"
+echo "✅  All checks passed. Proceeding with push."
+echo ""
