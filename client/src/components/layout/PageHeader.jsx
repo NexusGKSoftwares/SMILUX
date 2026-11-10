@@ -315,8 +315,8 @@ export default function PageHeader({
                   {tab.count !== undefined && (
                     <span
                       className={`ml-1.5 px-1.5 py-0.5 rounded-full text-xs font-normal tabular-nums ${isActive
-                        ? 'bg-gray-200 text-[#222323] dark:bg-slate-800 dark:text-slate-200'
-                        : 'bg-gray-100 text-[#767676] dark:bg-slate-800 dark:text-slate-400'
+                        ? 'bg-[#ded0ff] text-[#4b2e8d] dark:bg-slate-800 dark:text-slate-200'
+                        : 'bg-[#f6f3ff] text-[#767676] dark:bg-slate-800 dark:text-slate-400'
                         }`}
                     >
                       {tab.count}
