@@ -1,6 +1,4 @@
 const Appointment = require('../models/Appointment');
-const Patient = require('../models/Patient');
-const User = require('../models/User');
 
 exports.getAppointments = async (req, res) => {
   try {

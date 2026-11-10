@@ -1,10 +1,8 @@
 const Patient = require('../models/Patient');
 const Appointment = require('../models/Appointment');
-const Invoice = require('../models/Invoice');
 const Payment = require('../models/Payment');
 const Expense = require('../models/Expense');
 const Product = require('../models/Product');
-const TreatmentPlan = require('../models/TreatmentPlan');
 
 exports.getDashboardStats = async (req, res) => {
   try {

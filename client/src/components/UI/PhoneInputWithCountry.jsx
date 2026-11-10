@@ -296,7 +296,7 @@ export async function fetchUserCountryCode() {
       cachedUserCountryCode = saved;
       return saved;
     }
-  } catch (e) {
+  } catch {
     // Ignore storage errors
   }
 
@@ -311,11 +311,11 @@ export async function fetchUserCountryCode() {
       if (data && data.country_code) {
         const code = String(data.country_code).toUpperCase();
         cachedUserCountryCode = code;
-        try { sessionStorage.setItem('smilux_user_country_code', code); } catch (e) { }
+        try { sessionStorage.setItem('smilux_user_country_code', code); } catch { /* ignore */ }
         return code;
       }
     }
-  } catch (e) {
+  } catch {
     // Fallback to next API
   }
 
@@ -330,11 +330,11 @@ export async function fetchUserCountryCode() {
       if (data && data.country) {
         const code = String(data.country).toUpperCase();
         cachedUserCountryCode = code;
-        try { sessionStorage.setItem('smilux_user_country_code', code); } catch (e) { }
+        try { sessionStorage.setItem('smilux_user_country_code', code); } catch { /* ignore */ }
         return code;
       }
     }
-  } catch (e) {
+  } catch {
     // Fallback to browser locale
   }
 
@@ -350,7 +350,7 @@ export async function fetchUserCountryCode() {
         }
       }
     }
-  } catch (e) {
+  } catch {
     // Ignore
   }
 

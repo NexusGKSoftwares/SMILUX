@@ -605,7 +605,7 @@ export default function DataTable({
           </button>
         );
 
-      case 'paginationInfo':
+      case 'paginationInfo': {
         const startIdx = totalEntries === 0 ? 0 : (currentPage - 1) * effectivePageSize + 1;
         const endIdx = isAllPages ? totalEntries : Math.min(currentPage * effectivePageSize, totalEntries);
         return (
@@ -620,6 +620,7 @@ export default function DataTable({
             )}
           </div>
         );
+      }
 
       case 'selectionInfo':
         return selectable && activeSelectedKeys.length > 0 ? (

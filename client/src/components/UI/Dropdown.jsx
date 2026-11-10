@@ -300,7 +300,7 @@ export default function Dropdown({
               onClick={() => handleSingleSelect(searchQuery)}
               className={`${itemHeightClass} w-full text-left font-medium text-brand-600 hover:bg-brand-50 flex items-center gap-2 font-sans`}
             >
-              <span>Add custom: "{searchQuery}"</span>
+              <span>Add custom: &quot;{searchQuery}&quot;</span>
             </button>
           ) : (
             <div className="px-3 py-4 text-center text-xs text-slate-400 font-sans">No matching options</div>

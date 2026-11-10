@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { InlineSpinner } from './Spinner.jsx';
 
 /**
@@ -60,3 +61,13 @@ export default function Button({
     </button>
   );
 }
+
+Button.propTypes = {
+  variant: PropTypes.oneOf(['primary', 'outline', 'secondary', 'ghost', 'destructive']),
+  size: PropTypes.oneOf(['sm', 'md', 'lg']),
+  type: PropTypes.oneOf(['button', 'submit', 'reset']),
+  disabled: PropTypes.bool,
+  loading: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.node,
+};

@@ -374,7 +374,7 @@ export default function SearchBar() {
                     </div>
                   ) : (
                     <div className="p-8 text-center text-xs text-slate-400 space-y-1">
-                      <p className="font-bold text-slate-700">No records found for "{query}"</p>
+                      <p className="font-bold text-slate-700">No records found for &quot;{query}&quot;</p>
                       <p>Try searching by patient name, invoice ID, or dental procedure.</p>
                     </div>
                   )

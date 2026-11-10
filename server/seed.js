@@ -64,7 +64,7 @@ const seedDB = async () => {
     const defaultPassword = await bcrypt.hash('password123', 10);
     const superPassword = await bcrypt.hash('superpassword123', 10);
 
-    const owner = await User.create({
+    const _owner = await User.create({
       clinicId: clinic._id,
       branchId: branch._id,
       name: 'Darrell Steward',
@@ -85,7 +85,7 @@ const seedDB = async () => {
       phone: '+254 722 000 222'
     });
 
-    const receptionist = await User.create({
+    const _receptionist = await User.create({
       clinicId: clinic._id,
       branchId: branch._id,
       name: 'Mary Wambui',
@@ -164,10 +164,10 @@ const seedDB = async () => {
     });
 
     // 5. Create Treatments
-    const t1 = await Treatment.create({ clinicId: clinic._id, name: 'Scaling Teeth', category: 'Preventive', cost: 3500, durationMinutes: 30 });
-    const t2 = await Treatment.create({ clinicId: clinic._id, name: 'Tooth Extraction', category: 'Surgery', cost: 5000, durationMinutes: 45 });
-    const t3 = await Treatment.create({ clinicId: clinic._id, name: 'General Checkup', category: 'Preventive', cost: 2000, durationMinutes: 20 });
-    const t4 = await Treatment.create({ clinicId: clinic._id, name: 'Root Canal Treatment', category: 'Endodontics', cost: 18000, durationMinutes: 60 });
+    const _t1 = await Treatment.create({ clinicId: clinic._id, name: 'Scaling Teeth', category: 'Preventive', cost: 3500, durationMinutes: 30 });
+    const _t2 = await Treatment.create({ clinicId: clinic._id, name: 'Tooth Extraction', category: 'Surgery', cost: 5000, durationMinutes: 45 });
+    const _t3 = await Treatment.create({ clinicId: clinic._id, name: 'General Checkup', category: 'Preventive', cost: 2000, durationMinutes: 20 });
+    const _t4 = await Treatment.create({ clinicId: clinic._id, name: 'Root Canal Treatment', category: 'Endodontics', cost: 18000, durationMinutes: 60 });
 
     // 6. Create Appointments
     const today = new Date().toISOString().split('T')[0];

@@ -109,7 +109,7 @@ export default function Sidebar({
         const done = Object.values(parsed).filter(Boolean).length;
         return { completed: done, total: 8 };
       }
-    } catch { }
+    } catch { /* ignore parse errors */ }
     return { completed: 1, total: 8 };
   });
   const clinicMenuRef = useRef(null);
@@ -124,7 +124,7 @@ export default function Sidebar({
           setOnboardingProgress({ completed: done, total: 8 });
           return;
         }
-      } catch { }
+      } catch { /* ignore parse errors */ }
       setOnboardingProgress({ completed: 1, total: 8 });
     };
 

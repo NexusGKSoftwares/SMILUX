@@ -14,7 +14,7 @@ const auth = (req, res, next) => {
     req.user = decoded;
     req.clinicId = decoded.clinicId;
     next();
-  } catch (error) {
+  } catch (_error) {
     return res.status(401).json({ message: 'Invalid or expired authorization token' });
   }
 };

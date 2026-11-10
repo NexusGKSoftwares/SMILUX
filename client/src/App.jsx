@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   BrowserRouter,
   Routes,
   Route,
   Navigate,
   useNavigate,
-  useLocation,
 } from 'react-router-dom';
 import LoginPage from './pages/login.jsx';
 import ForgotPasswordPage from './pages/ForgotPassword.jsx';
@@ -31,7 +31,6 @@ import {
 
 function AppRoutes({ loggedInUser, setLoggedInUser }) {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleNavigate = (page) => {
     switch (page) {
@@ -241,6 +240,11 @@ function AppRoutes({ loggedInUser, setLoggedInUser }) {
       </Routes>
   );
 }
+
+AppRoutes.propTypes = {
+  loggedInUser: PropTypes.object,
+  setLoggedInUser: PropTypes.func.isRequired,
+};
 
 export default function App() {
   const [loggedInUser, setLoggedInUser] = useState(() => {
