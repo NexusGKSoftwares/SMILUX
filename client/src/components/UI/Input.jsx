@@ -27,7 +27,7 @@ const Input = forwardRef(function Input(
       disabled={disabled}
       className={cn(
         // Figma specifications
-        "box-border h-[42px] w-full rounded-[6px] border border-[#D4D4D4] bg-[#FFFFFF] px-3 text-sm text-slate-900 transition-colors",
+        "box-border h-[42px] w-full rounded-[4px] border border-[#D4D4D4] bg-[#FFFFFF] px-3 text-sm text-slate-900 transition-colors",
         // Typography & Placeholder
         "placeholder:text-slate-400 placeholder:text-sm font-sans font-normal",
         // Focus state

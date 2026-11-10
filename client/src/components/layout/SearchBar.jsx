@@ -261,18 +261,30 @@ export default function SearchBar() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="w-full flex items-center justify-between gap-3 px-3 py-1.5 bg-slate-50 hover:bg-slate-100/90 text-slate-500 rounded border border-slate-200 transition-all text-xs group cursor-pointer font-sans"
+        className="box-border w-full max-w-[550px] h-[39px] px-2 bg-white border border-[#D4D4D4] rounded-full flex flex-row items-center justify-between text-left transition-all hover:border-[#B5B5B5] focus:outline-none focus:ring-2 focus:ring-[#7B4DFF]/20 group cursor-pointer font-inter shrink-0"
         aria-label="Open Global Search"
       >
-        <div className="flex items-center gap-2 min-w-0">
-          <HugeiconsIcon icon={Search01Icon} size={15} className="text-slate-400 group-hover:text-brand-600 shrink-0" />
-          <span className="truncate text-slate-500 group-hover:text-slate-800">
-            Search patient, invoice, FDI chart, appointment... (⌘K)
+        {/* Left: 18px Icon + 15px Input Placeholder Text */}
+        <div className="flex items-center gap-2.5 min-w-0 flex-1 px-1">
+          <HugeiconsIcon
+            icon={Search01Icon}
+            size={18}
+            className="text-[#8D8D8D] shrink-0 group-hover:text-slate-700 transition-colors"
+          />
+          <span className="truncate font-normal text-[15px] leading-[18px] text-[#686868] group-hover:text-slate-800 transition-colors">
+            Search Smilux... (⌘K)
           </span>
         </div>
-        <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium font-bold text-slate-400 bg-white border border-slate-200 rounded  ">
-          ⌘ K
-        </kbd>
+
+        {/* Right: "All" filter indicator with 14px chevron */}
+        <div className="flex items-center gap-1 pl-2 pr-1 shrink-0 text-[#767676] select-none border-l border-slate-100">
+          <span className="font-normal text-[11px] leading-[17px] text-[#767676]">
+            All
+          </span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0 text-[#767676]">
+            <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
       </button>
 
       {isOpen && typeof document !== 'undefined' && createPortal(
