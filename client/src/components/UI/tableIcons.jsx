@@ -26,6 +26,17 @@ export function MicrosoftIcon({ className = "w-4 h-4" }) {
   );
 }
 
+export function PasskeyIcon({ className = "w-4 h-4", stroke = "currentColor", strokeWidth = 1.33 }) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="6" cy="4.5" r="2.5" stroke={stroke} strokeWidth={strokeWidth} />
+      <path d="M2 13.5C2 11.2909 3.79086 9.5 6 9.5C7.2 9.5 8.27 10.03 9 10.87" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <circle cx="11.5" cy="8.5" r="2.5" stroke={stroke} strokeWidth={strokeWidth} />
+      <path d="M13.27 10.27L14.5 11.5M12.5 12.5L14 14" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" />
+    </svg>
+  );
+}
+
 /**
  * Helper to wrap a Hugeicon definition into a standard React component
  * supporting `className`, `size`, `strokeWidth`, etc.

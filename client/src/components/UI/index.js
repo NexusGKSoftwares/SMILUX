@@ -1,4 +1,5 @@
 export { default as Button } from './Button.jsx';
+export { default as Input } from './Input.jsx';
 export { default as Dropdown } from './Dropdown.jsx';
 export { default as DataTable } from './DataTable.jsx';
 export { default as RowActionDropdown } from './RowActionDropdown.jsx';

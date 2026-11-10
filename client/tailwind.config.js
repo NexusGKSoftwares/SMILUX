@@ -18,11 +18,12 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Manrope', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
       },
       colors: {
         brand: {
-          DEFAULT: "#3a5bff",
-          blue: "#3a5bff",
+          DEFAULT: "#7B4DFF",
+          blue: "#7B4DFF",
           sky: "#38bdf8",
           navy: "#1c2536",
           pink: "#e8368f",

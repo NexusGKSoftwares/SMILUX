@@ -7,7 +7,7 @@
     --font-sans: 'Manrope', sans-serif;
 
     /* Brand Colors */
-    --brand-blue: #3a5bff;
+    --brand-blue: #7B4DFF;
     --brand-sky: #38bdf8;
     --brand-navy: #1c2536;
     --brand-pink: #e8368f;
@@ -61,47 +61,62 @@
   .text-brand-pink {
     color: #e8368f !important;
   }
+
   .text-brand-blue {
-    color: #3a5bff !important;
+    color: #7B4DFF !important;
   }
+
   .text-brand-sky {
     color: #38bdf8 !important;
   }
+
   .text-brand-navy {
     color: #1c2536 !important;
   }
+
   .text-brand-green {
     color: #2ec4b6 !important;
   }
+
   .text-brand-amber {
     color: #ffb703 !important;
   }
+
   .bg-brand-pink {
     background-color: #e8368f !important;
   }
+
   .bg-brand-blue {
-    background-color: #3a5bff !important;
+    background-color: #7B4DFF !important;
   }
+
   .bg-brand-green {
     background-color: #2ec4b6 !important;
   }
+
   .text-brand-on-bg-fill {
     color: var(--color-brand-on-bg-fill, #ffffff) !important;
   }
+
   .border-white-alpha-975 {
     border-color: rgba(255, 255, 255, 0.3) !important;
   }
+
   .text-md {
     font-size: 0.9375rem !important;
     line-height: 1.375rem !important;
   }
+
   .bg-gradient-primary-vertical {
-    background-image: linear-gradient(180deg, #4f6eff 0%, #3a5bff 50%, #2846d1 100%) !important;
-    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.25), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    background-image: linear-gradient(180deg, #9C7AFF 0%, #6C44E0 100%) !important;
+    border-color: #7B4DFF !important;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
   }
+
   .bg-gradient-outline-vertical {
-    background-image: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
-    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.8), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    background-image: linear-gradient(180deg, #FDFDFD 0%, #F2F5F7 100%) !important;
+    border-color: #E4E4E8 !important;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -117,6 +132,7 @@
     opacity: 0;
     transform: translateY(10px) scale(0.985);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -128,6 +144,7 @@
     opacity: 0;
     transform: translateX(100%);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -139,6 +156,7 @@
     opacity: 0;
     transform: translateX(-100%);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -150,6 +168,7 @@
     opacity: 0;
     transform: scale(0.96) translateY(-4px);
   }
+
   100% {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -176,16 +195,20 @@
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
 }
 
 @keyframes shimmerBarWave {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scaleY(1);
     opacity: 0.85;
   }
+
   50% {
     transform: scaleY(0.92);
     opacity: 1;
@@ -193,91 +216,75 @@
 }
 
 .animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(226, 232, 240, 0.65) 0%,
-    rgba(241, 245, 249, 0.95) 25%,
-    rgba(255, 255, 255, 1) 50%,
-    rgba(241, 245, 249, 0.95) 75%,
-    rgba(226, 232, 240, 0.65) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(226, 232, 240, 0.65) 0%,
+      rgba(241, 245, 249, 0.95) 25%,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(241, 245, 249, 0.95) 75%,
+      rgba(226, 232, 240, 0.65) 100%);
   background-size: 250% 100%;
   animation: shimmer 1.7s infinite linear;
 }
 
 .animate-shimmer-indigo {
-  background: linear-gradient(
-    90deg,
-    rgba(86, 84, 220, 0.12) 0%,
-    rgba(86, 84, 220, 0.26) 50%,
-    rgba(86, 84, 220, 0.12) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(86, 84, 220, 0.12) 0%,
+      rgba(86, 84, 220, 0.26) 50%,
+      rgba(86, 84, 220, 0.12) 100%);
   background-size: 250% 100%;
   animation: shimmer 1.7s infinite linear;
 }
 
 .animate-shimmer-amber {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 159, 10, 0.14) 0%,
-    rgba(255, 159, 10, 0.30) 50%,
-    rgba(255, 159, 10, 0.14) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 159, 10, 0.14) 0%,
+      rgba(255, 159, 10, 0.30) 50%,
+      rgba(255, 159, 10, 0.14) 100%);
   background-size: 250% 100%;
   animation: shimmer 1.7s infinite linear;
 }
 
 .animate-shimmer-emerald {
-  background: linear-gradient(
-    90deg,
-    rgba(0, 194, 107, 0.12) 0%,
-    rgba(0, 194, 107, 0.28) 50%,
-    rgba(0, 194, 107, 0.12) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(0, 194, 107, 0.12) 0%,
+      rgba(0, 194, 107, 0.28) 50%,
+      rgba(0, 194, 107, 0.12) 100%);
   background-size: 250% 100%;
   animation: shimmer 1.7s infinite linear;
 }
 
 .animate-shimmer-cyan {
-  background: linear-gradient(
-    90deg,
-    rgba(0, 203, 232, 0.12) 0%,
-    rgba(0, 203, 232, 0.28) 50%,
-    rgba(0, 203, 232, 0.12) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(0, 203, 232, 0.12) 0%,
+      rgba(0, 203, 232, 0.28) 50%,
+      rgba(0, 203, 232, 0.12) 100%);
   background-size: 250% 100%;
   animation: shimmer 1.7s infinite linear;
 }
 
 .animate-shimmer-purple {
-  background: linear-gradient(
-    90deg,
-    rgba(147, 83, 211, 0.12) 0%,
-    rgba(147, 83, 211, 0.28) 50%,
-    rgba(147, 83, 211, 0.12) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(147, 83, 211, 0.12) 0%,
+      rgba(147, 83, 211, 0.28) 50%,
+      rgba(147, 83, 211, 0.12) 100%);
   background-size: 250% 100%;
   animation: shimmer 1.7s infinite linear;
 }
 
 .animate-shimmer-rose {
-  background: linear-gradient(
-    90deg,
-    rgba(251, 59, 82, 0.12) 0%,
-    rgba(251, 59, 82, 0.26) 50%,
-    rgba(251, 59, 82, 0.12) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(251, 59, 82, 0.12) 0%,
+      rgba(251, 59, 82, 0.26) 50%,
+      rgba(251, 59, 82, 0.12) 100%);
   background-size: 250% 100%;
   animation: shimmer 1.7s infinite linear;
 }
 
 .animate-shimmer-dark {
-  background: linear-gradient(
-    90deg,
-    rgba(15, 23, 42, 0.85) 0%,
-    rgba(51, 65, 85, 0.95) 50%,
-    rgba(15, 23, 42, 0.85) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(15, 23, 42, 0.85) 0%,
+      rgba(51, 65, 85, 0.95) 50%,
+      rgba(15, 23, 42, 0.85) 100%);
   background-size: 250% 100%;
   animation: shimmer 1.7s infinite linear;
 }

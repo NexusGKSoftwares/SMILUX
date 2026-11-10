@@ -364,7 +364,7 @@ export default function LoginPage({ onLoginSuccess, onOpenReferral, onNavigate }
             type="submit"
             variant="primary"
             loading={loading}
-            className="mt-2 w-full font-semibold"
+            className="mt-2 w-full"
           >
             {loading ? 'Signing in…' : 'Sign in'}
           </Button>

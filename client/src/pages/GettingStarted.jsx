@@ -80,7 +80,7 @@ function MiniPieChart() {
             cy="18"
             r="15.915"
             fill="transparent"
-            stroke="#3a5bff"
+            stroke="#7B4DFF"
             strokeWidth="31.8"
             strokeDasharray="30 70"
             strokeDashoffset="-60"
