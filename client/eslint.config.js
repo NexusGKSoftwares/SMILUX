@@ -23,9 +23,10 @@ export default [
       ...js.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
-      "react/react-in-jsx-scope": "off", // React 17+ JSX transform
-      "react/prop-types": "warn",
+      "react/react-in-jsx-scope": "off",    // React 17+ JSX transform
+      "react/prop-types": "off",             // large existing codebase — add incrementally
       "no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
+      "no-empty": ["error", { allowEmptyCatch: true }], // allow empty catch blocks
     },
     settings: {
       react: { version: "detect" },

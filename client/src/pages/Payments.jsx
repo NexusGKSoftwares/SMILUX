@@ -931,7 +931,7 @@ export default function Payments() {
                   Automated M-Pesa Daraja Verification
                 </h4>
                 <p className="leading-relaxed">
-                  All STK Push and Paybill/Till transactions are validated via Safaricom's C2B callback API, preventing duplicate or fake SMS confirmation entries.
+                  All STK Push and Paybill/Till transactions are validated via Safaricom&apos;s C2B callback API, preventing duplicate or fake SMS confirmation entries.
                 </p>
               </div>
 

@@ -1147,7 +1147,7 @@ export default function PurchaseOrders() {
                   The 3-Way Matching Protocol
                 </h4>
                 <p className="leading-relaxed">
-                  Before any supplier payment is released, accounts cross-reference three items: the authorized Local Purchase Order (LPO), the Goods Received Note (GRN) signed by clinic staff, and the vendor's electronic tax invoice.
+                  Before any supplier payment is released, accounts cross-reference three items: the authorized Local Purchase Order (LPO), the Goods Received Note (GRN) signed by clinic staff, and the vendor&apos;s electronic tax invoice.
                 </p>
               </div>
 

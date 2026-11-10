@@ -993,7 +993,7 @@ export default function Invoices() {
                   className="w-full text-xs font-mono rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
                 <span className="text-[11px] text-slate-400 mt-1 block">
-                  A PIN entry prompt will pop up immediately on the patient's phone.
+                  A PIN entry prompt will pop up immediately on the patient&apos;s phone.
                 </span>
               </div>
 
@@ -1134,7 +1134,7 @@ export default function Invoices() {
                   Safaricom M-Pesa STK Push Integration
                 </h4>
                 <p className="leading-relaxed">
-                  Trigger instant payment requests directly to a patient's Safaricom phone. Once the patient inputs their M-Pesa PIN, payment is verified in real-time, auto-clearing the invoice balance.
+                  Trigger instant payment requests directly to a patient&apos;s Safaricom phone. Once the patient inputs their M-Pesa PIN, payment is verified in real-time, auto-clearing the invoice balance.
                 </p>
               </div>
 

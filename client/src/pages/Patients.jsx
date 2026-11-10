@@ -1439,7 +1439,7 @@ export default function PatientsPage() {
                     <strong>Fixed Header & Pinned Columns:</strong> The header row stays fixed when scrolling vertically. Patient Name/ID (first column) and Actions (last column) stay pinned when scrolling horizontally.
                   </li>
                   <li>
-                    <strong>Spreadsheet Density:</strong> Use the "Dense" / "Normal" / "Cozy" buttons in the toolbar to adjust row heights to your preference.
+                    <strong>Spreadsheet Density:</strong> Use the &quot;Dense&quot; / &quot;Normal&quot; / &quot;Cozy&quot; buttons in the toolbar to adjust row heights to your preference.
                   </li>
                 </ul>
               </div>
