@@ -279,11 +279,11 @@ export default function PurchaseOrders() {
       prev.map((item) =>
         item.id === activeLPO.id
           ? {
-              ...item,
-              status: 'Received',
-              grnRef: grnNumber,
-              paymentStatus: 'Approved for Payment',
-            }
+            ...item,
+            status: 'Received',
+            grnRef: grnNumber,
+            paymentStatus: 'Approved for Payment',
+          }
           : item
       )
     );
@@ -552,12 +552,12 @@ export default function PurchaseOrders() {
             },
             ...(row.status !== 'Received' && row.status !== 'Cancelled'
               ? [
-                  {
-                    label: 'Receive Goods & Generate GRN',
-                    icon: PackageReceiveIcon,
-                    onClick: () => handleOpenReceiveModal(row),
-                  },
-                ]
+                {
+                  label: 'Receive Goods & Generate GRN',
+                  icon: PackageReceiveIcon,
+                  onClick: () => handleOpenReceiveModal(row),
+                },
+              ]
               : []),
             {
               label: 'Email LPO to Supplier',
@@ -571,13 +571,13 @@ export default function PurchaseOrders() {
             },
             ...(row.status !== 'Cancelled'
               ? [
-                  {
-                    label: 'Cancel Purchase Order',
-                    icon: Cancel01Icon,
-                    isDestructive: true,
-                    onClick: () => handleCancelLPO(row.id),
-                  },
-                ]
+                {
+                  label: 'Cancel Purchase Order',
+                  icon: Cancel01Icon,
+                  isDestructive: true,
+                  onClick: () => handleCancelLPO(row.id),
+                },
+              ]
               : []),
           ]}
         />
@@ -687,7 +687,7 @@ export default function PurchaseOrders() {
       {/* ─── Create Purchase Order Modal ──────────────────────────────────── */}
       {isCreateModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4">
-          <div className="bg-white dark:bg-slate-850 rounded-xl shadow-xl w-full max-w-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="bg-white dark:bg-slate-850 rounded-xl   w-full max-w-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[#027A48]">
@@ -865,7 +865,7 @@ export default function PurchaseOrders() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] shadow-xs cursor-pointer"
+                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E]   cursor-pointer"
                 >
                   Issue Purchase Order
                 </button>
@@ -878,7 +878,7 @@ export default function PurchaseOrders() {
       {/* ─── View Purchase Order Modal ────────────────────────────────────── */}
       {isDetailModalOpen && activeLPO && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4">
-          <div className="bg-white dark:bg-slate-850 rounded-xl shadow-xl w-full max-w-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="bg-white dark:bg-slate-850 rounded-xl   w-full max-w-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[#027A48]">
@@ -1021,7 +1021,7 @@ export default function PurchaseOrders() {
       {/* ─── Receive Goods / Generate GRN Modal ───────────────────────────── */}
       {isReceiveModalOpen && activeLPO && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4">
-          <div className="bg-white dark:bg-slate-850 rounded-xl shadow-xl w-full max-w-lg border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="bg-white dark:bg-slate-850 rounded-xl   w-full max-w-lg border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[#027A48]">
@@ -1104,7 +1104,7 @@ export default function PurchaseOrders() {
                 <button
                   type="button"
                   onClick={handleConfirmGRN}
-                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] shadow-xs cursor-pointer"
+                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E]   cursor-pointer"
                 >
                   Confirm & Update Stock
                 </button>
@@ -1117,7 +1117,7 @@ export default function PurchaseOrders() {
       {/* ─── Educational Learn Modal ───────────────────────────────────────── */}
       {isLearnModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4">
-          <div className="bg-white dark:bg-slate-850 rounded-xl shadow-xl w-full max-w-lg border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="bg-white dark:bg-slate-850 rounded-xl   w-full max-w-lg border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/60 flex items-center justify-center text-amber-600">

@@ -419,8 +419,8 @@ export default function Inventory() {
           <div className="flex flex-col py-0.5">
             <span
               className={`text-xs font-bold font-mono ${val <= row.minStock
-                  ? 'text-rose-600 dark:text-rose-400'
-                  : 'text-slate-900 dark:text-white'
+                ? 'text-rose-600 dark:text-rose-400'
+                : 'text-slate-900 dark:text-white'
                 }`}
             >
               {val} {row.unit}
@@ -464,8 +464,8 @@ export default function Inventory() {
         render: (val, row) => (
           <span
             className={`text-xs font-medium ${row.status === 'Expiring Soon'
-                ? 'text-rose-600 font-bold'
-                : 'text-slate-600 dark:text-slate-300'
+              ? 'text-rose-600 font-bold'
+              : 'text-slate-600 dark:text-slate-300'
               }`}
           >
             {val}
@@ -508,10 +508,10 @@ export default function Inventory() {
             <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold border ${style}`}>
               <span
                 className={`w-1.5 h-1.5 rounded-full ${val === 'In Stock'
-                    ? 'bg-emerald-500'
-                    : val === 'Low Stock'
-                      ? 'bg-amber-500'
-                      : 'bg-rose-500'
+                  ? 'bg-emerald-500'
+                  : val === 'Low Stock'
+                    ? 'bg-amber-500'
+                    : 'bg-rose-500'
                   }`}
               />
               {val}
@@ -533,7 +533,7 @@ export default function Inventory() {
               title={`Stock Item ${row.id}`}
               align="right"
               triggerIcon={MoreHorizontalIcon}
-              triggerClassName="h-7 w-7 rounded hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center shadow-2xs transition-colors cursor-pointer"
+              triggerClassName="h-7 w-7 rounded hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center   transition-colors cursor-pointer"
               items={[
                 {
                   id: 'view',
@@ -550,15 +550,15 @@ export default function Inventory() {
                       prev.map((item) =>
                         item.id === row.id && item.quantity > 0
                           ? {
-                              ...item,
-                              quantity: item.quantity - 1,
-                              status:
-                                item.quantity - 1 === 0
-                                  ? 'Out of Stock'
-                                  : item.quantity - 1 <= item.minStock
-                                    ? 'Low Stock'
-                                    : item.status,
-                            }
+                            ...item,
+                            quantity: item.quantity - 1,
+                            status:
+                              item.quantity - 1 === 0
+                                ? 'Out of Stock'
+                                : item.quantity - 1 <= item.minStock
+                                  ? 'Low Stock'
+                                  : item.status,
+                          }
                           : item
                       )
                     );
@@ -680,7 +680,7 @@ export default function Inventory() {
       {/* ─── 3. Add Stock Item Modal ────────────────────────────────────────── */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded-xl   border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
@@ -814,7 +814,7 @@ export default function Inventory() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold rounded-lg text-white bg-[#027A48] hover:bg-[#02683E] shadow-xs transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded-lg text-white bg-[#027A48] hover:bg-[#02683E]   transition-colors cursor-pointer"
                 >
                   Save Stock Item
                 </button>
@@ -827,7 +827,7 @@ export default function Inventory() {
       {/* ─── 4. View Stock Card Modal ───────────────────────────────────────── */}
       {viewingItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-md overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded-xl   border border-slate-200 dark:border-slate-800 w-full max-w-md overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
@@ -902,7 +902,7 @@ export default function Inventory() {
       {/* ─── 5. Learn Modal ─────────────────────────────────────────────────── */}
       {isLearnModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
+          <div className="bg-white dark:bg-slate-900 rounded-xl   border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">

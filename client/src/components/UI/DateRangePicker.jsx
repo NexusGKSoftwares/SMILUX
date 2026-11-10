@@ -194,7 +194,7 @@ function CalendarMonthView({
                       disabled={disabled}
                       onClick={() => onPick(date)}
                       className={`h-7 w-7 rounded text-xs font-medium flex items-center justify-center transition-all cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed ${isStart || isEnd
-                        ? 'bg-[#027A48] text-white font-bold shadow-xs hover:bg-[#02683E]'
+                        ? 'bg-[#027A48] text-white font-bold   hover:bg-[#02683E]'
                         : inRange
                           ? 'text-emerald-900 dark:text-emerald-200 hover:bg-emerald-100/70 dark:hover:bg-emerald-900/50'
                           : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -461,7 +461,7 @@ export default function DateRangePicker({
         aria-expanded={isOpen}
         aria-label={`${label}: ${formattedDisplay}`}
         onClick={() => (isOpen ? setIsOpen(false) : handleOpen())}
-        className="inline-flex items-center gap-2 h-9 px-3.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-medium text-slate-800 dark:text-slate-100 shadow-2xs hover:border-slate-300 dark:hover:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 transition-all cursor-pointer"
+        className="inline-flex items-center gap-2 h-9 px-3.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-medium text-slate-800 dark:text-slate-100   hover:border-slate-300 dark:hover:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 transition-all cursor-pointer"
       >
         <HugeiconsIcon
           icon={Calendar01Icon}
@@ -483,7 +483,7 @@ export default function DateRangePicker({
           ref={panelRef}
           role="dialog"
           aria-label={label}
-          className={`absolute top-full mt-1.5 z-50 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded shadow-xl overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-100 max-w-[calc(100vw-24px)] ${effectiveAlign === 'end' ? 'right-0 left-auto' : 'left-0 right-auto'
+          className={`absolute top-full mt-1.5 z-50 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded   overflow-hidden flex flex-col animate-in fade-in-0 zoom-in-95 duration-100 max-w-[calc(100vw-24px)] ${effectiveAlign === 'end' ? 'right-0 left-auto' : 'left-0 right-auto'
             } ${monthCount === 2 ? 'w-[640px]' : 'w-[330px]'}`}
         >
           {/* ─── 1. Presets Header (Compact horizontal chips row) ─── */}
@@ -496,7 +496,7 @@ export default function DateRangePicker({
                   type="button"
                   onClick={() => handleSelectPreset(preset)}
                   className={`px-2.5 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-colors cursor-pointer select-none shrink-0 ${isActive
-                    ? 'bg-[#027A48] text-white shadow-2xs'
+                    ? 'bg-[#027A48] text-white  '
                     : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-750 hover:text-slate-900 dark:hover:text-white'
                     }`}
                 >
@@ -656,7 +656,7 @@ export default function DateRangePicker({
                 type="button"
                 disabled={!activeRange}
                 onClick={handleApply}
-                className="px-3.5 py-1 rounded text-xs font-semibold text-white bg-[#027A48] hover:bg-[#02683E] disabled:opacity-40 shadow-xs transition-colors cursor-pointer"
+                className="px-3.5 py-1 rounded text-xs font-semibold text-white bg-[#027A48] hover:bg-[#02683E] disabled:opacity-40   transition-colors cursor-pointer"
               >
                 Apply
               </button>

@@ -90,7 +90,7 @@ export function DashboardWireframeSkeleton({
 
         <div className="flex items-center gap-2 shrink-0 flex-wrap">
           {/* Date Filter Pill Wireframe (4 Timeframe Segments) */}
-          <div className="flex items-center gap-1 rounded border border-slate-200 bg-white p-0.5 shadow-2xs">
+          <div className="flex items-center gap-1 rounded border border-slate-200 bg-white p-0.5  ">
             <div className="h-6 w-12 rounded animate-shimmer" />
             <div className="h-6 w-16 rounded animate-shimmer" />
             <div className="h-6 w-20 rounded animate-shimmer-dark" />
@@ -98,7 +98,7 @@ export function DashboardWireframeSkeleton({
           </div>
 
           {/* Refresh Button Wireframe */}
-          <div className="inline-flex h-8 items-center gap-1.5 rounded border border-slate-200 bg-white px-3 py-1.5 shadow-2xs">
+          <div className="inline-flex h-8 items-center gap-1.5 rounded border border-slate-200 bg-white px-3 py-1.5  ">
             <span className="h-3.5 w-3.5 rounded-full border-2 border-brand-green border-t-transparent animate-spin" />
             <div className="h-3.5 w-12 rounded animate-shimmer" />
           </div>
@@ -451,8 +451,8 @@ export function DashboardWireframeSkeleton({
                     <div className="h-6 w-14 rounded animate-shimmer" />
                     <div
                       className={`h-4 w-11 rounded-full border ${m.positive
-                          ? 'bg-[#E8FFF4]/80 border-[#8FE7BE]/60 animate-shimmer-emerald'
-                          : 'bg-[#FFEAEA]/80 border-[#FF9F9D]/60 animate-shimmer-rose'
+                        ? 'bg-[#E8FFF4]/80 border-[#8FE7BE]/60 animate-shimmer-emerald'
+                        : 'bg-[#FFEAEA]/80 border-[#FF9F9D]/60 animate-shimmer-rose'
                         }`}
                     />
                   </div>

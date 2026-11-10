@@ -270,7 +270,7 @@ export default function HelpSidebar({
             className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-[99998] transition-opacity duration-200 ease-out"
             onClick={handleClose}
           />
-          <aside className="fixed top-0 right-0 h-full w-full max-w-md bg-white border-l border-slate-200 shadow-2xl z-[99999] flex flex-col font-sans animate-drawer-right">
+          <aside className="fixed top-0 right-0 h-full w-full max-w-md bg-white border-l border-slate-200   z-[99999] flex flex-col font-sans animate-drawer-right">
             {/* Header */}
             <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
               <div>
@@ -295,7 +295,7 @@ export default function HelpSidebar({
                   type="button"
                   onClick={() => setActiveTab(tab.id)}
                   className={`px-3 py-1.5 rounded text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 cursor-pointer ${activeTab === tab.id
-                    ? 'bg-slate-900 text-white shadow-xs'
+                    ? 'bg-slate-900 text-white  '
                     : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'
                     }`}
                 >

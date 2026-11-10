@@ -270,7 +270,7 @@ export default function SearchBar() {
             Search patient, invoice, FDI chart, appointment... (⌘K)
           </span>
         </div>
-        <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium font-bold text-slate-400 bg-white border border-slate-200 rounded shadow-2xs">
+        <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium font-bold text-slate-400 bg-white border border-slate-200 rounded  ">
           ⌘ K
         </kbd>
       </button>
@@ -281,7 +281,7 @@ export default function SearchBar() {
           onClick={() => setIsOpen(false)}
         >
           <div
-            className="w-full max-w-4xl bg-white rounded border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[88vh]"
+            className="w-full max-w-4xl bg-white rounded border border-slate-200   overflow-hidden flex flex-col max-h-[88vh]"
             onClick={(e) => e.stopPropagation()}
             onKeyDown={handleKeyDown}
           >
@@ -326,7 +326,7 @@ export default function SearchBar() {
                   type="button"
                   onClick={() => setFilterScope(pill.value)}
                   className={`px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap transition-all cursor-pointer ${filterScope === pill.value
-                    ? 'bg-slate-900 text-white shadow-xs'
+                    ? 'bg-slate-900 text-white  '
                     : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'
                     }`}
                 >

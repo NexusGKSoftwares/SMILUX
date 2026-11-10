@@ -74,12 +74,12 @@ export default function Topbar({
           <img
             src="/favicon.svg"
             alt={companyName}
-            className="h-8 w-8 object-contain transition-transform group-hover:scale-105 drop-shadow-xs"
+            className="h-8 w-8 object-contain transition-transform group-hover:scale-105 drop- "
           />
           <div className="hidden sm:flex flex-col leading-none">
             <span className="font-extrabold  text-sm sm:text-base leading-tight group-hover:text-brand-blue transition-colors tracking-tight">
               Smilux <span className="text-brand-pink">Dental</span>
-            </span> 
+            </span>
           </div>
         </Link>
       </div>
@@ -108,17 +108,17 @@ export default function Topbar({
             className="flex items-center p-0.5 h-auto rounded-full border border-slate-200 hover:border-brand-pink transition-all cursor-pointer ring-offset-2 hover:ring-2 hover:ring-brand-pink/20"
             aria-label="User menu"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden shrink-0 shadow-xs">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden shrink-0  ">
               <UserAvatar user={user} className="h-8 w-8" />
             </div>
           </button>
 
           {userMenuOpen && (
-            <div className="absolute right-0 top-full mt-1.5 w-60 py-1.5 bg-white rounded border border-slate-200 z-50 text-sm overflow-hidden shadow-xl shadow-slate-900/10 animate-in fade-in zoom-in-95 duration-100 font-sans">
+            <div className="absolute right-0 top-full mt-1.5 w-60 py-1.5 bg-white rounded border border-slate-200 z-50 text-sm overflow-hidden     animate-in fade-in zoom-in-95 duration-100 font-sans">
               {/* User Info Header */}
               <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full overflow-hidden shrink-0 shadow-xs border border-slate-200/80">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full overflow-hidden shrink-0   border border-slate-200/80">
                     <UserAvatar user={user} className="h-10 w-10" />
                   </div>
                   <div className="flex-1 min-w-0">

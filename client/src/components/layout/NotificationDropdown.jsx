@@ -141,14 +141,14 @@ function NotificationModal({ notification, onClose, onDelete, onMarkRead }) {
       <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-xs" onClick={onClose} />
 
       <div
-        className="relative w-full max-w-md bg-white rounded shadow-2xl overflow-hidden z-10 border border-slate-200"
+        className="relative w-full max-w-md bg-white rounded   overflow-hidden z-10 border border-slate-200"
         style={{ animation: 'notifModalIn 0.22s cubic-bezier(0.34,1.56,0.64,1) both' }}
       >
         {/* Gradient header band */}
         <div className={`bg-gradient-to-br ${cfg.header} px-6 pt-6 pb-5 border-b ${cfg.border}`}>
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className={`w-12 h-12 rounded flex items-center justify-center shadow-xs ${cfg.bg}`}>
+              <div className={`w-12 h-12 rounded flex items-center justify-center   ${cfg.bg}`}>
                 {typeIcon(notification.type, 'w-6 h-6')}
               </div>
               <div>
@@ -211,7 +211,7 @@ function NotificationModal({ notification, onClose, onDelete, onMarkRead }) {
                 type="button"
                 onClick={() => handleAction(action.to)}
                 className={`px-4 py-2 rounded text-xs font-bold transition-all cursor-pointer ${i === 0
-                  ? 'bg-brand-blue text-white hover:bg-blue-700 shadow-xs'
+                  ? 'bg-brand-blue text-white hover:bg-blue-700  '
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
               >
@@ -405,7 +405,7 @@ export default function NotificationDropdown() {
       {open && typeof document !== 'undefined' && createPortal(
         <>
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-[99998] transition-opacity duration-200 ease-out" onClick={() => setOpen(false)} />
-          <aside className="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[99999] flex flex-col shadow-2xl font-sans border-l border-slate-200 animate-drawer-right">
+          <aside className="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[99999] flex flex-col   font-sans border-l border-slate-200 animate-drawer-right">
 
             {/* Header */}
             <div className="px-5 py-4 border-b border-slate-100 shrink-0 bg-white">
@@ -430,7 +430,7 @@ export default function NotificationDropdown() {
                     {menuOpen && (
                       <>
                         <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-                        <div className="absolute right-0 top-full mt-1 w-52 py-1.5 bg-white rounded border border-slate-200 z-20 text-xs shadow-lg">
+                        <div className="absolute right-0 top-full mt-1 w-52 py-1.5 bg-white rounded border border-slate-200 z-20 text-xs  ">
                           <button type="button" onClick={() => { markAllRead(); setMenuOpen(false); }}
                             className="w-full px-3 py-2 text-left text-slate-700 hover:bg-slate-50 flex items-center gap-2 cursor-pointer font-medium">
                             <HugeiconsIcon icon={CheckmarkCircle01Icon} className="w-4 h-4 text-emerald-600" />

@@ -195,7 +195,7 @@ export default function Sidebar({
               title="Switch Clinic Workspace"
             >
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded bg-brand-green text-white text-xs font-bold shadow-xs">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded bg-brand-green text-white text-xs font-bold  ">
                   AD
                 </div>
                 <div className="flex flex-col min-w-0">
@@ -234,7 +234,7 @@ export default function Sidebar({
               onClick={onToggleCollapse}
               onMouseEnter={handleMouseEnter('Expand Workspace')}
               onMouseLeave={handleMouseLeave}
-              className="flex h-9 w-9 items-center justify-center rounded bg-brand-green text-white text-xs font-extrabold shadow-xs hover:scale-105 transition-transform cursor-pointer p-0"
+              className="flex h-9 w-9 items-center justify-center rounded bg-brand-green text-white text-xs font-extrabold   hover:scale-105 transition-transform cursor-pointer p-0"
               aria-label="Expand Workspace"
             >
               AD
@@ -257,7 +257,7 @@ export default function Sidebar({
 
         {/* Clinic Dropdown Popover */}
         {clinicMenuOpen && !isCollapsed && (
-          <div className="absolute left-3 right-3 top-[60px] z-50 rounded border border-slate-200 bg-white p-2 shadow-xl shadow-slate-900/10 animate-in fade-in zoom-in-95 duration-100 font-sans">
+          <div className="absolute left-3 right-3 top-[60px] z-50 rounded border border-slate-200 bg-white p-2     animate-in fade-in zoom-in-95 duration-100 font-sans">
             <div className="px-1.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
               Current Workspace
             </div>
@@ -329,7 +329,7 @@ export default function Sidebar({
               navigate('/getting_started');
               if (isMobileOpen && onCloseMobile) onCloseMobile();
             }}
-            className="group flex items-center justify-between h-[34px] px-3.5 mb-2 rounded-full border border-slate-200/90 bg-slate-50/80 hover:bg-slate-100 hover:border-slate-300 text-slate-800 shadow-2xs transition-all cursor-pointer select-none"
+            className="group flex items-center justify-between h-[34px] px-3.5 mb-2 rounded-full border border-slate-200/90 bg-slate-50/80 hover:bg-slate-100 hover:border-slate-300 text-slate-800   transition-all cursor-pointer select-none"
           >
             <span className="text-[13px] font-semibold text-slate-800 group-hover:text-slate-900 tracking-tight">
               Get Started
@@ -376,7 +376,7 @@ export default function Sidebar({
               onMouseEnter={handleMouseEnter('Get Started', `${onboardingProgress.completed}/${onboardingProgress.total}`)}
               onMouseLeave={handleMouseLeave}
               aria-label={`Get Started (${onboardingProgress.completed}/${onboardingProgress.total} complete)`}
-              className="group flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-slate-50/80 hover:bg-slate-100 text-slate-600 hover:text-brand-green shadow-2xs transition-all cursor-pointer select-none"
+              className="group flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-slate-50/80 hover:bg-slate-100 text-slate-600 hover:text-brand-green   transition-all cursor-pointer select-none"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -422,7 +422,7 @@ export default function Sidebar({
                         group flex items-center rounded text-xs font-bold transition-all
                         ${isCollapsed ? 'justify-center px-1 py-1' : 'justify-between px-3 py-1.5'}
                         ${isActive
-                          ? 'bg-sky-100 text-sky-700 font-bold shadow-2xs'
+                          ? 'bg-sky-100 text-sky-700 font-bold  '
                           : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900'
                         }
                       `.trim()}
@@ -479,7 +479,7 @@ export default function Sidebar({
             group w-full flex items-center rounded text-xs font-semibold transition-all cursor-pointer h-auto
             ${isCollapsed ? 'justify-center p-2' : 'gap-2 px-2 py-1.5'}
             ${location.pathname === '/settings'
-              ? 'bg-sky-50 text-sky-700 font-bold shadow-2xs'
+              ? 'bg-sky-50 text-sky-700 font-bold  '
               : 'text-slate-700 hover:bg-slate-100/90 hover:text-slate-900'
             }
           `.trim()}
@@ -547,7 +547,7 @@ export default function Sidebar({
           className="fixed z-50 pointer-events-none -translate-y-1/2 flex items-center transition-all duration-150 animate-in fade-in zoom-in-95"
           style={{ left: 74, top: activeTooltip.top }}
         >
-          <div className="relative flex items-center gap-1.5 rounded bg-slate-900 px-2.5 py-1 text-xs font-semibold text-white shadow-xl shadow-slate-900/25 whitespace-nowrap">
+          <div className="relative flex items-center gap-1.5 rounded bg-slate-900 px-2.5 py-1 text-xs font-semibold text-white   shadow-slate-900/25 whitespace-nowrap">
             {/* Arrow pointing to icon */}
             <span className="absolute -left-1 top-1/2 -translate-y-1/2 h-2 w-2 rotate-45 bg-slate-900" />
             <span>{activeTooltip.text}</span>

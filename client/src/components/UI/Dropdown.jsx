@@ -239,7 +239,7 @@ export default function Dropdown({
         visibility: coords.isReady ? "visible" : "hidden",
       }}
       className={`
-        bg-white/95 backdrop-blur-md border border-slate-200 rounded shadow-xl shadow-slate-900/10
+        bg-white/95 backdrop-blur-md border border-slate-200 rounded    
         flex flex-col max-h-[300px] overflow-hidden animate-in fade-in zoom-in-95 duration-100 font-sans
         ${menuClassName}
       `.trim()}
@@ -407,7 +407,7 @@ export default function Dropdown({
               ? "border-rose-300 bg-rose-50/20 text-rose-900 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20"
               : warning
                 ? "border-amber-300 bg-amber-50/20 text-amber-900 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20"
-                : "border-slate-200 hover:border-slate-300 text-slate-800 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20 shadow-2xs"
+                : "border-slate-200 hover:border-slate-300 text-slate-800 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20  "
             }
             ${disabled ? "opacity-50 cursor-not-allowed bg-slate-50 text-slate-400" : ""}
           `.trim()}

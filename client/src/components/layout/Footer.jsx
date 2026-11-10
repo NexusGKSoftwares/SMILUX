@@ -58,7 +58,7 @@ export default function Footer() {
             <img
               src={logoUrl}
               alt={companyName}
-              className="h-5 w-auto object-contain shrink-0 transition-transform duration-200 group-hover:scale-105 drop-shadow-xs"
+              className="h-5 w-auto object-contain shrink-0 transition-transform duration-200 group-hover:scale-105 drop- "
             />
             <span className="text-xs font-extrabold text-slate-900 group-hover:text-brand-blue transition-colors whitespace-nowrap tracking-tight">
               Smilux <span className="text-brand-pink">Dental</span>

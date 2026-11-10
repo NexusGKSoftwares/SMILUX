@@ -1082,7 +1082,7 @@ export function DashboardView({ user }) {
           onClick={() => setActiveChartModal(null)}
         >
           <div
-            className="w-full max-w-4xl rounded border border-[#EFEFEF] bg-white p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto"
+            className="w-full max-w-4xl rounded border border-[#EFEFEF] bg-white p-6   space-y-5 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -1191,7 +1191,7 @@ export function DashboardView({ user }) {
                     else if (activeChartModal === 'payment-growth') setPaymentGrowthYear(yr);
                     else setBalanceYear(yr);
                   }}
-                  className="rounded border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs cursor-pointer"
+                  className="rounded border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700   cursor-pointer"
                 >
                   {availableYears.map((yr) => (
                     <option key={yr} value={yr}>
@@ -1229,7 +1229,7 @@ export function DashboardView({ user }) {
                     type="button"
                     onClick={() => setActiveChartModal(tab.id)}
                     className={`rounded px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${isActive
-                      ? 'bg-slate-900 text-white shadow-xs'
+                      ? 'bg-slate-900 text-white  '
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
                       }`}
                   >
@@ -1386,7 +1386,7 @@ export function DashboardView({ user }) {
                           type="button"
                           onClick={() => setSelectedSalesMonth(m.month)}
                           className={`flex flex-col items-start rounded border p-2.5 text-left transition-all cursor-pointer ${isSelected
-                            ? 'border-[#5654DC] bg-indigo-50/60 shadow-2xs'
+                            ? 'border-[#5654DC] bg-indigo-50/60  '
                             : 'border-slate-100 bg-slate-50/50 hover:border-slate-200 hover:bg-white'
                             }`}
                         >
@@ -1537,7 +1537,7 @@ export function DashboardView({ user }) {
                           type="button"
                           onClick={() => setSelectedWebWeek(bar.month)}
                           className={`flex flex-col items-start rounded border p-2.5 text-left transition-all cursor-pointer ${isSelected
-                            ? 'border-[#FF9F0A] bg-amber-50/70 shadow-2xs'
+                            ? 'border-[#FF9F0A] bg-amber-50/70  '
                             : 'border-slate-100 bg-slate-50/50 hover:border-slate-200 hover:bg-white'
                             }`}
                         >
@@ -2635,7 +2635,7 @@ export function DashboardView({ user }) {
             <div className="grid grid-cols-3 gap-2">
               <div
                 className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${focusedIncomeRoute === 'mpesa'
-                  ? 'border-emerald-400 bg-emerald-50/70 shadow-xs'
+                  ? 'border-emerald-400 bg-emerald-50/70  '
                   : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
                   }`}
                 onClick={() => {
@@ -2654,7 +2654,7 @@ export function DashboardView({ user }) {
 
               <div
                 className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${focusedIncomeRoute === 'private'
-                  ? 'border-orange-400 bg-orange-50/70 shadow-xs'
+                  ? 'border-orange-400 bg-orange-50/70  '
                   : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
                   }`}
                 onClick={() => {
@@ -2673,7 +2673,7 @@ export function DashboardView({ user }) {
 
               <div
                 className={`flex flex-col rounded border p-2.5 cursor-pointer transition-all select-text ${focusedIncomeRoute === 'claims'
-                  ? 'border-amber-400 bg-amber-50/70 shadow-xs'
+                  ? 'border-amber-400 bg-amber-50/70  '
                   : 'border-slate-100 bg-slate-50/50 hover:bg-slate-100/70 hover:border-slate-300'
                   }`}
                 onClick={() => {
@@ -3071,7 +3071,7 @@ export function DashboardView({ user }) {
                         handleCopy(`${formatCurrency(cat.amount)} (${cat.pct})`, `${cat.label} Expense`);
                       }}
                       title={`Click to copy ${cat.label}: ${formatCurrency(cat.amount)}`}
-                      className={`flex items-center justify-between rounded px-2.5 py-1.5 cursor-pointer transition-all select-text ${isFocused ? 'bg-slate-100/90 shadow-2xs' : 'hover:bg-slate-50'
+                      className={`flex items-center justify-between rounded px-2.5 py-1.5 cursor-pointer transition-all select-text ${isFocused ? 'bg-slate-100/90  ' : 'hover:bg-slate-50'
                         }`}
                     >
                       <div className="flex items-center gap-2.5">
@@ -3110,7 +3110,7 @@ export function DashboardView({ user }) {
                     }}
                     title={`Click to copy ${item.shortLabel} expense`}
                     className={`rounded border p-3 cursor-pointer transition-all select-text ${isFocused
-                      ? 'border-purple-300 bg-purple-50/40 shadow-2xs'
+                      ? 'border-purple-300 bg-purple-50/40  '
                       : 'border-slate-100 bg-[#F8FAFC] hover:border-slate-200 hover:bg-slate-100/60'
                       }`}
                   >
@@ -3507,7 +3507,7 @@ export function DashboardView({ user }) {
             </p>
             <button
               onClick={() => alert('Generating Dental Inventory Purchase Order...')}
-              className="w-full rounded bg-amber-600 px-3 py-1.5 text-center text-xs font-extrabold text-white shadow-2xs hover:bg-amber-700 cursor-pointer transition-colors"
+              className="w-full rounded bg-amber-600 px-3 py-1.5 text-center text-xs font-extrabold text-white   hover:bg-amber-700 cursor-pointer transition-colors"
             >
               Reorder Dental Supplies
             </button>
@@ -3517,7 +3517,7 @@ export function DashboardView({ user }) {
 
       {/* Floating Copy Feedback Toast */}
       {copiedText && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white shadow-xl">
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white  ">
           <svg
             width="14"
             height="14"
@@ -3559,7 +3559,7 @@ export function AppointmentsView() {
         actions={
           <button
             onClick={() => alert('Booking New Appointment...')}
-            className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
+            className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white   hover:bg-blue-700 cursor-pointer"
           >
             <HugeiconsIcon icon={PlusSignIcon} size={16} />
             <span>Book Appointment</span>
@@ -3568,7 +3568,7 @@ export function AppointmentsView() {
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-3 rounded border border-slate-200/90 bg-white p-5 shadow-2xs">
+        <div className="lg:col-span-3 rounded border border-slate-200/90 bg-white p-5  ">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
             <h2 className="text-sm font-bold text-slate-900">November 2026 — Weekly Schedule</h2>
             <div className="flex items-center gap-2">
@@ -3607,7 +3607,7 @@ export function AppointmentsView() {
           </div>
         </div>
 
-        <div className="rounded border border-slate-200/90 bg-white p-4 shadow-2xs space-y-4">
+        <div className="rounded border border-slate-200/90 bg-white p-4   space-y-4">
           <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Practitioners</h3>
           <div className="space-y-2 text-xs">
             <div className="p-2 rounded bg-slate-50 border border-slate-200">
@@ -3643,7 +3643,7 @@ export function DentalChartingView() {
         actions={
           <button
             onClick={() => alert(`Saved charting for Tooth #${selectedTooth}: ${condition}`)}
-            className="flex items-center gap-1.5 rounded bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 cursor-pointer"
+            className="flex items-center gap-1.5 rounded bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white   hover:bg-emerald-700 cursor-pointer"
           >
             <HugeiconsIcon icon={CheckmarkCircle01Icon} size={16} />
             <span>Save Chart Record</span>
@@ -3653,7 +3653,7 @@ export function DentalChartingView() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Odontogram Grid */}
-        <div className="lg:col-span-2 rounded border border-slate-200/90 bg-white p-5 shadow-2xs space-y-6">
+        <div className="lg:col-span-2 rounded border border-slate-200/90 bg-white p-5   space-y-6">
           <div>
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2 text-center">
               MAXILLARY ARCH (UPPER TEETH)
@@ -3664,7 +3664,7 @@ export function DentalChartingView() {
                   key={t}
                   onClick={() => setSelectedTooth(t)}
                   className={`w-9 h-12 rounded border text-xs font-bold flex flex-col items-center justify-between p-1 transition-all cursor-pointer ${selectedTooth === t
-                    ? 'bg-blue-600 text-white border-blue-700 shadow-md scale-105'
+                    ? 'bg-blue-600 text-white border-blue-700   scale-105'
                     : t === 16 || t === 24
                       ? 'bg-amber-100 text-amber-900 border-amber-300'
                       : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
@@ -3687,7 +3687,7 @@ export function DentalChartingView() {
                   key={t}
                   onClick={() => setSelectedTooth(t)}
                   className={`w-9 h-12 rounded border text-xs font-bold flex flex-col items-center justify-between p-1 transition-all cursor-pointer ${selectedTooth === t
-                    ? 'bg-blue-600 text-white border-blue-700 shadow-md scale-105'
+                    ? 'bg-blue-600 text-white border-blue-700   scale-105'
                     : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                     }`}
                 >
@@ -3700,7 +3700,7 @@ export function DentalChartingView() {
         </div>
 
         {/* Selected Tooth Inspector */}
-        <div className="rounded border border-slate-200/90 bg-white p-5 shadow-2xs space-y-4">
+        <div className="rounded border border-slate-200/90 bg-white p-5   space-y-4">
           <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">
             Selected Tooth #{selectedTooth} Details
           </h3>
@@ -3733,7 +3733,7 @@ export function DentalChartingView() {
 
             <button
               onClick={() => alert(`Saved Tooth #${selectedTooth} record`)}
-              className="w-full rounded bg-blue-600 py-2 text-xs font-bold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
+              className="w-full rounded bg-blue-600 py-2 text-xs font-bold text-white   hover:bg-blue-700 cursor-pointer"
             >
               Update Tooth #{selectedTooth}
             </button>
@@ -3784,7 +3784,7 @@ export function GenericFeatureView({ title, description, badge = 'Active Module'
         actions={
           <button
             onClick={() => alert(`Performing action on ${title}...`)}
-            className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-700 cursor-pointer"
+            className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white   hover:bg-blue-700 cursor-pointer"
           >
             <HugeiconsIcon icon={PlusSignIcon} size={16} />
             <span>Add Item</span>
@@ -3792,7 +3792,7 @@ export function GenericFeatureView({ title, description, badge = 'Active Module'
         }
       />
 
-      <div className="rounded border border-slate-200/90 bg-white p-6 shadow-2xs space-y-4">
+      <div className="rounded border border-slate-200/90 bg-white p-6   space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold text-slate-900">{title} Workspace Data</span>

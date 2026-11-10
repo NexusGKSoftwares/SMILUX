@@ -157,7 +157,7 @@ function MoneyBagGraphic() {
       <div className="absolute top-12 right-1 h-4 h-4 bg-blue-600 rotate-45 rounded" />
 
       {/* Money Bag & Pedestal SVG */}
-      <svg className="w-22 h-22 sm:w-24 sm:h-24 drop-shadow-md" viewBox="0 0 100 100" fill="none">
+      <svg className="w-22 h-22 sm:w-24 sm:h-24 drop- " viewBox="0 0 100 100" fill="none">
         {/* Pedestal */}
         <ellipse cx="50" cy="85" rx="35" ry="8" fill="#cbd5e1" />
         <path d="M15 85 L15 95 C15 99 85 99 85 95 L85 85 Z" fill="#94a3b8" />
@@ -181,7 +181,7 @@ function ReferralBanner({ onClick }) {
     <button
       onClick={onClick}
       type="button"
-      className="mt-4 w-full text-left block overflow-hidden rounded border border-slate-300/80 bg-[#E8EEF5] p-5 sm:p-6 shadow-xs hover:shadow-md transition-all cursor-pointer group"
+      className="mt-4 w-full text-left block overflow-hidden rounded border border-slate-300/80 bg-[#E8EEF5] p-5 sm:p-6   hover:  transition-all cursor-pointer group"
     >
       <div className="flex items-center space-x-4 sm:space-x-6">
         <MoneyBagGraphic />

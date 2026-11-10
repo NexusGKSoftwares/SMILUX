@@ -491,8 +491,8 @@ export default function DataTable({
             title="Toggle column filter inputs"
             onClick={() => setShowColumnFilters((prev) => !prev)}
             className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs border font-medium transition-colors cursor-pointer ${showColumnFilters
-                ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
-                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700'
+              ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
+              : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700'
               }`}
           >
             <HugeiconsIcon icon={FilterIcon} size={13} />
@@ -508,8 +508,8 @@ export default function DataTable({
               title="Compact Rows"
               onClick={() => setDensity('compact')}
               className={`px-2 py-0.5 rounded font-medium transition-colors cursor-pointer ${density === 'compact'
-                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white'
+                : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
             >
               Compact
@@ -519,8 +519,8 @@ export default function DataTable({
               title="Normal Default Rows"
               onClick={() => setDensity('normal')}
               className={`px-2 py-0.5 rounded font-medium transition-colors cursor-pointer ${density === 'normal' || density === 'standard'
-                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold'
+                : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
             >
               Normal
@@ -530,8 +530,8 @@ export default function DataTable({
               title="Cozy Rows"
               onClick={() => setDensity('relaxed')}
               className={`px-2 py-0.5 rounded font-medium transition-colors cursor-pointer ${density === 'relaxed'
-                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white'
+                : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
             >
               Cozy
@@ -553,7 +553,7 @@ export default function DataTable({
             </button>
 
             {isColMenuOpen && (
-              <div className="absolute right-0 top-full mt-1.5 w-56 max-h-72 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded shadow-xl p-2 z-50 animate-in fade-in-0 zoom-in-95">
+              <div className="absolute right-0 top-full mt-1.5 w-56 max-h-72 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded   p-2 z-50 animate-in fade-in-0 zoom-in-95">
                 <div className="text-[11px] font-bold text-slate-500 uppercase px-2 py-1 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                   <span>Toggle Columns</span>
                   <button
@@ -751,7 +751,7 @@ export default function DataTable({
   };
 
   return (
-    <div className={`w-full flex flex-col font-sans bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 shadow-2xs overflow-hidden ${className}`}>
+    <div className={`w-full flex flex-col font-sans bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800   overflow-hidden ${className}`}>
       {/* ─── Top Placement Toolbar (Clean White Background) ─────────────── */}
       {renderTopToolbar ? (
         renderTopToolbar({

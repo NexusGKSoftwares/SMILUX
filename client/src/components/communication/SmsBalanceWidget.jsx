@@ -62,11 +62,11 @@ export default function SmsBalanceWidget() {
       {modalOpen &&
         createPortal(
           <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4 font-sans animate-in fade-in duration-150">
-            <div className="relative w-full max-w-md rounded border border-slate-200 bg-white p-5 shadow-2xl space-y-4">
+            <div className="relative w-full max-w-md rounded border border-slate-200 bg-white p-5   space-y-4">
               {/* Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded bg-emerald-600 text-white shadow-xs">
+                  <div className="flex h-9 w-9 items-center justify-center rounded bg-emerald-600 text-white  ">
                     <HugeiconsIcon icon={BubbleChatIcon} size={20} />
                   </div>
                   <div>

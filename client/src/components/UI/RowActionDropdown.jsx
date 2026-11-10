@@ -148,7 +148,7 @@ export default function RowActionDropdown({
               zIndex: 9999,
             }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded shadow-xl py-1 text-xs animate-in fade-in-0 zoom-in-95 duration-100 text-left select-none"
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded   py-1 text-xs animate-in fade-in-0 zoom-in-95 duration-100 text-left select-none"
           >
             {resolvedItems.map((item, idx) => {
               if (item.divider) {

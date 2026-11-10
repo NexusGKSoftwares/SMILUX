@@ -156,7 +156,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
           {/* 4 Support Action Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {/* Card 1: Help Center */}
-            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-4 hover:border-slate-300 hover:shadow-sm transition-all group">
+            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-4 hover:border-slate-300   transition-all group">
               <div>
                 <div className="mb-4">
                   <BookOpenIcon className="w-5 h-5 text-slate-800" />
@@ -171,7 +171,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
                 <button
                   type="button"
                   onClick={handleOpenHelpCenter}
-                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-2xs transition-colors cursor-pointer group-hover:border-slate-300"
+                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700   transition-colors cursor-pointer group-hover:border-slate-300"
                 >
                   <ClassicalPillarIcon className="w-3.5 h-3.5 text-slate-600 shrink-0" />
                   <span>Visit Help Center</span>
@@ -181,7 +181,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
             </div>
 
             {/* Card 2: Resource Center (formerly Fleetio Academy) */}
-            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all group">
+            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-5 hover:border-slate-300   transition-all group">
               <div>
                 <div className="mb-4">
                   <ClassicalPillarIcon className="w-5 h-5 text-slate-800" />
@@ -196,7 +196,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
                 <button
                   type="button"
                   onClick={handleOpenResourceCenter}
-                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-2xs transition-colors cursor-pointer group-hover:border-slate-300"
+                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700   transition-colors cursor-pointer group-hover:border-slate-300"
                 >
                   <span>Visit Resource Center</span>
                   <ExternalArrowIcon className="w-3 h-3 text-slate-500 shrink-0" />
@@ -205,7 +205,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
             </div>
 
             {/* Card 3: Live Support */}
-            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all group">
+            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-5 hover:border-slate-300   transition-all group">
               <div>
                 <div className="mb-4">
                   <ChatBubbleIcon className="w-5 h-5 text-slate-800" />
@@ -230,7 +230,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
             </div>
 
             {/* Card 4: Email */}
-            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-sm transition-all group">
+            <div className="flex flex-col justify-between rounded border border-slate-200 bg-white p-5 hover:border-slate-300   transition-all group">
               <div>
                 <div className="mb-4">
                   <MailIcon className="w-5 h-5 text-slate-800" />
@@ -245,7 +245,7 @@ export default function HelpModal({ isOpen, onClose, user }) {
                 <button
                   type="button"
                   onClick={handleEmailSupport}
-                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-2xs transition-colors cursor-pointer group-hover:border-slate-300"
+                  className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700   transition-colors cursor-pointer group-hover:border-slate-300"
                   title="Click to email support@smilux.co.ke"
                 >
                   <span>{copiedEmail ? 'Email Copied!' : 'Contact Support'}</span>

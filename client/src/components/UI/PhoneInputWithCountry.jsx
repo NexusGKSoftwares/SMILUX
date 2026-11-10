@@ -21,7 +21,7 @@ export function ReactFlag({ code, className = "" }) {
       src={`https://flagcdn.com/w40/${codeLower}.png`}
       srcSet={`https://flagcdn.com/w80/${codeLower}.png 2x`}
       alt={code}
-      className={`w-5 h-3.5 object-cover rounded border border-slate-200/90 shadow-2xs shrink-0 ${className}`}
+      className={`w-5 h-3.5 object-cover rounded border border-slate-200/90   shrink-0 ${className}`}
       loading="lazy"
     />
   );
@@ -474,7 +474,7 @@ function SecondaryCountryPicker({ selectedCode, onSelect }) {
               opacity: coords.isReady ? 1 : 0,
               visibility: coords.isReady ? 'visible' : 'hidden',
             }}
-            className="bg-white/95 backdrop-blur-md border border-slate-200 rounded shadow-xl flex flex-col max-h-[240px] overflow-hidden animate-in fade-in zoom-in-95 duration-100 font-sans"
+            className="bg-white/95 backdrop-blur-md border border-slate-200 rounded   flex flex-col max-h-[240px] overflow-hidden animate-in fade-in zoom-in-95 duration-100 font-sans"
           >
             <div className="p-2 border-b border-slate-100 bg-slate-50/90 sticky top-0 z-10 flex items-center gap-2">
               <SearchIcon className="w-3.5 h-3.5 text-slate-400 shrink-0 ml-1" />
@@ -762,7 +762,7 @@ export default function PhoneInputWithCountry({
         opacity: coords.isReady ? 1 : 0,
         visibility: coords.isReady ? 'visible' : 'hidden',
       }}
-      className="bg-white/95 backdrop-blur-md border border-slate-200 rounded shadow-xl shadow-slate-900/10 flex flex-col max-h-[280px] overflow-hidden animate-in fade-in zoom-in-95 duration-100 font-sans"
+      className="bg-white/95 backdrop-blur-md border border-slate-200 rounded     flex flex-col max-h-[280px] overflow-hidden animate-in fade-in zoom-in-95 duration-100 font-sans"
     >
       {/* Search Input */}
       <div className="p-2 border-b border-slate-100 bg-slate-50/90 sticky top-0 z-10 flex items-center gap-2">
@@ -912,7 +912,7 @@ export default function PhoneInputWithCountry({
             return (
               <div
                 key={idx}
-                className="flex items-center gap-2 p-1.5 rounded bg-slate-50/90 border border-slate-200/90 shadow-2xs hover:border-slate-300 transition-colors font-sans"
+                className="flex items-center gap-2 p-1.5 rounded bg-slate-50/90 border border-slate-200/90   hover:border-slate-300 transition-colors font-sans"
               >
                 {/* Contact Type Dropdown Component */}
                 <div className="w-26 shrink-0">

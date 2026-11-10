@@ -163,7 +163,7 @@ export default function PageHeader({
                 onClick={() => setIsMenuOpen((prev) => !prev)}
                 className={`flex items-center justify-center h-9 w-9 rounded border transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 ${isMenuOpen
                   ? 'border-gray-300 bg-gray-100 text-gray-900 dark:border-slate-600 dark:bg-slate-800 dark:text-white'
-                  : 'border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white shadow-2xs'
+                  : 'border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white  '
                   }`}
               >
                 <HugeiconsIcon icon={MoreHorizontalIcon} size={18} strokeWidth={2.2} />
@@ -175,7 +175,7 @@ export default function PageHeader({
                   ref={menuRef}
                   role="menu"
                   aria-orientation="vertical"
-                  className="absolute right-0 top-full mt-1.5 min-w-[210px] w-max bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded shadow-lg dark:shadow-2xl py-1.5 z-50 animate-in fade-in-0 zoom-in-95 duration-100"
+                  className="absolute right-0 top-full mt-1.5 min-w-[210px] w-max bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded   dark:  py-1.5 z-50 animate-in fade-in-0 zoom-in-95 duration-100"
                 >
                   {Array.isArray(resolvedMoreActions) ? (
                     resolvedMoreActions.map((action, index) => {
@@ -246,7 +246,7 @@ export default function PageHeader({
               onClick={resolvedPrimaryAction.onClick}
               className={
                 resolvedPrimaryAction.className ||
-                'inline-flex items-center justify-center gap-1.5 h-8 px-3.5 py-2 text-sm font-medium rounded text-white bg-brand-green hover:bg-brand-green-hover active:bg-[#03543a] shadow-xs transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2'
+                'inline-flex items-center justify-center gap-1.5 h-8 px-3.5 py-2 text-sm font-medium rounded text-white bg-brand-green hover:bg-brand-green-hover active:bg-[#03543a]   transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2'
               }
             >
               <HugeiconsIcon

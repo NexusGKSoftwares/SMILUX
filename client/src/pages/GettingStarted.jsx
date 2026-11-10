@@ -219,14 +219,14 @@ export default function GettingStarted() {
   const progressPercent = Math.round((completedCount / totalTasks) * 100);
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-6 font-sans">
+    <div className="w-full px-4 py-6 font-sans">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
         {/* ── LEFT SIDE: Linear Task List (1, 2, 3... No dropdowns) ─────────── */}
         <div className="lg:col-span-4 space-y-4">
 
           {/* Progress Summary Header Card */}
-          <div className="rounded border border-slate-200/90 bg-white p-4 shadow-xs space-y-3">
+          <div className="rounded border border-slate-200/90 bg-white p-4   space-y-3">
             <div className="flex items-center justify-between text-xs">
               <span className="font-bold text-slate-900">Setup Progress</span>
               <span className="font-extrabold text-brand-green">
@@ -243,7 +243,7 @@ export default function GettingStarted() {
           </div>
 
           {/* Direct 1, 2, 3... List of Tasks (No Dropdown) */}
-          <div className="rounded border border-slate-200/90 bg-white overflow-hidden shadow-xs divide-y divide-slate-100">
+          <div className="rounded border border-slate-200/90 bg-white overflow-hidden   divide-y divide-slate-100">
             {ONBOARDING_TASKS.map((task, index) => {
               const isSelected = activeTaskId === task.id;
               const isDone = Boolean(completedTasks[task.id]);
@@ -265,7 +265,7 @@ export default function GettingStarted() {
                   {/* Status Indicator Icon: Brand-Green Done Checkmark vs Not Done Number Badge */}
                   <div className="shrink-0">
                     {isDone ? (
-                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green text-white shadow-2xs">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green text-white  ">
                         <HugeiconsIcon icon={CheckmarkCircle01Icon} size={15} />
                       </div>
                     ) : (
@@ -309,7 +309,7 @@ export default function GettingStarted() {
           </div>
 
           {/* Need Help? Card */}
-          <div className="rounded border border-slate-200/90 bg-white p-4 shadow-xs space-y-3">
+          <div className="rounded border border-slate-200/90 bg-white p-4   space-y-3">
             <div className="flex items-center gap-2">
               <HugeiconsIcon icon={Message01Icon} size={18} className="text-slate-700 shrink-0" />
               <h4 className="text-xs font-bold text-slate-900">Need Help?</h4>
@@ -330,7 +330,7 @@ export default function GettingStarted() {
               </button>
 
               {helpDropdownOpen && (
-                <div className="absolute left-0 right-0 top-full mt-1 z-30 rounded border border-slate-200 bg-white p-1.5 shadow-lg shadow-slate-900/10 text-xs">
+                <div className="absolute left-0 right-0 top-full mt-1 z-30 rounded border border-slate-200 bg-white p-1.5     text-xs">
                   <a
                     href="mailto:support@smilux.co.ke"
                     className="block rounded px-2 py-1.5 text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium"
@@ -367,7 +367,7 @@ export default function GettingStarted() {
           <button
             type="button"
             onClick={() => navigate('/dashboard')}
-            className="flex items-center gap-2 px-3 py-1.5 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors cursor-pointer w-auto shadow-2xs"
+            className="flex items-center gap-2 px-3 py-1.5 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors cursor-pointer w-auto  "
           >
             <HugeiconsIcon icon={ViewOffIcon} size={15} className="text-slate-400" />
             <span>Hide onboarding tasks</span>
@@ -375,7 +375,7 @@ export default function GettingStarted() {
         </div>
 
         {/* ── RIGHT SIDE: Active Task Content Pane (Brand Green Theme) ─────────── */}
-        <div className="lg:col-span-8 bg-white rounded border border-slate-200/90 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="lg:col-span-8 bg-white rounded border border-slate-200/90 p-6 sm:p-8   space-y-6">
 
           {/* 1. OVERVIEW VIEW */}
           {activeTaskId === 'overview' && (
@@ -397,7 +397,7 @@ export default function GettingStarted() {
                 <button
                   type="button"
                   onClick={() => setActiveTaskId('account_settings')}
-                  className="inline-flex items-center gap-2 rounded bg-brand-green hover:bg-[#25b5a7] text-white font-bold text-xs px-4 py-2.5 shadow-xs transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded bg-brand-green hover:bg-[#25b5a7] text-white font-bold text-xs px-4 py-2.5   transition-colors cursor-pointer"
                 >
                   <span>Get started</span>
                   <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
@@ -460,7 +460,7 @@ export default function GettingStarted() {
                     <button
                       type="button"
                       onClick={() => setVideoModalOpen(true)}
-                      className="group flex h-14 w-18 items-center justify-center rounded bg-brand-green hover:bg-[#25b5a7] text-white shadow-xl shadow-brand-green/30 transition-all hover:scale-105 cursor-pointer"
+                      className="group flex h-14 w-18 items-center justify-center rounded bg-brand-green hover:bg-[#25b5a7] text-white   shadow-brand-green/30 transition-all hover:scale-105 cursor-pointer"
                       title="Play Walkthrough Tour"
                     >
                       <HugeiconsIcon icon={PlayIcon} size={28} className="fill-white translate-x-0.5" />
@@ -631,7 +631,7 @@ export default function GettingStarted() {
       {/* ── VIDEO TOUR MODAL ─────────────────────────────────────────────────── */}
       {videoModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl bg-white rounded shadow-2xl border border-slate-200 overflow-hidden">
+          <div className="relative w-full max-w-2xl bg-white rounded   border border-slate-200 overflow-hidden">
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 bg-slate-50/70">
               <div className="flex items-center gap-2">
