@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Cancel01Icon,
-  UnfoldMoreIcon,
+  AiAutoRotateIcon,
   CheckmarkCircle01Icon,
 } from '@hugeicons/core-free-icons';
 import { PanelLeftCloseIcon, PanelLeftOpenIcon } from '../UI/tableIcons.jsx';
@@ -191,7 +191,7 @@ export default function Sidebar({
             <button
               type="button"
               onClick={() => setClinicMenuOpen((prev) => !prev)}
-              className="flex flex-1 items-center justify-between gap-2 rounded border border-slate-200 bg-slate-50/80 p-1.5 text-left hover:bg-slate-100/80 transition-colors cursor-pointer min-w-0"
+              className="flex flex-1 items-center justify-between gap-2 rounded border border-slate-200 bg-slate-50/80 p-1 text-left hover:bg-slate-100/80 transition-colors cursor-pointer min-w-0"
               title="Switch Clinic Workspace"
             >
               <div className="flex items-center gap-2 min-w-0">
@@ -208,7 +208,7 @@ export default function Sidebar({
                 </div>
               </div>
               <HugeiconsIcon
-                icon={UnfoldMoreIcon}
+                icon={AiAutoRotateIcon}
                 size={16}
                 className={`text-slate-400 shrink-0 transition-transform ${clinicMenuOpen ? 'rotate-180 text-brand-600' : ''}`}
               />

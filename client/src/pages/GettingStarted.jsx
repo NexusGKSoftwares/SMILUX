@@ -154,7 +154,7 @@ export default function GettingStarted() {
     });
   };
 
-  // Full flat list of onboarding tasks (1, 2, 3... without collapsible dropdowns)
+  // Full flat list of onboarding tasks for Smilux Dental Practice
   const ONBOARDING_TASKS = [
     {
       id: 'overview',
@@ -220,123 +220,134 @@ export default function GettingStarted() {
 
   return (
     <div className="w-full px-4 py-6 font-sans">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
 
-        {/* ── LEFT SIDE: Linear Task List (1, 2, 3... No dropdowns) ─────────── */}
-        <div className="lg:col-span-4 space-y-4">
+        {/* ── LEFT SIDE: Figma 286px Navigation & Help Cards ────────────────── */}
+        <div className="w-full sm:w-[286px] shrink-0 flex flex-col gap-2 font-inter text-[#222323]">
 
-          {/* Progress Summary Header Card */}
-          <div className="rounded border border-slate-200/90 bg-white p-4   space-y-3">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-slate-900">Setup Progress</span>
-              <span className="font-extrabold text-brand-green">
-                {completedCount} of {totalTasks} done ({progressPercent}%)
+          {/* Card 1: Getting started Card (286px width, Figma border, radius & layout) */}
+          <div className="box-border w-full sm:w-[286px] bg-white border border-[#D4D4D4] rounded-[4px] flex flex-col items-start p-0 overflow-hidden shrink-0">
+            {/* Header row: 284px × 72px */}
+            <div className="w-full h-[72px] flex flex-row justify-between items-center px-4 py-3 border-b border-slate-100">
+              {/* 48px × 48px Image */}
+              <div className="w-12 h-12 shrink-0 rounded-[2px] bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white shadow-xs">
+                <HugeiconsIcon icon={StethoscopeIcon} size={24} />
+              </div>
+
+              {/* Title, Subtitle, Time */}
+              <div className="flex-1 min-w-0 pl-3 flex flex-row items-start justify-between">
+                <div className="flex flex-col gap-[2px] min-w-0">
+                  <h3 className="font-semibold text-[18px] leading-[28px] text-[#222323] truncate">
+                    Getting started
+                  </h3>
+                  <p className="font-normal text-[12px] leading-[16px] text-[#595959] truncate">
+                    Avicena Dental Practice
+                  </p>
+                </div>
+                <span className="font-normal text-[13px] leading-[20px] text-[#595959] shrink-0 pt-0.5">
+                  10 min
+                </span>
+              </div>
+            </div>
+
+            {/* Setup goals row: 284px × 46px */}
+            <div className="w-full h-[46px] flex flex-row items-center px-4 py-3 gap-1 border-b border-slate-100">
+              <span className="font-semibold text-[10px] leading-[12px] text-[#222323] shrink-0 mr-0.5">
+                Setup goals:
+              </span>
+              <span className="bg-[#C7F1D5] text-[#067748] rounded-full px-2 py-[1px] font-medium text-[10px] leading-[12px] shrink-0 inline-flex items-center">
+                FDI Charting
+              </span>
+              <span className="bg-[#C7F1D5] text-[#067748] rounded-full px-2 py-[1px] font-medium text-[10px] leading-[12px] shrink-0 inline-flex items-center">
+                M-Pesa STK
               </span>
             </div>
-            {/* Brand Green Progress Bar */}
-            <div className="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
-              <div
-                className="h-full bg-brand-green rounded-full transition-all duration-300"
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
-          </div>
 
-          {/* Direct 1, 2, 3... List of Tasks (No Dropdown) */}
-          <div className="rounded border border-slate-200/90 bg-white overflow-hidden   divide-y divide-slate-100">
-            {ONBOARDING_TASKS.map((task, index) => {
-              const isSelected = activeTaskId === task.id;
-              const isDone = Boolean(completedTasks[task.id]);
-              const stepNumber = index + 1;
+            {/* Tab list: (8 dental tasks, 44px each, with inset 3px active indicator & line-through when complete) */}
+            <div className="w-full max-h-[352px] overflow-y-auto flex flex-col p-0">
+              {ONBOARDING_TASKS.map((task) => {
+                const isSelected = activeTaskId === task.id;
+                const isDone = Boolean(completedTasks[task.id]);
+                const IconComp = task.icon;
 
-              return (
-                <button
-                  key={task.id}
-                  type="button"
-                  onClick={() => setActiveTaskId(task.id)}
-                  className={`
-                    w-full flex items-center gap-3 px-3.5 py-3 text-left transition-all cursor-pointer
-                    ${isSelected
-                      ? 'bg-brand-green/8 text-slate-900 border-l-3 border-l-brand-green pl-[11px]'
-                      : 'bg-white hover:bg-slate-50 text-slate-700'
-                    }
-                  `}
-                >
-                  {/* Status Indicator Icon: Brand-Green Done Checkmark vs Not Done Number Badge */}
-                  <div className="shrink-0">
-                    {isDone ? (
-                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-green text-white  ">
-                        <HugeiconsIcon icon={CheckmarkCircle01Icon} size={15} />
-                      </div>
-                    ) : (
-                      <div
-                        className={`
-                          flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold transition-colors
-                          ${isSelected
-                            ? 'border-2 border-brand-green bg-brand-green/10 text-brand-green'
-                            : 'border border-slate-300 bg-slate-100/80 text-slate-500'
-                          }
-                        `}
+                return (
+                  <button
+                    key={task.id}
+                    type="button"
+                    onClick={() => setActiveTaskId(task.id)}
+                    className={`w-full h-[44px] flex flex-row items-center justify-between px-4 py-3 text-left transition-colors cursor-pointer select-none shrink-0 ${
+                      isSelected
+                        ? 'shadow-[inset_3px_0_0_#28A466] bg-slate-50/60'
+                        : 'hover:bg-slate-50/70'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className={`shrink-0 ${isSelected ? 'text-[#067748]' : 'text-[#595959]'}`}>
+                        <HugeiconsIcon icon={IconComp} size={18} />
+                      </span>
+                      <span
+                        className={`text-[13px] leading-[20px] truncate ${
+                          isDone
+                            ? 'line-through text-[#595959] font-normal'
+                            : isSelected
+                            ? 'text-[#222323] font-medium'
+                            : 'text-[#222323] font-normal'
+                        }`}
                       >
-                        {stepNumber}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Task Labels */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-1">
-                      <span className={`text-xs truncate ${isSelected ? 'font-bold text-slate-900' : 'font-semibold text-slate-800'}`}>
                         {task.title}
                       </span>
-                      {isDone ? (
-                        <span className="text-[10px] font-bold text-brand-green bg-brand-green/10 px-1.5 py-0.2 rounded shrink-0">
-                          Done
-                        </span>
-                      ) : (
-                        <span className="text-[10px] font-medium text-slate-400 bg-slate-100 px-1.5 py-0.2 rounded shrink-0">
-                          To Do
-                        </span>
-                      )}
                     </div>
-                    <span className="text-[10px] text-slate-400 font-medium block truncate">
-                      {task.category} • {task.subtitle}
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
+
+                    {isDone && (
+                      <span className="shrink-0 flex items-center justify-center">
+                        <svg width="17" height="18" viewBox="0 0 17 18" fill="none">
+                          <circle cx="8.5" cy="9" r="7.5" fill="#C7F1D5" />
+                          <path d="M5.5 9L7.5 11L11.5 7" stroke="#00884B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Need Help? Card */}
-          <div className="rounded border border-slate-200/90 bg-white p-4   space-y-3">
-            <div className="flex items-center gap-2">
-              <HugeiconsIcon icon={Message01Icon} size={18} className="text-slate-700 shrink-0" />
-              <h4 className="text-xs font-bold text-slate-900">Need Help?</h4>
+          {/* Card 2: Need Help Card (286px × 150px) */}
+          <div className="box-border w-full sm:w-[286px] h-[150px] bg-white border border-[#D4D4D4] rounded-[4px] p-4 flex flex-col justify-between shrink-0">
+            {/* Header */}
+            <div className="flex flex-row items-center gap-2 h-7">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="shrink-0">
+                <circle cx="10" cy="10" r="7.5" stroke="#222323" strokeWidth="1.5" />
+                <path d="M7.75 7.75C8.04 6.94 8.94 6.5 10 6.5C11.19 6.5 12.25 7.27 12.25 8.35C12.25 9.47 11.2 10.05 10.45 10.6C9.9 11 9.75 11.45 9.75 12.25M10 14.5V14.6" stroke="#222323" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+              <h3 className="font-semibold text-[18px] leading-[28px] text-[#222323]">
+                Need Help?
+              </h3>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Let&apos;s get you set up and efficiently managing your clinic as quickly as possible. If you need support or wish to provide feedback, please don&apos;t hesitate to reach out.
+            {/* Description */}
+            <p className="font-normal text-[13px] leading-[20px] text-[#595959]">
+              Get answers, chat with our team, or share feedback
             </p>
 
+            {/* Action Button: Get Help */}
             <div className="relative">
               <button
                 type="button"
                 onClick={() => setHelpDropdownOpen((prev) => !prev)}
-                className="flex items-center justify-between w-full rounded border border-slate-200 bg-slate-50/80 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                className="box-border w-[73px] h-[32px] bg-white border border-[#D4D4D4] rounded-[6px] flex items-center justify-center font-medium text-[13px] leading-[20px] text-[#222323] hover:bg-slate-50 transition-colors cursor-pointer"
               >
-                <span>Help Options</span>
-                <HugeiconsIcon icon={ChevronDownIcon} size={14} className="text-slate-500" />
+                Get Help
               </button>
 
               {helpDropdownOpen && (
-                <div className="absolute left-0 right-0 top-full mt-1 z-30 rounded border border-slate-200 bg-white p-1.5     text-xs">
+                <div className="absolute left-0 bottom-full mb-1 z-30 w-56 rounded border border-slate-200 bg-white p-1.5 shadow-lg text-xs">
                   <a
                     href="mailto:support@smilux.co.ke"
-                    className="block rounded px-2 py-1.5 text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium"
+                    className="block rounded px-2.5 py-1.5 text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium"
                     onClick={() => setHelpDropdownOpen(false)}
                   >
-                    Email Clinic Support
+                    Email Support
                   </a>
                   <button
                     type="button"
@@ -344,9 +355,9 @@ export default function GettingStarted() {
                       setHelpDropdownOpen(false);
                       navigate('/settings');
                     }}
-                    className="w-full text-left rounded px-2 py-1.5 text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium cursor-pointer"
+                    className="w-full text-left rounded px-2.5 py-1.5 text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium cursor-pointer"
                   >
-                    View Clinic Documentation
+                    View Documentation
                   </button>
                   <button
                     type="button"
@@ -354,7 +365,7 @@ export default function GettingStarted() {
                       setHelpDropdownOpen(false);
                       setVideoModalOpen(true);
                     }}
-                    className="w-full text-left rounded px-2 py-1.5 text-brand-green hover:bg-brand-green/10 font-bold cursor-pointer"
+                    className="w-full text-left rounded px-2.5 py-1.5 text-brand-green hover:bg-brand-green/10 font-bold cursor-pointer"
                   >
                     Watch Video Tour
                   </button>
@@ -367,7 +378,7 @@ export default function GettingStarted() {
           <button
             type="button"
             onClick={() => navigate('/dashboard')}
-            className="flex items-center gap-2 px-3 py-1.5 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors cursor-pointer w-auto  "
+            className="flex items-center gap-2 px-3 py-1.5 rounded border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors cursor-pointer w-auto"
           >
             <HugeiconsIcon icon={ViewOffIcon} size={15} className="text-slate-400" />
             <span>Hide onboarding tasks</span>
@@ -375,7 +386,7 @@ export default function GettingStarted() {
         </div>
 
         {/* ── RIGHT SIDE: Active Task Content Pane (Brand Green Theme) ─────────── */}
-        <div className="lg:col-span-8 bg-white rounded border border-slate-200/90 p-6 sm:p-8   space-y-6">
+        <div className="flex-1 min-w-0 bg-white rounded border border-slate-200/90 p-6 sm:p-8 space-y-6">
 
           {/* 1. OVERVIEW VIEW */}
           {activeTaskId === 'overview' && (
@@ -397,7 +408,7 @@ export default function GettingStarted() {
                 <button
                   type="button"
                   onClick={() => setActiveTaskId('account_settings')}
-                  className="inline-flex items-center gap-2 rounded bg-brand-green hover:bg-[#25b5a7] text-white font-bold text-xs px-4 py-2.5   transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded bg-brand-green hover:bg-[#25b5a7] text-white font-bold text-xs px-4 py-2.5 transition-colors cursor-pointer"
                 >
                   <span>Get started</span>
                   <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
@@ -460,7 +471,7 @@ export default function GettingStarted() {
                     <button
                       type="button"
                       onClick={() => setVideoModalOpen(true)}
-                      className="group flex h-14 w-18 items-center justify-center rounded bg-brand-green hover:bg-[#25b5a7] text-white   shadow-brand-green/30 transition-all hover:scale-105 cursor-pointer"
+                      className="group flex h-14 w-18 items-center justify-center rounded bg-brand-green hover:bg-[#25b5a7] text-white shadow-brand-green/30 transition-all hover:scale-105 cursor-pointer"
                       title="Play Walkthrough Tour"
                     >
                       <HugeiconsIcon icon={PlayIcon} size={28} className="fill-white translate-x-0.5" />
@@ -631,7 +642,7 @@ export default function GettingStarted() {
       {/* ── VIDEO TOUR MODAL ─────────────────────────────────────────────────── */}
       {videoModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl bg-white rounded   border border-slate-200 overflow-hidden">
+          <div className="relative w-full max-w-2xl bg-white rounded border border-slate-200 overflow-hidden">
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 bg-slate-50/70">
               <div className="flex items-center gap-2">
