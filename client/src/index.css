@@ -94,6 +94,10 @@
     background-color: #2ec4b6 !important;
   }
 
+  .bg-brand-amber {
+    background-color: #ffb703 !important;
+  }
+
   .text-brand-on-bg-fill {
     color: var(--color-brand-on-bg-fill, #ffffff) !important;
   }

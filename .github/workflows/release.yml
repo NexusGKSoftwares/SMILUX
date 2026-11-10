@@ -1,28 +1,84 @@
 name: Release
 
-# Trigger by pushing a semver tag — e.g. git tag v1.2.3 && git push --tags
+# Triggers automatically on push to main, or manually via workflow_dispatch
 on:
   push:
-    tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
-      - "v[0-9]+.[0-9]+.[0-9]+-*"   # pre-releases: v1.2.3-beta.1
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
-  contents: write  # required to create a GitHub Release
+  contents: write
 
 jobs:
   # ─────────────────────────────────────────
-  # 1. Build both artefacts
+  # 1. Determine & push the next version tag
+  # ─────────────────────────────────────────
+  tag:
+    name: Auto Tag Version
+    runs-on: ubuntu-latest
+    outputs:
+      new_tag: ${{ steps.version.outputs.new_tag }}
+      prev_tag: ${{ steps.version.outputs.prev_tag }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Bump version and push tag
+        id: version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Get the latest tag (fallback to v1.0.0 if no tags found)
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.0")
+          echo "prev_tag=$LATEST_TAG" >> "$GITHUB_OUTPUT"
+
+          # Extract Major.Minor.Patch numbers
+          CLEAN_VERSION="${LATEST_TAG#v}"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CLEAN_VERSION"
+          MAJOR=${MAJOR:-1}
+          MINOR=${MINOR:-0}
+          PATCH=${PATCH:-0}
+
+          # Check commit message for bump hints
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          if echo "$COMMIT_MSG" | grep -qi "#major"; then
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+          elif echo "$COMMIT_MSG" | grep -qi "#minor"; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          else
+            PATCH=$((PATCH + 1))
+          fi
+
+          NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
+          echo "new_tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
+          echo "Bumping version from $LATEST_TAG to $NEW_TAG"
+
+          # Create and push the new git tag
+          git tag "$NEW_TAG"
+          git push origin "$NEW_TAG"
+
+  # ─────────────────────────────────────────
+  # 2. Build both artefacts
   # ─────────────────────────────────────────
   build:
     name: Build Artefacts
+    needs: tag
     runs-on: ubuntu-latest
+    env:
+      TAG_NAME: ${{ needs.tag.outputs.new_tag }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # full history needed for changelog generation
+          fetch-depth: 0
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
@@ -47,10 +103,10 @@ jobs:
         working-directory: client
         run: pnpm build
         env:
-          VITE_APP_VERSION: ${{ github.ref_name }}
+          VITE_APP_VERSION: ${{ env.TAG_NAME }}
 
       - name: Archive client dist
-        run: tar -czf smilux-client-${{ github.ref_name }}.tar.gz -C client dist/
+        run: tar -czf smilux-client-${{ env.TAG_NAME }}.tar.gz -C client dist/
 
       # ── Server ──────────────────────────
       - name: Install server dependencies
@@ -66,7 +122,7 @@ jobs:
           tar \
             --exclude='server/node_modules' \
             --exclude='server/.env' \
-            -czf smilux-server-${{ github.ref_name }}.tar.gz server/
+            -czf smilux-server-${{ env.TAG_NAME }}.tar.gz server/
 
       # ── Upload for the release job ───────
       - name: Upload release artefacts
@@ -74,16 +130,19 @@ jobs:
         with:
           name: release-artefacts
           path: |
-            smilux-client-${{ github.ref_name }}.tar.gz
-            smilux-server-${{ github.ref_name }}.tar.gz
+            smilux-client-${{ env.TAG_NAME }}.tar.gz
+            smilux-server-${{ env.TAG_NAME }}.tar.gz
 
   # ─────────────────────────────────────────
-  # 2. Create GitHub Release
+  # 3. Create GitHub Release
   # ─────────────────────────────────────────
   release:
     name: Publish GitHub Release
-    needs: build
+    needs: [tag, build]
     runs-on: ubuntu-latest
+    env:
+      TAG_NAME: ${{ needs.tag.outputs.new_tag }}
+      PREV_TAG: ${{ needs.tag.outputs.prev_tag }}
 
     steps:
       - name: Checkout repository
@@ -100,7 +159,7 @@ jobs:
       - name: Detect pre-release
         id: pre
         run: |
-          if [[ "${{ github.ref_name }}" == *"-"* ]]; then
+          if [[ "${{ env.TAG_NAME }}" == *"-"* ]]; then
             echo "is_prerelease=true" >> "$GITHUB_OUTPUT"
           else
             echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
@@ -110,23 +169,25 @@ jobs:
       - name: Generate changelog
         id: changelog
         run: |
-          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-          if [ -z "$PREV_TAG" ]; then
-            LOG=$(git log --pretty=format:"- %s (%h)" HEAD)
-          else
+          if [ -n "$PREV_TAG" ]; then
             LOG=$(git log --pretty=format:"- %s (%h)" "$PREV_TAG"..HEAD)
+          else
+            LOG=$(git log --pretty=format:"- %s (%h)" HEAD)
+          fi
+          if [ -z "$LOG" ]; then
+            LOG="- Automated release for ${{ env.TAG_NAME }}"
           fi
           echo "$LOG" > CHANGELOG_FRAGMENT.md
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: "Smilux ${{ github.ref_name }}"
+          tag_name: ${{ env.TAG_NAME }}
+          name: "Smilux ${{ env.TAG_NAME }}"
           body_path: CHANGELOG_FRAGMENT.md
           prerelease: ${{ steps.pre.outputs.is_prerelease }}
           files: |
-            smilux-client-${{ github.ref_name }}.tar.gz
-            smilux-server-${{ github.ref_name }}.tar.gz
+            smilux-client-${{ env.TAG_NAME }}.tar.gz
+            smilux-server-${{ env.TAG_NAME }}.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

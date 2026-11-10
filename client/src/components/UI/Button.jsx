@@ -4,10 +4,10 @@ import { InlineSpinner } from './Spinner.jsx';
 import { cn } from '../../lib/utils.js';
 
 /**
- * Enterprise Reusable Button Component supporting Primary & Outline variants,
+ * Enterprise Reusable Button Component supporting Primary, Upgrade & Outline variants,
  * with built-in loading spinner support.
  *
- * @param {'primary' | 'outline' | 'secondary' | 'ghost' | 'destructive'} variant - Button style variant
+ * @param {'primary' | 'upgrade' | 'outline' | 'secondary' | 'ghost' | 'destructive'} variant - Button style variant
  * @param {'sm' | 'md' | 'lg'} size - Button height and padding size
  * @param {'button' | 'submit' | 'reset'} type - HTML button type attribute
  * @param {boolean} disabled - Disabled state
@@ -37,6 +37,8 @@ export default function Button({
   const variantClasses = {
     primary:
       'bg-[linear-gradient(180deg,#9C7AFF_0%,#6C44E0_100%)] border border-[#7B4DFF] shadow-[0px_1px_2px_rgba(0,0,0,0.05)] rounded-[4px] font-inter font-medium text-[13.5px] leading-[20px] not-italic text-white [font-variation-settings:\'slnt\'_0] hover:brightness-105 hover:opacity-95 active:scale-[0.995] focus-visible:ring-[#9C7AFF]/50 focus-visible:border-[#7B4DFF]',
+    upgrade:
+      'bg-[linear-gradient(180deg,#FFC42E_0%,#E09F00_100%)] border border-[#ffb703] shadow-[0px_1px_2px_rgba(0,0,0,0.05)] rounded-[4px] font-inter font-medium text-[13.5px] leading-[20px] not-italic text-white [font-variation-settings:\'slnt\'_0] hover:brightness-105 hover:opacity-95 active:scale-[0.995] focus-visible:ring-[#ffb703]/50 focus-visible:border-[#ffb703]',
     outline:
       'bg-[linear-gradient(180deg,#FDFDFD_0%,#F2F5F7_100%)] border border-[#E4E4E8] shadow-[0px_1px_2px_rgba(0,0,0,0.05)] rounded-[4px] font-inter font-medium text-[13px] leading-[20px] not-italic text-[#22162B] [font-variation-settings:\'slnt\'_0] hover:bg-[#F2F5F7] hover:border-[#D8D8DF] hover:text-[#180F1F] active:scale-[0.995] focus-visible:ring-slate-300 focus-visible:border-[#D8D8DF]',
     secondary:
@@ -64,7 +66,7 @@ export default function Button({
 }
 
 Button.propTypes = {
-  variant: PropTypes.oneOf(['primary', 'outline', 'secondary', 'ghost', 'destructive']),
+  variant: PropTypes.oneOf(['primary', 'upgrade', 'outline', 'secondary', 'ghost', 'destructive']),
   size: PropTypes.oneOf(['sm', 'md', 'lg']),
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
   disabled: PropTypes.bool,

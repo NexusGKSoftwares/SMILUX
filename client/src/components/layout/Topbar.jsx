@@ -6,6 +6,7 @@ import SearchBar from './SearchBar.jsx';
 import SmsBalanceWidget from '../communication/SmsBalanceWidget.jsx';
 import UserAvatar from './UserAvatar.jsx';
 import Button from '../UI/Button.jsx';
+import { CrownBoldDuotoneIcon } from './sidebarIcons.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Menu01Icon,
@@ -89,8 +90,22 @@ export default function Topbar({
         <SearchBar />
       </div>
 
-      {/* ── Right: SMS Balance + Notifications + Help + User menu ─────── */}
+      {/* ── Right: Upgrade + SMS Balance + Notifications + Help + User menu ─────── */}
       <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        {/* Upgrade Button */}
+        <Button
+          variant="upgrade"
+          size="sm"
+          onClick={() => {
+            alert('Opening Smilux Upgrade & Subscription Plans...');
+          }}
+          className="gap-1.5 px-3 h-8 cursor-pointer"
+          aria-label="Upgrade Subscription"
+        >
+          <CrownBoldDuotoneIcon className="w-4 h-4 text-white shrink-0" />
+          <span className="hidden sm:inline">Upgrade</span>
+        </Button>
+
         {/* SMS Balance & STK Top Up Widget */}
         <SmsBalanceWidget />
 

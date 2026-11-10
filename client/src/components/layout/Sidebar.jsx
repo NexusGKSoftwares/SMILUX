@@ -35,6 +35,7 @@ import {
   SubscriptionBillingIcon,
   ClinicSettingsIcon,
   RolesPermissionsIcon,
+  CrownBoldDuotoneIcon,
 } from './sidebarIcons.jsx';
 
 const NAV_GROUPS = [
@@ -468,6 +469,23 @@ export default function Sidebar({
 
       {/* Fixed bottom controls */}
       <div className={`shrink-0 border-t border-slate-200 ${isCollapsed ? 'p-1.5 space-y-1' : 'p-2 space-y-1'}`}>
+        {/* Upgrade Plan Button */}
+        <Button
+          variant="upgrade"
+          size="sm"
+          onClick={() => {
+            if (isMobileOpen && onCloseMobile) onCloseMobile();
+            alert('Opening Smilux Upgrade & Subscription Plans...');
+          }}
+          onMouseEnter={handleMouseEnter('Upgrade Plan')}
+          onMouseLeave={handleMouseLeave}
+          aria-label="Upgrade Plan"
+          className={`w-full cursor-pointer ${isCollapsed ? 'justify-center p-2' : 'justify-center gap-2 px-3 py-1.5'}`}
+        >
+          <CrownBoldDuotoneIcon className="w-4 h-4 text-white shrink-0" />
+          {!isCollapsed && <span>Upgrade</span>}
+        </Button>
+
         {/* Clinic Settings */}
         <button
           type="button"
