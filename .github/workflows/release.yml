@@ -1,0 +1,133 @@
+name: Release
+
+# Trigger manually or by pushing a semver tag (e.g. v1.2.3)
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-*"   # pre-releases: v1.2.3-beta.1
+
+permissions:
+  contents: write  # needed to create a GitHub Release
+
+jobs:
+  # ─────────────────────────────────────────
+  # 1. Build both artefacts
+  # ─────────────────────────────────────────
+  build:
+    name: Build Artefacts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history for changelog generation
+
+      # ── Client ──────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Lint client
+        working-directory: client
+        run: npm run lint
+
+      - name: Build client
+        working-directory: client
+        run: npm run build
+        env:
+          VITE_APP_VERSION: ${{ github.ref_name }}
+
+      - name: Archive client dist
+        run: |
+          cd client
+          tar -czf ../smilux-client-${{ github.ref_name }}.tar.gz dist/
+
+      # ── Server ──────────────────────────
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Lint server
+        working-directory: server
+        run: npm run lint
+
+      - name: Archive server source
+        run: |
+          tar \
+            --exclude='server/node_modules' \
+            --exclude='server/.env' \
+            -czf smilux-server-${{ github.ref_name }}.tar.gz server/
+
+      # ── Upload for the next job ──────────
+      - name: Upload release artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artefacts
+          path: |
+            smilux-client-${{ github.ref_name }}.tar.gz
+            smilux-server-${{ github.ref_name }}.tar.gz
+
+  # ─────────────────────────────────────────
+  # 2. Create GitHub Release
+  # ─────────────────────────────────────────
+  release:
+    name: Publish GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download release artefacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artefacts
+
+      # Determine whether this is a pre-release (tag contains a hyphen)
+      - name: Detect pre-release
+        id: pre
+        run: |
+          if [[ "${{ github.ref_name }}" == *"-"* ]]; then
+            echo "is_prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Auto-generate changelog from commits since last tag
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$PREV_TAG" ]; then
+            LOG=$(git log --pretty=format:"- %s (%h)" HEAD)
+          else
+            LOG=$(git log --pretty=format:"- %s (%h)" "$PREV_TAG"..HEAD)
+          fi
+          # Write to file to preserve newlines
+          echo "$LOG" > CHANGELOG_FRAGMENT.md
+          echo "changelog_file=CHANGELOG_FRAGMENT.md" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "Smilux ${{ github.ref_name }}"
+          body_path: ${{ steps.changelog.outputs.changelog_file }}
+          prerelease: ${{ steps.pre.outputs.is_prerelease }}
+          files: |
+            smilux-client-${{ github.ref_name }}.tar.gz
+            smilux-server-${{ github.ref_name }}.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
