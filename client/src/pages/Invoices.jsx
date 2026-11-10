@@ -471,7 +471,7 @@ export default function Invoices() {
               <span className="font-semibold text-slate-800 dark:text-slate-100 truncate hover:text-emerald-700 cursor-pointer">
                 {row.patientName}
               </span>
-              <span className="text-[10px] text-slate-400 font-mono">
+              <span className="text-[10px] text-slate-400 font-sans">
                 {row.phone} • {row.patientId}
               </span>
             </div>
@@ -521,7 +521,7 @@ export default function Invoices() {
         sortable: true,
         filterable: true,
         render: (val) => (
-          <span className="text-xs font-bold text-slate-900 dark:text-white font-mono">
+          <span className="text-xs font-bold text-slate-900 dark:text-white font-sans">
             KES {val.toLocaleString()}
           </span>
         ),
@@ -533,7 +533,7 @@ export default function Invoices() {
         sortable: true,
         filterable: true,
         render: (val) => (
-          <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 font-mono">
+          <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 font-sans">
             KES {val.toLocaleString()}
           </span>
         ),
@@ -546,7 +546,7 @@ export default function Invoices() {
         filterable: true,
         render: (val) => (
           <span
-            className={`text-xs font-bold font-mono ${val > 0
+            className={`text-xs font-bold font-sans ${val > 0
               ? 'text-rose-600 dark:text-rose-400'
               : 'text-slate-400 dark:text-slate-500'
               }`}
@@ -929,7 +929,7 @@ export default function Invoices() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[#027A48] hover:bg-[#02683E]   transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[ #7b4dff] hover:bg-[#02683E]   transition-colors cursor-pointer"
                 >
                   Save & Generate Invoice
                 </button>
@@ -974,7 +974,7 @@ export default function Invoices() {
                 </div>
                 <div className="flex justify-between py-0.5">
                   <span className="text-slate-500">Outstanding Balance:</span>
-                  <span className="font-bold text-rose-600 font-mono">
+                  <span className="font-bold text-rose-600 font-sans">
                     KES {stkTargetInvoice.balance.toLocaleString()}
                   </span>
                 </div>
@@ -990,7 +990,7 @@ export default function Invoices() {
                   placeholder="0712345678"
                   value={stkPhoneNumber}
                   onChange={(e) => setStkPhoneNumber(e.target.value)}
-                  className="w-full text-xs font-mono rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full text-xs font-sans rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
                 <span className="text-[11px] text-slate-400 mt-1 block">
                   A PIN entry prompt will pop up immediately on the patient&apos;s phone.
@@ -1008,7 +1008,7 @@ export default function Invoices() {
                 <button
                   type="submit"
                   disabled={stkLoading}
-                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[#027A48] hover:bg-[#02683E] flex items-center gap-1.5   cursor-pointer disabled:opacity-50"
+                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[ #7b4dff] hover:bg-[#02683E] flex items-center gap-1.5   cursor-pointer disabled:opacity-50"
                 >
                   {stkLoading ? (
                     <span>Sending prompt...</span>
@@ -1055,7 +1055,7 @@ export default function Invoices() {
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Billed To</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5">{viewingInvoice.patientName}</p>
-                  <p className="text-[10px] text-slate-500 font-mono">{viewingInvoice.phone}</p>
+                  <p className="text-[10px] text-slate-500 font-sans">{viewingInvoice.phone}</p>
                 </div>
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Payment Scheme</span>
@@ -1072,15 +1072,15 @@ export default function Invoices() {
               <div className="border-t border-slate-100 dark:border-slate-800 pt-3 space-y-1.5">
                 <div className="flex justify-between text-slate-600 dark:text-slate-400">
                   <span>Subtotal Amount:</span>
-                  <span className="font-mono font-semibold">KES {viewingInvoice.totalAmount.toLocaleString()}</span>
+                  <span className="font-sans font-semibold">KES {viewingInvoice.totalAmount.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-emerald-700 dark:text-emerald-400">
                   <span>Amount Paid to Date:</span>
-                  <span className="font-mono font-semibold">KES {viewingInvoice.paidAmount.toLocaleString()}</span>
+                  <span className="font-sans font-semibold">KES {viewingInvoice.paidAmount.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-sm font-bold text-slate-900 dark:text-white border-t border-slate-200 dark:border-slate-700 pt-2">
                   <span>Outstanding Balance:</span>
-                  <span className="font-mono text-rose-600">KES {viewingInvoice.balance.toLocaleString()}</span>
+                  <span className="font-sans text-rose-600">KES {viewingInvoice.balance.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -1161,7 +1161,7 @@ export default function Invoices() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>

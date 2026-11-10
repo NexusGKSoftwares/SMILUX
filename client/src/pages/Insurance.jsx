@@ -374,7 +374,7 @@ export default function Insurance() {
               <span className="font-semibold text-slate-800 dark:text-slate-100 truncate">
                 {row.patientName}
               </span>
-              <span className="text-[10px] text-slate-500 font-mono">
+              <span className="text-[10px] text-slate-500 font-sans">
                 {row.memberNo}
               </span>
             </div>
@@ -417,7 +417,7 @@ export default function Insurance() {
         filterable: true,
         filterPlaceholder: 'AUTH-...',
         render: (val) => (
-          <span className="text-xs font-mono text-slate-700 dark:text-slate-300 font-semibold">
+          <span className="text-xs font-sans text-slate-700 dark:text-slate-300 font-semibold">
             {val}
           </span>
         ),
@@ -434,7 +434,7 @@ export default function Insurance() {
             <span className="text-xs font-semibold text-slate-800 dark:text-slate-100 truncate">
               {val}
             </span>
-            <span className="text-[10px] text-slate-500 font-mono truncate">
+            <span className="text-[10px] text-slate-500 font-sans truncate">
               ICD-10: {row.icd10}
             </span>
           </div>
@@ -447,7 +447,7 @@ export default function Insurance() {
         sortable: true,
         filterable: true,
         render: (val) => (
-          <span className="text-xs font-bold text-slate-900 dark:text-white font-mono">
+          <span className="text-xs font-bold text-slate-900 dark:text-white font-sans">
             KES {val.toLocaleString()}
           </span>
         ),
@@ -459,7 +459,7 @@ export default function Insurance() {
         sortable: true,
         filterable: true,
         render: (val) => (
-          <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 font-mono">
+          <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 font-sans">
             KES {val.toLocaleString()}
           </span>
         ),
@@ -471,7 +471,7 @@ export default function Insurance() {
         sortable: true,
         filterable: true,
         render: (val) => (
-          <span className="text-xs font-mono text-slate-600 dark:text-slate-300">
+          <span className="text-xs font-sans text-slate-600 dark:text-slate-300">
             KES {val.toLocaleString()}
           </span>
         ),
@@ -713,7 +713,7 @@ export default function Insurance() {
                     onChange={(e) =>
                       setClaimForm({ ...claimForm, memberNo: e.target.value })
                     }
-                    className="w-full text-xs font-mono rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs font-sans rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -749,7 +749,7 @@ export default function Insurance() {
                     onChange={(e) =>
                       setClaimForm({ ...claimForm, preAuthCode: e.target.value })
                     }
-                    className="w-full text-xs font-mono rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs font-sans rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
               </div>
@@ -833,7 +833,7 @@ export default function Insurance() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[#027A48] hover:bg-[#02683E]   transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[ #7b4dff] hover:bg-[#02683E]   transition-colors cursor-pointer"
                 >
                   Submit Electronic Claim
                 </button>
@@ -873,11 +873,11 @@ export default function Insurance() {
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Beneficiary</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5">{viewingClaim.patientName}</p>
-                  <p className="text-[10px] text-slate-500 font-mono">{viewingClaim.memberNo}</p>
+                  <p className="text-[10px] text-slate-500 font-sans">{viewingClaim.memberNo}</p>
                 </div>
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Pre-Auth Code</span>
-                  <p className="font-bold text-emerald-700 dark:text-emerald-400 font-mono mt-0.5">{viewingClaim.preAuthCode}</p>
+                  <p className="font-bold text-emerald-700 dark:text-emerald-400 font-sans mt-0.5">{viewingClaim.preAuthCode}</p>
                   <p className="text-[10px] text-slate-500">{viewingClaim.date}</p>
                 </div>
               </div>
@@ -885,21 +885,21 @@ export default function Insurance() {
               <div>
                 <span className="text-[10px] text-slate-400 uppercase font-semibold">Procedure & ICD-10 Coding</span>
                 <p className="font-bold text-slate-800 dark:text-slate-100 mt-0.5">{viewingClaim.procedure}</p>
-                <p className="text-slate-500 font-mono mt-0.5">{viewingClaim.icd10}</p>
+                <p className="text-slate-500 font-sans mt-0.5">{viewingClaim.icd10}</p>
               </div>
 
               <div className="border-t border-slate-100 dark:border-slate-800 pt-3 space-y-1.5">
                 <div className="flex justify-between">
                   <span className="text-slate-500">Gross Claimed Tariff:</span>
-                  <span className="font-mono font-bold">KES {viewingClaim.claimedAmount.toLocaleString()}</span>
+                  <span className="font-sans font-bold">KES {viewingClaim.claimedAmount.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-emerald-700 dark:text-emerald-400">
                   <span>Approved Underwriter Payout:</span>
-                  <span className="font-mono font-bold">KES {viewingClaim.approvedAmount.toLocaleString()}</span>
+                  <span className="font-sans font-bold">KES {viewingClaim.approvedAmount.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800 pt-1.5">
                   <span>Patient Co-Pay Share:</span>
-                  <span className="font-mono font-bold">KES {viewingClaim.coPay.toLocaleString()}</span>
+                  <span className="font-sans font-bold">KES {viewingClaim.coPay.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -911,7 +911,7 @@ export default function Insurance() {
               <button
                 type="button"
                 onClick={() => setViewingClaim(null)}
-                className="px-3.5 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-3.5 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Close Dossier
               </button>
@@ -971,7 +971,7 @@ export default function Insurance() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>

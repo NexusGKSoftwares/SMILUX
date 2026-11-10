@@ -349,7 +349,7 @@ export default function Suppliers() {
             selectedIds.length === filteredSuppliers.length
           }
           onChange={handleToggleSelectAll}
-          className="rounded border-slate-300 dark:border-slate-600 text-[#027A48] focus:ring-0 cursor-pointer"
+          className="rounded border-slate-300 dark:border-slate-600 text-[ #7b4dff] focus:ring-0 cursor-pointer"
         />
       ),
       width: '44px',
@@ -360,7 +360,7 @@ export default function Suppliers() {
           checked={selectedIds.includes(row?.id)}
           onChange={() => handleToggleSelectOne(row?.id)}
           onClick={(e) => e.stopPropagation()}
-          className="rounded border-slate-300 dark:border-slate-600 text-[#027A48] focus:ring-0 cursor-pointer"
+          className="rounded border-slate-300 dark:border-slate-600 text-[ #7b4dff] focus:ring-0 cursor-pointer"
         />
       ),
     },
@@ -372,10 +372,10 @@ export default function Suppliers() {
       width: '150px',
       render: (_, row) => (
         <div className="flex flex-col">
-          <span className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-100">
+          <span className="font-sans text-xs font-semibold text-slate-800 dark:text-slate-100">
             {row?.id}
           </span>
-          <span className="text-[10px] text-slate-500 font-mono">
+          <span className="text-[10px] text-slate-500 font-sans">
             PIN: {row?.kraPin}
           </span>
         </div>
@@ -388,7 +388,7 @@ export default function Suppliers() {
       sortable: true,
       render: (_, row) => (
         <div className="flex flex-col max-w-[280px]">
-          <span className="font-medium text-slate-900 dark:text-slate-100 truncate hover:text-[#027A48] transition-colors cursor-pointer" onClick={() => handleViewSupplier(row)}>
+          <span className="font-medium text-slate-900 dark:text-slate-100 truncate hover:text-[ #7b4dff] transition-colors cursor-pointer" onClick={() => handleViewSupplier(row)}>
             {row?.name}
           </span>
           <span className="text-[11px] text-slate-400 dark:text-slate-500 truncate flex items-center gap-1">
@@ -444,7 +444,7 @@ export default function Suppliers() {
       title: 'Email / Orders Desk',
       header: 'Email / Orders Desk',
       render: (val, row) => (
-        <span className="text-xs text-slate-600 dark:text-slate-300 font-mono truncate max-w-[200px]">
+        <span className="text-xs text-slate-600 dark:text-slate-300 font-sans truncate max-w-[200px]">
           {val || row?.email}
         </span>
       ),
@@ -480,7 +480,7 @@ export default function Suppliers() {
       render: (val, row) => {
         const amount = typeof val === 'number' ? val : (row?.openPayables || 0);
         return (
-          <span className={`font-mono text-xs font-semibold ${amount > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-400'}`}>
+          <span className={`font-sans text-xs font-semibold ${amount > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-400'}`}>
             {amount > 0 ? `KES ${amount.toLocaleString()}` : 'KES 0'}
           </span>
         );
@@ -495,7 +495,7 @@ export default function Suppliers() {
         const status = val || row?.status;
         let badgeCls = 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300';
         if (status === 'Preferred Partner') {
-          badgeCls = 'bg-[#ECFDF3] text-[#027A48] border-[#A6F4C5] dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800';
+          badgeCls = 'bg-[#ECFDF3] text-[ #7b4dff] border-[#A6F4C5] dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800';
         } else if (status === 'Active') {
           badgeCls = 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300';
         } else if (status === 'Under Review') {
@@ -678,7 +678,7 @@ export default function Suppliers() {
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#027A48] rounded-lg hover:bg-[#02683E] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[ #7b4dff] rounded-lg hover:bg-[#02683E] transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={PlusSignIcon} className="w-4 h-4" />
                 Add First Supplier
@@ -694,7 +694,7 @@ export default function Suppliers() {
           <div className="bg-white dark:bg-slate-850 rounded-xl   w-full max-w-xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[#027A48]">
+                <div className="w-8 h-8 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[ #7b4dff]">
                   <HugeiconsIcon icon={Building01Icon} className="w-4 h-4" />
                 </div>
                 <div>
@@ -727,7 +727,7 @@ export default function Suppliers() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Apex Dental Prosthetics Ltd"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -738,7 +738,7 @@ export default function Suppliers() {
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   >
                     <option value="Dental Consumables">Dental Consumables</option>
                     <option value="Prosthetic & Crown Labs">Prosthetic & Crown Labs</option>
@@ -757,7 +757,7 @@ export default function Suppliers() {
                     value={formData.kraPin}
                     onChange={(e) => setFormData({ ...formData, kraPin: e.target.value })}
                     placeholder="e.g. P051294812Z"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48] font-mono"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff] font-sans"
                   />
                 </div>
 
@@ -770,7 +770,7 @@ export default function Suppliers() {
                     value={formData.contactPerson}
                     onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
                     placeholder="e.g. David Karani (Sales Rep)"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -784,7 +784,7 @@ export default function Suppliers() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+254 722 000 000"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -797,7 +797,7 @@ export default function Suppliers() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="orders@vendor.co.ke"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -808,7 +808,7 @@ export default function Suppliers() {
                   <select
                     value={formData.paymentTerms}
                     onChange={(e) => setFormData({ ...formData, paymentTerms: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   >
                     <option value="Net 30 Days">Net 30 Days</option>
                     <option value="Net 15 Days">Net 15 Days</option>
@@ -828,7 +828,7 @@ export default function Suppliers() {
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     placeholder="Building, Street, Town"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -841,7 +841,7 @@ export default function Suppliers() {
                     value={formData.leadTime}
                     onChange={(e) => setFormData({ ...formData, leadTime: e.target.value })}
                     placeholder="e.g. 24-48 Hours"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -852,7 +852,7 @@ export default function Suppliers() {
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   >
                     <option value="Active">Active</option>
                     <option value="Preferred Partner">Preferred Partner</option>
@@ -872,7 +872,7 @@ export default function Suppliers() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E]   cursor-pointer"
+                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E]   cursor-pointer"
                 >
                   Save Supplier
                 </button>
@@ -888,19 +888,19 @@ export default function Suppliers() {
           <div className="bg-white dark:bg-slate-850 rounded-xl   w-full max-w-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[#027A48]">
+                <div className="w-10 h-10 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[ #7b4dff]">
                   <HugeiconsIcon icon={Building01Icon} className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
                     {activeSupplier.name}
                   </h3>
-                  <div className="flex items-center gap-2 text-[11px] text-slate-500 font-mono mt-0.5">
+                  <div className="flex items-center gap-2 text-[11px] text-slate-500 font-sans mt-0.5">
                     <span>{activeSupplier.id}</span>
                     <span>•</span>
                     <span>KRA PIN: {activeSupplier.kraPin}</span>
                     <span>•</span>
-                    <span className="text-[#027A48] font-sans font-medium">{activeSupplier.rating}</span>
+                    <span className="text-[ #7b4dff] font-sans font-medium">{activeSupplier.rating}</span>
                   </div>
                 </div>
               </div>
@@ -920,7 +920,7 @@ export default function Suppliers() {
                   <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
                     Outstanding Payable
                   </span>
-                  <span className="text-base font-bold font-mono text-slate-900 dark:text-slate-100 mt-1 block">
+                  <span className="text-base font-bold font-sans text-slate-900 dark:text-slate-100 mt-1 block">
                     KES {activeSupplier.openPayables.toLocaleString()}
                   </span>
                   <span className="text-[10px] text-slate-500 mt-0.5 block">
@@ -969,7 +969,7 @@ export default function Suppliers() {
                   </div>
                   <div>
                     <span className="text-slate-400 block text-[11px]">Orders Desk Email</span>
-                    <span className="font-medium text-slate-800 dark:text-slate-200 font-mono">{activeSupplier.email}</span>
+                    <span className="font-medium text-slate-800 dark:text-slate-200 font-sans">{activeSupplier.email}</span>
                   </div>
                   <div>
                     <span className="text-slate-400 block text-[11px]">Settlement Account</span>
@@ -985,7 +985,7 @@ export default function Suppliers() {
               {/* Quick Actions Footer */}
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#ECFDF3] text-[#027A48] border border-[#A6F4C5]">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#ECFDF3] text-[ #7b4dff] border border-[#A6F4C5]">
                     <HugeiconsIcon icon={ShieldCheckIcon} className="w-3.5 h-3.5" />
                     Verified Dental Vendor
                   </span>
@@ -994,7 +994,7 @@ export default function Suppliers() {
                   <button
                     type="button"
                     onClick={() => alert(`Generating new LPO for ${activeSupplier.name}...`)}
-                    className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                    className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
                   >
                     Create Purchase Order
                   </button>
@@ -1072,7 +1072,7 @@ export default function Suppliers() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>

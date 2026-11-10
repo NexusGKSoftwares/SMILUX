@@ -538,7 +538,7 @@ export default function ClinicalRecords() {
               <span className="font-semibold text-slate-800 dark:text-slate-100 truncate hover:text-emerald-700 cursor-pointer">
                 {row.patientName}
               </span>
-              <span className="text-[10px] text-slate-400 font-mono">
+              <span className="text-[10px] text-slate-400 font-sans">
                 {row.patientId}
               </span>
             </div>
@@ -1046,7 +1046,7 @@ export default function ClinicalRecords() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[#027A48] hover:bg-[#02683E]   transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[ #7b4dff] hover:bg-[#02683E]   transition-colors cursor-pointer"
                 >
                   Save Clinical Record
                 </button>
@@ -1086,7 +1086,7 @@ export default function ClinicalRecords() {
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Patient</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5">{viewingRecord.patientName}</p>
-                  <p className="text-[10px] text-slate-500 font-mono">{viewingRecord.patientId}</p>
+                  <p className="text-[10px] text-slate-500 font-sans">{viewingRecord.patientId}</p>
                 </div>
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Clinician</span>
@@ -1221,7 +1221,7 @@ export default function ClinicalRecords() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>

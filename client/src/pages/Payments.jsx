@@ -381,7 +381,7 @@ export default function Payments() {
         filterable: true,
         filterPlaceholder: 'M-Pesa or EFT code...',
         render: (val) => (
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-sans font-bold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
             {val}
           </span>
         ),
@@ -402,7 +402,7 @@ export default function Payments() {
               <span className="font-semibold text-slate-800 dark:text-slate-100 truncate">
                 {row.patientName}
               </span>
-              <span className="text-[10px] text-slate-400 font-mono">
+              <span className="text-[10px] text-slate-400 font-sans">
                 {row.phone}
               </span>
             </div>
@@ -417,7 +417,7 @@ export default function Payments() {
         filterable: true,
         filterPlaceholder: 'INV-...',
         render: (val) => (
-          <span className="text-xs font-mono font-semibold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">
+          <span className="text-xs font-sans font-semibold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">
             {val}
           </span>
         ),
@@ -462,7 +462,7 @@ export default function Payments() {
         filterable: true,
         render: (val, row) => (
           <span
-            className={`text-xs font-bold font-mono ${row.status === 'Refunded'
+            className={`text-xs font-bold font-sans ${row.status === 'Refunded'
               ? 'text-rose-600 line-through'
               : 'text-emerald-700 dark:text-emerald-400'
               }`}
@@ -760,7 +760,7 @@ export default function Payments() {
                     onChange={(e) =>
                       setPaymentForm({ ...paymentForm, txnRef: e.target.value.toUpperCase() })
                     }
-                    className="w-full text-xs font-mono rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs font-sans rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -805,7 +805,7 @@ export default function Payments() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[#027A48] hover:bg-[#02683E]   transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[ #7b4dff] hover:bg-[#02683E]   transition-colors cursor-pointer"
                 >
                   Save & Issue Receipt
                 </button>
@@ -845,7 +845,7 @@ export default function Payments() {
                 <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
                   Amount Received
                 </span>
-                <p className="text-2xl font-extrabold text-emerald-700 dark:text-emerald-400 font-mono mt-1">
+                <p className="text-2xl font-extrabold text-emerald-700 dark:text-emerald-400 font-sans mt-1">
                   KES {viewingPayment.amount.toLocaleString()}
                 </p>
                 <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800">
@@ -860,7 +860,7 @@ export default function Payments() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Linked Invoice:</span>
-                  <span className="font-mono font-semibold text-blue-600">{viewingPayment.invoiceId}</span>
+                  <span className="font-sans font-semibold text-blue-600">{viewingPayment.invoiceId}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Date & Time:</span>
@@ -889,7 +889,7 @@ export default function Payments() {
               <button
                 type="button"
                 onClick={() => setViewingPayment(null)}
-                className="px-3.5 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-3.5 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Done
               </button>
@@ -949,7 +949,7 @@ export default function Payments() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>

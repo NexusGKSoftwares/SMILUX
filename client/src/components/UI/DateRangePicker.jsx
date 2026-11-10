@@ -194,7 +194,7 @@ function CalendarMonthView({
                       disabled={disabled}
                       onClick={() => onPick(date)}
                       className={`h-7 w-7 rounded text-xs font-medium flex items-center justify-center transition-all cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed ${isStart || isEnd
-                        ? 'bg-[#027A48] text-white font-bold   hover:bg-[#02683E]'
+                        ? 'bg-[ #7b4dff] text-white font-bold   hover:bg-[#02683E]'
                         : inRange
                           ? 'text-emerald-900 dark:text-emerald-200 hover:bg-emerald-100/70 dark:hover:bg-emerald-900/50'
                           : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -496,7 +496,7 @@ export default function DateRangePicker({
                   type="button"
                   onClick={() => handleSelectPreset(preset)}
                   className={`px-2.5 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-colors cursor-pointer select-none shrink-0 ${isActive
-                    ? 'bg-[#027A48] text-white  '
+                    ? 'bg-[ #7b4dff] text-white  '
                     : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-750 hover:text-slate-900 dark:hover:text-white'
                     }`}
                 >
@@ -656,7 +656,7 @@ export default function DateRangePicker({
                 type="button"
                 disabled={!activeRange}
                 onClick={handleApply}
-                className="px-3.5 py-1 rounded text-xs font-semibold text-white bg-[#027A48] hover:bg-[#02683E] disabled:opacity-40   transition-colors cursor-pointer"
+                className="px-3.5 py-1 rounded text-xs font-semibold text-white bg-[ #7b4dff] hover:bg-[#02683E] disabled:opacity-40   transition-colors cursor-pointer"
               >
                 Apply
               </button>

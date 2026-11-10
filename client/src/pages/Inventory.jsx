@@ -353,7 +353,7 @@ export default function Inventory() {
               <HugeiconsIcon icon={DentalToothIcon} size={13} className="text-emerald-700 dark:text-emerald-400" />
               {row.id}
             </span>
-            <span className="text-[10px] text-slate-500 font-mono mt-0.5">
+            <span className="text-[10px] text-slate-500 font-sans mt-0.5">
               {row.batchNo}
             </span>
           </div>
@@ -418,7 +418,7 @@ export default function Inventory() {
         render: (val, row) => (
           <div className="flex flex-col py-0.5">
             <span
-              className={`text-xs font-bold font-mono ${val <= row.minStock
+              className={`text-xs font-bold font-sans ${val <= row.minStock
                 ? 'text-rose-600 dark:text-rose-400'
                 : 'text-slate-900 dark:text-white'
                 }`}
@@ -438,7 +438,7 @@ export default function Inventory() {
         sortable: true,
         filterable: true,
         render: (val) => (
-          <span className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300">
+          <span className="text-xs font-sans font-semibold text-slate-700 dark:text-slate-300">
             KES {val.toLocaleString()}
           </span>
         ),
@@ -450,7 +450,7 @@ export default function Inventory() {
         sortable: false,
         filterable: false,
         render: (_, row) => (
-          <span className="text-xs font-mono font-bold text-slate-900 dark:text-white">
+          <span className="text-xs font-sans font-bold text-slate-900 dark:text-white">
             KES {(row.quantity * row.unitCost).toLocaleString()}
           </span>
         ),
@@ -747,7 +747,7 @@ export default function Inventory() {
                     placeholder="LOT-2026-99A"
                     value={itemForm.batchNo}
                     onChange={(e) => setItemForm({ ...itemForm, batchNo: e.target.value })}
-                    className="w-full text-xs font-mono rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs font-sans rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -814,7 +814,7 @@ export default function Inventory() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold rounded-lg text-white bg-[#027A48] hover:bg-[#02683E]   transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded-lg text-white bg-[ #7b4dff] hover:bg-[#02683E]   transition-colors cursor-pointer"
                 >
                   Save Stock Item
                 </button>
@@ -858,13 +858,13 @@ export default function Inventory() {
               <div className="grid grid-cols-2 gap-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Current Stock</span>
-                  <p className="font-extrabold text-emerald-700 dark:text-emerald-400 font-mono text-base mt-0.5">
+                  <p className="font-extrabold text-emerald-700 dark:text-emerald-400 font-sans text-base mt-0.5">
                     {viewingItem.quantity} {viewingItem.unit}
                   </p>
                 </div>
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Total Valuation</span>
-                  <p className="font-extrabold text-slate-900 dark:text-white font-mono text-base mt-0.5">
+                  <p className="font-extrabold text-slate-900 dark:text-white font-sans text-base mt-0.5">
                     KES {(viewingItem.quantity * viewingItem.unitCost).toLocaleString()}
                   </p>
                 </div>
@@ -890,7 +890,7 @@ export default function Inventory() {
               <button
                 type="button"
                 onClick={() => setViewingItem(null)}
-                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Close Stock Card
               </button>
@@ -950,7 +950,7 @@ export default function Inventory() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>

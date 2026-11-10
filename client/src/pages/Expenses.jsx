@@ -339,7 +339,7 @@ export default function Expenses() {
             <span className="font-semibold text-slate-800 dark:text-slate-100 truncate">
               {val}
             </span>
-            <span className="text-[10px] text-slate-400 font-mono">
+            <span className="text-[10px] text-slate-400 font-sans">
               KRA PIN: {row.vendorPin}
             </span>
           </div>
@@ -397,7 +397,7 @@ export default function Expenses() {
         render: (val, row) => (
           <div className="flex flex-col py-0.5">
             <span className="text-xs font-medium text-slate-700 dark:text-slate-300">{val}</span>
-            <span className="text-[10px] font-mono text-slate-400">{row.txnRef}</span>
+            <span className="text-[10px] font-sans text-slate-400">{row.txnRef}</span>
           </div>
         ),
       },
@@ -408,7 +408,7 @@ export default function Expenses() {
         sortable: true,
         filterable: true,
         render: (val) => (
-          <span className="text-xs font-bold text-slate-900 dark:text-white font-mono">
+          <span className="text-xs font-bold text-slate-900 dark:text-white font-sans">
             KES {val.toLocaleString()}
           </span>
         ),
@@ -642,7 +642,7 @@ export default function Expenses() {
                     onChange={(e) =>
                       setExpenseForm({ ...expenseForm, vendorPin: e.target.value.toUpperCase() })
                     }
-                    className="w-full text-xs font-mono rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs font-sans rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
               </div>
@@ -745,7 +745,7 @@ export default function Expenses() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[#027A48] hover:bg-[#02683E]   transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[ #7b4dff] hover:bg-[#02683E]   transition-colors cursor-pointer"
                 >
                   Save Expense Voucher
                 </button>
@@ -784,7 +784,7 @@ export default function Expenses() {
               <div className="p-3.5 rounded bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
                 <span className="text-[10px] text-slate-400 uppercase font-semibold">Paid To Vendor</span>
                 <p className="font-bold text-slate-900 dark:text-white text-sm mt-0.5">{viewingExpense.vendor}</p>
-                <p className="text-[10px] text-slate-500 font-mono">KRA PIN: {viewingExpense.vendorPin}</p>
+                <p className="text-[10px] text-slate-500 font-sans">KRA PIN: {viewingExpense.vendorPin}</p>
               </div>
 
               <div>
@@ -799,7 +799,7 @@ export default function Expenses() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Payment Channel:</span>
-                  <span className="font-mono">{viewingExpense.paymentMethod} ({viewingExpense.txnRef})</span>
+                  <span className="font-sans">{viewingExpense.paymentMethod} ({viewingExpense.txnRef})</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Tax Compliance:</span>
@@ -811,7 +811,7 @@ export default function Expenses() {
                 </div>
                 <div className="flex justify-between text-sm font-bold text-slate-900 dark:text-white border-t border-slate-200 dark:border-slate-700 pt-2">
                   <span>Total Disbursed:</span>
-                  <span className="font-mono text-emerald-700 dark:text-emerald-400">
+                  <span className="font-sans text-emerald-700 dark:text-emerald-400">
                     KES {viewingExpense.amount.toLocaleString()}
                   </span>
                 </div>
@@ -822,7 +822,7 @@ export default function Expenses() {
               <button
                 type="button"
                 onClick={() => setViewingExpense(null)}
-                className="px-4 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Close Voucher
               </button>
@@ -882,7 +882,7 @@ export default function Expenses() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>

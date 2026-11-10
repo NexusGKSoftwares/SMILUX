@@ -392,7 +392,7 @@ export default function PurchaseOrders() {
             selectedIds.length === filteredOrders.length
           }
           onChange={handleToggleSelectAll}
-          className="rounded border-slate-300 dark:border-slate-600 text-[#027A48] focus:ring-0 cursor-pointer"
+          className="rounded border-slate-300 dark:border-slate-600 text-[ #7b4dff] focus:ring-0 cursor-pointer"
         />
       ),
       width: '44px',
@@ -403,7 +403,7 @@ export default function PurchaseOrders() {
           checked={selectedIds.includes(row?.id)}
           onChange={() => handleToggleSelectOne(row?.id)}
           onClick={(e) => e.stopPropagation()}
-          className="rounded border-slate-300 dark:border-slate-600 text-[#027A48] focus:ring-0 cursor-pointer"
+          className="rounded border-slate-300 dark:border-slate-600 text-[ #7b4dff] focus:ring-0 cursor-pointer"
         />
       ),
     },
@@ -415,7 +415,7 @@ export default function PurchaseOrders() {
       width: '140px',
       render: (val, row) => (
         <div className="flex flex-col">
-          <span className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-100 hover:text-[#027A48] transition-colors cursor-pointer" onClick={() => handleViewLPO(row)}>
+          <span className="font-sans text-xs font-semibold text-slate-800 dark:text-slate-100 hover:text-[ #7b4dff] transition-colors cursor-pointer" onClick={() => handleViewLPO(row)}>
             {val || row?.id}
           </span>
           <span className="text-[10px] text-slate-500">
@@ -434,7 +434,7 @@ export default function PurchaseOrders() {
           <span className="font-medium text-slate-900 dark:text-slate-100 truncate">
             {row?.supplierName}
           </span>
-          <span className="text-[10px] text-slate-400 font-mono">
+          <span className="text-[10px] text-slate-400 font-sans">
             ID: {row?.supplierId}
           </span>
         </div>
@@ -449,7 +449,7 @@ export default function PurchaseOrders() {
           <span className="text-xs text-slate-600 dark:text-slate-300 truncate">
             {val || row?.itemsSummary}
           </span>
-          <span className="shrink-0 px-1.5 py-0.5 rounded text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 font-mono">
+          <span className="shrink-0 px-1.5 py-0.5 rounded text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700 font-sans">
             {row?.itemsCount} lines
           </span>
         </div>
@@ -464,7 +464,7 @@ export default function PurchaseOrders() {
       render: (val, row) => {
         const amount = typeof val === 'number' ? val : (row?.totalAmount || 0);
         return (
-          <span className="font-mono text-xs font-bold text-slate-900 dark:text-slate-100">
+          <span className="font-sans text-xs font-bold text-slate-900 dark:text-slate-100">
             KES {amount.toLocaleString()}
           </span>
         );
@@ -489,7 +489,7 @@ export default function PurchaseOrders() {
       render: (val, row) => {
         const grn = val || row?.grnRef || '';
         return (
-          <span className={`text-xs font-mono font-medium ${grn.startsWith('GRN') ? 'text-[#027A48]' : 'text-slate-400'}`}>
+          <span className={`text-xs font-sans font-medium ${grn.startsWith('GRN') ? 'text-[ #7b4dff]' : 'text-slate-400'}`}>
             {grn}
           </span>
         );
@@ -535,7 +535,7 @@ export default function PurchaseOrders() {
         const status = val || row?.status;
         let badgeCls = 'bg-slate-100 text-slate-700 border-slate-200';
         if (status === 'Received') {
-          badgeCls = 'bg-[#ECFDF3] text-[#027A48] border-[#A6F4C5] dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800';
+          badgeCls = 'bg-[#ECFDF3] text-[ #7b4dff] border-[#A6F4C5] dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800';
         } else if (status === 'In Transit') {
           badgeCls = 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300';
         } else if (status === 'Issued to Vendor') {
@@ -691,7 +691,7 @@ export default function PurchaseOrders() {
               <button
                 type="button"
                 onClick={() => setIsCreateModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#027A48] rounded-lg hover:bg-[#02683E] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[ #7b4dff] rounded-lg hover:bg-[#02683E] transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={PlusSignIcon} className="w-4 h-4" />
                 Create First LPO
@@ -707,7 +707,7 @@ export default function PurchaseOrders() {
           <div className="bg-white dark:bg-slate-850 rounded-xl   w-full max-w-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[#027A48]">
+                <div className="w-8 h-8 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[ #7b4dff]">
                   <HugeiconsIcon icon={Invoice01Icon} className="w-4 h-4" />
                 </div>
                 <div>
@@ -751,7 +751,7 @@ export default function PurchaseOrders() {
                         supplierId: idMap[name] || 'SUP-KEN-100',
                       });
                     }}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   >
                     <option value="Nairobi Dental Supplies Ltd">Nairobi Dental Supplies Ltd</option>
                     <option value="MedPlus Surgical & Pharma Ltd">MedPlus Surgical & Pharma Ltd</option>
@@ -768,7 +768,7 @@ export default function PurchaseOrders() {
                   <select
                     value={formData.priority}
                     onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   >
                     <option value="Standard Restock">Standard Restock</option>
                     <option value="Urgent / Chairside">Urgent / Chairside Emergency</option>
@@ -784,7 +784,7 @@ export default function PurchaseOrders() {
                     type="date"
                     value={formData.expectedDelivery}
                     onChange={(e) => setFormData({ ...formData, expectedDelivery: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -796,7 +796,7 @@ export default function PurchaseOrders() {
                     type="text"
                     value={formData.approvedBy}
                     onChange={(e) => setFormData({ ...formData, approvedBy: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
               </div>
@@ -810,7 +810,7 @@ export default function PurchaseOrders() {
                   <button
                     type="button"
                     onClick={handleAddItemRow}
-                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#027A48] hover:underline cursor-pointer"
+                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-[ #7b4dff] hover:underline cursor-pointer"
                   >
                     <HugeiconsIcon icon={PlusSignIcon} className="w-3.5 h-3.5" />
                     Add Item
@@ -828,23 +828,23 @@ export default function PurchaseOrders() {
                         placeholder="Item Description (e.g. Septanest Articaine 4%)"
                         value={item.name}
                         onChange={(e) => handleItemChange(idx, 'name', e.target.value)}
-                        className="flex-1 px-2.5 py-1 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                        className="flex-1 px-2.5 py-1 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                       />
                       <input
                         type="number"
                         placeholder="Qty"
                         value={item.qty}
                         onChange={(e) => handleItemChange(idx, 'qty', e.target.value)}
-                        className="w-16 px-2.5 py-1 text-xs text-right rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                        className="w-16 px-2.5 py-1 text-xs text-right rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                       />
                       <input
                         type="number"
                         placeholder="Price"
                         value={item.unitCost}
                         onChange={(e) => handleItemChange(idx, 'unitCost', e.target.value)}
-                        className="w-24 px-2.5 py-1 text-xs text-right font-mono rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                        className="w-24 px-2.5 py-1 text-xs text-right font-sans rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                       />
-                      <div className="w-28 text-right font-mono text-xs font-semibold text-slate-800 dark:text-slate-200">
+                      <div className="w-28 text-right font-sans text-xs font-semibold text-slate-800 dark:text-slate-200">
                         KES {((Number(item.qty) || 0) * (Number(item.unitCost) || 0)).toLocaleString()}
                       </div>
                       <button
@@ -862,7 +862,7 @@ export default function PurchaseOrders() {
                 <div className="flex justify-end pt-3">
                   <div className="text-right">
                     <span className="text-xs text-slate-500 block">Estimated LPO Subtotal</span>
-                    <span className="text-base font-bold font-mono text-slate-900 dark:text-slate-100">
+                    <span className="text-base font-bold font-sans text-slate-900 dark:text-slate-100">
                       KES{' '}
                       {formData.items
                         .reduce((acc, curr) => acc + (Number(curr.qty) || 0) * (Number(curr.unitCost) || 0), 0)
@@ -882,7 +882,7 @@ export default function PurchaseOrders() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E]   cursor-pointer"
+                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E]   cursor-pointer"
                 >
                   Issue Purchase Order
                 </button>
@@ -898,11 +898,11 @@ export default function PurchaseOrders() {
           <div className="bg-white dark:bg-slate-850 rounded-xl   w-full max-w-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[#027A48]">
+                <div className="w-10 h-10 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[ #7b4dff]">
                   <HugeiconsIcon icon={Invoice01Icon} className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 font-mono">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 font-sans">
                     {activeLPO.id}
                   </h3>
                   <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-0.5">
@@ -910,7 +910,7 @@ export default function PurchaseOrders() {
                     <span>•</span>
                     <span className="font-semibold text-slate-700 dark:text-slate-300">{activeLPO.supplierName}</span>
                     <span>•</span>
-                    <span className="text-[#027A48] font-medium">{activeLPO.status}</span>
+                    <span className="text-[ #7b4dff] font-medium">{activeLPO.status}</span>
                   </div>
                 </div>
               </div>
@@ -930,7 +930,7 @@ export default function PurchaseOrders() {
                   <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
                     Total Order Value
                   </span>
-                  <span className="text-base font-bold font-mono text-slate-900 dark:text-slate-100 mt-1 block">
+                  <span className="text-base font-bold font-sans text-slate-900 dark:text-slate-100 mt-1 block">
                     KES {activeLPO.totalAmount.toLocaleString()}
                   </span>
                   <span className="text-[10px] text-slate-500 mt-0.5 block">
@@ -942,7 +942,7 @@ export default function PurchaseOrders() {
                   <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
                     Receiving Reference (GRN)
                   </span>
-                  <span className="text-base font-bold font-mono text-slate-900 dark:text-slate-100 mt-1 block">
+                  <span className="text-base font-bold font-sans text-slate-900 dark:text-slate-100 mt-1 block">
                     {activeLPO.grnRef}
                   </span>
                   <span className="text-[10px] text-emerald-600 dark:text-emerald-400 mt-0.5 block">
@@ -975,11 +975,11 @@ export default function PurchaseOrders() {
                     <div key={idx} className="flex items-center justify-between px-4 py-2.5 text-xs">
                       <div>
                         <p className="font-medium text-slate-800 dark:text-slate-200">{line.name}</p>
-                        <p className="text-[11px] text-slate-400 font-mono">
+                        <p className="text-[11px] text-slate-400 font-sans">
                           {line.qty} units @ KES {line.unitCost.toLocaleString()}
                         </p>
                       </div>
-                      <span className="font-mono font-bold text-slate-900 dark:text-slate-100">
+                      <span className="font-sans font-bold text-slate-900 dark:text-slate-100">
                         KES {line.total.toLocaleString()}
                       </span>
                     </div>
@@ -1016,7 +1016,7 @@ export default function PurchaseOrders() {
                         setIsDetailModalOpen(false);
                         handleOpenReceiveModal(activeLPO);
                       }}
-                      className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                      className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
                     >
                       Receive Goods (GRN)
                     </button>
@@ -1041,7 +1041,7 @@ export default function PurchaseOrders() {
           <div className="bg-white dark:bg-slate-850 rounded-xl   w-full max-w-lg border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[#027A48]">
+                <div className="w-8 h-8 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[ #7b4dff]">
                   <HugeiconsIcon icon={PackageReceiveIcon} className="w-4 h-4" />
                 </div>
                 <div>
@@ -1080,7 +1080,7 @@ export default function PurchaseOrders() {
                   <input
                     type="text"
                     defaultValue="DN-99401-NDS"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 font-mono focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 font-sans focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -1090,7 +1090,7 @@ export default function PurchaseOrders() {
                   </label>
                   <select
                     defaultValue="Intact / Full Batch Verified"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   >
                     <option value="Intact / Full Batch Verified">Intact / Full Batch Verified & Sealed</option>
                     <option value="Partial Delivery">Partial Delivery (Balance Backordered)</option>
@@ -1105,7 +1105,7 @@ export default function PurchaseOrders() {
                   <input
                     type="text"
                     defaultValue="Cabinet A1 (Chairside Restoratives)"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#027A48]"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
               </div>
@@ -1121,7 +1121,7 @@ export default function PurchaseOrders() {
                 <button
                   type="button"
                   onClick={handleConfirmGRN}
-                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E]   cursor-pointer"
+                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E]   cursor-pointer"
                 >
                   Confirm & Update Stock
                 </button>
@@ -1191,7 +1191,7 @@ export default function PurchaseOrders() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#027A48] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>
