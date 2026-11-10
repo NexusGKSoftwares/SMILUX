@@ -13,7 +13,7 @@ import {
   ViewIcon,
   CheckmarkCircle01Icon,
 } from '@hugeicons/core-free-icons';
-
+import Button from './Button';
 /**
  * Enterprise DataTable Component
  *
@@ -486,19 +486,23 @@ export default function DataTable({
               <HugeiconsIcon icon={FilterIcon} size={11} />
               <span>{activeFiltersCount} active filter{activeFiltersCount > 1 ? 's' : ''}</span>
             </span>
-            <button
+            <Button
+              variant="outline"
+            size="sm"
               type="button"
               onClick={clearAllFilters}
               className="text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 hover:underline cursor-pointer text-[11px]"
             >
               Reset all
-            </button>
+            </Button>
           </div>
         ) : null;
 
       case 'filterToggle':
         return (
-          <button
+          <Button
+              variant="outline"
+            size="sm"
             key="filterToggle"
             type="button"
             title="Toggle column filter inputs"
@@ -510,13 +514,15 @@ export default function DataTable({
           >
             <HugeiconsIcon icon={FilterIcon} size={13} />
             <span className="hidden sm:inline">Filters</span>
-          </button>
+          </Button>
         );
 
       case 'densitySelector':
         return (
           <div key="densitySelector" className="inline-flex rounded border border-slate-200/70 dark:border-slate-700/70 p-0.5 bg-white dark:bg-slate-900 text-[11px] ">
-            <button
+            <Button
+              variant="outline"
+            size="sm"
               type="button"
               title="Compact Rows"
               onClick={() => setDensity('compact')}
@@ -526,8 +532,10 @@ export default function DataTable({
                 }`}
             >
               Compact
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
+            size="sm"
               type="button"
               title="Normal Default Rows"
               onClick={() => setDensity('normal')}
@@ -537,8 +545,10 @@ export default function DataTable({
                 }`}
             >
               Normal
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
+            size="sm"
               type="button"
               title="Cozy Rows"
               onClick={() => setDensity('relaxed')}
@@ -548,22 +558,23 @@ export default function DataTable({
                 }`}
             >
               Cozy
-            </button>
+            </Button>
           </div>
         );
 
       case 'columnVisibility':
         return (
           <div key="columnVisibility" className="relative" ref={colMenuRef}>
-            <button
+            <Button
               type="button"
               title="Select columns to show or hide"
               onClick={() => setIsColMenuOpen((prev) => !prev)}
-              className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs border border-slate-200/70 dark:border-slate-700/70 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium cursor-pointer "
+               variant="outline"
+            size="sm"
             >
               <HugeiconsIcon icon={ViewIcon} size={13} />
               <span className="hidden sm:inline">Columns</span>
-            </button>
+            </Button>
 
             {isColMenuOpen && (
               <div className="absolute right-0 top-full mt-1.5 w-56 max-h-72 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700/80 rounded p-2 z-50 animate-in fade-in-0 zoom-in-95 ">
@@ -606,16 +617,17 @@ export default function DataTable({
 
       case 'exportButton':
         return (
-          <button
+          <Button
             key="exportButton"
             type="button"
             title="Export filtered table data to CSV"
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs border border-slate-200/70 dark:border-slate-700/70 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium cursor-pointer "
-          >
+            variant="outline"
+            size="sm"
+            >
             <HugeiconsIcon icon={Download01Icon} size={13} />
             <span className="hidden sm:inline">Export</span>
-          </button>
+          </Button>
         );
 
       case 'paginationInfo': {
@@ -764,7 +776,7 @@ export default function DataTable({
   };
 
   return (
-    <div className={`w-full flex flex-col font-sans bg-white dark:bg-slate-900 rounded border border-slate-200/70 dark:border-slate-800/70  overflow-hidden ${className}`}>
+    <div className={`w-full flex flex-col font-sans bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800/70  overflow-hidden ${className}`}>
       {/* ─── Top Placement Toolbar (Clean White Background) ─────────────── */}
       {renderTopToolbar ? (
         renderTopToolbar({
@@ -780,7 +792,7 @@ export default function DataTable({
           selectedRowsCount: activeSelectedKeys.length,
         })
       ) : (
-        <div className="flex flex-wrap items-center justify-between gap-2.5 p-2 sm:p-2.5 bg-white dark:bg-slate-900 border-b border-slate-200/60 dark:border-slate-800/60 ">
+        <div className="flex flex-wrap items-center justify-between gap-2 p-2 sm:p-2.5 bg-white dark:bg-slate-900 border-b border-slate-200/60 dark:border-slate-800/60 ">
           <div className="flex flex-wrap items-center gap-2 flex-1 min-w-[200px]">
             {layout.topStart?.map(renderPlacementElement)}
             {topToolbarContent}
