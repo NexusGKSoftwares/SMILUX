@@ -76,6 +76,9 @@ function CartIcon({ className = 'w-4 h-4 text-[#7B4DFF] shrink-0' }) {
  */
 export default function PlansModal({ isOpen, onClose }) {
   const [billingCycle, setBillingCycle] = useState('annual');
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, ready: false });
+  const monthlyBtnRef = useRef(null);
+  const annualBtnRef = useRef(null);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -85,6 +88,26 @@ export default function PlansModal({ isOpen, onClose }) {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const updateIndicator = () => {
+      const activeBtn = billingCycle === 'monthly' ? monthlyBtnRef.current : annualBtnRef.current;
+      if (activeBtn) {
+        setIndicatorStyle({
+          left: activeBtn.offsetLeft,
+          width: activeBtn.offsetWidth,
+          ready: true,
+        });
+      }
+    };
+    const id = requestAnimationFrame(updateIndicator);
+    window.addEventListener('resize', updateIndicator);
+    return () => {
+      cancelAnimationFrame(id);
+      window.removeEventListener('resize', updateIndicator);
+    };
+  }, [billingCycle, isOpen]);
 
   if (!isOpen) return null;
 
@@ -166,31 +189,45 @@ export default function PlansModal({ isOpen, onClose }) {
             </h3>
 
             <div className="flex items-center gap-4">
-              {/* Annual / Monthly Billing Toggle */}
-              <div className="inline-flex items-center p-0.5 rounded-full bg-white/90 border border-purple-200/90 shadow-[0px_1px_2px_rgba(0,0,0,0.05)] select-none">
+              {/* Annual / Monthly Billing Toggle with smooth sliding motion */}
+              <div className="relative inline-flex items-center p-0.5 rounded-full bg-white/90 border border-purple-200/90 shadow-[0px_1px_2px_rgba(0,0,0,0.05)] select-none">
+                {/* Gliding active pill indicator */}
+                <span
+                  aria-hidden="true"
+                  style={{
+                    transform: `translateX(${indicatorStyle.left}px)`,
+                    width: `${indicatorStyle.width}px`,
+                  }}
+                  className={`absolute top-0.5 bottom-0.5 left-0 rounded-full bg-[#7B4DFF] shadow-xs pointer-events-none ${
+                    indicatorStyle.ready ? 'transition-all duration-300 ease-out' : 'opacity-0'
+                  }`}
+                />
+
                 <button
+                  ref={monthlyBtnRef}
                   type="button"
                   onClick={() => setBillingCycle('monthly')}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`relative z-10 px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-200 cursor-pointer ${
                     billingCycle === 'monthly'
-                      ? 'bg-[#7B4DFF] text-white shadow-xs'
+                      ? 'text-white'
                       : 'text-slate-600 hover:text-slate-900 bg-transparent'
                   }`}
                 >
                   Monthly
                 </button>
                 <button
+                  ref={annualBtnRef}
                   type="button"
                   onClick={() => setBillingCycle('annual')}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`relative z-10 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-200 cursor-pointer ${
                     billingCycle === 'annual'
-                      ? 'bg-[#7B4DFF] text-white shadow-xs'
+                      ? 'text-white'
                       : 'text-slate-600 hover:text-slate-900 bg-transparent'
                   }`}
                 >
                   <span>Annual</span>
                   <span
-                    className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none transition-colors ${
+                    className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none transition-all duration-200 ${
                       billingCycle === 'annual'
                         ? 'bg-white/25 text-white'
                         : 'bg-emerald-100 text-emerald-700'
@@ -239,12 +276,18 @@ export default function PlansModal({ isOpen, onClose }) {
 
                 {/* Pricing & Billing */}
                 <div className="flex flex-col gap-2">
-                  <div className="flex items-baseline">
-                    <span className="text-[32px] leading-[40px] font-bold text-[#5733be]">
+                  <div className="flex items-baseline overflow-hidden">
+                    <span
+                      key={billingCycle}
+                      className="inline-block text-[32px] leading-[40px] font-bold text-[#5733be] animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out"
+                    >
                       {billingCycle === 'annual' ? '$29' : '$36'}
                     </span>
                   </div>
-                  <p className="text-[13px] leading-[20px] font-normal text-[#595959]">
+                  <p
+                    key={`p1-${billingCycle}`}
+                    className="text-[13px] leading-[20px] font-normal text-[#595959] animate-in fade-in duration-300 ease-out"
+                  >
                     Per dental chair, per month, {billingCycle === 'annual' ? 'billed annually' : 'billed monthly'}
                   </p>
                 </div>
@@ -304,12 +347,18 @@ export default function PlansModal({ isOpen, onClose }) {
 
                 {/* Pricing & Billing */}
                 <div className="flex flex-col gap-2">
-                  <div className="flex items-baseline">
-                    <span className="text-[32px] leading-[40px] font-bold text-[#5733be]">
+                  <div className="flex items-baseline overflow-hidden">
+                    <span
+                      key={billingCycle}
+                      className="inline-block text-[32px] leading-[40px] font-bold text-[#5733be] animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out"
+                    >
                       {billingCycle === 'annual' ? '$59' : '$74'}
                     </span>
                   </div>
-                  <p className="text-[13px] leading-[20px] font-normal text-[#595959]">
+                  <p
+                    key={`p2-${billingCycle}`}
+                    className="text-[13px] leading-[20px] font-normal text-[#595959] animate-in fade-in duration-300 ease-out"
+                  >
                     Per dental chair, per month, {billingCycle === 'annual' ? 'billed annually only*' : 'billed monthly*'}
                   </p>
                 </div>
@@ -369,12 +418,18 @@ export default function PlansModal({ isOpen, onClose }) {
 
                 {/* Pricing & Billing */}
                 <div className="flex flex-col gap-2">
-                  <div className="flex items-baseline">
-                    <span className="text-[32px] leading-[40px] font-bold text-[#5733be]">
+                  <div className="flex items-baseline overflow-hidden">
+                    <span
+                      key={billingCycle}
+                      className="inline-block text-[32px] leading-[40px] font-bold text-[#5733be] animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out"
+                    >
                       {billingCycle === 'annual' ? '$99' : '$124'}
                     </span>
                   </div>
-                  <p className="text-[13px] leading-[20px] font-normal text-[#595959]">
+                  <p
+                    key={`p3-${billingCycle}`}
+                    className="text-[13px] leading-[20px] font-normal text-[#595959] animate-in fade-in duration-300 ease-out"
+                  >
                     Per dental chair, per month, {billingCycle === 'annual' ? 'billed annually only*' : 'billed monthly*'}
                   </p>
                 </div>
