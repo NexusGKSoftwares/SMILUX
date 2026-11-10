@@ -19,7 +19,7 @@ import {
  *
  * Highlights:
  * 1. Clean, pure white backgrounds throughout the entire datatable
- * 2. Subtle, ultra-clean 1px borders with zero heavy/thick lines
+ * 2. Subtle, ultra-clean and very thin borders with zero heavy/thick lines
  * 3. Default 'normal' density for optimal readability and comfort
  * 4. Filters in every column (text, select dropdown, number, boolean)
  * 5. Super fast memoized paging with custom jump-to-page & page-size options
@@ -27,6 +27,7 @@ import {
  * 7. Mobile friendly with smooth horizontal touch scroll
  * 8. Fixed sticky header on vertical scroll
  * 9. Pinned sticky first column & sticky last column on horizontal scroll
+ * 10. Clean flat design with all shadows removed
  */
 export default function DataTable({
   data = [],
@@ -464,7 +465,7 @@ export default function DataTable({
                 setGlobalSearch(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full pl-8 pr-7 py-1 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500"
+              className="w-full pl-8 pr-7 py-1 text-xs rounded border border-slate-200/80 dark:border-slate-700/80 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-500 shadow-none"
             />
             {globalSearch && (
               <button
@@ -481,7 +482,7 @@ export default function DataTable({
       case 'activeFiltersBadge':
         return activeFiltersCount > 0 ? (
           <div key="activeFiltersBadge" className="flex items-center gap-1.5 text-xs">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-medium">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-800/70 font-medium shadow-none">
               <HugeiconsIcon icon={FilterIcon} size={11} />
               <span>{activeFiltersCount} active filter{activeFiltersCount > 1 ? 's' : ''}</span>
             </span>
@@ -502,9 +503,9 @@ export default function DataTable({
             type="button"
             title="Toggle column filter inputs"
             onClick={() => setShowColumnFilters((prev) => !prev)}
-            className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs border font-medium transition-colors cursor-pointer ${showColumnFilters
-              ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
-              : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700'
+            className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs border font-medium transition-colors cursor-pointer shadow-none ${showColumnFilters
+              ? 'bg-emerald-50 text-emerald-800 border-emerald-200/70 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/70'
+              : 'bg-white text-slate-700 border-slate-200/70 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700/70'
               }`}
           >
             <HugeiconsIcon icon={FilterIcon} size={13} />
@@ -514,7 +515,7 @@ export default function DataTable({
 
       case 'densitySelector':
         return (
-          <div key="densitySelector" className="inline-flex rounded border border-slate-200 dark:border-slate-700 p-0.5 bg-white dark:bg-slate-900 text-[11px]">
+          <div key="densitySelector" className="inline-flex rounded border border-slate-200/70 dark:border-slate-700/70 p-0.5 bg-white dark:bg-slate-900 text-[11px] shadow-none">
             <button
               type="button"
               title="Compact Rows"
@@ -558,15 +559,15 @@ export default function DataTable({
               type="button"
               title="Select columns to show or hide"
               onClick={() => setIsColMenuOpen((prev) => !prev)}
-              className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium cursor-pointer"
+              className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs border border-slate-200/70 dark:border-slate-700/70 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium cursor-pointer shadow-none"
             >
               <HugeiconsIcon icon={ViewIcon} size={13} />
               <span className="hidden sm:inline">Columns</span>
             </button>
 
             {isColMenuOpen && (
-              <div className="absolute right-0 top-full mt-1.5 w-56 max-h-72 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded   p-2 z-50 animate-in fade-in-0 zoom-in-95">
-                <div className="text-[11px] font-bold text-slate-500 uppercase px-2 py-1 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+              <div className="absolute right-0 top-full mt-1.5 w-56 max-h-72 overflow-y-auto bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700/80 rounded p-2 z-50 animate-in fade-in-0 zoom-in-95 shadow-none">
+                <div className="text-[11px] font-bold text-slate-500 uppercase px-2 py-1 border-b border-slate-100 dark:border-slate-800/60 flex justify-between items-center">
                   <span>Toggle Columns</span>
                   <button
                     type="button"
@@ -592,7 +593,7 @@ export default function DataTable({
                         onChange={(e) =>
                           setVisibleColumns({ ...visibleColumns, [col.key]: e.target.checked })
                         }
-                        className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                        className="rounded border-slate-300 text-emerald-600 focus:ring-0 focus:ring-offset-0 shadow-none"
                       />
                       <span className="truncate">{col.title || (typeof col.header === 'string' ? col.header : col.key)}</span>
                     </label>
@@ -610,7 +611,7 @@ export default function DataTable({
             type="button"
             title="Export filtered table data to CSV"
             onClick={handleExportCSV}
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium cursor-pointer"
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs border border-slate-200/70 dark:border-slate-700/70 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium cursor-pointer shadow-none"
           >
             <HugeiconsIcon icon={Download01Icon} size={13} />
             <span className="hidden sm:inline">Export</span>
@@ -653,7 +654,7 @@ export default function DataTable({
                 setPageSize(val);
                 setCurrentPage(1);
               }}
-              className="py-0.5 px-2 text-xs font-medium rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600 cursor-pointer"
+              className="py-0.5 px-2 text-xs font-medium rounded border border-slate-200/70 dark:border-slate-700/70 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600 cursor-pointer shadow-none"
             >
               {pageSizeOptions.map((opt) => (
                 <option key={opt} value={opt}>
@@ -686,7 +687,7 @@ export default function DataTable({
               placeholder={String(currentPage)}
               value={jumpPageInput}
               onChange={(e) => setJumpPageInput(e.target.value)}
-              className="w-12 py-0.5 px-1.5 text-center text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600"
+              className="w-12 py-0.5 px-1.5 text-center text-xs rounded border border-slate-200/70 dark:border-slate-700/70 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600 shadow-none"
             />
           </form>
         ) : null;
@@ -699,7 +700,7 @@ export default function DataTable({
               title="First Page"
               disabled={currentPage <= 1}
               onClick={() => setCurrentPage(1)}
-              className="p-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer"
+              className="p-1 rounded border border-slate-200/70 dark:border-slate-700/70 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer shadow-none"
             >
               <HugeiconsIcon icon={ArrowLeftDoubleIcon} size={14} />
             </button>
@@ -708,7 +709,7 @@ export default function DataTable({
               title="Previous Page"
               disabled={currentPage <= 1}
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              className="p-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer"
+              className="p-1 rounded border border-slate-200/70 dark:border-slate-700/70 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer shadow-none"
             >
               <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />
             </button>
@@ -722,7 +723,7 @@ export default function DataTable({
               title="Next Page"
               disabled={currentPage >= totalPages}
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              className="p-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer"
+              className="p-1 rounded border border-slate-200/70 dark:border-slate-700/70 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer shadow-none"
             >
               <HugeiconsIcon icon={ArrowRight01Icon} size={14} />
             </button>
@@ -731,7 +732,7 @@ export default function DataTable({
               title="Last Page"
               disabled={currentPage >= totalPages}
               onClick={() => setCurrentPage(totalPages)}
-              className="p-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer"
+              className="p-1 rounded border border-slate-200/70 dark:border-slate-700/70 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer shadow-none"
             >
               <HugeiconsIcon icon={ArrowRightDoubleIcon} size={14} />
             </button>
@@ -751,11 +752,11 @@ export default function DataTable({
     let classes = '';
 
     if (isFirst) {
-      classes += ' sticky left-0 z-10 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 ';
+      classes += ' sticky left-0 z-10 bg-white dark:bg-slate-900 border-r border-slate-200/60 dark:border-slate-800/60 shadow-none ';
       if (isHeader) classes += ' !z-30 ';
     }
     if (isLast) {
-      classes += ' sticky right-0 z-10 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 ';
+      classes += ' sticky right-0 z-10 bg-white dark:bg-slate-900 border-l border-slate-200/60 dark:border-slate-800/60 shadow-none ';
       if (isHeader) classes += ' !z-30 ';
     }
 
@@ -763,7 +764,7 @@ export default function DataTable({
   };
 
   return (
-    <div className={`w-full flex flex-col font-sans bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800   overflow-hidden ${className}`}>
+    <div className={`w-full flex flex-col font-sans bg-white dark:bg-slate-900 rounded border border-slate-200/70 dark:border-slate-800/70 shadow-none overflow-hidden ${className}`}>
       {/* ─── Top Placement Toolbar (Clean White Background) ─────────────── */}
       {renderTopToolbar ? (
         renderTopToolbar({
@@ -779,7 +780,7 @@ export default function DataTable({
           selectedRowsCount: activeSelectedKeys.length,
         })
       ) : (
-        <div className="flex flex-wrap items-center justify-between gap-2.5 p-2 sm:p-2.5 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 p-2 sm:p-2.5 bg-white dark:bg-slate-900 border-b border-slate-200/60 dark:border-slate-800/60 shadow-none">
           <div className="flex flex-wrap items-center gap-2 flex-1 min-w-[200px]">
             {layout.topStart?.map(renderPlacementElement)}
             {topToolbarContent}
@@ -792,21 +793,21 @@ export default function DataTable({
 
       {/* ─── Table Viewport (Clean White Background) ────────────────────── */}
       <div
-        className="relative w-full overflow-x-auto overflow-y-auto no-scrollbar scroll-smooth bg-white dark:bg-slate-900"
+        className="relative w-full overflow-x-auto overflow-y-auto no-scrollbar scroll-smooth bg-white dark:bg-slate-900 shadow-none"
         style={{ maxHeight }}
       >
         <table
           style={{ tableLayout: 'fixed', minWidth: '100%' }}
-          className={`w-full border-collapse border border-slate-200 dark:border-slate-800 text-left bg-white dark:bg-slate-900 ${tableClassName}`}
+          className={`w-full border-collapse text-left bg-white dark:bg-slate-900 shadow-none ${tableClassName}`}
         >
           {/* ── Table Header (Fixed Sticky on vertical scroll) ── */}
-          <thead className={stickyHeader ? 'sticky top-0 z-20 bg-white dark:bg-slate-900' : 'bg-white dark:bg-slate-900'}>
-            {/* Header Titles Row (Subtle 1px border) */}
-            <tr className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 select-none">
+          <thead className={stickyHeader ? 'sticky top-0 z-20 bg-white dark:bg-slate-900 shadow-none' : 'bg-white dark:bg-slate-900 shadow-none'}>
+            {/* Header Titles Row (Subtle thin border, Zero Shadows) */}
+            <tr className="bg-white dark:bg-slate-900 border-b border-slate-200/60 dark:border-slate-800/60 text-slate-700 dark:text-slate-200 select-none shadow-none">
               {/* Optional Selection Checkbox Column */}
               {selectable && (
                 <th
-                  className={`w-9 text-center border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 ${densityStyles.header} ${stickyFirstColumn ? 'sticky left-0 z-30' : ''
+                  className={`w-9 text-center border-r border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 shadow-none ${densityStyles.header} ${stickyFirstColumn ? 'sticky left-0 z-30' : ''
                     }`}
                 >
                   <input
@@ -816,7 +817,7 @@ export default function DataTable({
                       pagedData.every((r) => activeSelectedKeys.includes(r[rowKey]))
                     }
                     onChange={handleSelectAll}
-                    className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                    className="rounded border-slate-300 text-emerald-600 focus:ring-0 focus:ring-offset-0 cursor-pointer shadow-none"
                   />
                 </th>
               )}
@@ -844,7 +845,7 @@ export default function DataTable({
                         ? 'Click to sort. Hold Shift + Click to multi-column sort'
                         : undefined
                     }
-                    className={`relative border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 tracking-tight whitespace-nowrap transition-colors ${canSort ? 'cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/60' : ''
+                    className={`relative border-r border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 tracking-tight whitespace-nowrap transition-colors shadow-none ${canSort ? 'cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/60' : ''
                       } ${densityStyles.header} ${stickyClass} ${col.headerClassName || ''}`}
                   >
                     <div className="flex items-center justify-between gap-1.5 pr-1">
@@ -875,7 +876,7 @@ export default function DataTable({
 
                           {/* Multi-column sort priority badge (1, 2, 3...) */}
                           {sortConfig.length > 1 && isSorted && (
-                            <span className="inline-flex items-center justify-center h-3.5 w-3.5 rounded-full text-[9px] font-bold bg-emerald-600 text-white">
+                            <span className="inline-flex items-center justify-center h-3.5 w-3.5 rounded-full text-[9px] font-bold bg-emerald-600 text-white shadow-none">
                               {sortOrder + 1}
                             </span>
                           )}
@@ -895,10 +896,10 @@ export default function DataTable({
                           setColumnWidths((prev) => ({ ...prev, [col.key]: defaultW }));
                         }}
                         onClick={(e) => e.stopPropagation()}
-                        className="absolute right-0 top-0 bottom-0 w-2.5 cursor-col-resize select-none group/resizer hover:bg-emerald-500/25 active:bg-emerald-500 z-10 flex items-center justify-center transition-colors"
+                        className="absolute right-0 top-0 bottom-0 w-2.5 cursor-col-resize select-none group/resizer hover:bg-emerald-500/25 active:bg-emerald-500 z-10 flex items-center justify-center transition-colors shadow-none"
                         title="Drag to resize column (Double-click to reset)"
                       >
-                        <div className="w-[1.5px] h-3.5 bg-slate-300 dark:bg-slate-700 group-hover/resizer:bg-emerald-600 transition-colors" />
+                        <div className="w-[1px] h-3.5 bg-slate-200 dark:bg-slate-700 group-hover/resizer:bg-emerald-600 transition-colors" />
                       </div>
                     )}
                   </th>
@@ -908,10 +909,10 @@ export default function DataTable({
 
             {/* ── Per-Column Filters Row (Fixed with header, Clean White BG) ── */}
             {showColumnFilters && (
-              <tr className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+              <tr className="bg-white dark:bg-slate-900 border-b border-slate-200/60 dark:border-slate-800/60 shadow-none">
                 {selectable && (
                   <th
-                    className={`border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 ${stickyFirstColumn ? 'sticky left-0 z-30' : ''
+                    className={`border-r border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 shadow-none ${stickyFirstColumn ? 'sticky left-0 z-30' : ''
                       }`}
                   />
                 )}
@@ -929,7 +930,7 @@ export default function DataTable({
                         width: `${currentWidth}px`,
                         minWidth: `${col.minWidth ? parseWidth(col.minWidth, 40) : 40}px`,
                       }}
-                      className={`p-1 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-normal ${stickyClass}`}
+                      className={`p-1 border-r border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 font-normal shadow-none ${stickyClass}`}
                     >
                       {col.filterable !== false ? (
                         col.filterType === 'select' ? (
@@ -943,10 +944,10 @@ export default function DataTable({
                                 });
                                 setCurrentPage(1);
                               }}
-                              className={`w-full rounded border font-sans text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer ${densityStyles.filterInput
+                              className={`w-full rounded border font-sans text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900 focus:outline-none focus:border-emerald-500 cursor-pointer shadow-none ${densityStyles.filterInput
                                 } ${isFiltered
                                   ? 'border-emerald-500 bg-emerald-50/30 dark:bg-emerald-950/20'
-                                  : 'border-slate-200 dark:border-slate-700'
+                                  : 'border-slate-200/70 dark:border-slate-700/70'
                                 }`}
                             >
                               <option value="all">All</option>
@@ -979,10 +980,10 @@ export default function DataTable({
                                 });
                                 setCurrentPage(1);
                               }}
-                              className={`w-full rounded border font-sans text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-emerald-500 pr-5 ${densityStyles.filterInput
+                              className={`w-full rounded border font-sans text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900 focus:outline-none focus:border-emerald-500 pr-5 shadow-none ${densityStyles.filterInput
                                 } ${isFiltered
                                   ? 'border-emerald-500 bg-emerald-50/30 dark:bg-emerald-950/20'
-                                  : 'border-slate-200 dark:border-slate-700'
+                                  : 'border-slate-200/70 dark:border-slate-700/70'
                                 }`}
                             />
                             {filterValue && (
@@ -994,7 +995,7 @@ export default function DataTable({
                                   delete updated[col.key];
                                   setColumnFilters(updated);
                                 }}
-                                className="absolute right-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs"
+                                className="absolute right-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs shadow-none"
                               >
                                 ×
                               </button>
@@ -1011,13 +1012,13 @@ export default function DataTable({
             )}
           </thead>
 
-          {/* ── Table Body (Pure White Background & Thin 1px Borders) ── */}
-          <tbody className="divide-y divide-slate-200 dark:divide-slate-800 bg-white dark:bg-slate-900">
+          {/* ── Table Body (Pure White Background, Very Thin Borders & Zero Shadows) ── */}
+          <tbody className="bg-white dark:bg-slate-900 shadow-none">
             {loading ? (
               <tr>
                 <td
                   colSpan={activeColumns.length + (selectable ? 1 : 0)}
-                  className="py-12 text-center text-slate-500 dark:text-slate-400 text-xs bg-white dark:bg-slate-900"
+                  className="py-12 text-center text-slate-500 dark:text-slate-400 text-xs bg-white dark:bg-slate-900 shadow-none"
                 >
                   <div className="inline-flex items-center gap-2">
                     <span className="h-4 w-4 rounded-full border-2 border-emerald-600 border-t-transparent animate-spin" />
@@ -1029,7 +1030,7 @@ export default function DataTable({
               <tr>
                 <td
                   colSpan={activeColumns.length + (selectable ? 1 : 0)}
-                  className="py-12 text-center text-slate-500 dark:text-slate-400 text-xs bg-white dark:bg-slate-900"
+                  className="py-12 text-center text-slate-500 dark:text-slate-400 text-xs bg-white dark:bg-slate-900 shadow-none"
                 >
                   <p className="font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     {emptyMessage}
@@ -1054,7 +1055,7 @@ export default function DataTable({
                   <tr
                     key={rowId}
                     onClick={() => onRowClick && onRowClick(row, rowIndex)}
-                    className={`border-b border-slate-200 dark:border-slate-800 transition-colors bg-white dark:bg-slate-900 ${densityStyles.rowHeight
+                    className={`border-b border-slate-200/60 dark:border-slate-800/60 transition-colors bg-white dark:bg-slate-900 shadow-none ${densityStyles.rowHeight
                       } ${isSelected
                         ? '!bg-emerald-50/60 dark:!bg-emerald-950/30'
                         : 'hover:bg-slate-50/60 dark:hover:bg-slate-800/40'
@@ -1063,7 +1064,7 @@ export default function DataTable({
                     {/* Selection Checkbox */}
                     {selectable && (
                       <td
-                        className={`text-center border-r border-slate-200 dark:border-slate-800 ${isSelected ? 'bg-emerald-50 dark:bg-emerald-950/50' : 'bg-white dark:bg-slate-900'
+                        className={`text-center border-r border-slate-200/60 dark:border-slate-800/60 shadow-none ${isSelected ? 'bg-emerald-50 dark:bg-emerald-950/50' : 'bg-white dark:bg-slate-900'
                           } ${stickyFirstColumn ? 'sticky left-0 z-10' : ''}`}
                       >
                         <input
@@ -1073,7 +1074,7 @@ export default function DataTable({
                             e.stopPropagation();
                             handleRowSelect(rowId);
                           }}
-                          className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                          className="rounded border-slate-300 text-emerald-600 focus:ring-0 focus:ring-offset-0 cursor-pointer shadow-none"
                         />
                       </td>
                     )}
@@ -1109,7 +1110,7 @@ export default function DataTable({
                             minWidth: `${col.minWidth ? parseWidth(col.minWidth, 40) : 40}px`,
                             maxWidth: col.maxWidth ? `${parseWidth(col.maxWidth, 1200)}px` : undefined,
                           }}
-                          className={`border-r border-slate-200 dark:border-slate-800 truncate ${isSelected ? 'bg-emerald-50 dark:bg-emerald-950/50' : 'bg-white dark:bg-slate-900'
+                          className={`border-r border-slate-200/60 dark:border-slate-800/60 truncate shadow-none ${isSelected ? 'bg-emerald-50 dark:bg-emerald-950/50' : 'bg-white dark:bg-slate-900'
                             } ${densityStyles.cell} ${stickyClass} ${col.className || ''}`}
                         >
                           {col.render ? (
@@ -1143,7 +1144,7 @@ export default function DataTable({
             selectedRowsCount: activeSelectedKeys.length,
           })
         ) : (
-          <div className="flex flex-wrap items-center justify-between gap-3 p-2 sm:p-2.5 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-2 sm:p-2.5 bg-white dark:bg-slate-900 border-t border-slate-200/60 dark:border-slate-800/60 shadow-none">
             <div className="flex flex-wrap items-center gap-3">
               {layout.bottomStart?.map(renderPlacementElement)}
               {bottomToolbarContent}
