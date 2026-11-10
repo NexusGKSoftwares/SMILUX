@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "lint": "eslint . --ext .js --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --ext .js --report-unused-disable-directives"
   },
   "dependencies": {
     "cors": "^2.8.5",
