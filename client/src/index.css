@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --font-sans: 'Manrope', sans-serif;
+    --font-sans: 'Lexend', 'Manrope', sans-serif;
 
     /* Brand Colors */
     --brand-blue: #7B4DFF;
@@ -226,71 +226,33 @@
       rgba(255, 255, 255, 1) 50%,
       rgba(241, 245, 249, 0.95) 75%,
       rgba(226, 232, 240, 0.65) 100%);
-  background-size: 250% 100%;
-  animation: shimmer 1.7s infinite linear;
+  background-size: 200% 100%;
+  animation: shimmer 0.85s infinite linear;
 }
 
-.animate-shimmer-indigo {
-  background: linear-gradient(90deg,
-      rgba(86, 84, 220, 0.12) 0%,
-      rgba(86, 84, 220, 0.26) 50%,
-      rgba(86, 84, 220, 0.12) 100%);
-  background-size: 250% 100%;
-  animation: shimmer 1.7s infinite linear;
-}
-
-.animate-shimmer-amber {
-  background: linear-gradient(90deg,
-      rgba(255, 159, 10, 0.14) 0%,
-      rgba(255, 159, 10, 0.30) 50%,
-      rgba(255, 159, 10, 0.14) 100%);
-  background-size: 250% 100%;
-  animation: shimmer 1.7s infinite linear;
-}
-
-.animate-shimmer-emerald {
-  background: linear-gradient(90deg,
-      rgba(0, 194, 107, 0.12) 0%,
-      rgba(0, 194, 107, 0.28) 50%,
-      rgba(0, 194, 107, 0.12) 100%);
-  background-size: 250% 100%;
-  animation: shimmer 1.7s infinite linear;
-}
-
-.animate-shimmer-cyan {
-  background: linear-gradient(90deg,
-      rgba(0, 203, 232, 0.12) 0%,
-      rgba(0, 203, 232, 0.28) 50%,
-      rgba(0, 203, 232, 0.12) 100%);
-  background-size: 250% 100%;
-  animation: shimmer 1.7s infinite linear;
-}
-
-.animate-shimmer-purple {
-  background: linear-gradient(90deg,
-      rgba(147, 83, 211, 0.12) 0%,
-      rgba(147, 83, 211, 0.28) 50%,
-      rgba(147, 83, 211, 0.12) 100%);
-  background-size: 250% 100%;
-  animation: shimmer 1.7s infinite linear;
-}
-
+.animate-shimmer-indigo,
+.animate-shimmer-amber,
+.animate-shimmer-emerald,
+.animate-shimmer-cyan,
+.animate-shimmer-purple,
 .animate-shimmer-rose {
   background: linear-gradient(90deg,
-      rgba(251, 59, 82, 0.12) 0%,
-      rgba(251, 59, 82, 0.26) 50%,
-      rgba(251, 59, 82, 0.12) 100%);
-  background-size: 250% 100%;
-  animation: shimmer 1.7s infinite linear;
+      rgba(226, 232, 240, 0.65) 0%,
+      rgba(241, 245, 249, 0.95) 25%,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(241, 245, 249, 0.95) 75%,
+      rgba(226, 232, 240, 0.65) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 0.85s infinite linear;
 }
 
 .animate-shimmer-dark {
   background: linear-gradient(90deg,
       rgba(15, 23, 42, 0.85) 0%,
-      rgba(51, 65, 85, 0.95) 50%,
+      rgba(71, 85, 105, 0.95) 50%,
       rgba(15, 23, 42, 0.85) 100%);
-  background-size: 250% 100%;
-  animation: shimmer 1.7s infinite linear;
+  background-size: 200% 100%;
+  animation: shimmer 0.85s infinite linear;
 }
 
 /* Premium Brand Green Sidebar Scrollbar */

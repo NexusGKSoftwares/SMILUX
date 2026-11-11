@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { salesAreaChartData, webAnalyticsData } from '../../pages/data.js';
 
-// ─── Shared Card Header Wireframe Chrome ───────────────────────────────────
+// ─── Shared Card Header Wireframe Chrome (Black & White / Monochrome) ─────────
 function CardHeaderWireframe({
-  iconTint = 'animate-shimmer-indigo',
+  iconTint = 'animate-shimmer',
   titleWidth = 'w-32',
   iconSvg,
 }) {
@@ -12,7 +12,7 @@ function CardHeaderWireframe({
     <div className="flex items-center justify-between mb-3">
       <div className="flex items-center gap-2">
         <div
-          className={`flex h-4 w-4 shrink-0 items-center justify-center rounded ${iconTint}`}
+          className={`flex h-4 w-4 shrink-0 items-center justify-center rounded bg-slate-100 ${iconTint}`}
         >
           {iconSvg}
         </div>
@@ -22,9 +22,9 @@ function CardHeaderWireframe({
       </div>
 
       {/* CardActionToolbar Wireframe (Expand + Divider + Menu Dots) */}
-      <div className="inline-flex h-7 items-center gap-2 rounded border border-[#E0E0E0] bg-white px-2.5 shadow-[0px_1px_2px_rgba(0,0,0,0.05)]">
+      <div className="inline-flex h-7 items-center gap-2 rounded border border-slate-200 bg-white px-2.5 shadow-[0px_1px_2px_rgba(0,0,0,0.05)]">
         <div className="h-3 w-3 rounded animate-shimmer" />
-        <span className="h-3.5 w-px bg-[#EFEFEF]" />
+        <span className="h-3.5 w-px bg-slate-200" />
         <div className="flex items-center gap-0.5">
           <span className="h-1 w-1 rounded-full bg-slate-300 animate-pulse" />
           <span className="h-1 w-1 rounded-full bg-slate-300 animate-pulse" />
@@ -35,7 +35,7 @@ function CardHeaderWireframe({
   );
 }
 
-// ─── 1:1 Dashboard Wireframe Shimmer Loader ─────────────────────────────────
+// ─── 1:1 Fast Black & White Dashboard Wireframe Shimmer Loader ──────────────
 export function DashboardWireframeSkeleton({
   isHolding: _isHolding = false,
   onToggleHold: _onToggleHold,
@@ -62,13 +62,14 @@ export function DashboardWireframeSkeleton({
     xGroup: 64 + idx * 50,
   }));
 
+  // Monochrome black & white expense ring segments
   const expenseRingSegments = [
-    { id: 'internet', color: '#9353D3', rot: -82, len: 196, w: 'w-20', pctW: 'w-8' },
-    { id: 'electricity', color: '#8CE95A', rot: 72, len: 112, w: 'w-24', pctW: 'w-8' },
-    { id: 'transactions', color: '#29B6F6', rot: 162, len: 88, w: 'w-24', pctW: 'w-8' },
-    { id: 'rental', color: '#EC006C', rot: 233, len: 28, w: 'w-20', pctW: 'w-6' },
-    { id: 'foods', color: '#FF6B00', rot: 259, len: 10, w: 'w-14', pctW: 'w-6' },
-    { id: 'other', color: '#FFC107', rot: 271, len: 5, w: 'w-12', pctW: 'w-6' },
+    { id: 'internet', color: '#0F172A', rot: -82, len: 196, w: 'w-20', pctW: 'w-8' },
+    { id: 'electricity', color: '#334155', rot: 72, len: 112, w: 'w-24', pctW: 'w-8' },
+    { id: 'transactions', color: '#64748B', rot: 162, len: 88, w: 'w-24', pctW: 'w-8' },
+    { id: 'rental', color: '#94A3B8', rot: 233, len: 28, w: 'w-20', pctW: 'w-6' },
+    { id: 'foods', color: '#CBD5E1', rot: 259, len: 10, w: 'w-14', pctW: 'w-6' },
+    { id: 'other', color: '#E2E8F0', rot: 271, len: 5, w: 'w-12', pctW: 'w-6' },
   ];
 
   return (
@@ -83,88 +84,49 @@ export function DashboardWireframeSkeleton({
         <div>
           <div className="flex items-center gap-2.5">
             <div className="h-6 w-64 sm:w-72 rounded animate-shimmer" />
-
           </div>
           <div className="h-3.5 w-80 max-w-full rounded animate-shimmer mt-1.5" />
         </div>
 
         <div className="flex items-center gap-2 shrink-0 flex-wrap">
           {/* Date Filter Pill Wireframe (4 Timeframe Segments) */}
-          <div className="flex items-center gap-1 rounded border border-slate-200 bg-white p-0.5  ">
+          <div className="flex items-center gap-1 rounded border border-slate-200 bg-white p-0.5">
             <div className="h-6 w-12 rounded animate-shimmer" />
             <div className="h-6 w-16 rounded animate-shimmer" />
             <div className="h-6 w-20 rounded animate-shimmer-dark" />
             <div className="h-6 w-16 rounded animate-shimmer" />
           </div>
 
-          {/* Refresh Button Wireframe */}
-          <div className="inline-flex h-8 items-center gap-1.5 rounded border border-slate-200 bg-white px-3 py-1.5  ">
-            <span className="h-3.5 w-3.5 rounded-full border-2 border-brand-green border-t-transparent animate-spin" />
+          {/* Refresh Button Wireframe (Black & White Spinner) */}
+          <div className="inline-flex h-8 items-center gap-1.5 rounded border border-slate-200 bg-white px-3 py-1.5">
+            <span className="h-3.5 w-3.5 rounded-full border-2 border-slate-800 border-t-transparent animate-spin" />
             <div className="h-3.5 w-12 rounded animate-shimmer" />
           </div>
 
-          {/* Reports Primary Button Wireframe */}
-          <div className="inline-flex h-8 items-center gap-1.5 rounded bg-gradient-primary-vertical px-3.5 py-1.5 opacity-85">
+          {/* Reports Primary Button Wireframe (Black & White) */}
+          <div className="inline-flex h-8 items-center gap-1.5 rounded bg-slate-900 px-3.5 py-1.5">
             <div className="h-3.5 w-3.5 rounded bg-white/40 animate-pulse" />
-            <div className="h-3.5 w-12 rounded bg-white/50 animate-pulse" />
+            <div className="h-3.5 w-12 rounded bg-white/60 animate-pulse" />
           </div>
         </div>
       </div>
 
-      {/* ── 1. KPI Top Cards Row (4 Cards Matching Exact 24px Spec) ─────────── */}
+      {/* ── 1. KPI Top Cards Row (4 Cards - Monochrome Black & White) ──────── */}
       <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          {
-            id: 'rev',
-            titleW: 'w-28',
-            valW: 'w-36',
-            subW: 'w-36',
-            iconBox: 'bg-emerald-50/80 border-emerald-100',
-            iconShimmer: 'animate-shimmer-emerald',
-            badgeBox: 'bg-[#E2FFF3]/70 border-[#6EEABB]/60',
-            badgeShimmer: 'animate-shimmer-emerald',
-          },
-          {
-            id: 'appt',
-            titleW: 'w-32',
-            valW: 'w-28',
-            subW: 'w-28',
-            iconBox: 'bg-blue-50/80 border-blue-100',
-            iconShimmer: 'animate-shimmer-indigo',
-            badgeBox: 'bg-[#E2FFF3]/70 border-[#6EEABB]/60',
-            badgeShimmer: 'animate-shimmer-emerald',
-          },
-          {
-            id: 'sha',
-            titleW: 'w-36',
-            valW: 'w-24',
-            subW: 'w-28',
-            iconBox: 'bg-amber-50/80 border-amber-100',
-            iconShimmer: 'animate-shimmer-amber',
-            badgeBox: 'bg-[#FFF3E0]/80 border-[#FFE0B2]/70',
-            badgeShimmer: 'animate-shimmer-amber',
-          },
-          {
-            id: 'plans',
-            titleW: 'w-32',
-            valW: 'w-24',
-            subW: 'w-32',
-            iconBox: 'bg-sky-50/80 border-sky-100',
-            iconShimmer: 'animate-shimmer-cyan',
-            badgeBox: 'bg-[#E2FFF3]/70 border-[#6EEABB]/60',
-            badgeShimmer: 'animate-shimmer-emerald',
-          },
+          { id: 'rev', titleW: 'w-28', valW: 'w-36', subW: 'w-36' },
+          { id: 'appt', titleW: 'w-32', valW: 'w-28', subW: 'w-28' },
+          { id: 'sha', titleW: 'w-36', valW: 'w-24', subW: 'w-28' },
+          { id: 'plans', titleW: 'w-32', valW: 'w-24', subW: 'w-32' },
         ].map((kpi) => (
           <div
             key={kpi.id}
-            className="rounded border border-[#EFEFEF] bg-white p-3 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]"
+            className="rounded border border-slate-200 bg-white p-3 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]"
           >
             <div className="flex items-center justify-between">
               <div className={`h-3.5 ${kpi.titleW} rounded animate-shimmer`} />
-              <div
-                className={`flex h-8 w-8 items-center justify-center rounded border ${kpi.iconBox}`}
-              >
-                <div className={`h-4 w-4 rounded ${kpi.iconShimmer}`} />
+              <div className="flex h-8 w-8 items-center justify-center rounded border border-slate-200 bg-slate-100">
+                <div className="h-4 w-4 rounded animate-shimmer" />
               </div>
             </div>
             <div className="mt-3 flex items-baseline justify-between">
@@ -172,10 +134,8 @@ export function DashboardWireframeSkeleton({
                 <div className={`h-7 ${kpi.valW} rounded animate-shimmer`} />
                 <div className={`mt-1.5 h-3 ${kpi.subW} rounded animate-shimmer`} />
               </div>
-              <div
-                className={`flex h-6 w-20 items-center justify-center rounded-full border px-2.5 py-1 ${kpi.badgeBox}`}
-              >
-                <div className={`h-2.5 w-14 rounded-full ${kpi.badgeShimmer}`} />
+              <div className="flex h-6 w-20 items-center justify-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1">
+                <div className="h-2.5 w-14 rounded-full animate-shimmer" />
               </div>
             </div>
           </div>
@@ -185,10 +145,10 @@ export function DashboardWireframeSkeleton({
       {/* ── 2. Main Analytics Row: Sales Area Chart + Patient Growth Bar Chart ─ */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
         {/* Column 1: Sales Area & Smooth Cubic Bezier Line Chart Wireframe */}
-        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        <div className="rounded border border-slate-200 bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             <CardHeaderWireframe
-              iconTint="animate-shimmer-indigo"
+              iconTint="animate-shimmer"
               titleWidth="w-28"
             />
 
@@ -200,16 +160,16 @@ export function DashboardWireframeSkeleton({
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="h-3 w-14 rounded animate-shimmer" />
-                <div className="h-3.5 w-24 rounded animate-shimmer-indigo" />
+                <div className="h-3.5 w-24 rounded animate-shimmer" />
               </div>
             </div>
           </div>
 
-          {/* Smooth Line & Area Graph Wireframe (Exact viewBox="20 214 674 258") */}
+          {/* Smooth Line & Area Graph Wireframe (Monochrome) */}
           <div className="w-full flex-1 flex items-end overflow-hidden">
             <svg viewBox="20 214 674 258" fill="none" className="w-full h-auto block">
               <defs>
-                {/* Animated Shimmer Sweep Gradient for Smooth Bezier Stroke */}
+                {/* Fast Animated Shimmer Sweep Gradient for Smooth Bezier Stroke (Monochrome) */}
                 <linearGradient
                   id="shimmerSalesLineGrad"
                   x1="0%"
@@ -218,25 +178,25 @@ export function DashboardWireframeSkeleton({
                   y2="0%"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop offset="0%" stopColor="#FF4049" stopOpacity="0.28" />
-                  <stop offset="45%" stopColor="#5654DC" stopOpacity="0.85" />
-                  <stop offset="55%" stopColor="#A5B4FC" stopOpacity="0.95" />
-                  <stop offset="100%" stopColor="#5654DC" stopOpacity="0.28" />
+                  <stop offset="0%" stopColor="#475569" stopOpacity="0.3" />
+                  <stop offset="45%" stopColor="#0F172A" stopOpacity="0.8" />
+                  <stop offset="55%" stopColor="#E2E8F0" stopOpacity="0.95" />
+                  <stop offset="100%" stopColor="#0F172A" stopOpacity="0.3" />
                   <animate
                     attributeName="x1"
                     values="-100%;100%"
-                    dur="1.8s"
+                    dur="0.85s"
                     repeatCount="indefinite"
                   />
                   <animate
                     attributeName="x2"
                     values="100%;300%"
-                    dur="1.8s"
+                    dur="0.85s"
                     repeatCount="indefinite"
                   />
                 </linearGradient>
 
-                {/* Animated Shimmer Sweep for Area Fill Under Curve */}
+                {/* Fast Animated Shimmer Sweep for Area Fill Under Curve (Monochrome) */}
                 <linearGradient
                   id="shimmerSalesAreaHoriz"
                   x1="0%"
@@ -244,19 +204,19 @@ export function DashboardWireframeSkeleton({
                   x2="200%"
                   y2="0%"
                 >
-                  <stop offset="0%" stopColor="#FF4049" stopOpacity="0.06" />
-                  <stop offset="50%" stopColor="#5654DC" stopOpacity="0.20" />
-                  <stop offset="100%" stopColor="#5654DC" stopOpacity="0.05" />
+                  <stop offset="0%" stopColor="#0F172A" stopOpacity="0.03" />
+                  <stop offset="50%" stopColor="#64748B" stopOpacity="0.14" />
+                  <stop offset="100%" stopColor="#0F172A" stopOpacity="0.03" />
                   <animate
                     attributeName="x1"
                     values="-100%;100%"
-                    dur="1.8s"
+                    dur="0.85s"
                     repeatCount="indefinite"
                   />
                   <animate
                     attributeName="x2"
                     values="100%;300%"
-                    dur="1.8s"
+                    dur="0.85s"
                     repeatCount="indefinite"
                   />
                 </linearGradient>
@@ -292,7 +252,7 @@ export function DashboardWireframeSkeleton({
                   y1={yPos}
                   x2="692"
                   y2={yPos}
-                  stroke="#E5E7EB"
+                  stroke="#E2E8F0"
                   strokeWidth="1.2"
                   strokeDasharray="4 4"
                 />
@@ -312,8 +272,8 @@ export function DashboardWireframeSkeleton({
                   <animate
                     attributeName="opacity"
                     values="0.45;0.9;0.45"
-                    dur="1.6s"
-                    begin={`${idx * 0.12}s`}
+                    dur="0.85s"
+                    begin={`${idx * 0.08}s`}
                     repeatCount="indefinite"
                   />
                 </rect>
@@ -336,7 +296,7 @@ export function DashboardWireframeSkeleton({
               />
 
               {/* X-Axis Baseline */}
-              <line x1="72" y1="431" x2="692" y2="431" stroke="#E5E7EB" strokeWidth="1.5" />
+              <line x1="72" y1="431" x2="692" y2="431" stroke="#E2E8F0" strokeWidth="1.5" />
 
               {/* Vertical Dashed Indicator Line at Active Month (Jun) */}
               <line
@@ -344,29 +304,29 @@ export function DashboardWireframeSkeleton({
                 y1="252"
                 x2={activeSalesPt.x}
                 y2="431"
-                stroke="#94A3B8"
+                stroke="#64748B"
                 strokeWidth="1.8"
                 strokeDasharray="4 4"
               />
 
-              {/* Pulsing Halo + Active Point Circle on Smooth Curve */}
+              {/* Pulsing Halo + Active Point Circle on Smooth Curve (Monochrome) */}
               <circle
                 cx={activeSalesPt.x}
                 cy={activeSalesPt.y}
                 r="9"
-                fill="#5654DC"
-                fillOpacity="0.16"
+                fill="#0F172A"
+                fillOpacity="0.12"
               >
                 <animate
                   attributeName="r"
                   values="5;11;5"
-                  dur="1.6s"
+                  dur="0.85s"
                   repeatCount="indefinite"
                 />
                 <animate
                   attributeName="fillOpacity"
-                  values="0.28;0.06;0.28"
-                  dur="1.6s"
+                  values="0.22;0.05;0.22"
+                  dur="0.85s"
                   repeatCount="indefinite"
                 />
               </circle>
@@ -375,18 +335,18 @@ export function DashboardWireframeSkeleton({
                 cy={activeSalesPt.y}
                 r="4.5"
                 fill="#FFFFFF"
-                stroke="#5654DC"
+                stroke="#0F172A"
                 strokeWidth="2.5"
               />
 
               {/* Floating Dark Tooltip Badge Skeleton */}
               <g transform={`translate(${activeSalesPt.x - 45}, 224)`}>
-                <rect width="90" height="24" rx="4" fill="#1E293B" fillOpacity="0.88" />
+                <rect width="90" height="24" rx="4" fill="#0F172A" fillOpacity="0.9" />
                 <rect x="18" y="8" width="54" height="8" rx="4" fill="#94A3B8" fillOpacity="0.65">
                   <animate
                     attributeName="opacity"
                     values="0.45;0.95;0.45"
-                    dur="1.4s"
+                    dur="0.85s"
                     repeatCount="indefinite"
                   />
                 </rect>
@@ -413,13 +373,13 @@ export function DashboardWireframeSkeleton({
                       width="24"
                       height="10"
                       rx="3.5"
-                      fill={isSelected ? '#64748B' : '#CBD5E1'}
+                      fill={isSelected ? '#475569' : '#CBD5E1'}
                     >
                       <animate
                         attributeName="opacity"
                         values="0.45;0.9;0.45"
-                        dur="1.6s"
-                        begin={`${idx * 0.08}s`}
+                        dur="0.85s"
+                        begin={`${idx * 0.05}s`}
                         repeatCount="indefinite"
                       />
                     </rect>
@@ -430,48 +390,39 @@ export function DashboardWireframeSkeleton({
           </div>
         </div>
 
-        {/* Column 2: Patient Growth Overview 12-Month Bar Chart Wireframe */}
-        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        {/* Column 2: Patient Growth Overview 12-Month Bar Chart Wireframe (Monochrome) */}
+        <div className="rounded border border-slate-200 bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             <CardHeaderWireframe
-              iconTint="animate-shimmer-amber"
+              iconTint="animate-shimmer"
               titleWidth="w-44"
             />
 
-            {/* 3 Metrics Overview Columns Wireframe */}
+            {/* 3 Metrics Overview Columns Wireframe (Monochrome) */}
             <div className="grid grid-cols-3 gap-3 mb-3">
-              {[
-                { id: 'm1', positive: true },
-                { id: 'm2', positive: true },
-                { id: 'm3', positive: false },
-              ].map((m) => (
-                <div key={m.id} className="flex flex-col">
+              {['m1', 'm2', 'm3'].map((id) => (
+                <div key={id} className="flex flex-col">
                   <div className="h-3 w-24 rounded animate-shimmer" />
                   <div className="mt-1.5 flex items-center gap-1.5">
                     <div className="h-6 w-14 rounded animate-shimmer" />
-                    <div
-                      className={`h-4 w-11 rounded-full border ${m.positive
-                        ? 'bg-[#E8FFF4]/80 border-[#8FE7BE]/60 animate-shimmer-emerald'
-                        : 'bg-[#FFEAEA]/80 border-[#FF9F9D]/60 animate-shimmer-rose'
-                        }`}
-                    />
+                    <div className="h-4 w-11 rounded-full border border-slate-200 bg-slate-50 animate-shimmer" />
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* 12-Month Bar Chart Wireframe (Exact viewBox="28 220 674 258") */}
+          {/* 12-Month Bar Chart Wireframe (Monochrome Grayscale) */}
           <div className="w-full flex-1 flex items-end overflow-hidden">
             <svg viewBox="28 220 674 258" fill="none" className="w-full h-auto block">
               <defs>
-                <linearGradient id="shimmerAmberBar" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#FF9F0A" stopOpacity="0.48" />
-                  <stop offset="100%" stopColor="#FF9F0A" stopOpacity="0.18" />
+                <linearGradient id="shimmerBar" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#94A3B8" stopOpacity="0.45" />
+                  <stop offset="100%" stopColor="#CBD5E1" stopOpacity="0.25" />
                 </linearGradient>
-                <linearGradient id="shimmerAmberBarActive" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#E08600" stopOpacity="0.72" />
-                  <stop offset="100%" stopColor="#FF9F0A" stopOpacity="0.32" />
+                <linearGradient id="shimmerBarActive" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#0F172A" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#475569" stopOpacity="0.45" />
                 </linearGradient>
               </defs>
 
@@ -483,7 +434,7 @@ export function DashboardWireframeSkeleton({
                   y1={yPos}
                   x2="700"
                   y2={yPos}
-                  stroke="#E5E7EB"
+                  stroke="#E2E8F0"
                   strokeWidth="1.2"
                   strokeLinecap="round"
                   strokeDasharray="4 4"
@@ -504,14 +455,14 @@ export function DashboardWireframeSkeleton({
                   <animate
                     attributeName="opacity"
                     values="0.45;0.9;0.45"
-                    dur="1.6s"
-                    begin={`${idx * 0.12}s`}
+                    dur="0.85s"
+                    begin={`${idx * 0.08}s`}
                     repeatCount="indefinite"
                   />
                 </rect>
               ))}
 
-              {/* 12 Monthly Rounded Orange Shimmer Bars */}
+              {/* 12 Monthly Rounded Monochrome Shimmer Bars */}
               {webAnalyticsData.bars.map((bar, idx) => {
                 const isActive = bar.month === 'Jun';
                 return (
@@ -522,13 +473,13 @@ export function DashboardWireframeSkeleton({
                       width="26"
                       height={bar.height}
                       rx="8"
-                      fill={isActive ? 'url(#shimmerAmberBarActive)' : 'url(#shimmerAmberBar)'}
+                      fill={isActive ? 'url(#shimmerBarActive)' : 'url(#shimmerBar)'}
                     >
                       <animate
                         attributeName="opacity"
                         values="0.45;0.95;0.45"
-                        dur="1.5s"
-                        begin={`${idx * 0.09}s`}
+                        dur="0.85s"
+                        begin={`${idx * 0.06}s`}
                         repeatCount="indefinite"
                       />
                     </rect>
@@ -536,8 +487,8 @@ export function DashboardWireframeSkeleton({
                     {/* Floating Tooltip Skeleton on Active Bar (Jun) */}
                     {isActive && (
                       <g transform={`translate(${bar.xCenter - 32}, ${bar.y - 28})`}>
-                        <rect width="64" height="22" rx="4" fill="#1E293B" fillOpacity="0.88" />
-                        <rect x="13" y="7" width="38" height="8" rx="4" fill="#F8FAFC" fillOpacity="0.65" />
+                        <rect width="64" height="22" rx="4" fill="#0F172A" fillOpacity="0.9" />
+                        <rect x="13" y="7" width="38" height="8" rx="4" fill="#F8FAFC" fillOpacity="0.75" />
                       </g>
                     )}
                   </g>
@@ -545,7 +496,7 @@ export function DashboardWireframeSkeleton({
               })}
 
               {/* Solid X-Axis Baseline */}
-              <line x1="78" y1="441.5" x2="700" y2="441.5" stroke="#E9E9E9" strokeWidth="1" />
+              <line x1="78" y1="441.5" x2="700" y2="441.5" stroke="#E2E8F0" strokeWidth="1" />
 
               {/* 12 Monthly X-Axis Pill Wireframes */}
               {webAnalyticsData.xAxisLabels.map((item, idx) => {
@@ -568,13 +519,13 @@ export function DashboardWireframeSkeleton({
                       width="24"
                       height="10"
                       rx="3.5"
-                      fill={isSelected ? '#64748B' : '#CBD5E1'}
+                      fill={isSelected ? '#475569' : '#CBD5E1'}
                     >
                       <animate
                         attributeName="opacity"
                         values="0.45;0.9;0.45"
-                        dur="1.6s"
-                        begin={`${idx * 0.08}s`}
+                        dur="0.85s"
+                        begin={`${idx * 0.05}s`}
                         repeatCount="indefinite"
                       />
                     </rect>
@@ -588,11 +539,11 @@ export function DashboardWireframeSkeleton({
 
       {/* ── 3. Secondary Row: 3 Analytics Cards (Payment, Income, Balance) ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-1">
-        {/* Card 1: Payment Distribution Overview (Donut Chart Wireframe) */}
-        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        {/* Card 1: Payment Distribution Overview (Donut Chart Wireframe - Monochrome) */}
+        <div className="rounded border border-slate-200 bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             <CardHeaderWireframe
-              iconTint="animate-shimmer-cyan"
+              iconTint="animate-shimmer"
               titleWidth="w-40"
             />
 
@@ -602,12 +553,12 @@ export function DashboardWireframeSkeleton({
                 <div className="h-3 w-28 rounded animate-shimmer" />
                 <div className="mt-1.5 flex items-baseline gap-2">
                   <div className="h-6 w-12 rounded animate-shimmer" />
-                  <div className="h-4 w-14 rounded border border-slate-200 bg-white animate-shimmer-emerald" />
+                  <div className="h-4 w-14 rounded border border-slate-200 bg-white animate-shimmer" />
                 </div>
                 <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-200 flex gap-0.5">
-                  <div className="h-full bg-[#00CBE8]/45 animate-pulse" style={{ width: '60%' }} />
-                  <div className="h-full bg-[#5654DC]/45 animate-pulse" style={{ width: '24%' }} />
-                  <div className="h-full bg-[#FB3B52]/45 animate-pulse" style={{ width: '16%' }} />
+                  <div className="h-full bg-slate-900/70 animate-pulse" style={{ width: '60%' }} />
+                  <div className="h-full bg-slate-500/70 animate-pulse" style={{ width: '24%' }} />
+                  <div className="h-full bg-slate-300/80 animate-pulse" style={{ width: '16%' }} />
                 </div>
               </div>
 
@@ -617,11 +568,11 @@ export function DashboardWireframeSkeleton({
                   <div className="h-6 w-20 rounded animate-shimmer" />
                   <div className="h-3 w-8 rounded animate-shimmer" />
                 </div>
-                <div className="mt-2.5 h-3 w-32 rounded animate-shimmer-cyan" />
+                <div className="mt-2.5 h-3 w-32 rounded animate-shimmer" />
               </div>
             </div>
 
-            {/* Donut Chart Visual & Channel Breakdown Wireframe (Exact viewBox="65 60 625 345") */}
+            {/* Donut Chart Visual & Channel Breakdown Wireframe (Monochrome) */}
             <div className="w-full flex-1 flex items-center justify-center py-1 overflow-hidden">
               <svg viewBox="65 60 625 345" fill="none" className="w-full h-auto block">
                 <defs>
@@ -630,31 +581,31 @@ export function DashboardWireframeSkeleton({
                   </filter>
                 </defs>
 
-                {/* 16% Red Arc (#FB3B52) Wireframe */}
+                {/* 16% Light Gray Arc Wireframe */}
                 <path
                   d="M160.443 114.178C159.429 112.215 160.196 109.797 162.185 108.836C183.475 98.5506 206.926 93.4712 230.601 94.0435C254.276 94.6158 277.454 100.822 298.222 112.124C300.162 113.18 300.811 115.633 299.704 117.544L288.773 136.406C287.665 138.317 285.221 138.962 283.273 137.919C266.84 129.119 248.554 124.286 229.881 123.835C211.208 123.383 192.709 127.327 175.87 135.323C173.874 136.271 171.464 135.508 170.45 133.545L160.443 114.178Z"
-                  fill="#FB3B52"
-                  fillOpacity="0.35"
+                  fill="#CBD5E1"
+                  fillOpacity="0.75"
                 >
-                  <animate attributeName="fillOpacity" values="0.22;0.52;0.22" dur="1.7s" repeatCount="indefinite" />
+                  <animate attributeName="fillOpacity" values="0.45;0.85;0.45" dur="0.85s" repeatCount="indefinite" />
                 </path>
 
-                {/* 24% Purple Arc (#5654D4) Wireframe */}
+                {/* 24% Mid Slate Arc Wireframe */}
                 <path
                   d="M305.526 121.104C306.722 119.247 309.201 118.707 311.026 119.952C338.558 138.753 359.025 166.273 369.086 198.139C379.147 230.004 378.194 264.288 366.448 295.489C365.67 297.557 363.331 298.538 361.285 297.705L341.096 289.48C339.05 288.647 338.074 286.314 338.838 284.242C347.969 259.482 348.637 232.348 340.669 207.111C332.701 181.874 316.573 160.043 294.88 145.015C293.064 143.757 292.523 141.287 293.72 139.43L305.526 121.104Z"
-                  fill="#5654D4"
-                  fillOpacity="0.35"
+                  fill="#64748B"
+                  fillOpacity="0.65"
                 >
-                  <animate attributeName="fillOpacity" values="0.22;0.52;0.22" dur="1.7s" begin="0.3s" repeatCount="indefinite" />
+                  <animate attributeName="fillOpacity" values="0.4;0.8;0.4" dur="0.85s" begin="0.2s" repeatCount="indefinite" />
                 </path>
 
-                {/* 60% Cyan Arc (#3FC8E4) Wireframe */}
+                {/* 60% Dark Slate/Black Arc Wireframe */}
                 <path
                   d="M359.027 302.949C361.039 303.862 361.934 306.236 360.967 308.222C351.273 328.134 337.254 345.65 319.915 359.481C301.533 374.144 279.942 384.248 256.907 388.968C233.872 393.687 210.046 392.888 187.379 386.636C164.712 380.383 143.846 368.855 126.488 352.993C109.13 337.131 95.7728 317.386 87.5078 295.373C79.2428 273.36 76.305 249.703 78.9347 226.337C81.5644 202.97 89.6868 180.558 102.638 160.933C114.854 142.421 131.039 126.884 149.999 115.439C151.89 114.297 154.334 114.976 155.425 116.897L166.186 135.856C167.276 137.777 166.599 140.213 164.715 141.367C149.842 150.482 137.136 162.759 127.51 177.346C117.149 193.047 110.652 210.976 108.548 229.669C106.444 248.362 108.794 267.288 115.406 284.898C122.018 302.509 132.704 318.305 146.591 330.994C160.477 343.684 177.17 352.906 195.303 357.909C213.437 362.911 232.497 363.55 250.925 359.774C269.354 355.999 286.627 347.915 301.332 336.185C314.994 325.287 326.08 311.528 333.821 295.896C334.801 293.916 337.166 293.022 339.177 293.936L359.027 302.949Z"
-                  fill="#3FC8E4"
-                  fillOpacity="0.35"
+                  fill="#0F172A"
+                  fillOpacity="0.75"
                 >
-                  <animate attributeName="fillOpacity" values="0.22;0.52;0.22" dur="1.7s" begin="0.6s" repeatCount="indefinite" />
+                  <animate attributeName="fillOpacity" values="0.55;0.9;0.55" dur="0.85s" begin="0.4s" repeatCount="indefinite" />
                 </path>
 
                 {/* 3 Floating Circular Percentage Badge Skeletons */}
@@ -665,25 +616,25 @@ export function DashboardWireframeSkeleton({
                 ].map((b, i) => (
                   <g key={i} filter="url(#shimmerPieBadgeShadow)">
                     <rect x={b.x} y={b.y} width="40" height="40" rx="20" fill="white" stroke="#E2E8F0" />
-                    <rect x={b.x + 9} y={b.y + 15} width="22" height="10" rx="4" fill="#CBD5E1" />
+                    <rect x={b.x + 9} y={b.y + 15} width="22" height="10" rx="4" fill="#94A3B8" />
                   </g>
                 ))}
 
                 {/* Center Cutout Text Wireframe */}
-                <rect x="197" y="213" width="76" height="24" rx="6" fill="#5654D4" fillOpacity="0.22" />
+                <rect x="197" y="213" width="76" height="24" rx="6" fill="#0F172A" fillOpacity="0.2" />
                 <rect x="191" y="246" width="88" height="12" rx="4" fill="#CBD5E1" />
                 <rect x="195" y="266" width="80" height="10" rx="4" fill="#E2E8F0" />
 
-                {/* Right Channel Breakdown List (3 Items) */}
+                {/* Right Channel Breakdown List (3 Items - Monochrome) */}
                 {[
-                  { y: 132, color: '#FB3B52', w1: 112, w2: 96 },
-                  { y: 220, color: '#5654D4', w1: 104, w2: 92 },
-                  { y: 308, color: '#3FC8E4', w1: 122, w2: 100 },
+                  { y: 132, color: '#0F172A', w1: 112, w2: 96 },
+                  { y: 220, color: '#64748B', w1: 104, w2: 92 },
+                  { y: 308, color: '#CBD5E1', w1: 122, w2: 100 },
                 ].map((row, idx) => (
                   <g key={idx}>
-                    <rect x="475" y={row.y} width="4" height="26" rx="2" fill={row.color} fillOpacity="0.6" />
-                    <rect x="490" y={row.y + 1} width={row.w1} height="12" rx="4" fill="#CBD5E1">
-                      <animate attributeName="opacity" values="0.45;0.9;0.45" dur="1.5s" begin={`${idx * 0.2}s`} repeatCount="indefinite" />
+                    <rect x="475" y={row.y} width="4" height="26" rx="2" fill={row.color} fillOpacity="0.75" />
+                    <rect x="490" y={row.y + 1} width={row.w1} height="12" rx="4" fill="#94A3B8">
+                      <animate attributeName="opacity" values="0.45;0.9;0.45" dur="0.85s" begin={`${idx * 0.1}s`} repeatCount="indefinite" />
                     </rect>
                     <rect x="490" y={row.y + 19} width={row.w2} height="10" rx="3.5" fill="#E2E8F0" />
                   </g>
@@ -693,11 +644,11 @@ export function DashboardWireframeSkeleton({
           </div>
         </div>
 
-        {/* Card 2: Income Summary (Concentric Nested Radial Gauge Rings Wireframe) */}
-        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        {/* Card 2: Income Summary (Concentric Nested Radial Gauge Rings Wireframe - Monochrome) */}
+        <div className="rounded border border-slate-200 bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             <CardHeaderWireframe
-              iconTint="animate-shimmer-amber"
+              iconTint="animate-shimmer"
               titleWidth="w-36"
             />
 
@@ -707,12 +658,12 @@ export function DashboardWireframeSkeleton({
                 <div className="h-3 w-28 rounded animate-shimmer" />
                 <div className="mt-1.5 flex items-baseline gap-2">
                   <div className="h-6 w-24 rounded animate-shimmer" />
-                  <div className="h-4 w-12 rounded animate-shimmer-emerald" />
+                  <div className="h-4 w-12 rounded animate-shimmer" />
                 </div>
                 <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-200 flex gap-0.5">
-                  <div className="h-full bg-[#00C26B]/50 animate-pulse" style={{ width: '45%' }} />
-                  <div className="h-full bg-[#FF9900]/50 animate-pulse" style={{ width: '35%' }} />
-                  <div className="h-full bg-[#FFDC8E]/70 animate-pulse" style={{ width: '20%' }} />
+                  <div className="h-full bg-slate-900/75 animate-pulse" style={{ width: '45%' }} />
+                  <div className="h-full bg-slate-600/70 animate-pulse" style={{ width: '35%' }} />
+                  <div className="h-full bg-slate-300/80 animate-pulse" style={{ width: '20%' }} />
                 </div>
               </div>
 
@@ -720,64 +671,64 @@ export function DashboardWireframeSkeleton({
                 <div className="h-3 w-28 rounded animate-shimmer" />
                 <div className="mt-1.5 flex items-baseline gap-2">
                   <div className="h-6 w-16 rounded animate-shimmer" />
-                  <div className="h-3 w-12 rounded animate-shimmer-emerald" />
+                  <div className="h-3 w-12 rounded animate-shimmer" />
                 </div>
                 <div className="mt-2.5 h-3 w-32 rounded animate-shimmer" />
               </div>
             </div>
 
-            {/* Concentric Nested Radial Gauge Rings Wireframe */}
+            {/* Concentric Nested Radial Gauge Rings Wireframe (Monochrome) */}
             <div className="relative flex items-center justify-center py-2">
               <svg className="w-44 h-44 -rotate-90" viewBox="0 0 120 120">
-                {/* Outer Ring - Green (#00C26B) */}
+                {/* Outer Ring - Dark Slate */}
                 <circle cx="60" cy="60" r="50" fill="none" stroke="#F1F5F9" strokeWidth="8" />
                 <circle
                   cx="60"
                   cy="60"
                   r="50"
                   fill="none"
-                  stroke="#00C26B"
-                  strokeOpacity="0.4"
+                  stroke="#0F172A"
+                  strokeOpacity="0.55"
                   strokeWidth="8"
                   strokeDasharray="314"
                   strokeDashoffset="78"
                   strokeLinecap="round"
                 >
-                  <animate attributeName="strokeOpacity" values="0.22;0.58;0.22" dur="1.6s" repeatCount="indefinite" />
+                  <animate attributeName="strokeOpacity" values="0.35;0.75;0.35" dur="0.85s" repeatCount="indefinite" />
                 </circle>
 
-                {/* Middle Ring - Orange (#FF9900) */}
+                {/* Middle Ring - Mid Slate */}
                 <circle cx="60" cy="60" r="38" fill="none" stroke="#F1F5F9" strokeWidth="8" />
                 <circle
                   cx="60"
                   cy="60"
                   r="38"
                   fill="none"
-                  stroke="#FF9900"
-                  strokeOpacity="0.42"
+                  stroke="#64748B"
+                  strokeOpacity="0.5"
                   strokeWidth="8"
                   strokeDasharray="238"
                   strokeDashoffset="95"
                   strokeLinecap="round"
                 >
-                  <animate attributeName="strokeOpacity" values="0.22;0.58;0.22" dur="1.6s" begin="0.25s" repeatCount="indefinite" />
+                  <animate attributeName="strokeOpacity" values="0.3;0.65;0.3" dur="0.85s" begin="0.15s" repeatCount="indefinite" />
                 </circle>
 
-                {/* Inner Ring - Soft Yellow (#FFDC8E) */}
+                {/* Inner Ring - Light Gray */}
                 <circle cx="60" cy="60" r="26" fill="none" stroke="#F1F5F9" strokeWidth="8" />
                 <circle
                   cx="60"
                   cy="60"
                   r="26"
                   fill="none"
-                  stroke="#FFDC8E"
-                  strokeOpacity="0.65"
+                  stroke="#94A3B8"
+                  strokeOpacity="0.5"
                   strokeWidth="8"
                   strokeDasharray="163"
                   strokeDashoffset="65"
                   strokeLinecap="round"
                 >
-                  <animate attributeName="strokeOpacity" values="0.35;0.78;0.35" dur="1.6s" begin="0.5s" repeatCount="indefinite" />
+                  <animate attributeName="strokeOpacity" values="0.3;0.7;0.3" dur="0.85s" begin="0.3s" repeatCount="indefinite" />
                 </circle>
               </svg>
 
@@ -792,9 +743,9 @@ export function DashboardWireframeSkeleton({
           <div className="space-y-2 pt-3 border-t border-slate-100">
             <div className="grid grid-cols-3 gap-2">
               {[
-                { dot: 'bg-[#00C26B]', tint: 'animate-shimmer-emerald' },
-                { dot: 'bg-[#FF9900]', tint: 'animate-shimmer-amber' },
-                { dot: 'bg-[#FFE88C]', tint: 'animate-shimmer' },
+                { dot: 'bg-slate-900', tint: 'animate-shimmer' },
+                { dot: 'bg-slate-600', tint: 'animate-shimmer' },
+                { dot: 'bg-slate-300', tint: 'animate-shimmer' },
               ].map((item, idx) => (
                 <div
                   key={idx}
@@ -813,58 +764,58 @@ export function DashboardWireframeSkeleton({
           </div>
         </div>
 
-        {/* Card 3: Practice Financial Balance (Horizontal Segmented Bar Chart Wireframe) */}
-        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        {/* Card 3: Practice Financial Balance (Horizontal Segmented Bar Chart Wireframe - Monochrome) */}
+        <div className="rounded border border-slate-200 bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             <CardHeaderWireframe
-              iconTint="animate-shimmer-cyan"
+              iconTint="animate-shimmer"
               titleWidth="w-36"
             />
 
-            {/* Practice Financial Balance SVG Wireframe (Exact viewBox="20 100 510 315") */}
+            {/* Practice Financial Balance SVG Wireframe (Monochrome) */}
             <div className="w-full flex-1 flex items-center justify-center py-1 overflow-hidden">
               <svg viewBox="20 100 510 315" fill="none" className="w-full h-auto block">
                 {/* Total Settled Balance Metric Bar */}
                 <rect x="32" y="108" width="168" height="28" rx="6" fill="#CBD5E1">
-                  <animate attributeName="opacity" values="0.45;0.9;0.45" dur="1.6s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0.45;0.9;0.45" dur="0.85s" repeatCount="indefinite" />
                 </rect>
 
-                {/* ▲ 12% vs last years pill badge wireframe */}
-                <rect x="32" y="146" width="62" height="24" rx="12" fill="#E8FFF4" stroke="#8FE7BE" strokeOpacity="0.7" />
-                <rect x="44" y="154" width="38" height="8" rx="4" fill="#1DBF73" fillOpacity="0.45" />
+                {/* Pill badge wireframe */}
+                <rect x="32" y="146" width="62" height="24" rx="12" fill="#F1F5F9" stroke="#E2E8F0" />
+                <rect x="44" y="154" width="38" height="8" rx="4" fill="#0F172A" fillOpacity="0.4" />
                 <rect x="104" y="152" width="76" height="12" rx="4" fill="#E2E8F0" />
 
                 {/* 3 Dashed Vertical Grid Lines */}
-                <line x1="32" y1="195" x2="32" y2="335" stroke="#E5E7EB" strokeWidth="1.2" strokeDasharray="4 4" />
-                <line x1="190" y1="195" x2="190" y2="335" stroke="#E5E7EB" strokeWidth="1.2" strokeDasharray="4 4" />
-                <line x1="376" y1="195" x2="376" y2="335" stroke="#E5E7EB" strokeWidth="1.2" strokeDasharray="4 4" />
+                <line x1="32" y1="195" x2="32" y2="335" stroke="#E2E8F0" strokeWidth="1.2" strokeDasharray="4 4" />
+                <line x1="190" y1="195" x2="190" y2="335" stroke="#E2E8F0" strokeWidth="1.2" strokeDasharray="4 4" />
+                <line x1="376" y1="195" x2="376" y2="335" stroke="#E2E8F0" strokeWidth="1.2" strokeDasharray="4 4" />
 
                 {/* Column 1: Primary Care */}
                 <rect x="44" y="216" width="96" height="18" rx="4" fill="#CBD5E1" />
                 <rect x="44" y="244" width="76" height="12" rx="3.5" fill="#E2E8F0" />
-                <circle cx="52" cy="318" r="8" fill="#E8FFF4" />
-                <rect x="66" y="312" width="42" height="12" rx="4" fill="#1DBF73" fillOpacity="0.35" />
+                <circle cx="52" cy="318" r="8" fill="#F1F5F9" />
+                <rect x="66" y="312" width="42" height="12" rx="4" fill="#0F172A" fillOpacity="0.35" />
 
                 {/* Column 2: Speciality Care */}
                 <rect x="202" y="216" width="96" height="18" rx="4" fill="#CBD5E1" />
                 <rect x="202" y="244" width="68" height="12" rx="3.5" fill="#E2E8F0" />
-                <circle cx="210" cy="318" r="8" fill="#FFEFEF" />
-                <rect x="224" y="312" width="42" height="12" rx="4" fill="#FB3B52" fillOpacity="0.35" />
+                <circle cx="210" cy="318" r="8" fill="#F1F5F9" />
+                <rect x="224" y="312" width="42" height="12" rx="4" fill="#64748B" fillOpacity="0.35" />
 
                 {/* Column 3: Full-time Retainer */}
                 <rect x="388" y="216" width="92" height="18" rx="4" fill="#CBD5E1" />
                 <rect x="388" y="244" width="64" height="12" rx="3.5" fill="#E2E8F0" />
                 <rect x="388" y="312" width="78" height="12" rx="4" fill="#E2E8F0" />
 
-                {/* 3-Color Segmented Horizontal Progress Bar (Exact Figma Coordinates) */}
-                <rect x="32" y="352" width="156" height="22" rx="4" fill="#FFC90A" fillOpacity="0.45">
-                  <animate attributeName="fillOpacity" values="0.28;0.62;0.28" dur="1.5s" repeatCount="indefinite" />
+                {/* 3-Segment Monochrome Progress Bar */}
+                <rect x="32" y="352" width="156" height="22" rx="4" fill="#0F172A" fillOpacity="0.7">
+                  <animate attributeName="fillOpacity" values="0.45;0.85;0.45" dur="0.85s" repeatCount="indefinite" />
                 </rect>
-                <rect x="192" y="352" width="182" height="22" rx="4" fill="#1DBF73" fillOpacity="0.45">
-                  <animate attributeName="fillOpacity" values="0.28;0.62;0.28" dur="1.5s" begin="0.25s" repeatCount="indefinite" />
+                <rect x="192" y="352" width="182" height="22" rx="4" fill="#64748B" fillOpacity="0.6">
+                  <animate attributeName="fillOpacity" values="0.35;0.75;0.35" dur="0.85s" begin="0.15s" repeatCount="indefinite" />
                 </rect>
-                <rect x="378" y="352" width="142" height="22" rx="4" fill="#3FC8E4" fillOpacity="0.45">
-                  <animate attributeName="fillOpacity" values="0.28;0.62;0.28" dur="1.5s" begin="0.5s" repeatCount="indefinite" />
+                <rect x="378" y="352" width="142" height="22" rx="4" fill="#CBD5E1" fillOpacity="0.75">
+                  <animate attributeName="fillOpacity" values="0.45;0.85;0.45" dur="0.85s" begin="0.3s" repeatCount="indefinite" />
                 </rect>
 
                 {/* Footer Date Timeline Pills */}
@@ -878,11 +829,11 @@ export function DashboardWireframeSkeleton({
 
       {/* ── 4. Expenses Overview & Income & Expense Comparison (2-Card Row) ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
-        {/* Card 1: Expenses Overview Wireframe */}
-        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        {/* Card 1: Expenses Overview Wireframe (Monochrome) */}
+        <div className="rounded border border-slate-200 bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             <CardHeaderWireframe
-              iconTint="animate-shimmer-purple"
+              iconTint="animate-shimmer"
               titleWidth="w-28"
             />
 
@@ -903,7 +854,7 @@ export function DashboardWireframeSkeleton({
                     strokeDasharray="1.5 3.6"
                   />
 
-                  {/* 6 Rounded-Cap Donut Segments */}
+                  {/* 6 Rounded-Cap Donut Segments (Monochrome Grayscale) */}
                   {expenseRingSegments.map((seg, idx) => (
                     <g key={seg.id} transform={`rotate(${seg.rot} 110 110)`}>
                       <circle
@@ -922,16 +873,16 @@ export function DashboardWireframeSkeleton({
                         r="80"
                         fill="none"
                         stroke={seg.color}
-                        strokeOpacity="0.42"
+                        strokeOpacity="0.55"
                         strokeWidth="13.5"
                         strokeDasharray={`${seg.len} 502.65`}
                         strokeLinecap="round"
                       >
                         <animate
                           attributeName="strokeOpacity"
-                          values="0.22;0.58;0.22"
-                          dur="1.6s"
-                          begin={`${idx * 0.15}s`}
+                          values="0.3;0.75;0.3"
+                          dur="0.85s"
+                          begin={`${idx * 0.1}s`}
                           repeatCount="indefinite"
                         />
                       </circle>
@@ -940,22 +891,22 @@ export function DashboardWireframeSkeleton({
 
                   {/* Center Total Expense Label & Value Wireframe */}
                   <rect x="76" y="89" width="68" height="10" rx="3.5" fill="#CBD5E1" />
-                  <rect x="64" y="107" width="92" height="18" rx="4.5" fill="#94A3B8" fillOpacity="0.55">
-                    <animate attributeName="opacity" values="0.45;0.9;0.45" dur="1.5s" repeatCount="indefinite" />
+                  <rect x="64" y="107" width="92" height="18" rx="4.5" fill="#0F172A" fillOpacity="0.5">
+                    <animate attributeName="opacity" values="0.45;0.9;0.45" dur="0.85s" repeatCount="indefinite" />
                   </rect>
                 </svg>
               </div>
 
-              {/* Right Category Breakdown Legend List (6 Items) */}
+              {/* Right Category Breakdown Legend List (6 Items - Monochrome) */}
               <div className="sm:col-span-6 space-y-2.5 pr-2">
                 {expenseRingSegments.map((cat) => (
                   <div
                     key={cat.id}
-                    className="flex items-center justify-between rounded px-2.5 py-1.5 bg-slate-50/40"
+                    className="flex items-center justify-between rounded px-2.5 py-1.5 bg-slate-50/50"
                   >
                     <div className="flex items-center gap-2.5">
                       <span
-                        className="h-1.5 w-3 rounded-full shrink-0 opacity-65"
+                        className="h-1.5 w-3 rounded-full shrink-0 opacity-75"
                         style={{ backgroundColor: cat.color }}
                       />
                       <div className={`h-3.5 ${cat.w} rounded animate-shimmer`} />
@@ -967,15 +918,15 @@ export function DashboardWireframeSkeleton({
             </div>
           </div>
 
-          {/* Bottom Section: TOP EXPENSE 2x2 Grid Wireframe */}
+          {/* Bottom Section: TOP EXPENSE 2x2 Grid Wireframe (Monochrome) */}
           <div className="mt-3 pt-3 border-t border-slate-100">
             <div className="h-3 w-24 rounded animate-shimmer mb-2.5" />
             <div className="grid grid-cols-2 gap-2.5">
               {[
-                { color: '#9353D3', w: 'w-16' },
-                { color: '#29B6F6', w: 'w-20' },
-                { color: '#8CE95A', w: 'w-20' },
-                { color: '#EC006C', w: 'w-20' },
+                { color: '#0F172A', w: 'w-16' },
+                { color: '#334155', w: 'w-20' },
+                { color: '#64748B', w: 'w-20' },
+                { color: '#94A3B8', w: 'w-20' },
               ].map((item, idx) => (
                 <div
                   key={idx}
@@ -983,7 +934,7 @@ export function DashboardWireframeSkeleton({
                 >
                   <div className="flex items-center gap-2">
                     <span
-                      className="h-1.5 w-2.5 rounded-full shrink-0 opacity-65"
+                      className="h-1.5 w-2.5 rounded-full shrink-0 opacity-75"
                       style={{ backgroundColor: item.color }}
                     />
                     <div className={`h-3 ${item.w} rounded animate-shimmer`} />
@@ -995,41 +946,41 @@ export function DashboardWireframeSkeleton({
           </div>
         </div>
 
-        {/* Card 2: Income & Expense Comparison Card Wireframe */}
-        <div className="rounded border border-[#EFEFEF] bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+        {/* Card 2: Income & Expense Comparison Card Wireframe (Monochrome) */}
+        <div className="rounded border border-slate-200 bg-white p-4 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div>
             <CardHeaderWireframe
-              iconTint="animate-shimmer-emerald"
+              iconTint="animate-shimmer"
               titleWidth="w-40"
             />
 
-            {/* Dual KPI Summary Strip: TOTAL INCOME vs TOTAL EXPENSES */}
+            {/* Dual KPI Summary Strip (Monochrome) */}
             <div className="grid grid-cols-2 gap-4 mb-4 px-1">
               <div className="flex flex-col rounded p-2.5 bg-slate-50/50">
                 <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-3.5 rounded-full bg-[#6BCE85]/70 shrink-0" />
+                  <span className="h-1.5 w-3.5 rounded-full bg-slate-900/70 shrink-0" />
                   <div className="h-3 w-24 rounded animate-shimmer" />
                 </div>
                 <div className="mt-2 pl-5 flex items-baseline gap-2">
                   <div className="h-6 w-28 rounded animate-shimmer" />
-                  <div className="h-4 w-12 rounded animate-shimmer-emerald" />
+                  <div className="h-4 w-12 rounded animate-shimmer" />
                 </div>
               </div>
 
               <div className="flex flex-col rounded p-2.5 bg-slate-50/50">
                 <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-3.5 rounded-full bg-[#FFB100]/70 shrink-0" />
+                  <span className="h-1.5 w-3.5 rounded-full bg-slate-400/70 shrink-0" />
                   <div className="h-3 w-28 rounded animate-shimmer" />
                 </div>
                 <div className="mt-2 pl-5 flex items-baseline gap-2">
                   <div className="h-6 w-24 rounded animate-shimmer" />
-                  <div className="h-4 w-12 rounded animate-shimmer-rose" />
+                  <div className="h-4 w-12 rounded animate-shimmer" />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Grouped Dual-Bar Chart Wireframe (Exact viewBox="0 0 680 250") */}
+          {/* Grouped Dual-Bar Chart Wireframe (Monochrome) */}
           <div className="w-full overflow-hidden pt-1">
             <svg viewBox="0 0 680 250" fill="none" className="w-full h-auto block">
               {/* Y-Axis Labels & Dashed Horizontal Grid Lines */}
@@ -1072,84 +1023,84 @@ export function DashboardWireframeSkeleton({
                 </g>
               ))}
 
-              {/* Active Green Horizontal Threshold Line across chart at MAR income top */}
+              {/* Active Horizontal Threshold Line across chart */}
               <line
                 x1="54"
                 y1={214 - 175}
                 x2="664"
                 y2={214 - 175}
-                stroke="#6BCE85"
-                strokeOpacity="0.55"
+                stroke="#0F172A"
+                strokeOpacity="0.4"
                 strokeWidth="1.3"
               />
 
-              {/* 12 Monthly Grouped Bars (Green = Income, Amber = Expense) */}
+              {/* 12 Monthly Grouped Bars (Dark Slate = Income, Light Slate = Expense) */}
               {incomeExpenseWireframeMonths.map((item, idx) => {
                 const incomeY = 214 - item.incomeH;
                 const expenseY = 214 - item.expenseH;
-                const greenBarX = item.xGroup;
-                const amberBarX = item.xGroup + 14;
+                const darkBarX = item.xGroup;
+                const lightBarX = item.xGroup + 14;
 
                 return (
                   <g key={item.month}>
-                    {/* Soft Translucent Green Pill Halo around MAR */}
+                    {/* Soft Translucent Halo around active month */}
                     {item.active && (
                       <rect
-                        x={greenBarX - 4}
+                        x={darkBarX - 4}
                         y={incomeY - 7}
                         width="19"
                         height={item.incomeH + 7}
                         rx="9.5"
-                        fill="#6BCE85"
-                        fillOpacity="0.14"
+                        fill="#0F172A"
+                        fillOpacity="0.1"
                       />
                     )}
 
-                    {/* Left Bar: Green Income Bar (#6BCE85) */}
+                    {/* Left Bar: Dark Slate Income Bar */}
                     <rect
-                      x={greenBarX}
+                      x={darkBarX}
                       y={incomeY}
                       width="11"
                       height={item.incomeH}
                       rx="2.5"
-                      fill="#6BCE85"
-                      fillOpacity={item.active ? '0.68' : '0.38'}
+                      fill="#0F172A"
+                      fillOpacity={item.active ? '0.85' : '0.55'}
                     >
                       <animate
                         attributeName="fillOpacity"
-                        values="0.25;0.65;0.25"
-                        dur="1.5s"
-                        begin={`${idx * 0.08}s`}
+                        values="0.35;0.85;0.35"
+                        dur="0.85s"
+                        begin={`${idx * 0.05}s`}
                         repeatCount="indefinite"
                       />
                     </rect>
 
-                    {/* Right Bar: Amber Expense Bar (#FFB100) */}
+                    {/* Right Bar: Light Slate Expense Bar */}
                     <rect
-                      x={amberBarX}
+                      x={lightBarX}
                       y={expenseY}
                       width="11"
                       height={item.expenseH}
                       rx="2.5"
-                      fill="#FFB100"
-                      fillOpacity="0.38"
+                      fill="#94A3B8"
+                      fillOpacity="0.45"
                     >
                       <animate
                         attributeName="fillOpacity"
-                        values="0.22;0.58;0.22"
-                        dur="1.5s"
-                        begin={`${idx * 0.08 + 0.15}s`}
+                        values="0.25;0.65;0.25"
+                        dur="0.85s"
+                        begin={`${idx * 0.05 + 0.1}s`}
                         repeatCount="indefinite"
                       />
                     </rect>
 
-                    {/* Active Green Dot with White Ring on MAR */}
+                    {/* Active Dot with White Ring on MAR */}
                     {item.active && (
                       <circle
-                        cx={greenBarX + 5.5}
+                        cx={darkBarX + 5.5}
                         cy={incomeY}
                         r="4.8"
-                        fill="#6BCE85"
+                        fill="#0F172A"
                         stroke="#FFFFFF"
                         strokeWidth="2.2"
                       />
@@ -1162,7 +1113,7 @@ export function DashboardWireframeSkeleton({
                       width="23"
                       height="9"
                       rx="3"
-                      fill={item.active ? '#64748B' : '#CBD5E1'}
+                      fill={item.active ? '#0F172A' : '#CBD5E1'}
                     />
                   </g>
                 );
@@ -1175,10 +1126,10 @@ export function DashboardWireframeSkeleton({
       {/* ── 5. Operations & Sidebar Modules Quick Integration Wireframe ───── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
         {/* Left (2 Cols): Today's Clinic Queue & Appointments Table Wireframe */}
-        <div className="lg:col-span-2 rounded border border-[#EFEFEF] bg-white p-6 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
+        <div className="lg:col-span-2 rounded border border-slate-200 bg-white p-6 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
             <div className="h-4 w-60 rounded animate-shimmer" />
-            <div className="h-6 w-28 rounded-full bg-brand-50/80 border border-brand-200/60 animate-shimmer-indigo" />
+            <div className="h-6 w-28 rounded-full border border-slate-200 bg-slate-50 animate-shimmer" />
           </div>
 
           <div className="overflow-x-auto">
@@ -1194,10 +1145,10 @@ export function DashboardWireframeSkeleton({
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {[
-                  { patW: 'w-28', procW: 'w-32', docW: 'w-28', badgeTint: 'animate-shimmer-emerald border-emerald-200/60 bg-emerald-50/60' },
-                  { patW: 'w-24', procW: 'w-36', docW: 'w-24', badgeTint: 'animate-shimmer-cyan border-sky-200/60 bg-sky-50/60' },
-                  { patW: 'w-24', procW: 'w-28', docW: 'w-28', badgeTint: 'animate-shimmer border-slate-200 bg-slate-100/70' },
-                  { patW: 'w-24', procW: 'w-36', docW: 'w-24', badgeTint: 'animate-shimmer border-slate-200 bg-slate-100/70' },
+                  { patW: 'w-28', procW: 'w-32', docW: 'w-28' },
+                  { patW: 'w-24', procW: 'w-36', docW: 'w-24' },
+                  { patW: 'w-24', procW: 'w-28', docW: 'w-28' },
+                  { patW: 'w-24', procW: 'w-36', docW: 'w-24' },
                 ].map((row, idx) => (
                   <tr key={idx}>
                     <td className="py-3.5"><div className="h-3.5 w-16 rounded animate-shimmer" /></td>
@@ -1210,7 +1161,7 @@ export function DashboardWireframeSkeleton({
                     </td>
                     <td className="py-3.5"><div className={`h-3.5 ${row.docW} rounded animate-shimmer`} /></td>
                     <td className="py-3.5">
-                      <div className={`h-5 w-20 rounded-full border ${row.badgeTint}`} />
+                      <div className="h-5 w-20 rounded-full border border-slate-200 bg-slate-50 animate-shimmer" />
                     </td>
                   </tr>
                 ))}
@@ -1221,83 +1172,52 @@ export function DashboardWireframeSkeleton({
 
         {/* Right (1 Col): Clinic Fast Actions & Low Stock Alert Banner Wireframe */}
         <div className="space-y-2">
-          {/* Clinic Fast Actions Card */}
-          <div className="rounded border border-[#EFEFEF] bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
+          {/* Clinic Fast Actions Card (Monochrome) */}
+          <div className="rounded border border-slate-200 bg-white p-5 shadow-[0px_6px_10px_rgba(177,177,177,0.08),0px_1px_3px_rgba(0,0,0,0.02)]">
             <div className="h-3.5 w-32 rounded animate-shimmer mb-3" />
             <div className="space-y-2">
               {[
-                {
-                  letter: 'M',
-                  boxClass: 'bg-emerald-50/60 border-emerald-200/60',
-                  iconBg: 'bg-emerald-600/70',
-                  shimmer: 'animate-shimmer-emerald',
-                  w: 'w-36',
-                },
-                {
-                  letter: 'S',
-                  boxClass: 'bg-amber-50/60 border-amber-200/60',
-                  iconBg: 'bg-amber-600/70',
-                  shimmer: 'animate-shimmer-amber',
-                  w: 'w-40',
-                },
-                {
-                  letter: 'F',
-                  boxClass: 'bg-sky-50/60 border-sky-200/60',
-                  iconBg: 'bg-sky-600/70',
-                  shimmer: 'animate-shimmer-cyan',
-                  w: 'w-40',
-                },
+                { letter: 'M', w: 'w-36' },
+                { letter: 'S', w: 'w-40' },
+                { letter: 'F', w: 'w-40' },
               ].map((act) => (
                 <div
                   key={act.letter}
-                  className={`w-full flex items-center justify-between p-3 rounded border ${act.boxClass}`}
+                  className="w-full flex items-center justify-between p-3 rounded border border-slate-200 bg-slate-50/60"
                 >
                   <div className="flex items-center gap-2">
                     <span
-                      className={`flex h-6 w-6 items-center justify-center rounded ${act.iconBg} text-white/90 font-black text-[10px]`}
+                      className="flex h-6 w-6 items-center justify-center rounded bg-slate-800 text-white font-black text-[10px]"
                     >
                       {act.letter}
                     </span>
-                    <div className={`h-3.5 ${act.w} rounded ${act.shimmer}`} />
+                    <div className={`h-3.5 ${act.w} rounded animate-shimmer`} />
                   </div>
-                  <div className={`h-4 w-14 rounded-full ${act.shimmer}`} />
+                  <div className="h-4 w-14 rounded-full border border-slate-200 bg-white animate-shimmer" />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Dental Inventory Low Stock Alert Banner Wireframe */}
-          <div className="rounded border border-amber-200/80 bg-amber-50/40 p-5">
+          {/* Dental Inventory Low Stock Alert Banner Wireframe (Monochrome) */}
+          <div className="rounded border border-slate-200 bg-slate-50/80 p-5">
             <div className="flex items-center gap-2 mb-2.5">
-              <div className="h-4 w-4 rounded-full animate-shimmer-amber shrink-0" />
-              <div className="h-3.5 w-48 rounded animate-shimmer-amber" />
+              <div className="h-4 w-4 rounded-full animate-shimmer shrink-0" />
+              <div className="h-3.5 w-48 rounded animate-shimmer" />
             </div>
             <div className="space-y-1.5 mb-3.5">
-              <div className="h-3 w-full rounded animate-shimmer-amber" />
-              <div className="h-3 w-4/5 rounded animate-shimmer-amber" />
+              <div className="h-3 w-full rounded animate-shimmer" />
+              <div className="h-3 w-4/5 rounded animate-shimmer" />
             </div>
-            <div className="h-7 w-full rounded bg-amber-600/65 animate-pulse" />
+            <div className="h-7 w-full rounded bg-slate-800 animate-pulse" />
           </div>
         </div>
       </div>
-
     </div>
   );
 }
 
 export default DashboardWireframeSkeleton;
-
-CardHeaderWireframe.propTypes = {
-  iconTint: PropTypes.string,
-  titleWidth: PropTypes.string,
-  iconSvg: PropTypes.node,
-};
-
-DashboardWireframeSkeleton.propTypes = {
-  isHolding: PropTypes.bool,
-  onToggleHold: PropTypes.func,
-  onSkipToLive: PropTypes.func,
-};
 
 CardHeaderWireframe.propTypes = {
   iconTint: PropTypes.string,

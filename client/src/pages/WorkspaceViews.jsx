@@ -511,7 +511,7 @@ export function DashboardView({ user }) {
     const timer = setTimeout(() => {
       setIsLoadingDashboard(false);
       setIsRefreshing(false);
-    }, 1150);
+    }, 350);
     return () => clearTimeout(timer);
   }, [isLoadingDashboard, isHoldingShimmer]);
 

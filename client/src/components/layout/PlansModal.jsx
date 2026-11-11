@@ -471,8 +471,7 @@ export default function PlansModal({ isOpen, onClose }) {
                     size="sm"
                     onClick={() => alert('Proceeding to Smilux Dental Premium checkout...')}
                     className="w-full cursor-pointer gap-1.5"
-                  >
-                    <CartIcon className="w-16 h-16 text-[#7B4DFF]" />
+                  > 
                     <span>Purchase Plan</span>
                   </Button>
 
