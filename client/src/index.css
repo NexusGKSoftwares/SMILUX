@@ -4,7 +4,8 @@
 
 @layer base {
   :root {
-    --font-sans: 'Lexend', 'Manrope', sans-serif;
+    --font-sans: 'Lexend', sans-serif;
+    --font-better-grade: 'Better Grade', cursive;
 
     /* Brand Colors */
     --brand-blue: #7B4DFF;
@@ -58,6 +59,10 @@
 }
 
 @layer utilities {
+  .font-better-grade {
+    font-family: var(--font-better-grade), 'Better Grade', cursive !important;
+  }
+
   .text-brand-pink {
     color: #e8368f !important;
   }

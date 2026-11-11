@@ -17,8 +17,11 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Manrope', 'sans-serif'],
-        inter: ['Inter', 'sans-serif'],
+        sans: ['Lexend', 'sans-serif'],
+        lexend: ['Lexend', 'sans-serif'],
+        inter: ['Lexend', 'sans-serif'],
+        'better-grade': ["'Better Grade'", 'cursive'],
+        script: ["'Better Grade'", 'cursive'],
       },
       colors: {
         brand: {
