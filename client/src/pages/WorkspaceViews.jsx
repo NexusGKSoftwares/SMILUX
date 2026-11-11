@@ -27,6 +27,7 @@ import {
 import { formatCurrency, formatNumber } from '../utils/formatter.js';
 import PatientsPage from './Patients.jsx';
 import ClinicalRecordsPage from './ClinicalRecords.jsx';
+import AppointmentsPage from './Appointments.jsx';
 import InvoicesPage from './Invoices.jsx';
 import PaymentsPage from './Payments.jsx';
 import InsurancePage from './Insurance.jsx';
@@ -34,6 +35,9 @@ import ExpensesPage from './Expenses.jsx';
 import InventoryPage from './Inventory.jsx';
 import SuppliersPage from './Suppliers.jsx';
 import PurchaseOrdersPage from './PurchaseOrders.jsx';
+import StaffPage from './Staff.jsx';
+import DentistsPage from './Dentists.jsx';
+import BranchesPage from './Branches.jsx';
 import DateRangePicker from '../components/UI/DateRangePicker.jsx';
 
 export { DashboardWireframeSkeleton };
@@ -3551,78 +3555,7 @@ export function ClinicalRecordsView() {
 
 // ─── 3. Appointments View ───────────────────────────────────────────────────
 export function AppointmentsView() {
-  return (
-    <div className="space-y-6">
-      <ViewHeader
-        title="Appointments & Scheduling Calendar"
-        subtitle="Clinic chair assignments, practitioner schedules, and appointment bookings"
-        actions={
-          <button
-            onClick={() => alert('Booking New Appointment...')}
-            className="flex items-center gap-1.5 rounded bg-blue-600 px-3 py-1.5 text-xs font-bold text-white   hover:bg-blue-700 cursor-pointer"
-          >
-            <HugeiconsIcon icon={PlusSignIcon} size={16} />
-            <span>Book Appointment</span>
-          </button>
-        }
-      />
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-3 rounded border border-slate-200/90 bg-white p-5  ">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-            <h2 className="text-sm font-bold text-slate-900">November 2026 — Weekly Schedule</h2>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-slate-700">Chair 1 &amp; Chair 2 Active</span>
-            </div>
-          </div>
-          <div className="grid grid-cols-5 gap-2 text-center text-xs border-b border-slate-200 pb-2 font-bold text-slate-500">
-            <div>Mon 09</div>
-            <div>Tue 10</div>
-            <div className="text-blue-600">Wed 11 (Today)</div>
-            <div>Thu 12</div>
-            <div>Fri 13</div>
-          </div>
-          <div className="space-y-3 mt-4">
-            <div className="p-3 rounded bg-blue-50/70 border-l-4 border-blue-600 flex justify-between items-center text-xs">
-              <div>
-                <span className="font-bold text-slate-900">09:00 AM - 10:00 AM</span>
-                <p className="text-slate-600">Wanjiku Kamau — Composite Filling (Chair 1)</p>
-              </div>
-              <span className="bg-blue-600 text-white font-bold px-2 py-0.5 rounded text-[10px]">Confirmed</span>
-            </div>
-            <div className="p-3 rounded bg-sky-50/70 border-l-4 border-sky-600 flex justify-between items-center text-xs">
-              <div>
-                <span className="font-bold text-slate-900">10:30 AM - 11:30 AM</span>
-                <p className="text-slate-600">Brian Omondi — Teeth Whitening &amp; Scaling (Chair 2)</p>
-              </div>
-              <span className="bg-sky-600 text-white font-bold px-2 py-0.5 rounded text-[10px]">Checked In</span>
-            </div>
-            <div className="p-3 rounded bg-emerald-50/70 border-l-4 border-emerald-600 flex justify-between items-center text-xs">
-              <div>
-                <span className="font-bold text-slate-900">02:00 PM - 03:00 PM</span>
-                <p className="text-slate-600">Mercy Njeri — Root Canal Stage 1 (Chair 1)</p>
-              </div>
-              <span className="bg-emerald-600 text-white font-bold px-2 py-0.5 rounded text-[10px]">Scheduled</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded border border-slate-200/90 bg-white p-4   space-y-4">
-          <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Practitioners</h3>
-          <div className="space-y-2 text-xs">
-            <div className="p-2 rounded bg-slate-50 border border-slate-200">
-              <span className="font-bold text-slate-900 block">Dr. Darrell Steward</span>
-              <span className="text-[11px] text-slate-500">Lead Endodontist (6 Appts)</span>
-            </div>
-            <div className="p-2 rounded bg-slate-50 border border-slate-200">
-              <span className="font-bold text-slate-900 block">Dr. Amina Patel</span>
-              <span className="text-[11px] text-slate-500">Orthodontist (5 Appts)</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return <AppointmentsPage />;
 }
 
 // ─── 4. FDI Dental Charting View ───────────────────────────────────────────
@@ -3774,7 +3707,20 @@ export function PurchaseOrdersView() {
   return <PurchaseOrdersPage />;
 }
 
-// ─── 7. Generic Feature View (for all remaining routes) ──────────────────────
+// ─── 7. Management Views ────────────────────────────────────────────────────
+export function StaffView() {
+  return <StaffPage />;
+}
+
+export function DentistsView() {
+  return <DentistsPage />;
+}
+
+export function BranchesView() {
+  return <BranchesPage />;
+}
+
+// ─── 8. Generic Feature View (for all remaining routes) ──────────────────────
 export function GenericFeatureView({ title, description, badge = 'Active Module' }) {
   return (
     <div className="space-y-6">

@@ -26,6 +26,9 @@ import {
   InventoryView,
   SuppliersView,
   PurchaseOrdersView,
+  StaffView,
+  DentistsView,
+  BranchesView,
   GenericFeatureView,
 } from './pages/WorkspaceViews.jsx';
 
@@ -157,33 +160,9 @@ function AppRoutes({ loggedInUser, setLoggedInUser }) {
             <Route path="/inventory" element={<InventoryView />} />
             <Route path="/suppliers" element={<SuppliersView />} />
             <Route path="/purchase-orders" element={<PurchaseOrdersView />} />
-            <Route
-              path="/staff"
-              element={
-                <GenericFeatureView
-                  title="Staff & Employees"
-                  description="Dental hygienists, nurses, receptionists, and administrative team directory."
-                />
-              }
-            />
-            <Route
-              path="/dentists"
-              element={
-                <GenericFeatureView
-                  title="Dentists & Practitioners"
-                  description="Dental surgeons, KMPDC license records, and chair availability schedules."
-                />
-              }
-            />
-            <Route
-              path="/branches"
-              element={
-                <GenericFeatureView
-                  title="Branches & Workspaces"
-                  description="Multi-clinic location management (Nairobi Main, Westlands, Mombasa Branch)."
-                />
-              }
-            />
+            <Route path="/staff" element={<StaffView />} />
+            <Route path="/dentists" element={<DentistsView />} />
+            <Route path="/branches" element={<BranchesView />} />
             <Route
               path="/reports"
               element={

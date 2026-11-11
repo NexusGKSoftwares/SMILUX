@@ -678,7 +678,7 @@ export default function Suppliers() {
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[ #7b4dff] rounded-lg hover:bg-[#02683E] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[ #7b4dff] rounded hover:bg-[#02683E] transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={PlusSignIcon} className="w-4 h-4" />
                 Add First Supplier
@@ -694,7 +694,7 @@ export default function Suppliers() {
           <div className="bg-white dark:bg-slate-850 rounded   w-full max-w-xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[ #7b4dff]">
+                <div className="w-8 h-8 rounded bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[ #7b4dff]">
                   <HugeiconsIcon icon={Building01Icon} className="w-4 h-4" />
                 </div>
                 <div>
@@ -727,7 +727,7 @@ export default function Suppliers() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Apex Dental Prosthetics Ltd"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
+                    className="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -738,7 +738,7 @@ export default function Suppliers() {
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
+                    className="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   >
                     <option value="Dental Consumables">Dental Consumables</option>
                     <option value="Prosthetic & Crown Labs">Prosthetic & Crown Labs</option>
@@ -757,7 +757,7 @@ export default function Suppliers() {
                     value={formData.kraPin}
                     onChange={(e) => setFormData({ ...formData, kraPin: e.target.value })}
                     placeholder="e.g. P051294812Z"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff] font-sans"
+                    className="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff] font-sans"
                   />
                 </div>
 
@@ -770,7 +770,7 @@ export default function Suppliers() {
                     value={formData.contactPerson}
                     onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
                     placeholder="e.g. David Karani (Sales Rep)"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
+                    className="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -784,7 +784,7 @@ export default function Suppliers() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+254 722 000 000"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
+                    className="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -797,7 +797,7 @@ export default function Suppliers() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="orders@vendor.co.ke"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
+                    className="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -808,7 +808,7 @@ export default function Suppliers() {
                   <select
                     value={formData.paymentTerms}
                     onChange={(e) => setFormData({ ...formData, paymentTerms: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
+                    className="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   >
                     <option value="Net 30 Days">Net 30 Days</option>
                     <option value="Net 15 Days">Net 15 Days</option>
@@ -828,7 +828,7 @@ export default function Suppliers() {
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     placeholder="Building, Street, Town"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
+                    className="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -841,7 +841,7 @@ export default function Suppliers() {
                     value={formData.leadTime}
                     onChange={(e) => setFormData({ ...formData, leadTime: e.target.value })}
                     placeholder="e.g. 24-48 Hours"
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
+                    className="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   />
                 </div>
 
@@ -852,7 +852,7 @@ export default function Suppliers() {
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
+                    className="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[ #7b4dff]"
                   >
                     <option value="Active">Active</option>
                     <option value="Preferred Partner">Preferred Partner</option>
@@ -866,13 +866,13 @@ export default function Suppliers() {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-1.5 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+                  className="px-4 py-1.5 rounded text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E]   cursor-pointer"
+                  className="px-4 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E]   cursor-pointer"
                 >
                   Save Supplier
                 </button>
@@ -888,7 +888,7 @@ export default function Suppliers() {
           <div className="bg-white dark:bg-slate-850 rounded   w-full max-w-2xl border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[ #7b4dff]">
+                <div className="w-10 h-10 rounded bg-[#ECFDF3] dark:bg-emerald-950/60 flex items-center justify-center text-[ #7b4dff]">
                   <HugeiconsIcon icon={Building01Icon} className="w-5 h-5" />
                 </div>
                 <div>
@@ -916,7 +916,7 @@ export default function Suppliers() {
             <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
               {/* Summary Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                <div className="p-3 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                   <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
                     Outstanding Payable
                   </span>
@@ -928,7 +928,7 @@ export default function Suppliers() {
                   </span>
                 </div>
 
-                <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                <div className="p-3 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                   <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
                     Active Purchase Orders
                   </span>
@@ -940,7 +940,7 @@ export default function Suppliers() {
                   </span>
                 </div>
 
-                <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                <div className="p-3 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                   <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
                     Catalog Coverage
                   </span>
@@ -954,7 +954,7 @@ export default function Suppliers() {
               </div>
 
               {/* Vendor Logistics & Settlement Details */}
-              <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-4 space-y-3">
+              <div className="rounded border border-slate-200 dark:border-slate-700 p-4 space-y-3">
                 <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
                   Logistics & Banking Information
                 </h4>
@@ -994,14 +994,14 @@ export default function Suppliers() {
                   <button
                     type="button"
                     onClick={() => alert(`Generating new LPO for ${activeSupplier.name}...`)}
-                    className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
+                    className="px-3 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
                   >
                     Create Purchase Order
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsDetailModalOpen(false)}
-                    className="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+                    className="px-3 py-1.5 rounded text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
                   >
                     Close
                   </button>
@@ -1018,7 +1018,7 @@ export default function Suppliers() {
           <div className="bg-white dark:bg-slate-850 rounded   w-full max-w-lg border border-slate-200 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/60 flex items-center justify-center text-amber-600">
+                <div className="w-8 h-8 rounded bg-amber-50 dark:bg-amber-950/60 flex items-center justify-center text-amber-600">
                   <HugeiconsIcon icon={Idea01Icon} className="w-4 h-4" />
                 </div>
                 <div>
@@ -1072,7 +1072,7 @@ export default function Suppliers() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>

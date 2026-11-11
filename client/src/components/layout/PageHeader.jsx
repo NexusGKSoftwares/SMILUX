@@ -169,9 +169,9 @@ export default function PageHeader({
           {/* Three Dots Button & Dropdown */}
           {resolvedMoreActions && (
             <div className="relative">
-             <Button
-                 variant="outline"
-                 size="sm"
+              <Button
+                variant="outline"
+                size="sm"
                 ref={buttonRef}
                 type="button"
                 aria-haspopup="true"
@@ -303,7 +303,7 @@ export default function PageHeader({
                 >
                   {/* Label */}
                   <span
-                    className={`font-['Inter'] font-medium text-[14px] leading-5 whitespace-nowrap ${isActive
+                    className={`font-sans font-medium text-[14px] leading-5 whitespace-nowrap ${isActive
                       ? 'text-[#222323] dark:text-white'
                       : 'text-[#767676] dark:text-slate-400'
                       }`}
@@ -323,12 +323,12 @@ export default function PageHeader({
                     </span>
                   )}
 
-                 
+
                 </div>
               );
             })}
           </div>
- 
+
         </div>
       )}
 

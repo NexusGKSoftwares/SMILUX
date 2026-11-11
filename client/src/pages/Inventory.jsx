@@ -683,7 +683,7 @@ export default function Inventory() {
           <div className="bg-white dark:bg-slate-900 rounded   border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={PlusSignIcon} size={18} />
                 </div>
                 <div>
@@ -698,7 +698,7 @@ export default function Inventory() {
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="text-slate-400 hover:text-slate-600 p-1.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
@@ -715,7 +715,7 @@ export default function Inventory() {
                   placeholder="e.g. 3M Filtek Z350 XT Composite Syringe (Shade A2)"
                   value={itemForm.name}
                   onChange={(e) => setItemForm({ ...itemForm, name: e.target.value })}
-                  className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
               </div>
 
@@ -727,7 +727,7 @@ export default function Inventory() {
                   <select
                     value={itemForm.category}
                     onChange={(e) => setItemForm({ ...itemForm, category: e.target.value })}
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   >
                     <option value="Restorative">Restorative</option>
                     <option value="Endodontics">Endodontics</option>
@@ -747,7 +747,7 @@ export default function Inventory() {
                     placeholder="LOT-2026-99A"
                     value={itemForm.batchNo}
                     onChange={(e) => setItemForm({ ...itemForm, batchNo: e.target.value })}
-                    className="w-full text-xs font-sans rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs font-sans rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -760,7 +760,7 @@ export default function Inventory() {
                     required
                     value={itemForm.quantity}
                     onChange={(e) => setItemForm({ ...itemForm, quantity: e.target.value })}
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -772,7 +772,7 @@ export default function Inventory() {
                     type="number"
                     value={itemForm.minStock}
                     onChange={(e) => setItemForm({ ...itemForm, minStock: e.target.value })}
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -786,7 +786,7 @@ export default function Inventory() {
                     placeholder="e.g. 4200"
                     value={itemForm.unitCost}
                     onChange={(e) => setItemForm({ ...itemForm, unitCost: e.target.value })}
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -799,7 +799,7 @@ export default function Inventory() {
                     placeholder="Dec 2028"
                     value={itemForm.expiryDate}
                     onChange={(e) => setItemForm({ ...itemForm, expiryDate: e.target.value })}
-                    className="w-full text-xs rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="w-full text-xs rounded border border-slate-200 dark:border-slate-700 px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
                 </div>
               </div>
@@ -808,13 +808,13 @@ export default function Inventory() {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-semibold rounded-lg text-white bg-[ #7b4dff] hover:bg-[#02683E]   transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold rounded text-white bg-[ #7b4dff] hover:bg-[#02683E]   transition-colors cursor-pointer"
                 >
                   Save Stock Item
                 </button>
@@ -830,7 +830,7 @@ export default function Inventory() {
           <div className="bg-white dark:bg-slate-900 rounded   border border-slate-200 dark:border-slate-800 w-full max-w-md overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={DentalToothIcon} size={18} />
                 </div>
                 <div>
@@ -843,7 +843,7 @@ export default function Inventory() {
               <button
                 type="button"
                 onClick={() => setViewingItem(null)}
-                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100"
+                className="text-slate-400 hover:text-slate-600 p-1.5 rounded hover:bg-slate-100"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
@@ -855,7 +855,7 @@ export default function Inventory() {
                 <p className="font-bold text-slate-900 dark:text-white text-sm mt-0.5">{viewingItem.name}</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
+              <div className="grid grid-cols-2 gap-3 p-3 rounded bg-slate-50 dark:bg-slate-850 border border-slate-100 dark:border-slate-800">
                 <div>
                   <span className="text-[10px] text-slate-400 uppercase font-semibold">Current Stock</span>
                   <p className="font-extrabold text-emerald-700 dark:text-emerald-400 font-sans text-base mt-0.5">
@@ -890,7 +890,7 @@ export default function Inventory() {
               <button
                 type="button"
                 onClick={() => setViewingItem(null)}
-                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Close Stock Card
               </button>
@@ -905,7 +905,7 @@ export default function Inventory() {
           <div className="bg-white dark:bg-slate-900 rounded   border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                <div className="p-2 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
                   <HugeiconsIcon icon={Idea01Icon} size={18} />
                 </div>
                 <div>
@@ -920,14 +920,14 @@ export default function Inventory() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100"
+                className="text-slate-400 hover:text-slate-600 p-1.5 rounded hover:bg-slate-100"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
             </div>
 
             <div className="p-6 space-y-3.5 text-xs text-slate-600 dark:text-slate-300">
-              <div className="p-3 rounded-lg bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
+              <div className="p-3 rounded bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
                 <h4 className="font-bold text-emerald-900 dark:text-emerald-300 mb-1">
                   FEFO (First Expired, First Out) Compliance
                 </h4>
@@ -950,7 +950,7 @@ export default function Inventory() {
               <button
                 type="button"
                 onClick={() => setIsLearnModalOpen(false)}
-                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[ #7b4dff] text-white hover:bg-[#02683E] cursor-pointer"
               >
                 Got it, thanks
               </button>
