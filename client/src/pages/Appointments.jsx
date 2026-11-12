@@ -1357,17 +1357,18 @@ export default function AppointmentsPage() {
           <div className="flex items-center gap-2 self-end lg:self-center">
             {/* All Dentist Dropdown */}
             <div className="relative">
-              <button
+              <Button
                 type="button"
                 onClick={() => setIsDentistMenuOpen(!isDentistMenuOpen)}
-                className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-200 flex items-center gap-1.5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors cursor-pointer"
+                variant="outline"
+                size="sm"
               >
                 <HugeiconsIcon icon={UserCircleIcon} size={15} className="text-slate-500" />
                 <span className="font-medium">
                   {staffFilter === 'All' ? 'All Dentist' : `Dr. ${staffFilter}`}
                 </span>
                 <HugeiconsIcon icon={ArrowDown01Icon} size={13} className="text-slate-400" />
-              </button>
+              </Button>
 
               {isDentistMenuOpen && (
                 <div className="absolute right-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-30 animate-in fade-in-0 zoom-in-95 duration-100">
@@ -1414,7 +1415,7 @@ export default function AppointmentsPage() {
             </button>
 
             {/* Book Appointment CTA */}
-            <button
+            <Button
               type="button"
               onClick={() => {
                 setNewBooking((prev) => ({
@@ -1422,12 +1423,12 @@ export default function AppointmentsPage() {
                   date: todayISODate,
                 }));
                 setIsBookingModalOpen(true);
-              }}
-              className="px-3 py-1.5 rounded bg-[#00884B] hover:bg-[#00733f] text-white text-xs font-semibold shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
-            >
+              }}variant="primary"
+              size="sm"
+              >
               <HugeiconsIcon icon={PlusSignIcon} size={14} />
               <span>Book</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>
