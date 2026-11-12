@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import Button from '../components/UI/Button.jsx';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Calendar01Icon,
@@ -26,7 +27,7 @@ import {
   Idea01Icon,
   PrinterIcon,
   EyeIcon,
-} from '@hugeicons/core-free-icons';
+} from '@hugeicons/core-free-icons'; 
 
 // ─── Initial Appointments Dataset (Anchored on Nov 2026) ─────────────────────
 const INITIAL_APPOINTMENTS = [
@@ -1243,7 +1244,7 @@ export default function AppointmentsPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFDFD] dark:bg-slate-950 font-sans">
+    <div className="flex flex-col  bg-[#FDFDFD] dark:bg-slate-950 font-sans">
       {/* ─── 1. Top Tabs Row (Matching Screenshot: Calendar | Log History) ───── */}
       <div className="bg-white dark:bg-slate-900 border-b border-[#EAEAEA] dark:border-slate-800 px-6 pt-3">
         <div className="flex items-center gap-7 text-sm">
@@ -1592,54 +1593,53 @@ export default function AppointmentsPage() {
                 VIEW 2: WEEK VIEW (7 Days Columns) - DEFAULT VIEW
                ════════════════════════════════════════════════════════════════ */}
             {viewMode === 'Week' && (
-              <div className="flex flex-col min-w-[850px]">
-                {/* Day Header Row */}
-                <div className="sticky top-0 z-20 flex flex-row bg-slate-50 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-800">
-                  <div className="w-16 h-12 shrink-0 flex items-center justify-center text-[10px] font-bold text-slate-400 border-r border-slate-200 dark:border-slate-800">
-                    GMT +3
-                  </div>
+              <div
+                ref={calendarScrollRef}
+                className="relative overflow-y-auto overflow-x-auto max-h-[calc(100vh-210px)] min-h-[600px] bg-white dark:bg-slate-900"
+                style={{ height: '768px' }}
+              >
+                <div className="min-w-[850px] flex flex-col">
+                  {/* Day Header Row */}
+                  <div className="sticky top-0 z-30 flex flex-row bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-800 shadow-2xs">
+                    <div className="w-16 h-12 shrink-0 flex items-center justify-center text-[10px] font-bold text-slate-400 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 select-none">
+                      GMT +3
+                    </div>
 
-                  <div className="grid grid-cols-7 flex-1">
-                    {weekDays.map((day) => (
-                      <div
-                        key={day.dateStr}
-                        onClick={() => {
-                          setCurrentDate(day.rawDate);
-                          setViewMode('Day');
-                        }}
-                        title="Click to view this Day"
-                        className={`h-12 px-2.5 py-1 flex items-center justify-between border-r border-slate-200 dark:border-slate-800 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors ${day.isToday ? 'bg-indigo-50/40 dark:bg-indigo-950/20' : ''
-                          }`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <span
-                            className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${day.isToday
-                              ? 'bg-[#5051F9] text-white shadow-2xs'
-                              : 'text-slate-900 dark:text-white'
-                              }`}
-                          >
-                            {day.date}
-                          </span>
-                          <div className="leading-tight">
-                            <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block">
-                              {day.name}
+                    <div className="grid grid-cols-7 flex-1">
+                      {weekDays.map((day) => (
+                        <div
+                          key={day.dateStr}
+                          onClick={() => {
+                            setCurrentDate(day.rawDate);
+                            setViewMode('Day');
+                          }}
+                          title="Click to view this Day"
+                          className={`h-12 px-2.5 py-1 flex items-center justify-between border-r border-slate-200 dark:border-slate-800 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors ${day.isToday ? 'bg-indigo-50/40 dark:bg-indigo-950/20' : ''
+                            }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${day.isToday
+                                ? 'bg-[#5051F9] text-white shadow-2xs'
+                                : 'text-slate-900 dark:text-white'
+                                }`}
+                            >
+                              {day.date}
                             </span>
-                            <span className="text-[10px] text-slate-400">
-                              {day.count} apt{day.count === 1 ? '' : 's'}
-                            </span>
+                            <div className="leading-tight">
+                              <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block">
+                                {day.name}
+                              </span>
+                              <span className="text-[10px] text-slate-400">
+                                {day.count} apt{day.count === 1 ? '' : 's'}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                {/* Time Grid with Plotted Appointment Cards */}
-                <div
-                  ref={calendarScrollRef}
-                  className="relative overflow-y-auto max-h-[calc(100vh-210px)] min-h-[600px] bg-white dark:bg-slate-900"
-                  style={{ height: '768px' }}
-                >
                   {/* Inner Canvas with explicit total grid height */}
                   <div
                     className="relative flex flex-row"
@@ -1685,7 +1685,7 @@ export default function AppointmentsPage() {
                       {weekDays.map((day) => (
                         <div
                           key={day.dateStr}
-                          className="relative border-r border-slate-200/80 dark:border-slate-800 box-border shrink-0"
+                          className="relative border-r border-slate-200 dark:border-slate-800 box-border shrink-0"
                           style={{ height: `${TOTAL_GRID_HEIGHT}px` }}
                         >
                           {/* Hour Guideline Rows (Clickable to open booking modal) */}
@@ -2411,13 +2411,13 @@ export default function AppointmentsPage() {
             </div>
           </div>
 
-          <button
+          <Button
             type="button"
-            onClick={() => setIsFilterDrawerOpen(false)}
-            className="w-full py-2 bg-[#00884B] hover:bg-[#00733f] text-white rounded font-bold text-xs transition-colors shadow-xs cursor-pointer"
-          >
+            variant="primary"  onClick={() => setIsFilterDrawerOpen(false)}
+             size="sm"
+                >
             Apply Filters
-          </button>
+          </Button>
         </div>
       )}
     </div>

@@ -601,7 +601,7 @@ export default function Inventory() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50/40 dark:bg-slate-950 font-sans pb-12">
+    <div className=" bg-slate-50/40 dark:bg-slate-950 font-sans pb-12">
       {/* ─── 1. Page Header ─────────────────────────────────────────────────── */}
       <PageHeader
         title="Inventory"
