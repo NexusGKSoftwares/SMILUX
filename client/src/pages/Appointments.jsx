@@ -2103,60 +2103,65 @@ export default function AppointmentsPage() {
               </div>
 
               {/* Status Updater Buttons */}
-              <div className="flex items-center gap-2 pt-1">
+              <div className="flex items-center gap-2 pt-1 flex-wrap">
                 <span className="text-slate-400 text-xs font-semibold mr-1">Update Status:</span>
-                <button
+                <Button
                   type="button"
                   onClick={() =>
                     handleUpdateStatus(selectedAppointmentForModal.id, 'In Progress')
                   }
-                  className="px-2.5 py-1 rounded bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-300 border border-sky-200 dark:border-sky-800 hover:bg-sky-100 font-semibold text-[11px] transition-colors cursor-pointer"
+                  variant={selectedAppointmentForModal.status === 'In Progress' ? 'primary' : 'outline'}
+                  size="sm"
                 >
                   In Progress
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
                   onClick={() =>
                     handleUpdateStatus(selectedAppointmentForModal.id, 'Completed')
                   }
-                  className="px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 font-semibold text-[11px] transition-colors cursor-pointer"
+                  variant={selectedAppointmentForModal.status === 'Completed' ? 'primary' : 'outline'}
+                  size="sm"
                 >
                   Completed
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
                   onClick={() =>
                     handleUpdateStatus(selectedAppointmentForModal.id, 'Cancelled')
                   }
-                  className="px-2.5 py-1 rounded bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300 border border-rose-200 dark:border-rose-800 hover:bg-rose-100 font-semibold text-[11px] transition-colors cursor-pointer"
+                  variant={selectedAppointmentForModal.status === 'Cancelled' ? 'primary' : 'outline'}
+                  size="sm"
                 >
                   Cancel Apt
-                </button>
+                </Button>
               </div>
             </div>
 
             {/* Modal Footer Actions */}
             <div className="flex items-center justify-between px-5 py-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850">
-              <button
+              <Button
                 type="button"
                 onClick={() =>
                   alert(`Printing appointment sheet for ${selectedAppointmentForModal.patientName}...`)
                 }
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 text-slate-700 dark:text-slate-200 text-xs font-semibold transition-colors cursor-pointer"
+                variant="outline"
+                size="sm"
               >
                 <HugeiconsIcon icon={PrinterIcon} size={14} />
                 <span>Print</span>
-              </button>
+              </Button>
 
               <div className="flex items-center gap-2">
-                <button
+                <Button
                   type="button"
                   onClick={() => setSelectedAppointmentForModal(null)}
-                  className="px-4 py-1.5 rounded border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  variant="outline"
+                  size="sm"
                 >
                   Close
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
                   onClick={() => {
                     alert(
@@ -2164,10 +2169,11 @@ export default function AppointmentsPage() {
                     );
                     setSelectedAppointmentForModal(null);
                   }}
-                  className="px-4 py-1.5 rounded bg-[#00884B] hover:bg-[#00733f] text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
+                  variant="primary"
+                  size="sm"
                 >
                   Checkout &amp; Invoice
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -2192,13 +2198,16 @@ export default function AppointmentsPage() {
                   </p>
                 </div>
               </div>
-              <button
+              <Button
                 type="button"
                 onClick={() => setIsBookingModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded cursor-pointer"
+                variant="outline"
+                size="sm"
+                className="w-8 h-8 !px-0"
+                title="Close"
               >
-                <HugeiconsIcon icon={Cancel01Icon} size={18} />
-              </button>
+                <HugeiconsIcon icon={Cancel01Icon} size={16} />
+              </Button>
             </div>
 
             <form onSubmit={handleBookingSubmit} className="p-5 space-y-3.5 text-xs">
