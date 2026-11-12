@@ -2001,15 +2001,16 @@ export default function AppointmentsPage() {
                   >
                     <HugeiconsIcon icon={CallIcon} size={14} />
                   </a>
-                  <button
+                  <Button
                     type="button"
                     onClick={() =>
                       alert(`Sending reminder SMS to ${selectedAppointmentForModal.phone}...`)
                     }
-                    className="px-2.5 py-1.5 rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-colors font-medium text-[11px] cursor-pointer"
+                    variant="outline"
+                    size="sm"
                   >
                     Send SMS
-                  </button>
+                  </Button>
                 </div>
               </div>
 
