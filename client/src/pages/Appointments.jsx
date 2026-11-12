@@ -859,10 +859,13 @@ const INITIAL_APPOINTMENTS = [
   },
 ];
 
-// Start hour for clinic operations (07:00 AM)
-const START_HOUR = 7;
+// Start hour for clinic operations (04:00 AM to 11:00 PM)
+const START_HOUR = 4;
 
 const TIME_SLOTS = [
+  '04:00 AM',
+  '05:00 AM',
+  '06:00 AM',
   '07:00 AM',
   '08:00 AM',
   '09:00 AM',
@@ -877,6 +880,9 @@ const TIME_SLOTS = [
   '06:00 PM',
   '07:00 PM',
   '08:00 PM',
+  '09:00 PM',
+  '10:00 PM',
+  '11:00 PM',
 ];
 
 export default function AppointmentsPage() {
@@ -886,10 +892,10 @@ export default function AppointmentsPage() {
   const [statusFilter, setStatusFilter] = useState('All');
   const [staffFilter, setStaffFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   // Real current live date and time
   const [now, setNow] = useState(() => new Date());
-  
+
   // Active viewing date (defaults to the actual current date!)
   const [currentDate, setCurrentDate] = useState(() => new Date());
 
@@ -1170,7 +1176,7 @@ export default function AppointmentsPage() {
   const handleCalendarEmptySlotClick = (dateStr, hourStr) => {
     const startHour = hourStr || '10:00';
     const [h] = startHour.split(':').map(Number);
-    const endH = String(Math.min(20, h + 1)).padStart(2, '0');
+    const endH = String(Math.min(23, h + 1)).padStart(2, '0');
     const endHour = `${endH}:00`;
 
     setNewBooking((prev) => ({
@@ -1239,11 +1245,10 @@ export default function AppointmentsPage() {
           <button
             type="button"
             onClick={() => setMainTab('Calendar')}
-            className={`pb-2.5 font-medium transition-all relative cursor-pointer select-none ${
-              mainTab === 'Calendar'
+            className={`pb-2.5 font-medium transition-all relative cursor-pointer select-none ${mainTab === 'Calendar'
                 ? 'text-[#5051F9] dark:text-[#7072ff] font-semibold'
                 : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
-            }`}
+              }`}
           >
             Calendar
             {mainTab === 'Calendar' && (
@@ -1254,11 +1259,10 @@ export default function AppointmentsPage() {
           <button
             type="button"
             onClick={() => setMainTab('Log History')}
-            className={`pb-2.5 font-medium transition-all relative cursor-pointer select-none ${
-              mainTab === 'Log History'
+            className={`pb-2.5 font-medium transition-all relative cursor-pointer select-none ${mainTab === 'Log History'
                 ? 'text-[#5051F9] dark:text-[#7072ff] font-semibold'
                 : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
-            }`}
+              }`}
           >
             Log History
             {mainTab === 'Log History' && (
@@ -1332,11 +1336,10 @@ export default function AppointmentsPage() {
                   key={mode}
                   type="button"
                   onClick={() => setViewMode(mode)}
-                  className={`px-3 py-1 rounded-md text-xs transition-all cursor-pointer ${
-                    viewMode === mode
+                  className={`px-3 py-1 rounded-md text-xs transition-all cursor-pointer ${viewMode === mode
                       ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-bold shadow-2xs'
                       : 'text-slate-500 dark:text-slate-400 font-medium hover:text-slate-800 dark:hover:text-white'
-                  }`}
+                    }`}
                 >
                   {mode}
                 </button>
@@ -1378,11 +1381,10 @@ export default function AppointmentsPage() {
                         setStaffFilter(dentist.val);
                         setIsDentistMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3 py-1.5 text-xs transition-colors flex items-center justify-between ${
-                        staffFilter === dentist.val
+                      className={`w-full text-left px-3 py-1.5 text-xs transition-colors flex items-center justify-between ${staffFilter === dentist.val
                           ? 'bg-indigo-50 dark:bg-indigo-950/40 text-[#5051F9] dark:text-[#7072ff] font-bold'
                           : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'
-                      }`}
+                        }`}
                     >
                       <span>{dentist.label}</span>
                       {staffFilter === dentist.val && <span>✓</span>}
@@ -1427,7 +1429,7 @@ export default function AppointmentsPage() {
       {/* ─── 3. Main Content: Calendar Views OR Log History ─────────────────── */}
       {mainTab === 'Calendar' ? (
         <div className="flex-1 p-4 overflow-x-auto">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xs overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded shadow-xs overflow-hidden">
             {/* ════════════════════════════════════════════════════════════════
                 VIEW 1: DAY VIEW
                ════════════════════════════════════════════════════════════════ */}
@@ -1587,17 +1589,15 @@ export default function AppointmentsPage() {
                           setViewMode('Day');
                         }}
                         title="Click to view this Day"
-                        className={`h-12 px-2.5 py-1 flex items-center justify-between border-r border-slate-200 dark:border-slate-800 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors ${
-                          day.isToday ? 'bg-indigo-50/40 dark:bg-indigo-950/20' : ''
-                        }`}
+                        className={`h-12 px-2.5 py-1 flex items-center justify-between border-r border-slate-200 dark:border-slate-800 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors ${day.isToday ? 'bg-indigo-50/40 dark:bg-indigo-950/20' : ''
+                          }`}
                       >
                         <div className="flex items-center gap-2">
                           <span
-                            className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
-                              day.isToday
+                            className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${day.isToday
                                 ? 'bg-[#5051F9] text-white shadow-2xs'
                                 : 'text-slate-900 dark:text-white'
-                            }`}
+                              }`}
                           >
                             {day.date}
                           </span>
@@ -1728,9 +1728,8 @@ export default function AppointmentsPage() {
                     <div
                       key={cell.dateISO}
                       onClick={() => handleCalendarEmptySlotClick(cell.dateISO, '10:00')}
-                      className={`min-h-[110px] p-2 bg-white dark:bg-slate-900 transition-colors cursor-pointer group flex flex-col justify-between hover:bg-slate-50 dark:hover:bg-slate-850 ${
-                        !cell.isCurrentMonth ? 'opacity-40 bg-slate-50/50 dark:bg-slate-950/50' : ''
-                      }`}
+                      className={`min-h-[110px] p-2 bg-white dark:bg-slate-900 transition-colors cursor-pointer group flex flex-col justify-between hover:bg-slate-50 dark:hover:bg-slate-850 ${!cell.isCurrentMonth ? 'opacity-40 bg-slate-50/50 dark:bg-slate-950/50' : ''
+                        }`}
                     >
                       {/* Top Row: Date Number + Quick Add Button */}
                       <div className="flex items-center justify-between mb-1">
@@ -1740,11 +1739,10 @@ export default function AppointmentsPage() {
                             setCurrentDate(new Date(cell.dateISO));
                             setViewMode('Day');
                           }}
-                          className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold transition-transform hover:scale-110 ${
-                            cell.isToday
+                          className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold transition-transform hover:scale-110 ${cell.isToday
                               ? 'bg-[#5051F9] text-white shadow-2xs'
                               : 'text-slate-700 dark:text-slate-200'
-                          }`}
+                            }`}
                           title="Click to open Day view"
                         >
                           {cell.dayNum}
@@ -1807,7 +1805,7 @@ export default function AppointmentsPage() {
             LOG HISTORY TAB VIEW
            ════════════════════════════════════════════════════════════════════ */
         <div className="flex-1 p-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xs overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded shadow-xs overflow-hidden">
             <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -1856,13 +1854,12 @@ export default function AppointmentsPage() {
                       </div>
                     </div>
                     <span
-                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                        apt.status === 'Completed'
+                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${apt.status === 'Completed'
                           ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                           : apt.status === 'In Progress'
-                          ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
-                          : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                      }`}
+                            ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
+                            : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                        }`}
                     >
                       {apt.status}
                     </span>
@@ -1877,7 +1874,7 @@ export default function AppointmentsPage() {
       {/* ─── 4. Appointment Details Modal (Opens on Calendar Click) ────────── */}
       {selectedAppointmentForModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in-0 duration-200">
-          <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 w-full max-w-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150 flex flex-col max-h-[90vh]">
+          <div className="bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 w-full max-w-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150 flex flex-col max-h-[90vh]">
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850">
               <div className="flex items-center gap-2.5">
@@ -1901,13 +1898,12 @@ export default function AppointmentsPage() {
 
               <div className="flex items-center gap-2">
                 <span
-                  className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
-                    selectedAppointmentForModal.status === 'Completed'
+                  className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${selectedAppointmentForModal.status === 'Completed'
                       ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                       : selectedAppointmentForModal.status === 'In Progress'
-                      ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
-                      : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                  }`}
+                        ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
+                        : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                    }`}
                 >
                   {selectedAppointmentForModal.status}
                 </span>
@@ -2035,11 +2031,10 @@ export default function AppointmentsPage() {
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-slate-500">Payment Status:</span>
                   <span
-                    className={`px-2 py-0.5 rounded font-bold text-[10px] ${
-                      selectedAppointmentForModal.paymentStatus === 'Paid'
+                    className={`px-2 py-0.5 rounded font-bold text-[10px] ${selectedAppointmentForModal.paymentStatus === 'Paid'
                         ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                         : 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
-                    }`}
+                      }`}
                   >
                     {selectedAppointmentForModal.paymentStatus} (
                     {selectedAppointmentForModal.paymentMethod})
@@ -2128,7 +2123,7 @@ export default function AppointmentsPage() {
       {/* ─── 5. Book Appointment Modal (Opens from empty calendar slot or button) ── */}
       {isBookingModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in-0 duration-200">
-          <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150">
+          <div className="bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
