@@ -1298,33 +1298,38 @@ export default function AppointmentsPage() {
 
           {/* Center: [Today]  <  >  Fri, 16 May 2022  |  [ Day | Week ] */}
           <div className="flex items-center gap-2.5 flex-wrap justify-center">
-            {/* "Today" pill button with soft purple/indigo border */}
-            <button
+            {/* "Today" button */}
+            <Button
               type="button"
               onClick={handleToday}
-              className="px-3.5 py-1 rounded border border-[#5051F9]/50 dark:border-[#7072ff]/50 bg-white dark:bg-slate-800 text-[#5051F9] dark:text-[#7072ff] text-xs font-semibold hover:bg-[#5051F9]/5 transition-colors cursor-pointer shadow-2xs"
+              variant="outline"
+              size="sm"
             >
               Today
-            </button>
+            </Button>
 
             {/* Left & Right chevron arrows */}
-            <div className="flex items-center gap-0.5">
-              <button
+            <div className="flex items-center gap-1">
+              <Button
                 type="button"
                 onClick={handlePrev}
-                className="p-1 rounded text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
+                variant="outline"
+                size="sm"
+                className="w-8 h-8 !px-0"
                 title="Previous"
               >
-                <HugeiconsIcon icon={ArrowLeft01Icon} size={16} />
-              </button>
-              <button
+                <HugeiconsIcon icon={ArrowLeft01Icon} size={15} />
+              </Button>
+              <Button
                 type="button"
                 onClick={handleNext}
-                className="p-1 rounded text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
+                variant="outline"
+                size="sm"
+                className="w-8 h-8 !px-0"
                 title="Next"
               >
-                <HugeiconsIcon icon={ArrowRight01Icon} size={16} />
-              </button>
+                <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
+              </Button>
             </div>
 
             {/* Date Display (e.g. "Fri, 16 May 2022") */}
@@ -1409,17 +1414,18 @@ export default function AppointmentsPage() {
             </div>
 
             {/* Filters Button (with blue dot indicator) */}
-            <button
+            <Button
               type="button"
               onClick={() => setIsFilterDrawerOpen(true)}
-              className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-200 flex items-center gap-1.5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors cursor-pointer"
+              variant="outline"
+              size="sm"
             >
               <span className="relative flex items-center">
                 <HugeiconsIcon icon={FilterIcon} size={15} className="text-slate-500" />
                 <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[#0099ff]" />
               </span>
               <span className="font-medium">Filters</span>
-            </button>
+            </Button>
 
             {/* Book Appointment CTA */}
             <Button
@@ -1472,13 +1478,14 @@ export default function AppointmentsPage() {
                     </span>
                   </div>
 
-                  <button
+                  <Button
                     type="button"
                     onClick={() => handleCalendarEmptySlotClick(currentISODate, '09:00')}
-                    className="text-xs font-semibold text-[#5051F9] dark:text-[#7072ff] hover:underline cursor-pointer"
+                    variant="outline"
+                    size="sm"
                   >
                     + Add to this day
-                  </button>
+                  </Button>
                 </div>
 
                 {/* Day Timeline Grid */}
@@ -1951,13 +1958,16 @@ export default function AppointmentsPage() {
                   {selectedAppointmentForModal.status}
                 </span>
 
-                <button
+                <Button
                   type="button"
                   onClick={() => setSelectedAppointmentForModal(null)}
-                  className="p-1.5 rounded text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  variant="outline"
+                  size="sm"
+                  className="w-8 h-8 !px-0"
+                  title="Close"
                 >
-                  <HugeiconsIcon icon={Cancel01Icon} size={18} />
-                </button>
+                  <HugeiconsIcon icon={Cancel01Icon} size={16} />
+                </Button>
               </div>
             </div>
 
