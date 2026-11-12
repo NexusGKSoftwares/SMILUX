@@ -2377,13 +2377,16 @@ export default function AppointmentsPage() {
                   Calendar Filters
                 </h3>
               </div>
-              <button
+              <Button
                 type="button"
                 onClick={() => setIsFilterDrawerOpen(false)}
-                className="p-1 rounded text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer"
+                variant="outline"
+                size="sm"
+                className="w-8 h-8 !px-0"
+                title="Close"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={16} />
-              </button>
+              </Button>
             </div>
 
             {/* Quick Status Filter */}
