@@ -1251,8 +1251,8 @@ export default function AppointmentsPage() {
             type="button"
             onClick={() => setMainTab('Calendar')}
             className={`pb-2.5 font-medium transition-all relative cursor-pointer select-none ${mainTab === 'Calendar'
-                ? 'text-[#5051F9] dark:text-[#7072ff] font-semibold'
-                : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
+              ? 'text-[#5051F9] dark:text-[#7072ff] font-semibold'
+              : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
               }`}
           >
             Calendar
@@ -1265,8 +1265,8 @@ export default function AppointmentsPage() {
             type="button"
             onClick={() => setMainTab('Log History')}
             className={`pb-2.5 font-medium transition-all relative cursor-pointer select-none ${mainTab === 'Log History'
-                ? 'text-[#5051F9] dark:text-[#7072ff] font-semibold'
-                : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
+              ? 'text-[#5051F9] dark:text-[#7072ff] font-semibold'
+              : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
               }`}
           >
             Log History
@@ -1282,7 +1282,7 @@ export default function AppointmentsPage() {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-3">
           {/* Left: Total Appointments with Badge Icon */}
           <div className="flex items-center gap-2.5 self-start lg:self-center">
-            <div className="w-8 h-8 rounded-lg bg-[#F3F4F6] dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 shrink-0">
+            <div className="w-8 h-8 rounded bg-[#F3F4F6] dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 shrink-0">
               <HugeiconsIcon icon={Calendar01Icon} size={16} />
             </div>
             <div className="flex items-baseline gap-1.5">
@@ -1301,7 +1301,7 @@ export default function AppointmentsPage() {
             <button
               type="button"
               onClick={handleToday}
-              className="px-3.5 py-1 rounded-lg border border-[#5051F9]/50 dark:border-[#7072ff]/50 bg-white dark:bg-slate-800 text-[#5051F9] dark:text-[#7072ff] text-xs font-semibold hover:bg-[#5051F9]/5 transition-colors cursor-pointer shadow-2xs"
+              className="px-3.5 py-1 rounded border border-[#5051F9]/50 dark:border-[#7072ff]/50 bg-white dark:bg-slate-800 text-[#5051F9] dark:text-[#7072ff] text-xs font-semibold hover:bg-[#5051F9]/5 transition-colors cursor-pointer shadow-2xs"
             >
               Today
             </button>
@@ -1335,15 +1335,15 @@ export default function AppointmentsPage() {
             <span className="h-5 w-[1px] bg-slate-200 dark:bg-slate-700 mx-1 hidden sm:inline-block" />
 
             {/* Segmented Switcher: [Day] [Week] [Month] (Week default) */}
-            <div className="inline-flex items-center p-0.5 bg-[#F3F4F6] dark:bg-slate-800 rounded-lg text-xs">
+            <div className="inline-flex items-center p-0.5 bg-[#F3F4F6] dark:bg-slate-800 rounded text-xs">
               {['Day', 'Week', 'Month'].map((mode) => (
                 <button
                   key={mode}
                   type="button"
                   onClick={() => setViewMode(mode)}
                   className={`px-3 py-1 rounded-md text-xs transition-all cursor-pointer ${viewMode === mode
-                      ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-bold shadow-2xs'
-                      : 'text-slate-500 dark:text-slate-400 font-medium hover:text-slate-800 dark:hover:text-white'
+                    ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-bold shadow-2xs'
+                    : 'text-slate-500 dark:text-slate-400 font-medium hover:text-slate-800 dark:hover:text-white'
                     }`}
                 >
                   {mode}
@@ -1359,7 +1359,7 @@ export default function AppointmentsPage() {
               <button
                 type="button"
                 onClick={() => setIsDentistMenuOpen(!isDentistMenuOpen)}
-                className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-200 flex items-center gap-1.5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors cursor-pointer"
+                className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-200 flex items-center gap-1.5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={UserCircleIcon} size={15} className="text-slate-500" />
                 <span className="font-medium">
@@ -1369,7 +1369,7 @@ export default function AppointmentsPage() {
               </button>
 
               {isDentistMenuOpen && (
-                <div className="absolute right-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-30 animate-in fade-in-0 zoom-in-95 duration-100">
+                <div className="absolute right-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-30 animate-in fade-in-0 zoom-in-95 duration-100">
                   {[
                     { val: 'All', label: 'All Dentist' },
                     { val: 'Steward', label: 'Dr. Darrell Steward' },
@@ -1387,8 +1387,8 @@ export default function AppointmentsPage() {
                         setIsDentistMenuOpen(false);
                       }}
                       className={`w-full text-left px-3 py-1.5 text-xs transition-colors flex items-center justify-between ${staffFilter === dentist.val
-                          ? 'bg-indigo-50 dark:bg-indigo-950/40 text-[#5051F9] dark:text-[#7072ff] font-bold'
-                          : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'
+                        ? 'bg-indigo-50 dark:bg-indigo-950/40 text-[#5051F9] dark:text-[#7072ff] font-bold'
+                        : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'
                         }`}
                     >
                       <span>{dentist.label}</span>
@@ -1403,7 +1403,7 @@ export default function AppointmentsPage() {
             <button
               type="button"
               onClick={() => setIsFilterDrawerOpen(true)}
-              className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-200 flex items-center gap-1.5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-200 flex items-center gap-1.5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors cursor-pointer"
             >
               <span className="relative flex items-center">
                 <HugeiconsIcon icon={FilterIcon} size={15} className="text-slate-500" />
@@ -1422,7 +1422,7 @@ export default function AppointmentsPage() {
                 }));
                 setIsBookingModalOpen(true);
               }}
-              className="px-3 py-1.5 rounded-lg bg-[#00884B] hover:bg-[#00733f] text-white text-xs font-semibold shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
+              className="px-3 py-1.5 rounded bg-[#00884B] hover:bg-[#00733f] text-white text-xs font-semibold shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
             >
               <HugeiconsIcon icon={PlusSignIcon} size={14} />
               <span>Book</span>
@@ -1552,7 +1552,7 @@ export default function AppointmentsPage() {
                                 handleAppointmentClick(apt);
                               }}
                               style={{ top: pos.top, height: pos.height }}
-                              className={`absolute left-3 right-3 rounded-lg p-3 text-xs transition-all cursor-pointer overflow-hidden z-10 shadow-xs border ${getColorStyles(
+                              className={`absolute left-3 right-3 rounded p-3 text-xs transition-all cursor-pointer overflow-hidden z-10 shadow-xs border ${getColorStyles(
                                 apt.color,
                                 false
                               )} hover:shadow-md hover:scale-[1.005]`}
@@ -1614,8 +1614,8 @@ export default function AppointmentsPage() {
                         <div className="flex items-center gap-2">
                           <span
                             className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${day.isToday
-                                ? 'bg-[#5051F9] text-white shadow-2xs'
-                                : 'text-slate-900 dark:text-white'
+                              ? 'bg-[#5051F9] text-white shadow-2xs'
+                              : 'text-slate-900 dark:text-white'
                               }`}
                           >
                             {day.date}
@@ -1775,8 +1775,8 @@ export default function AppointmentsPage() {
                             setViewMode('Day');
                           }}
                           className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold transition-transform hover:scale-110 ${cell.isToday
-                              ? 'bg-[#5051F9] text-white shadow-2xs'
-                              : 'text-slate-700 dark:text-slate-200'
+                            ? 'bg-[#5051F9] text-white shadow-2xs'
+                            : 'text-slate-700 dark:text-slate-200'
                             }`}
                           title="Click to open Day view"
                         >
@@ -1890,10 +1890,10 @@ export default function AppointmentsPage() {
                     </div>
                     <span
                       className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${apt.status === 'Completed'
-                          ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                          : apt.status === 'In Progress'
-                            ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
-                            : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                        : apt.status === 'In Progress'
+                          ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
+                          : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
                         }`}
                     >
                       {apt.status}
@@ -1913,7 +1913,7 @@ export default function AppointmentsPage() {
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-lg bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">
+                <div className="p-1.5 rounded bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">
                   <HugeiconsIcon icon={Calendar01Icon} size={18} />
                 </div>
                 <div>
@@ -1934,10 +1934,10 @@ export default function AppointmentsPage() {
               <div className="flex items-center gap-2">
                 <span
                   className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${selectedAppointmentForModal.status === 'Completed'
-                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                      : selectedAppointmentForModal.status === 'In Progress'
-                        ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
-                        : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                    : selectedAppointmentForModal.status === 'In Progress'
+                      ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
+                      : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
                     }`}
                 >
                   {selectedAppointmentForModal.status}
@@ -1946,7 +1946,7 @@ export default function AppointmentsPage() {
                 <button
                   type="button"
                   onClick={() => setSelectedAppointmentForModal(null)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="p-1.5 rounded text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   <HugeiconsIcon icon={Cancel01Icon} size={18} />
                 </button>
@@ -1956,7 +1956,7 @@ export default function AppointmentsPage() {
             {/* Modal Body */}
             <div className="p-5 space-y-4 overflow-y-auto text-xs">
               {/* Patient Banner */}
-              <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800">
+              <div className="flex items-center justify-between p-3 rounded bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800">
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-sm shadow-xs">
                     {selectedAppointmentForModal.patientName
@@ -1978,7 +1978,7 @@ export default function AppointmentsPage() {
                 <div className="flex items-center gap-1.5">
                   <a
                     href={`tel:${selectedAppointmentForModal.phone}`}
-                    className="p-2 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-colors"
+                    className="p-2 rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-colors"
                     title="Call Patient"
                   >
                     <HugeiconsIcon icon={CallIcon} size={14} />
@@ -1988,7 +1988,7 @@ export default function AppointmentsPage() {
                     onClick={() =>
                       alert(`Sending reminder SMS to ${selectedAppointmentForModal.phone}...`)
                     }
-                    className="px-2.5 py-1.5 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-colors font-medium text-[11px] cursor-pointer"
+                    className="px-2.5 py-1.5 rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-colors font-medium text-[11px] cursor-pointer"
                   >
                     Send SMS
                   </button>
@@ -1997,21 +1997,21 @@ export default function AppointmentsPage() {
 
               {/* Timing & Practitioner Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                <div className="p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800">
+                <div className="p-2.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800">
                   <span className="text-[10px] text-slate-400 font-bold uppercase">Date & Day</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5">
                     {selectedAppointmentForModal.dateStr}
                   </p>
                 </div>
 
-                <div className="p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800">
+                <div className="p-2.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800">
                   <span className="text-[10px] text-slate-400 font-bold uppercase">Time Window</span>
                   <p className="font-bold text-[#5051F9] dark:text-[#7072ff] mt-0.5">
                     {selectedAppointmentForModal.startTime} → {selectedAppointmentForModal.endTime}
                   </p>
                 </div>
 
-                <div className="p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 col-span-2 sm:col-span-1">
+                <div className="p-2.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 col-span-2 sm:col-span-1">
                   <span className="text-[10px] text-slate-400 font-bold uppercase">Practitioner</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5 truncate">
                     {selectedAppointmentForModal.dentist}
@@ -2024,7 +2024,7 @@ export default function AppointmentsPage() {
                 <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
                   Clinical Notes & Symptoms
                 </span>
-                <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300">
+                <div className="p-3 rounded bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300">
                   {selectedAppointmentForModal.note || 'No clinical notes recorded.'}
                 </div>
               </div>
@@ -2038,7 +2038,7 @@ export default function AppointmentsPage() {
                   {selectedAppointmentForModal.services.map((svc, idx) => (
                     <div
                       key={idx}
-                      className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between"
+                      className="p-2.5 rounded bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2">
                         <div className="p-1 rounded bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">
@@ -2062,13 +2062,13 @@ export default function AppointmentsPage() {
               </div>
 
               {/* Payment Summary Box */}
-              <div className="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-1.5">
+              <div className="p-3.5 rounded bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-1.5">
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-slate-500">Payment Status:</span>
                   <span
                     className={`px-2 py-0.5 rounded font-bold text-[10px] ${selectedAppointmentForModal.paymentStatus === 'Paid'
-                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                        : 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
+                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                      : 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
                       }`}
                   >
                     {selectedAppointmentForModal.paymentStatus} (
@@ -2123,7 +2123,7 @@ export default function AppointmentsPage() {
                 onClick={() =>
                   alert(`Printing appointment sheet for ${selectedAppointmentForModal.patientName}...`)
                 }
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 text-slate-700 dark:text-slate-200 text-xs font-semibold transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 text-slate-700 dark:text-slate-200 text-xs font-semibold transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={PrinterIcon} size={14} />
                 <span>Print</span>
@@ -2133,7 +2133,7 @@ export default function AppointmentsPage() {
                 <button
                   type="button"
                   onClick={() => setSelectedAppointmentForModal(null)}
-                  className="px-4 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="px-4 py-1.5 rounded border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   Close
                 </button>
@@ -2145,7 +2145,7 @@ export default function AppointmentsPage() {
                     );
                     setSelectedAppointmentForModal(null);
                   }}
-                  className="px-4 py-1.5 rounded-lg bg-[#00884B] hover:bg-[#00733f] text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
+                  className="px-4 py-1.5 rounded bg-[#00884B] hover:bg-[#00733f] text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
                 >
                   Checkout &amp; Invoice
                 </button>
@@ -2161,7 +2161,7 @@ export default function AppointmentsPage() {
           <div className="bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-1.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={PlusSignIcon} size={16} />
                 </div>
                 <div>
@@ -2196,7 +2196,7 @@ export default function AppointmentsPage() {
                     onChange={(e) =>
                       setNewBooking({ ...newBooking, patientName: e.target.value })
                     }
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -2210,7 +2210,7 @@ export default function AppointmentsPage() {
                     placeholder="+254 7XX XXX XXX"
                     value={newBooking.phone}
                     onChange={(e) => setNewBooking({ ...newBooking, phone: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -2221,7 +2221,7 @@ export default function AppointmentsPage() {
                   <select
                     value={newBooking.dentist}
                     onChange={(e) => setNewBooking({ ...newBooking, dentist: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   >
                     <option value="Dr. Darrell Steward">Dr. Darrell Steward (Surgeon)</option>
                     <option value="Dr. Faith Mutua">Dr. Faith Mutua (Orthodontist)</option>
@@ -2242,7 +2242,7 @@ export default function AppointmentsPage() {
                     placeholder="e.g. Scaling & Polishing, Root Canal, Crown Prep"
                     value={newBooking.service}
                     onChange={(e) => setNewBooking({ ...newBooking, service: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -2255,7 +2255,7 @@ export default function AppointmentsPage() {
                     required
                     value={newBooking.date}
                     onChange={(e) => setNewBooking({ ...newBooking, date: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -2266,7 +2266,7 @@ export default function AppointmentsPage() {
                   <select
                     value={newBooking.chair}
                     onChange={(e) => setNewBooking({ ...newBooking, chair: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   >
                     <option value="Operatory Chair 1">Operatory Chair 1</option>
                     <option value="Operatory Chair 2">Operatory Chair 2</option>
@@ -2288,7 +2288,7 @@ export default function AppointmentsPage() {
                       onChange={(e) =>
                         setNewBooking({ ...newBooking, startTime: e.target.value })
                       }
-                      className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none"
+                      className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none"
                     />
                     <span className="text-slate-400 font-bold">to</span>
                     <input
@@ -2297,7 +2297,7 @@ export default function AppointmentsPage() {
                       onChange={(e) =>
                         setNewBooking({ ...newBooking, endTime: e.target.value })
                       }
-                      className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none"
+                      className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none"
                     />
                   </div>
                 </div>
@@ -2311,7 +2311,7 @@ export default function AppointmentsPage() {
                     placeholder="Enter relevant patient medical alerts or visit reasons..."
                     value={newBooking.note}
                     onChange={(e) => setNewBooking({ ...newBooking, note: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
               </div>
@@ -2320,13 +2320,13 @@ export default function AppointmentsPage() {
                 <button
                   type="button"
                   onClick={() => setIsBookingModalOpen(false)}
-                  className="px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#00884B] hover:bg-[#00733f] transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer"
+                  className="px-4 py-2 rounded text-xs font-bold text-white bg-[#00884B] hover:bg-[#00733f] transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer"
                 >
                   <HugeiconsIcon icon={PlusSignIcon} size={15} />
                   <span>Confirm Booking</span>
@@ -2414,7 +2414,7 @@ export default function AppointmentsPage() {
           <button
             type="button"
             onClick={() => setIsFilterDrawerOpen(false)}
-            className="w-full py-2 bg-[#00884B] hover:bg-[#00733f] text-white rounded-lg font-bold text-xs transition-colors shadow-xs cursor-pointer"
+            className="w-full py-2 bg-[#00884B] hover:bg-[#00733f] text-white rounded font-bold text-xs transition-colors shadow-xs cursor-pointer"
           >
             Apply Filters
           </button>
