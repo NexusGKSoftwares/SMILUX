@@ -1798,17 +1798,19 @@ export default function AppointmentsPage() {
                           {cell.dayNum}
                         </span>
 
-                        <button
+                        <Button
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleCalendarEmptySlotClick(cell.dateISO, '10:00');
                           }}
-                          className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-[#5051F9] rounded transition-opacity"
+                          variant="outline"
+                          size="sm"
+                          className="w-5 h-5 !p-0 opacity-0 group-hover:opacity-100 transition-opacity"
                           title={`Book appointment on ${cell.dateISO}`}
                         >
-                          <HugeiconsIcon icon={PlusSignIcon} size={13} />
-                        </button>
+                          <HugeiconsIcon icon={PlusSignIcon} size={12} />
+                        </Button>
                       </div>
 
                       {/* Appointment Chips List (Max 3 visible) */}
