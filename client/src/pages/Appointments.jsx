@@ -861,6 +861,7 @@ const INITIAL_APPOINTMENTS = [
 
 // Start hour for clinic operations (04:00 AM to 11:00 PM)
 const START_HOUR = 4;
+const ROW_HEIGHT = 64; // Strict height in px for each 1-hour slot
 
 const TIME_SLOTS = [
   '04:00 AM',
@@ -884,6 +885,8 @@ const TIME_SLOTS = [
   '10:00 PM',
   '11:00 PM',
 ];
+
+const TOTAL_GRID_HEIGHT = TIME_SLOTS.length * ROW_HEIGHT; // 20 * 64 = 1280px
 
 export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState(INITIAL_APPOINTMENTS);
@@ -933,8 +936,8 @@ export default function AppointmentsPage() {
     const minutes = now.getMinutes();
     const decimalHours = hours + minutes / 60;
 
-    // Top offset based on START_HOUR (7:00 AM) and 64px per hour slot
-    const top = (decimalHours - START_HOUR) * 64;
+    // Top offset based on START_HOUR (4:00 AM) and ROW_HEIGHT (64px) per hour slot
+    const top = (decimalHours - START_HOUR) * ROW_HEIGHT;
     const isVisible = decimalHours >= START_HOUR && decimalHours <= (START_HOUR + TIME_SLOTS.length);
 
     const formattedTime = now.toLocaleTimeString('en-US', {
@@ -1132,16 +1135,18 @@ export default function AppointmentsPage() {
     });
   }, [viewMode, currentDate, weekDays]);
 
-  // Vertical card positioning inside timeline (based on START_HOUR = 7)
+  // Vertical card positioning inside timeline (based on START_HOUR = 4 and ROW_HEIGHT = 64)
   const calculateCardPosition = (startTimeStr, endTimeStr) => {
     const parseHour = (timeStr) => {
+      if (!timeStr) return START_HOUR;
       const [h, m] = timeStr.split(':').map(Number);
-      return h + m / 60;
+      return (h || 0) + (m || 0) / 60;
     };
     const start = parseHour(startTimeStr);
     const end = parseHour(endTimeStr);
-    const top = Math.max(0, (start - START_HOUR) * 64);
-    const height = Math.max(32, (end - start) * 64 - 4);
+    const top = Math.max(0, (start - START_HOUR) * ROW_HEIGHT + 1);
+    const durationHours = Math.max(0.25, end - start);
+    const height = Math.max(30, durationHours * ROW_HEIGHT - 3);
     return { top: `${top}px`, height: `${height}px` };
   };
 
@@ -1470,100 +1475,114 @@ export default function AppointmentsPage() {
                 {/* Day Timeline Grid */}
                 <div
                   ref={calendarScrollRef}
-                  className="relative flex flex-row h-[768px] overflow-y-auto"
+                  className="relative overflow-y-auto max-h-[calc(100vh-210px)] min-h-[600px] bg-white dark:bg-slate-900"
+                  style={{ height: '768px' }}
                 >
-                  {/* Left Time Slots column */}
-                  <div className="w-20 shrink-0 border-r border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
-                    {TIME_SLOTS.map((time) => (
-                      <div
-                        key={time}
-                        className="h-16 relative border-b border-slate-200/60 dark:border-slate-800/60 text-right pr-3"
-                      >
-                        <span className="text-[11px] font-semibold text-slate-400 relative -top-2.5">
-                          {time}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Main Single Day Timeline Column */}
-                  <div className="relative flex-1 bg-white dark:bg-slate-900">
-                    {/* Horizontal Hour Lines (Clickable to book at that hour) */}
-                    {TIME_SLOTS.map((time, idx) => {
-                      const hourNumber = String(START_HOUR + idx).padStart(2, '0');
-                      return (
+                  <div
+                    className="relative flex flex-row flex-1"
+                    style={{ height: `${TOTAL_GRID_HEIGHT}px`, minHeight: `${TOTAL_GRID_HEIGHT}px` }}
+                  >
+                    {/* Left Time Slots column */}
+                    <div
+                      className="w-16 shrink-0 border-r border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 select-none"
+                      style={{ height: `${TOTAL_GRID_HEIGHT}px` }}
+                    >
+                      {TIME_SLOTS.map((time) => (
                         <div
                           key={time}
-                          onClick={() =>
-                            handleCalendarEmptySlotClick(currentISODate, `${hourNumber}:00`)
-                          }
-                          title={`Click to book appointment at ${time}`}
-                          className="h-16 border-b border-slate-100 dark:border-slate-800/60 hover:bg-indigo-50/20 dark:hover:bg-indigo-950/20 cursor-pointer transition-colors relative group"
+                          style={{ height: `${ROW_HEIGHT}px` }}
+                          className="relative border-b border-slate-200/70 dark:border-slate-800/70 text-right pr-2 box-border shrink-0"
                         >
-                          <span className="absolute right-3 top-2 text-[10px] text-[#5051F9] dark:text-[#7072ff] font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                            + Book at {time}
+                          <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 absolute -top-2.5 right-2">
+                            {time}
                           </span>
                         </div>
-                      );
-                    })}
+                      ))}
+                    </div>
 
                     {/* Dynamic Red Live Current Time Indicator Line for Today */}
                     {currentISODate === todayISODate && currentTimeIndicator.isVisible && (
                       <div
-                        className="absolute left-0 right-0 z-20 pointer-events-none flex items-center transition-all duration-300"
+                        className="absolute left-16 right-0 z-20 pointer-events-none flex items-center transition-all duration-300"
                         style={{ top: currentTimeIndicator.topPx }}
                       >
-                        <div className="w-2.5 h-2.5 rounded-full bg-rose-500 -ml-1 shadow-xs"></div>
-                        <div className="flex-1 border-t-2 border-rose-500 shadow-xs"></div>
-                        <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded mr-3 shadow-xs">
+                        <div className="w-2.5 h-2.5 rounded-full bg-rose-500 -ml-1.5 shadow-sm"></div>
+                        <div className="flex-1 border-t-2 border-rose-500 shadow-sm"></div>
+                        <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded mr-3 shadow-sm">
                           {currentTimeIndicator.formattedTime} (Now)
                         </span>
                       </div>
                     )}
 
-                    {/* Plotted Appointments for Active Day */}
-                    {filteredAppointments
-                      .filter((apt) => apt.dateStr === currentISODate)
-                      .map((apt) => {
-                        const pos = calculateCardPosition(apt.startTime, apt.endTime);
+                    {/* Main Single Day Timeline Column */}
+                    <div
+                      className="relative flex-1 bg-white dark:bg-slate-900 box-border"
+                      style={{ height: `${TOTAL_GRID_HEIGHT}px` }}
+                    >
+                      {/* Horizontal Hour Lines (Clickable to book at that hour) */}
+                      {TIME_SLOTS.map((time, idx) => {
+                        const hourNumber = String(START_HOUR + idx).padStart(2, '0');
                         return (
                           <div
-                            key={apt.id}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleAppointmentClick(apt);
-                            }}
-                            style={{ top: pos.top, height: pos.height }}
-                            className={`absolute left-3 right-3 rounded-lg p-3 text-xs transition-all cursor-pointer overflow-hidden z-5 shadow-xs border ${getColorStyles(
-                              apt.color,
-                              false
-                            )} hover:shadow-md hover:scale-[1.005]`}
+                            key={time}
+                            style={{ height: `${ROW_HEIGHT}px` }}
+                            onClick={() =>
+                              handleCalendarEmptySlotClick(currentISODate, `${hourNumber}:00`)
+                            }
+                            title={`Click to book appointment at ${time}`}
+                            className="border-b border-slate-100 dark:border-slate-800/60 hover:bg-indigo-50/20 dark:hover:bg-indigo-950/20 cursor-pointer transition-colors relative group box-border shrink-0"
                           >
-                            <div className="flex items-center justify-between font-bold text-xs">
-                              <span className="flex items-center gap-2">
-                                <span className="font-extrabold">{apt.startTime} – {apt.endTime}</span>
-                                <span>•</span>
-                                <span>{apt.patientName}</span>
-                                <span className="text-[10px] px-1.5 py-0.2 rounded bg-white/70 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700">
-                                  {apt.chair}
-                                </span>
-                              </span>
-                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-white/80 dark:bg-slate-800/80 shadow-2xs">
-                                {apt.status}
-                              </span>
-                            </div>
-
-                            <div className="flex items-center justify-between text-xs mt-1">
-                              <div className="font-medium truncate">
-                                {apt.service} — <span className="opacity-80">{apt.dentist}</span>
-                              </div>
-                              <div className="font-bold shrink-0 ml-2">
-                                KES {apt.total.toLocaleString()}
-                              </div>
-                            </div>
+                            <span className="absolute right-3 top-2 text-[10px] text-[#5051F9] dark:text-[#7072ff] font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                              + Book at {time}
+                            </span>
                           </div>
                         );
                       })}
+
+                      {/* Plotted Appointments for Active Day */}
+                      {filteredAppointments
+                        .filter((apt) => apt.dateStr === currentISODate)
+                        .map((apt) => {
+                          const pos = calculateCardPosition(apt.startTime, apt.endTime);
+                          return (
+                            <div
+                              key={apt.id}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleAppointmentClick(apt);
+                              }}
+                              style={{ top: pos.top, height: pos.height }}
+                              className={`absolute left-3 right-3 rounded-lg p-3 text-xs transition-all cursor-pointer overflow-hidden z-10 shadow-xs border ${getColorStyles(
+                                apt.color,
+                                false
+                              )} hover:shadow-md hover:scale-[1.005]`}
+                            >
+                              <div className="flex items-center justify-between font-bold text-xs">
+                                <span className="flex items-center gap-2">
+                                  <span className="font-extrabold">{apt.startTime} – {apt.endTime}</span>
+                                  <span>•</span>
+                                  <span>{apt.patientName}</span>
+                                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-white/70 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700">
+                                    {apt.chair}
+                                  </span>
+                                </span>
+                                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-white/80 dark:bg-slate-800/80 shadow-2xs">
+                                  {apt.status}
+                                </span>
+                              </div>
+
+                              <div className="flex items-center justify-between text-xs mt-1">
+                                <div className="font-medium truncate">
+                                  {apt.service} — <span className="opacity-80">{apt.dentist}</span>
+                                </div>
+                                <div className="font-bold shrink-0 ml-2">
+                                  KES {apt.total.toLocaleString()}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1618,89 +1637,105 @@ export default function AppointmentsPage() {
                 {/* Time Grid with Plotted Appointment Cards */}
                 <div
                   ref={calendarScrollRef}
-                  className="relative flex flex-row h-[768px] overflow-y-auto"
+                  className="relative overflow-y-auto max-h-[calc(100vh-210px)] min-h-[600px] bg-white dark:bg-slate-900"
+                  style={{ height: '768px' }}
                 >
-                  {/* Left Time Slots column */}
-                  <div className="w-16 shrink-0 flex flex-col border-r border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40">
-                    {TIME_SLOTS.map((time) => (
+                  {/* Inner Canvas with explicit total grid height */}
+                  <div
+                    className="relative flex flex-row"
+                    style={{ height: `${TOTAL_GRID_HEIGHT}px`, minHeight: `${TOTAL_GRID_HEIGHT}px` }}
+                  >
+                    {/* Left Time Slots column */}
+                    <div
+                      className="w-16 shrink-0 border-r border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 select-none"
+                      style={{ height: `${TOTAL_GRID_HEIGHT}px` }}
+                    >
+                      {TIME_SLOTS.map((time) => (
+                        <div
+                          key={time}
+                          style={{ height: `${ROW_HEIGHT}px` }}
+                          className="relative border-b border-slate-200/70 dark:border-slate-800/70 text-right pr-2 box-border shrink-0"
+                        >
+                          <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 absolute -top-2.5 right-2">
+                            {time}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Dynamic Red Live Current Time Indicator Line across today's week */}
+                    {weekDays.some((d) => d.isToday) && currentTimeIndicator.isVisible && (
                       <div
-                        key={time}
-                        className="h-16 relative border-b border-slate-200/60 dark:border-slate-800/60 text-right pr-2"
+                        className="absolute left-16 right-0 z-20 pointer-events-none flex items-center transition-all duration-300"
+                        style={{ top: currentTimeIndicator.topPx }}
                       >
-                        <span className="text-[10px] font-semibold text-slate-400 relative -top-2.5">
-                          {time}
+                        <div className="w-2.5 h-2.5 rounded-full bg-rose-500 -ml-1.5 shadow-sm"></div>
+                        <div className="flex-1 border-t-2 border-rose-500 shadow-sm"></div>
+                        <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded mr-2 shadow-sm">
+                          {currentTimeIndicator.formattedTime} (Now)
                         </span>
                       </div>
-                    ))}
-                  </div>
+                    )}
 
-                  {/* Dynamic Red Live Current Time Indicator Line across today's week */}
-                  {weekDays.some((d) => d.isToday) && currentTimeIndicator.isVisible && (
+                    {/* 7-Day Columns Grid */}
                     <div
-                      className="absolute left-16 right-0 z-20 pointer-events-none flex items-center transition-all duration-300"
-                      style={{ top: currentTimeIndicator.topPx }}
+                      className="grid grid-cols-7 flex-1 relative bg-white dark:bg-slate-900"
+                      style={{ height: `${TOTAL_GRID_HEIGHT}px` }}
                     >
-                      <div className="w-2.5 h-2.5 rounded-full bg-rose-500 -ml-1 shadow-xs"></div>
-                      <div className="flex-1 border-t-2 border-rose-500 shadow-xs"></div>
-                      <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded mr-2 shadow-xs">
-                        {currentTimeIndicator.formattedTime}
-                      </span>
-                    </div>
-                  )}
-
-                  {/* 7-Day Columns */}
-                  <div className="grid grid-cols-7 flex-1 relative bg-white dark:bg-slate-900">
-                    {weekDays.map((day) => (
-                      <div
-                        key={day.dateStr}
-                        className="relative border-r border-slate-200/80 dark:border-slate-800 h-full"
-                      >
-                        {/* Hour Guideline Rows (Clickable to open booking modal) */}
-                        {TIME_SLOTS.map((time, idx) => {
-                          const hourNumber = String(START_HOUR + idx).padStart(2, '0');
-                          return (
-                            <div
-                              key={time}
-                              onClick={() =>
-                                handleCalendarEmptySlotClick(day.dateStr, `${hourNumber}:00`)
-                              }
-                              title={`Click to book on ${day.displayTitle} at ${time}`}
-                              className="h-16 border-b border-slate-100 dark:border-slate-800/60 hover:bg-indigo-50/30 dark:hover:bg-indigo-950/20 cursor-pointer transition-colors"
-                            />
-                          );
-                        })}
-
-                        {/* Plotted Appointments for this Day */}
-                        {filteredAppointments
-                          .filter((apt) => apt.dateStr === day.dateStr)
-                          .map((apt) => {
-                            const pos = calculateCardPosition(apt.startTime, apt.endTime);
+                      {weekDays.map((day) => (
+                        <div
+                          key={day.dateStr}
+                          className="relative border-r border-slate-200/80 dark:border-slate-800 box-border shrink-0"
+                          style={{ height: `${TOTAL_GRID_HEIGHT}px` }}
+                        >
+                          {/* Hour Guideline Rows (Clickable to open booking modal) */}
+                          {TIME_SLOTS.map((time, idx) => {
+                            const hourNumber = String(START_HOUR + idx).padStart(2, '0');
                             return (
                               <div
-                                key={apt.id}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleAppointmentClick(apt);
-                                }}
-                                style={{ top: pos.top, height: pos.height }}
-                                className={`absolute left-1 right-1 rounded p-1.5 text-xs transition-all cursor-pointer overflow-hidden z-5 shadow-2xs border ${getColorStyles(
-                                  apt.color,
-                                  false
-                                )} hover:shadow-md hover:scale-[1.01]`}
-                              >
-                                <div className="flex items-center justify-between font-bold leading-tight text-[11px] truncate">
-                                  <span className="truncate">
-                                    {apt.startTime}-{apt.endTime} {apt.patientName}
-                                  </span>
-                                </div>
-                                <div className="text-[10px] truncate leading-tight mt-0.5 opacity-90">
-                                  {apt.service}
-                                </div>
-                              </div>
+                                key={time}
+                                style={{ height: `${ROW_HEIGHT}px` }}
+                                onClick={() =>
+                                  handleCalendarEmptySlotClick(day.dateStr, `${hourNumber}:00`)
+                                }
+                                title={`Click to book on ${day.displayTitle} at ${time}`}
+                                className="border-b border-slate-100 dark:border-slate-800/60 hover:bg-indigo-50/30 dark:hover:bg-indigo-950/20 cursor-pointer transition-colors box-border shrink-0"
+                              />
                             );
                           })}
-                      </div>
-                    ))}
+
+                          {/* Plotted Appointments for this Day */}
+                          {filteredAppointments
+                            .filter((apt) => apt.dateStr === day.dateStr)
+                            .map((apt) => {
+                              const pos = calculateCardPosition(apt.startTime, apt.endTime);
+                              return (
+                                <div
+                                  key={apt.id}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAppointmentClick(apt);
+                                  }}
+                                  style={{ top: pos.top, height: pos.height }}
+                                  className={`absolute left-1 right-1 rounded p-1.5 text-xs transition-all cursor-pointer overflow-hidden z-10 shadow-2xs border ${getColorStyles(
+                                    apt.color,
+                                    false
+                                  )} hover:shadow-md hover:scale-[1.01]`}
+                                >
+                                  <div className="flex items-center justify-between font-bold leading-tight text-[11px] truncate">
+                                    <span className="truncate">
+                                      {apt.startTime}-{apt.endTime} {apt.patientName}
+                                    </span>
+                                  </div>
+                                  <div className="text-[10px] truncate leading-tight mt-0.5 opacity-90">
+                                    {apt.service}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
