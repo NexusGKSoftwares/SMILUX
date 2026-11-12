@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Calendar01Icon,
@@ -547,6 +547,34 @@ const INITIAL_APPOINTMENTS = [
     paymentMethod: 'Self Pay',
   },
   {
+    id: 'APT-128',
+    patientName: 'Caroline Wambui',
+    phone: '+254 711 334 556',
+    email: 'caroline.w@gmail.com',
+    dentist: 'Dr. Darrell Steward',
+    chair: 'Operatory Chair 1',
+    branch: 'Nairobi Main',
+    service: 'Morning Scaling & Plaque Assessment',
+    category: 'Hygiene & Preventive',
+    dayIndex: 3,
+    dateStr: '2026-11-12',
+    startTime: '08:00',
+    endTime: '08:45',
+    duration: '45 min',
+    color: 'emerald',
+    status: 'Completed',
+    note: 'Full ultrasonic prophylaxis completed smoothly.',
+    services: [
+      { name: 'Full Ultrasonic Prophylaxis', duration: '45 min', doctor: 'Dr. Darrell Steward', price: 3500 },
+    ],
+    products: [],
+    subtotal: 3500,
+    tax: 0,
+    total: 3500,
+    paymentStatus: 'Paid',
+    paymentMethod: 'M-Pesa (REF: QKE4411)',
+  },
+  {
     id: 'APT-116',
     patientName: 'Emma Chepkemoi',
     phone: '+254 733 990 011',
@@ -590,7 +618,7 @@ const INITIAL_APPOINTMENTS = [
     endTime: '11:00',
     duration: '75 min',
     color: 'purple',
-    status: 'Scheduled',
+    status: 'In Progress',
     note: 'Impacted lower right third molar (#48) surgical extraction.',
     services: [
       { name: 'Surgical Disimpaction (Molar #48)', duration: '60 min', doctor: 'Dr. Darrell Steward', price: 15000 },
@@ -630,6 +658,34 @@ const INITIAL_APPOINTMENTS = [
     total: 20000,
     paymentStatus: 'Paid',
     paymentMethod: 'M-Pesa Installment',
+  },
+  {
+    id: 'APT-129',
+    patientName: 'Brian Kiprono',
+    phone: '+254 722 889 001',
+    email: 'brian.k@gmail.com',
+    dentist: 'Dr. Brian Mwangi',
+    chair: 'Operatory Chair 1',
+    branch: 'Westlands Clinic',
+    service: 'Composite Filling Tooth #14',
+    category: 'Restorative',
+    dayIndex: 3,
+    dateStr: '2026-11-12',
+    startTime: '14:00',
+    endTime: '15:00',
+    duration: '60 min',
+    color: 'amber',
+    status: 'Confirmed',
+    note: 'Occlusal composite restoration scheduled.',
+    services: [
+      { name: 'Direct Composite Restoration', duration: '45 min', doctor: 'Dr. Brian Mwangi', price: 5500 },
+    ],
+    products: [],
+    subtotal: 5500,
+    tax: 0,
+    total: 5500,
+    paymentStatus: 'Paid',
+    paymentMethod: 'Credit Card',
   },
   {
     id: 'APT-119',
@@ -803,7 +859,11 @@ const INITIAL_APPOINTMENTS = [
   },
 ];
 
+// Start hour for clinic operations (07:00 AM)
+const START_HOUR = 7;
+
 const TIME_SLOTS = [
+  '07:00 AM',
   '08:00 AM',
   '09:00 AM',
   '10:00 AM',
@@ -816,18 +876,22 @@ const TIME_SLOTS = [
   '05:00 PM',
   '06:00 PM',
   '07:00 PM',
+  '08:00 PM',
 ];
 
 export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState(INITIAL_APPOINTMENTS);
   const [mainTab, setMainTab] = useState('Calendar'); // 'Calendar' | 'Log History'
-  const [viewMode, setViewMode] = useState('Day'); // 'Day' | 'Week' | 'Month' (matches inspiration screenshot default)
+  const [viewMode, setViewMode] = useState('Week'); // Week default as requested
   const [statusFilter, setStatusFilter] = useState('All');
   const [staffFilter, setStaffFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Reference date (defaulting to Wednesday, Nov 11, 2026)
-  const [currentDate, setCurrentDate] = useState(() => new Date(2026, 10, 11)); // Nov 11, 2026
+  
+  // Real current live date and time
+  const [now, setNow] = useState(() => new Date());
+  
+  // Active viewing date (defaults to the actual current date!)
+  const [currentDate, setCurrentDate] = useState(() => new Date());
 
   // Modals and dropdowns state
   const [selectedAppointmentForModal, setSelectedAppointmentForModal] = useState(null);
@@ -835,20 +899,16 @@ export default function AppointmentsPage() {
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [isDentistMenuOpen, setIsDentistMenuOpen] = useState(false);
 
-  // New booking form state
-  const [newBooking, setNewBooking] = useState({
-    patientName: '',
-    phone: '',
-    email: '',
-    dentist: 'Dr. Darrell Steward',
-    service: 'Comprehensive Dental Exam',
-    date: '2026-11-11',
-    startTime: '11:00',
-    endTime: '12:00',
-    chair: 'Surgery Suite 1',
-    branch: 'Nairobi Main',
-    note: '',
-  });
+  // Calendar scroll container reference
+  const calendarScrollRef = useRef(null);
+
+  // Update current live time every 10 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setNow(new Date());
+    }, 10000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Format date helper: YYYY-MM-DD
   const formatDateToISO = (date) => {
@@ -858,7 +918,54 @@ export default function AppointmentsPage() {
     return `${y}-${m}-${d}`;
   };
 
+  const todayISODate = useMemo(() => formatDateToISO(now), [now]);
   const currentISODate = useMemo(() => formatDateToISO(currentDate), [currentDate]);
+
+  // Calculate live red line position and label from real current time
+  const currentTimeIndicator = useMemo(() => {
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const decimalHours = hours + minutes / 60;
+
+    // Top offset based on START_HOUR (7:00 AM) and 64px per hour slot
+    const top = (decimalHours - START_HOUR) * 64;
+    const isVisible = decimalHours >= START_HOUR && decimalHours <= (START_HOUR + TIME_SLOTS.length);
+
+    const formattedTime = now.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+
+    return {
+      top,
+      topPx: `${Math.max(0, top)}px`,
+      formattedTime,
+      isVisible,
+    };
+  }, [now]);
+
+  // Auto-scroll timeline to current time on mount / view switch
+  useEffect(() => {
+    if (calendarScrollRef.current && currentTimeIndicator.isVisible) {
+      calendarScrollRef.current.scrollTop = Math.max(0, currentTimeIndicator.top - 120);
+    }
+  }, [viewMode, currentTimeIndicator.isVisible]);
+
+  // New booking form state
+  const [newBooking, setNewBooking] = useState({
+    patientName: '',
+    phone: '',
+    email: '',
+    dentist: 'Dr. Darrell Steward',
+    service: 'Comprehensive Dental Exam',
+    date: todayISODate,
+    startTime: '10:00',
+    endTime: '11:00',
+    chair: 'Surgery Suite 1',
+    branch: 'Nairobi Main',
+    note: '',
+  });
 
   // Filtered Appointments (Search + Status + Staff)
   const filteredAppointments = useMemo(() => {
@@ -904,12 +1011,12 @@ export default function AppointmentsPage() {
     setCurrentDate(d);
   };
 
-  // Reset to Today
+  // Reset to actual Today
   const handleToday = () => {
-    setCurrentDate(new Date(2026, 10, 11));
+    setCurrentDate(new Date());
   };
 
-  // Compute 7 days of the active week
+  // Compute 7 days of the active week (Monday to Sunday)
   const weekDays = useMemo(() => {
     const d = new Date(currentDate);
     const day = d.getDay();
@@ -921,7 +1028,7 @@ export default function AppointmentsPage() {
     for (let i = 0; i < 7; i++) {
       const nextDay = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i);
       const dateISO = formatDateToISO(nextDay);
-      const isToday = dateISO === '2026-11-11';
+      const isToday = dateISO === todayISODate;
       const count = filteredAppointments.filter((a) => a.dateStr === dateISO).length;
       days.push({
         dayIndex: i,
@@ -936,7 +1043,7 @@ export default function AppointmentsPage() {
       });
     }
     return days;
-  }, [currentDate, filteredAppointments]);
+  }, [currentDate, todayISODate, filteredAppointments]);
 
   // Compute month calendar days for Month View
   const monthCalendarGrid = useMemo(() => {
@@ -963,7 +1070,7 @@ export default function AppointmentsPage() {
         dayNum,
         dateISO,
         isCurrentMonth: false,
-        isToday: dateISO === '2026-11-11',
+        isToday: dateISO === todayISODate,
         appointments: filteredAppointments.filter((a) => a.dateStr === dateISO),
       });
     }
@@ -976,7 +1083,7 @@ export default function AppointmentsPage() {
         dayNum: d,
         dateISO,
         isCurrentMonth: true,
-        isToday: dateISO === '2026-11-11',
+        isToday: dateISO === todayISODate,
         appointments: filteredAppointments.filter((a) => a.dateStr === dateISO),
       });
     }
@@ -990,13 +1097,13 @@ export default function AppointmentsPage() {
         dayNum: n,
         dateISO,
         isCurrentMonth: false,
-        isToday: dateISO === '2026-11-11',
+        isToday: dateISO === todayISODate,
         appointments: filteredAppointments.filter((a) => a.dateStr === dateISO),
       });
     }
 
     return calendarCells;
-  }, [currentDate, filteredAppointments]);
+  }, [currentDate, todayISODate, filteredAppointments]);
 
   // Date formatted exactly matching inspiration screenshot (e.g. "Fri, 16 May 2022")
   const formattedDateText = useMemo(() => {
@@ -1019,7 +1126,7 @@ export default function AppointmentsPage() {
     });
   }, [viewMode, currentDate, weekDays]);
 
-  // Vertical card positioning inside timeline
+  // Vertical card positioning inside timeline (based on START_HOUR = 7)
   const calculateCardPosition = (startTimeStr, endTimeStr) => {
     const parseHour = (timeStr) => {
       const [h, m] = timeStr.split(':').map(Number);
@@ -1027,7 +1134,7 @@ export default function AppointmentsPage() {
     };
     const start = parseHour(startTimeStr);
     const end = parseHour(endTimeStr);
-    const top = Math.max(0, (start - 8) * 64);
+    const top = Math.max(0, (start - START_HOUR) * 64);
     const height = Math.max(32, (end - start) * 64 - 4);
     return { top: `${top}px`, height: `${height}px` };
   };
@@ -1063,7 +1170,7 @@ export default function AppointmentsPage() {
   const handleCalendarEmptySlotClick = (dateStr, hourStr) => {
     const startHour = hourStr || '10:00';
     const [h] = startHour.split(':').map(Number);
-    const endH = String(Math.min(19, h + 1)).padStart(2, '0');
+    const endH = String(Math.min(20, h + 1)).padStart(2, '0');
     const endHour = `${endH}:00`;
 
     setNewBooking((prev) => ({
@@ -1132,10 +1239,11 @@ export default function AppointmentsPage() {
           <button
             type="button"
             onClick={() => setMainTab('Calendar')}
-            className={`pb-2.5 font-medium transition-all relative cursor-pointer select-none ${mainTab === 'Calendar'
-              ? 'text-[#5051F9] dark:text-[#7072ff] font-semibold'
-              : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
-              }`}
+            className={`pb-2.5 font-medium transition-all relative cursor-pointer select-none ${
+              mainTab === 'Calendar'
+                ? 'text-[#5051F9] dark:text-[#7072ff] font-semibold'
+                : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
+            }`}
           >
             Calendar
             {mainTab === 'Calendar' && (
@@ -1146,10 +1254,11 @@ export default function AppointmentsPage() {
           <button
             type="button"
             onClick={() => setMainTab('Log History')}
-            className={`pb-2.5 font-medium transition-all relative cursor-pointer select-none ${mainTab === 'Log History'
-              ? 'text-[#5051F9] dark:text-[#7072ff] font-semibold'
-              : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
-              }`}
+            className={`pb-2.5 font-medium transition-all relative cursor-pointer select-none ${
+              mainTab === 'Log History'
+                ? 'text-[#5051F9] dark:text-[#7072ff] font-semibold'
+                : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
+            }`}
           >
             Log History
             {mainTab === 'Log History' && (
@@ -1164,7 +1273,7 @@ export default function AppointmentsPage() {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-3">
           {/* Left: Total Appointments with Badge Icon */}
           <div className="flex items-center gap-2.5 self-start lg:self-center">
-            <div className="w-8 h-8 rounded bg-[#F3F4F6] dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-[#F3F4F6] dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 shrink-0">
               <HugeiconsIcon icon={Calendar01Icon} size={16} />
             </div>
             <div className="flex items-baseline gap-1.5">
@@ -1183,7 +1292,7 @@ export default function AppointmentsPage() {
             <button
               type="button"
               onClick={handleToday}
-              className="px-3.5 py-1 rounded border border-[#5051F9]/50 dark:border-[#7072ff]/50 bg-white dark:bg-slate-800 text-[#5051F9] dark:text-[#7072ff] text-xs font-semibold hover:bg-[#5051F9]/5 transition-colors cursor-pointer shadow-2xs"
+              className="px-3.5 py-1 rounded-lg border border-[#5051F9]/50 dark:border-[#7072ff]/50 bg-white dark:bg-slate-800 text-[#5051F9] dark:text-[#7072ff] text-xs font-semibold hover:bg-[#5051F9]/5 transition-colors cursor-pointer shadow-2xs"
             >
               Today
             </button>
@@ -1216,17 +1325,18 @@ export default function AppointmentsPage() {
             {/* Vertical Separator */}
             <span className="h-5 w-[1px] bg-slate-200 dark:bg-slate-700 mx-1 hidden sm:inline-block" />
 
-            {/* Segmented Switcher: [Day] [Week] [Month] */}
-            <div className="inline-flex items-center p-0.5 bg-[#F3F4F6] dark:bg-slate-800 rounded text-xs">
+            {/* Segmented Switcher: [Day] [Week] [Month] (Week default) */}
+            <div className="inline-flex items-center p-0.5 bg-[#F3F4F6] dark:bg-slate-800 rounded-lg text-xs">
               {['Day', 'Week', 'Month'].map((mode) => (
                 <button
                   key={mode}
                   type="button"
                   onClick={() => setViewMode(mode)}
-                  className={`px-3 py-1 rounded text-xs transition-all cursor-pointer ${viewMode === mode
-                    ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-bold shadow-2xs'
-                    : 'text-slate-500 dark:text-slate-400 font-medium hover:text-slate-800 dark:hover:text-white'
-                    }`}
+                  className={`px-3 py-1 rounded-md text-xs transition-all cursor-pointer ${
+                    viewMode === mode
+                      ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white font-bold shadow-2xs'
+                      : 'text-slate-500 dark:text-slate-400 font-medium hover:text-slate-800 dark:hover:text-white'
+                  }`}
                 >
                   {mode}
                 </button>
@@ -1241,7 +1351,7 @@ export default function AppointmentsPage() {
               <button
                 type="button"
                 onClick={() => setIsDentistMenuOpen(!isDentistMenuOpen)}
-                className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-200 flex items-center gap-1.5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors cursor-pointer"
+                className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-200 flex items-center gap-1.5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={UserCircleIcon} size={15} className="text-slate-500" />
                 <span className="font-medium">
@@ -1251,7 +1361,7 @@ export default function AppointmentsPage() {
               </button>
 
               {isDentistMenuOpen && (
-                <div className="absolute right-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-30 animate-in fade-in-0 zoom-in-95 duration-100">
+                <div className="absolute right-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-30 animate-in fade-in-0 zoom-in-95 duration-100">
                   {[
                     { val: 'All', label: 'All Dentist' },
                     { val: 'Steward', label: 'Dr. Darrell Steward' },
@@ -1268,10 +1378,11 @@ export default function AppointmentsPage() {
                         setStaffFilter(dentist.val);
                         setIsDentistMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3 py-1.5 text-xs transition-colors flex items-center justify-between ${staffFilter === dentist.val
-                        ? 'bg-indigo-50 dark:bg-indigo-950/40 text-[#5051F9] dark:text-[#7072ff] font-bold'
-                        : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'
-                        }`}
+                      className={`w-full text-left px-3 py-1.5 text-xs transition-colors flex items-center justify-between ${
+                        staffFilter === dentist.val
+                          ? 'bg-indigo-50 dark:bg-indigo-950/40 text-[#5051F9] dark:text-[#7072ff] font-bold'
+                          : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'
+                      }`}
                     >
                       <span>{dentist.label}</span>
                       {staffFilter === dentist.val && <span>✓</span>}
@@ -1285,7 +1396,7 @@ export default function AppointmentsPage() {
             <button
               type="button"
               onClick={() => setIsFilterDrawerOpen(true)}
-              className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-200 flex items-center gap-1.5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-200 flex items-center gap-1.5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors cursor-pointer"
             >
               <span className="relative flex items-center">
                 <HugeiconsIcon icon={FilterIcon} size={15} className="text-slate-500" />
@@ -1300,11 +1411,11 @@ export default function AppointmentsPage() {
               onClick={() => {
                 setNewBooking((prev) => ({
                   ...prev,
-                  date: currentISODate,
+                  date: todayISODate,
                 }));
                 setIsBookingModalOpen(true);
               }}
-              className="px-3 py-1.5 rounded bg-[#00884B] hover:bg-[#00733f] text-white text-xs font-semibold shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-[#00884B] hover:bg-[#00733f] text-white text-xs font-semibold shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
             >
               <HugeiconsIcon icon={PlusSignIcon} size={14} />
               <span>Book</span>
@@ -1316,7 +1427,7 @@ export default function AppointmentsPage() {
       {/* ─── 3. Main Content: Calendar Views OR Log History ─────────────────── */}
       {mainTab === 'Calendar' ? (
         <div className="flex-1 p-4 overflow-x-auto">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded shadow-xs overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xs overflow-hidden">
             {/* ════════════════════════════════════════════════════════════════
                 VIEW 1: DAY VIEW
                ════════════════════════════════════════════════════════════════ */}
@@ -1348,14 +1459,17 @@ export default function AppointmentsPage() {
                   <button
                     type="button"
                     onClick={() => handleCalendarEmptySlotClick(currentISODate, '09:00')}
-                    className="text-xs font-semibold text-[#5051F9] dark:text-[#7072ff] hover:underline"
+                    className="text-xs font-semibold text-[#5051F9] dark:text-[#7072ff] hover:underline cursor-pointer"
                   >
                     + Add to this day
                   </button>
                 </div>
 
                 {/* Day Timeline Grid */}
-                <div className="relative flex flex-row h-[768px] overflow-y-auto">
+                <div
+                  ref={calendarScrollRef}
+                  className="relative flex flex-row h-[768px] overflow-y-auto"
+                >
                   {/* Left Time Slots column */}
                   <div className="w-20 shrink-0 border-r border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
                     {TIME_SLOTS.map((time) => (
@@ -1374,7 +1488,7 @@ export default function AppointmentsPage() {
                   <div className="relative flex-1 bg-white dark:bg-slate-900">
                     {/* Horizontal Hour Lines (Clickable to book at that hour) */}
                     {TIME_SLOTS.map((time, idx) => {
-                      const hourNumber = String(8 + idx).padStart(2, '0');
+                      const hourNumber = String(START_HOUR + idx).padStart(2, '0');
                       return (
                         <div
                           key={time}
@@ -1391,16 +1505,16 @@ export default function AppointmentsPage() {
                       );
                     })}
 
-                    {/* Red Live Time Indicator Line if viewing today */}
-                    {currentISODate === '2026-11-11' && (
+                    {/* Dynamic Red Live Current Time Indicator Line for Today */}
+                    {currentISODate === todayISODate && currentTimeIndicator.isVisible && (
                       <div
-                        className="absolute left-0 right-0 z-10 pointer-events-none flex items-center"
-                        style={{ top: '224px' }}
+                        className="absolute left-0 right-0 z-20 pointer-events-none flex items-center transition-all duration-300"
+                        style={{ top: currentTimeIndicator.topPx }}
                       >
-                        <div className="w-2.5 h-2.5 rounded-full bg-rose-500 -ml-1"></div>
-                        <div className="flex-1 border-t-2 border-rose-500"></div>
-                        <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded mr-3 shadow-2xs">
-                          11:30 AM (Now)
+                        <div className="w-2.5 h-2.5 rounded-full bg-rose-500 -ml-1 shadow-xs"></div>
+                        <div className="flex-1 border-t-2 border-rose-500 shadow-xs"></div>
+                        <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded mr-3 shadow-xs">
+                          {currentTimeIndicator.formattedTime} (Now)
                         </span>
                       </div>
                     )}
@@ -1418,7 +1532,7 @@ export default function AppointmentsPage() {
                               handleAppointmentClick(apt);
                             }}
                             style={{ top: pos.top, height: pos.height }}
-                            className={`absolute left-3 right-3 rounded p-3 text-xs transition-all cursor-pointer overflow-hidden z-5 shadow-xs border ${getColorStyles(
+                            className={`absolute left-3 right-3 rounded-lg p-3 text-xs transition-all cursor-pointer overflow-hidden z-5 shadow-xs border ${getColorStyles(
                               apt.color,
                               false
                             )} hover:shadow-md hover:scale-[1.005]`}
@@ -1454,7 +1568,7 @@ export default function AppointmentsPage() {
             )}
 
             {/* ════════════════════════════════════════════════════════════════
-                VIEW 2: WEEK VIEW (7 Days Columns)
+                VIEW 2: WEEK VIEW (7 Days Columns) - DEFAULT VIEW
                ════════════════════════════════════════════════════════════════ */}
             {viewMode === 'Week' && (
               <div className="flex flex-col min-w-[850px]">
@@ -1473,15 +1587,17 @@ export default function AppointmentsPage() {
                           setViewMode('Day');
                         }}
                         title="Click to view this Day"
-                        className={`h-12 px-2.5 py-1 flex items-center justify-between border-r border-slate-200 dark:border-slate-800 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors ${day.isToday ? 'bg-indigo-50/40 dark:bg-indigo-950/20' : ''
-                          }`}
+                        className={`h-12 px-2.5 py-1 flex items-center justify-between border-r border-slate-200 dark:border-slate-800 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors ${
+                          day.isToday ? 'bg-indigo-50/40 dark:bg-indigo-950/20' : ''
+                        }`}
                       >
                         <div className="flex items-center gap-2">
                           <span
-                            className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${day.isToday
-                              ? 'bg-[#5051F9] text-white shadow-2xs'
-                              : 'text-slate-900 dark:text-white'
-                              }`}
+                            className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
+                              day.isToday
+                                ? 'bg-[#5051F9] text-white shadow-2xs'
+                                : 'text-slate-900 dark:text-white'
+                            }`}
                           >
                             {day.date}
                           </span>
@@ -1500,7 +1616,10 @@ export default function AppointmentsPage() {
                 </div>
 
                 {/* Time Grid with Plotted Appointment Cards */}
-                <div className="relative flex flex-row h-[768px] overflow-y-auto">
+                <div
+                  ref={calendarScrollRef}
+                  className="relative flex flex-row h-[768px] overflow-y-auto"
+                >
                   {/* Left Time Slots column */}
                   <div className="w-16 shrink-0 flex flex-col border-r border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40">
                     {TIME_SLOTS.map((time) => (
@@ -1515,16 +1634,16 @@ export default function AppointmentsPage() {
                     ))}
                   </div>
 
-                  {/* Red Live Current Time Indicator Line */}
-                  {weekDays.some((d) => d.isToday) && (
+                  {/* Dynamic Red Live Current Time Indicator Line across today's week */}
+                  {weekDays.some((d) => d.isToday) && currentTimeIndicator.isVisible && (
                     <div
-                      className="absolute left-16 right-0 z-10 pointer-events-none flex items-center"
-                      style={{ top: '224px' }}
+                      className="absolute left-16 right-0 z-20 pointer-events-none flex items-center transition-all duration-300"
+                      style={{ top: currentTimeIndicator.topPx }}
                     >
-                      <div className="w-2 h-2 rounded-full bg-rose-500 -ml-1"></div>
-                      <div className="flex-1 border-t-2 border-rose-500"></div>
-                      <span className="bg-rose-500 text-white text-[9px] font-bold px-1 rounded mr-2">
-                        11:30 AM
+                      <div className="w-2.5 h-2.5 rounded-full bg-rose-500 -ml-1 shadow-xs"></div>
+                      <div className="flex-1 border-t-2 border-rose-500 shadow-xs"></div>
+                      <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded mr-2 shadow-xs">
+                        {currentTimeIndicator.formattedTime}
                       </span>
                     </div>
                   )}
@@ -1538,7 +1657,7 @@ export default function AppointmentsPage() {
                       >
                         {/* Hour Guideline Rows (Clickable to open booking modal) */}
                         {TIME_SLOTS.map((time, idx) => {
-                          const hourNumber = String(8 + idx).padStart(2, '0');
+                          const hourNumber = String(START_HOUR + idx).padStart(2, '0');
                           return (
                             <div
                               key={time}
@@ -1609,8 +1728,9 @@ export default function AppointmentsPage() {
                     <div
                       key={cell.dateISO}
                       onClick={() => handleCalendarEmptySlotClick(cell.dateISO, '10:00')}
-                      className={`min-h-[110px] p-2 bg-white dark:bg-slate-900 transition-colors cursor-pointer group flex flex-col justify-between hover:bg-slate-50 dark:hover:bg-slate-850 ${!cell.isCurrentMonth ? 'opacity-40 bg-slate-50/50 dark:bg-slate-950/50' : ''
-                        }`}
+                      className={`min-h-[110px] p-2 bg-white dark:bg-slate-900 transition-colors cursor-pointer group flex flex-col justify-between hover:bg-slate-50 dark:hover:bg-slate-850 ${
+                        !cell.isCurrentMonth ? 'opacity-40 bg-slate-50/50 dark:bg-slate-950/50' : ''
+                      }`}
                     >
                       {/* Top Row: Date Number + Quick Add Button */}
                       <div className="flex items-center justify-between mb-1">
@@ -1620,10 +1740,11 @@ export default function AppointmentsPage() {
                             setCurrentDate(new Date(cell.dateISO));
                             setViewMode('Day');
                           }}
-                          className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold transition-transform hover:scale-110 ${cell.isToday
-                            ? 'bg-[#5051F9] text-white shadow-2xs'
-                            : 'text-slate-700 dark:text-slate-200'
-                            }`}
+                          className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold transition-transform hover:scale-110 ${
+                            cell.isToday
+                              ? 'bg-[#5051F9] text-white shadow-2xs'
+                              : 'text-slate-700 dark:text-slate-200'
+                          }`}
                           title="Click to open Day view"
                         >
                           {cell.dayNum}
@@ -1686,7 +1807,7 @@ export default function AppointmentsPage() {
             LOG HISTORY TAB VIEW
            ════════════════════════════════════════════════════════════════════ */
         <div className="flex-1 p-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded shadow-xs overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xs overflow-hidden">
             <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white">
@@ -1735,12 +1856,13 @@ export default function AppointmentsPage() {
                       </div>
                     </div>
                     <span
-                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${apt.status === 'Completed'
-                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                        : apt.status === 'In Progress'
+                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                        apt.status === 'Completed'
+                          ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                          : apt.status === 'In Progress'
                           ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
                           : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                        }`}
+                      }`}
                     >
                       {apt.status}
                     </span>
@@ -1755,11 +1877,11 @@ export default function AppointmentsPage() {
       {/* ─── 4. Appointment Details Modal (Opens on Calendar Click) ────────── */}
       {selectedAppointmentForModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in-0 duration-200">
-          <div className="bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 w-full max-w-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150 flex flex-col max-h-[90vh]">
+          <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 w-full max-w-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150 flex flex-col max-h-[90vh]">
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">
+                <div className="p-1.5 rounded-lg bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">
                   <HugeiconsIcon icon={Calendar01Icon} size={18} />
                 </div>
                 <div>
@@ -1779,12 +1901,13 @@ export default function AppointmentsPage() {
 
               <div className="flex items-center gap-2">
                 <span
-                  className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${selectedAppointmentForModal.status === 'Completed'
-                    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                    : selectedAppointmentForModal.status === 'In Progress'
+                  className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                    selectedAppointmentForModal.status === 'Completed'
+                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                      : selectedAppointmentForModal.status === 'In Progress'
                       ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300'
                       : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                    }`}
+                  }`}
                 >
                   {selectedAppointmentForModal.status}
                 </span>
@@ -1792,7 +1915,7 @@ export default function AppointmentsPage() {
                 <button
                   type="button"
                   onClick={() => setSelectedAppointmentForModal(null)}
-                  className="p-1.5 rounded text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   <HugeiconsIcon icon={Cancel01Icon} size={18} />
                 </button>
@@ -1802,7 +1925,7 @@ export default function AppointmentsPage() {
             {/* Modal Body */}
             <div className="p-5 space-y-4 overflow-y-auto text-xs">
               {/* Patient Banner */}
-              <div className="flex items-center justify-between p-3 rounded bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800">
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-sm shadow-xs">
                     {selectedAppointmentForModal.patientName
@@ -1824,7 +1947,7 @@ export default function AppointmentsPage() {
                 <div className="flex items-center gap-1.5">
                   <a
                     href={`tel:${selectedAppointmentForModal.phone}`}
-                    className="p-2 rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-colors"
+                    className="p-2 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-colors"
                     title="Call Patient"
                   >
                     <HugeiconsIcon icon={CallIcon} size={14} />
@@ -1834,7 +1957,7 @@ export default function AppointmentsPage() {
                     onClick={() =>
                       alert(`Sending reminder SMS to ${selectedAppointmentForModal.phone}...`)
                     }
-                    className="px-2.5 py-1.5 rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-colors font-medium text-[11px]"
+                    className="px-2.5 py-1.5 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-colors font-medium text-[11px] cursor-pointer"
                   >
                     Send SMS
                   </button>
@@ -1843,21 +1966,21 @@ export default function AppointmentsPage() {
 
               {/* Timing & Practitioner Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                <div className="p-2.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800">
+                <div className="p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800">
                   <span className="text-[10px] text-slate-400 font-bold uppercase">Date & Day</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5">
                     {selectedAppointmentForModal.dateStr}
                   </p>
                 </div>
 
-                <div className="p-2.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800">
+                <div className="p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800">
                   <span className="text-[10px] text-slate-400 font-bold uppercase">Time Window</span>
                   <p className="font-bold text-[#5051F9] dark:text-[#7072ff] mt-0.5">
                     {selectedAppointmentForModal.startTime} → {selectedAppointmentForModal.endTime}
                   </p>
                 </div>
 
-                <div className="p-2.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 col-span-2 sm:col-span-1">
+                <div className="p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 col-span-2 sm:col-span-1">
                   <span className="text-[10px] text-slate-400 font-bold uppercase">Practitioner</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5 truncate">
                     {selectedAppointmentForModal.dentist}
@@ -1870,7 +1993,7 @@ export default function AppointmentsPage() {
                 <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
                   Clinical Notes & Symptoms
                 </span>
-                <div className="p-3 rounded bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300">
+                <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300">
                   {selectedAppointmentForModal.note || 'No clinical notes recorded.'}
                 </div>
               </div>
@@ -1884,7 +2007,7 @@ export default function AppointmentsPage() {
                   {selectedAppointmentForModal.services.map((svc, idx) => (
                     <div
                       key={idx}
-                      className="p-2.5 rounded bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between"
+                      className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2">
                         <div className="p-1 rounded bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">
@@ -1908,14 +2031,15 @@ export default function AppointmentsPage() {
               </div>
 
               {/* Payment Summary Box */}
-              <div className="p-3.5 rounded bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-1.5">
+              <div className="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-1.5">
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-slate-500">Payment Status:</span>
                   <span
-                    className={`px-2 py-0.5 rounded font-bold text-[10px] ${selectedAppointmentForModal.paymentStatus === 'Paid'
-                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                      : 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
-                      }`}
+                    className={`px-2 py-0.5 rounded font-bold text-[10px] ${
+                      selectedAppointmentForModal.paymentStatus === 'Paid'
+                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                        : 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
+                    }`}
                   >
                     {selectedAppointmentForModal.paymentStatus} (
                     {selectedAppointmentForModal.paymentMethod})
@@ -1937,7 +2061,7 @@ export default function AppointmentsPage() {
                   onClick={() =>
                     handleUpdateStatus(selectedAppointmentForModal.id, 'In Progress')
                   }
-                  className="px-2.5 py-1 rounded bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-300 border border-sky-200 dark:border-sky-800 hover:bg-sky-100 font-semibold text-[11px] transition-colors"
+                  className="px-2.5 py-1 rounded bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-300 border border-sky-200 dark:border-sky-800 hover:bg-sky-100 font-semibold text-[11px] transition-colors cursor-pointer"
                 >
                   In Progress
                 </button>
@@ -1946,7 +2070,7 @@ export default function AppointmentsPage() {
                   onClick={() =>
                     handleUpdateStatus(selectedAppointmentForModal.id, 'Completed')
                   }
-                  className="px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 font-semibold text-[11px] transition-colors"
+                  className="px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 font-semibold text-[11px] transition-colors cursor-pointer"
                 >
                   Completed
                 </button>
@@ -1955,7 +2079,7 @@ export default function AppointmentsPage() {
                   onClick={() =>
                     handleUpdateStatus(selectedAppointmentForModal.id, 'Cancelled')
                   }
-                  className="px-2.5 py-1 rounded bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300 border border-rose-200 dark:border-rose-800 hover:bg-rose-100 font-semibold text-[11px] transition-colors"
+                  className="px-2.5 py-1 rounded bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300 border border-rose-200 dark:border-rose-800 hover:bg-rose-100 font-semibold text-[11px] transition-colors cursor-pointer"
                 >
                   Cancel Apt
                 </button>
@@ -1969,7 +2093,7 @@ export default function AppointmentsPage() {
                 onClick={() =>
                   alert(`Printing appointment sheet for ${selectedAppointmentForModal.patientName}...`)
                 }
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 text-slate-700 dark:text-slate-200 text-xs font-semibold transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 text-slate-700 dark:text-slate-200 text-xs font-semibold transition-colors cursor-pointer"
               >
                 <HugeiconsIcon icon={PrinterIcon} size={14} />
                 <span>Print</span>
@@ -1979,7 +2103,7 @@ export default function AppointmentsPage() {
                 <button
                   type="button"
                   onClick={() => setSelectedAppointmentForModal(null)}
-                  className="px-4 py-1.5 rounded border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="px-4 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   Close
                 </button>
@@ -1991,7 +2115,7 @@ export default function AppointmentsPage() {
                     );
                     setSelectedAppointmentForModal(null);
                   }}
-                  className="px-4 py-1.5 rounded bg-[#00884B] hover:bg-[#00733f] text-white text-xs font-bold shadow-xs transition-colors"
+                  className="px-4 py-1.5 rounded-lg bg-[#00884B] hover:bg-[#00733f] text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
                 >
                   Checkout &amp; Invoice
                 </button>
@@ -2004,10 +2128,10 @@ export default function AppointmentsPage() {
       {/* ─── 5. Book Appointment Modal (Opens from empty calendar slot or button) ── */}
       {isBookingModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in-0 duration-200">
-          <div className="bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150">
+          <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                <div className="p-1.5 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
                   <HugeiconsIcon icon={PlusSignIcon} size={16} />
                 </div>
                 <div>
@@ -2022,7 +2146,7 @@ export default function AppointmentsPage() {
               <button
                 type="button"
                 onClick={() => setIsBookingModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded cursor-pointer"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={18} />
               </button>
@@ -2042,7 +2166,7 @@ export default function AppointmentsPage() {
                     onChange={(e) =>
                       setNewBooking({ ...newBooking, patientName: e.target.value })
                     }
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -2056,7 +2180,7 @@ export default function AppointmentsPage() {
                     placeholder="+254 7XX XXX XXX"
                     value={newBooking.phone}
                     onChange={(e) => setNewBooking({ ...newBooking, phone: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -2067,7 +2191,7 @@ export default function AppointmentsPage() {
                   <select
                     value={newBooking.dentist}
                     onChange={(e) => setNewBooking({ ...newBooking, dentist: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   >
                     <option value="Dr. Darrell Steward">Dr. Darrell Steward (Surgeon)</option>
                     <option value="Dr. Faith Mutua">Dr. Faith Mutua (Orthodontist)</option>
@@ -2088,7 +2212,7 @@ export default function AppointmentsPage() {
                     placeholder="e.g. Scaling & Polishing, Root Canal, Crown Prep"
                     value={newBooking.service}
                     onChange={(e) => setNewBooking({ ...newBooking, service: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -2101,7 +2225,7 @@ export default function AppointmentsPage() {
                     required
                     value={newBooking.date}
                     onChange={(e) => setNewBooking({ ...newBooking, date: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
 
@@ -2112,7 +2236,7 @@ export default function AppointmentsPage() {
                   <select
                     value={newBooking.chair}
                     onChange={(e) => setNewBooking({ ...newBooking, chair: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   >
                     <option value="Operatory Chair 1">Operatory Chair 1</option>
                     <option value="Operatory Chair 2">Operatory Chair 2</option>
@@ -2134,7 +2258,7 @@ export default function AppointmentsPage() {
                       onChange={(e) =>
                         setNewBooking({ ...newBooking, startTime: e.target.value })
                       }
-                      className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none"
                     />
                     <span className="text-slate-400 font-bold">to</span>
                     <input
@@ -2143,7 +2267,7 @@ export default function AppointmentsPage() {
                       onChange={(e) =>
                         setNewBooking({ ...newBooking, endTime: e.target.value })
                       }
-                      className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none"
+                      className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none"
                     />
                   </div>
                 </div>
@@ -2157,7 +2281,7 @@ export default function AppointmentsPage() {
                     placeholder="Enter relevant patient medical alerts or visit reasons..."
                     value={newBooking.note}
                     onChange={(e) => setNewBooking({ ...newBooking, note: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-600"
                   />
                 </div>
               </div>
@@ -2166,13 +2290,13 @@ export default function AppointmentsPage() {
                 <button
                   type="button"
                   onClick={() => setIsBookingModalOpen(false)}
-                  className="px-4 py-2 rounded text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded text-xs font-bold text-white bg-[#00884B] hover:bg-[#00733f] transition-colors flex items-center gap-1.5 shadow-xs"
+                  className="px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#00884B] hover:bg-[#00733f] transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer"
                 >
                   <HugeiconsIcon icon={PlusSignIcon} size={15} />
                   <span>Confirm Booking</span>
@@ -2197,7 +2321,7 @@ export default function AppointmentsPage() {
               <button
                 type="button"
                 onClick={() => setIsFilterDrawerOpen(false)}
-                className="p-1 rounded text-slate-400 hover:text-slate-600 dark:hover:text-white"
+                className="p-1 rounded text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={16} />
               </button>
@@ -2260,7 +2384,7 @@ export default function AppointmentsPage() {
           <button
             type="button"
             onClick={() => setIsFilterDrawerOpen(false)}
-            className="w-full py-2 bg-[#00884B] hover:bg-[#00733f] text-white rounded font-bold text-xs transition-colors shadow-xs"
+            className="w-full py-2 bg-[#00884B] hover:bg-[#00733f] text-white rounded-lg font-bold text-xs transition-colors shadow-xs cursor-pointer"
           >
             Apply Filters
           </button>
